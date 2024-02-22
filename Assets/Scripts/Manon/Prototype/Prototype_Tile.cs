@@ -5,6 +5,7 @@ using UnityEngine;
 public class Prototype_Tile : MonoBehaviour
 {
     public bool IsOccupied;
+    public bool IsDestroyed;
     public Prototype_Building Building;
 
     public int Row;
@@ -31,13 +32,20 @@ public class Prototype_Tile : MonoBehaviour
 
     private void Update()
     {
-        if (IsOccupied)
+        if (Prototype_GameManager.instance.GetCurrentMode() == Mode.Construction)
         {
-            _spriteRenderer.color = Color.red;
+            if (IsOccupied)
+            {
+                _spriteRenderer.color = Color.red;
+            }
+            else
+            {
+                _spriteRenderer.color = Color.green;
+            }
         }
         else
         {
-            _spriteRenderer.color = Color.green;
+            _spriteRenderer.color = Color.black;
         }
     }
 }

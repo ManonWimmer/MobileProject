@@ -24,6 +24,8 @@ public enum Mode
 public class Prototype_GameManager : MonoBehaviour
 {
     // ----- FIELDS ----- //
+    public static Prototype_GameManager instance;
+
     [SerializeField] GameObject _gridPlayer1;
     [SerializeField] GameObject _gridPlayer2;
     [SerializeField] List<Prototype_Building> _startBuildings = new List<Prototype_Building>();
@@ -40,6 +42,11 @@ public class Prototype_GameManager : MonoBehaviour
     private Player _playerTurn;
     private Mode _currentMode = Mode.Construction;
     // ----- FIELDS ----- //
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -248,6 +255,17 @@ public class Prototype_GameManager : MonoBehaviour
                 {
                     Debug.Log("hit room " + nearestTileGridPlayer.Building.name);
                     nearestTileGridPlayer.BuildingTileSpriteRenderer.color = Color.magenta;
+                    nearestTileGridPlayer.IsDestroyed = true;
+
+                    // update hidden rooms
+                    if (_playerTurn == Player.Player1)
+                    {
+                        ShowOnlyDestroyedBuildings(Player.Player2);
+                    }
+                    else
+                    {
+                        ShowOnlyDestroyedBuildings(Player.Player1);
+                    }
                 }
                 else
                 {
@@ -493,60 +511,6 @@ public class Prototype_GameManager : MonoBehaviour
             tile3.BuildingTileSpriteRenderer = null;
         }
     }
-    #endregion
-
-    public void SwitchPlayer()
-    {
-        if (_playerTurn == Player.Player1)
-        {
-            _playerTurn = Player.Player2;
-        }
-        else
-        {
-            _playerTurn = Player.Player1;
-        }
-
-        SwitchCamera();
-
-        // update ui
-        Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
-    }
-
-    private void SwitchCamera()
-    {
-        if (_currentMode == Mode.Construction)
-        {
-            Prototype_CameraController.instance.SwitchPlayerShipCamera(_playerTurn);
-        }
-        else // combat -> vaisseau ennemi
-        {
-            if (_playerTurn == Player.Player1)
-            {
-                Prototype_CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
-            }
-            else
-            {
-                Prototype_CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
-            }
-        }
-    }
-
-    public void SwitchMode()
-    {
-        if (_currentMode == Mode.Construction)
-        {
-            _currentMode = Mode.Combat;
-        }
-        else
-        {
-            _currentMode = Mode.Construction;
-        }
-
-        SwitchCamera();
-
-        // update ui
-        Prototype_ManagerUI.instance.UpdateCurrentModeTxt(_currentMode);
-    }
 
     private Prototype_Tile FindNearestTileInGrid(Player player)
     {
@@ -581,6 +545,126 @@ public class Prototype_GameManager : MonoBehaviour
         }
 
         return nearestTile;
-    } 
+    }
+    #endregion
+
+    #region Combat
+    private void ShowOnlyDestroyedBuildings(Player playerShip)
+    {
+        List<Prototype_Tile> tiles = new List<Prototype_Tile>();
+
+        if (playerShip == Player.Player1)
+        {
+            tiles = _tilesPlayer1;
+        }
+        else
+        {
+            tiles = _tilesPlayer2;
+        }
+
+        foreach (Prototype_Tile tile in tiles)
+        {
+            if (tile.IsOccupied)
+            {
+                if (!tile.IsDestroyed)
+                {
+                    tile.BuildingTileSpriteRenderer.enabled = false;
+                }
+                else
+                {
+                    tile.BuildingTileSpriteRenderer.enabled = true;
+                }
+            }
+            
+        }
+    }
+
+    private void ShowAllBuildings(Player playerShip)
+    {
+        List<Prototype_Tile> tiles = new List<Prototype_Tile>();
+
+        if (playerShip == Player.Player1)
+        {
+            tiles = _tilesPlayer1;
+        }
+        else
+        {
+            tiles = _tilesPlayer2;
+        }
+
+        foreach (Prototype_Tile tile in tiles)
+        {
+            if (tile.IsOccupied)
+            {
+                tile.BuildingTileSpriteRenderer.enabled = true;
+            }
+
+        }
+    }
+
+    #endregion
+
+
+    public void SwitchPlayer()
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            _playerTurn = Player.Player2;
+        }
+        else
+        {
+            _playerTurn = Player.Player1;
+        }
+
+        SwitchCamera();
+
+        // update ui
+        Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
+    }
+
+    private void SwitchCamera()
+    {
+        if (_currentMode == Mode.Construction)
+        {
+            Prototype_CameraController.instance.SwitchPlayerShipCamera(_playerTurn);
+        }
+        else // combat -> vaisseau ennemi
+        {
+            if (_playerTurn == Player.Player1)
+            {
+                Prototype_CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
+                ShowOnlyDestroyedBuildings(Player.Player2);
+                ShowAllBuildings(Player.Player1);
+            }
+            else
+            {
+                Prototype_CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
+                ShowOnlyDestroyedBuildings(Player.Player1);
+                ShowAllBuildings(Player.Player2);
+            }
+        }
+    }
+
+    public void SwitchMode()
+    {
+        if (_currentMode == Mode.Construction)
+        {
+            _currentMode = Mode.Combat;
+        }
+        else
+        {
+            _currentMode = Mode.Construction;
+        }
+
+        SwitchCamera();
+
+        // update ui
+        Prototype_ManagerUI.instance.UpdateCurrentModeTxt(_currentMode);
+    }
+
+    public Mode GetCurrentMode()
+    {
+        return _currentMode;
+    }
             
 }
