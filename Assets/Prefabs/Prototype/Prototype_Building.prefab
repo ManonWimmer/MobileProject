@@ -97,10 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebaa4a9f82448024c971868257fbe8b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftTiles: 0
-  RightTiles: 0
-  TopTiles: 0
-  BottomTiles: 0
-  BuildingSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  ScaleCustomCursor: {x: 0, y: 0, z: 0}
-  tempSpriteRenderer: {fileID: 891222986333008329}
+  CenterTileSR: {fileID: 891222986333008329}
+  LeftTilesSR: []
+  RightTilesSR: []
+  TopTilesSR: []
+  BottomTilesSR: []

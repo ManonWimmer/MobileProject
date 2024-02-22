@@ -18,6 +18,7 @@ public class Prototype_Tile : MonoBehaviour
     public List<Prototype_Tile> BuildingOnOtherTiles = new List<Prototype_Tile>();
 
     private SpriteRenderer _spriteRenderer;
+    public SpriteRenderer BuildingTileSpriteRenderer;
 
     // is destroyed
     // player -> parent grid player

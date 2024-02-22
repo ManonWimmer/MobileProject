@@ -195,7 +195,7 @@ public class Prototype_GameManager : MonoBehaviour
                 }
             }
 
-            // player 1 construct
+            // construction
             if (_currentMode == Mode.Construction && nearestTileGridPlayer != null)
             {
                 #region ClickOnTileInConstruction
@@ -239,7 +239,20 @@ public class Prototype_GameManager : MonoBehaviour
                 #endregion
             }
 
-
+            //combat
+            if (_currentMode == Mode.Combat && nearestTileGridPlayer != null)
+            {
+                Debug.Log("combat");
+                if (nearestTileGridPlayer.IsOccupied)
+                {
+                    Debug.Log("hit room " + nearestTileGridPlayer.Building.name);
+                    nearestTileGridPlayer.BuildingTileSpriteRenderer.color = Color.magenta;
+                }
+                else
+                {
+                    Debug.Log("no room on hit");
+                }
+            }
         }
     }
 
@@ -262,10 +275,10 @@ public class Prototype_GameManager : MonoBehaviour
         }
 
         // left
-        if (building.LeftTiles > 0)
+        if (building.LeftTilesSR.Count > 0) 
         {
             Prototype_Tile currentTile = tile;
-            for (int i = 0; i < building.LeftTiles; i++)
+            for (int i = 0; i < building.LeftTilesSR.Count; i++)
             {
                 if (tile.LeftTile != null)
                 {
@@ -273,7 +286,8 @@ public class Prototype_GameManager : MonoBehaviour
                     {
                         Debug.Log("left tile occupied " + i);
                         return false;
-                    } 
+                    }
+                    
                 }
                 else
                 {
@@ -285,10 +299,10 @@ public class Prototype_GameManager : MonoBehaviour
             }
         }
         // right
-        if (building.RightTiles > 0)
+        if (building.RightTilesSR.Count > 0)
         {
             Prototype_Tile currentTile = tile;
-            for (int i = 0; i < building.RightTiles; i++)
+            for (int i = 0; i < building.RightTilesSR.Count; i++)
             {
                 if (tile.RightTile != null)
                 {
@@ -308,10 +322,10 @@ public class Prototype_GameManager : MonoBehaviour
             }
         }
         // bottom
-        if (building.BottomTiles > 0)
+        if (building.BottomTilesSR.Count > 0)
         {
             Prototype_Tile currentTile = tile;
-            for (int i = 0; i < building.BottomTiles; i++)
+            for (int i = 0; i < building.BottomTilesSR.Count; i++)
             {
                 if (tile.BottomTile != null)
                 {
@@ -331,10 +345,10 @@ public class Prototype_GameManager : MonoBehaviour
             }
         }
         // top
-        if (building.TopTiles > 0)
+        if (building.TopTilesSR.Count > 0)
         {
             Prototype_Tile currentTile = tile;
-            for (int i = 0; i < building.TopTiles; i++)
+            for (int i = 0; i < building.TopTilesSR.Count; i++)
             {
                 if (tile.TopTile != null)
                 {
@@ -386,54 +400,59 @@ public class Prototype_GameManager : MonoBehaviour
     {
         List<Prototype_Tile> tiles = new List<Prototype_Tile>();
         tiles.Add(tile); // center
+        tile.BuildingTileSpriteRenderer = building.CenterTileSR;
 
         // left
-        if (building.LeftTiles > 0)
+        if (building.LeftTilesSR.Count > 0)
         {
             Prototype_Tile currentTile = tile;
-            for (int i = 0; i < building.LeftTiles; i++)
+            for (int i = 0; i < building.LeftTilesSR.Count; i++)
             {
                 tile.LeftTile.IsOccupied = true;
                 tile.LeftTile.Building = building;
+                tile.LeftTile.BuildingTileSpriteRenderer = building.LeftTilesSR[i];
 
                 currentTile = tile.LeftTile;
                 tiles.Add(currentTile);
             }
         }
         // right
-        if (building.RightTiles > 0)
+        if (building.RightTilesSR.Count > 0)
         {
             Prototype_Tile currentTile = tile;
-            for (int i = 0; i < building.RightTiles; i++)
+            for (int i = 0; i < building.RightTilesSR.Count; i++)
             {
                 tile.RightTile.IsOccupied = true;
                 tile.RightTile.Building = building;
+                tile.RightTile.BuildingTileSpriteRenderer = building.RightTilesSR[i];
 
                 currentTile = tile.RightTile;
                 tiles.Add(currentTile);
             }
         }
         // top
-        if (building.TopTiles > 0)
+        if (building.TopTilesSR.Count > 0)
         {
             Prototype_Tile currentTile = tile;
-            for (int i = 0; i < building.TopTiles; i++)
+            for (int i = 0; i < building.TopTilesSR.Count; i++)
             {
                 tile.TopTile.IsOccupied = true;
                 tile.TopTile.Building = building;
+                tile.TopTile.BuildingTileSpriteRenderer = building.TopTilesSR[i];
 
                 currentTile = tile.TopTile; 
                 tiles.Add(currentTile);
             }
         }
         // bottom
-        if (building.BottomTiles > 0)
+        if (building.BottomTilesSR.Count > 0)
         {
             Prototype_Tile currentTile = tile;
-            for (int i = 0; i < building.BottomTiles; i++)
+            for (int i = 0; i < building.BottomTilesSR.Count; i++)
             {
                 tile.BottomTile.IsOccupied = true;
                 tile.BottomTile.Building = building;
+                tile.BottomTile.BuildingTileSpriteRenderer = building.BottomTilesSR[i];
 
                 currentTile = tile.BottomTile;
                 tiles.Add(currentTile);
@@ -470,6 +489,7 @@ public class Prototype_GameManager : MonoBehaviour
         {
             tile3.IsOccupied = false;
             tile3.BuildingOnOtherTiles.Clear();
+            tile3.BuildingTileSpriteRenderer = null;
         }
     }
     #endregion
