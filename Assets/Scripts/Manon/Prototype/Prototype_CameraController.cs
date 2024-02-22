@@ -8,9 +8,13 @@ public class Prototype_CameraController : MonoBehaviour
 {
     // ----- FIELDS ----- //
     public static Prototype_CameraController instance;
-    [SerializeField] Transform _gridPlayer1;
-    [SerializeField] Transform _gridPlayer2;
+    //[SerializeField] Transform _gridPlayer1;
+    //[SerializeField] Transform _gridPlayer2;
+    [SerializeField] Camera _cameraShipPlayer1;
+    [SerializeField] Camera _cameraShipPlayer2;
     [SerializeField] float _lerpDuration;
+
+    private Camera _currentActiveCamera;
 
     private Transform _currentTarget;
     // ----- FIELDS ----- //
@@ -20,6 +24,15 @@ public class Prototype_CameraController : MonoBehaviour
         instance = this;
     }
 
+    void Start()
+    {
+        _cameraShipPlayer1.enabled = true;
+        _cameraShipPlayer2.enabled = false;
+
+        _currentActiveCamera = _cameraShipPlayer1;
+    }
+
+    /*
     IEnumerator LerpPosition()
     {
         Debug.Log("lerp position");
@@ -34,25 +47,24 @@ public class Prototype_CameraController : MonoBehaviour
             yield return null;
         }
     }
+    */
 
     public void SwitchPlayerShipCamera(Player player)
     {
         Debug.Log("switch player ship camera " + player.ToString());
         if (player == Player.Player1)
         {
-            _currentTarget = _gridPlayer1;
+            _cameraShipPlayer1.enabled = true;
+            _cameraShipPlayer2.enabled = false;
         }
         else
         {
-            _currentTarget = _gridPlayer2;
+            _cameraShipPlayer1.enabled = false;
+            _cameraShipPlayer2.enabled = true;
         }
 
         //StartCoroutine(LerpPosition());
-        transform.position = new Vector3(_currentTarget.position.x, _currentTarget.position.y, -10);
+        //transform.position = new Vector3(_currentTarget.position.x, _currentTarget.position.y, -10);
     }
-
-
-
-
 }
 

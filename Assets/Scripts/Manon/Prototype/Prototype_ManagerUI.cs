@@ -12,6 +12,10 @@ public class Prototype_ManagerUI : MonoBehaviour
     [SerializeField] TMP_Text _currentModeTxt;
     [SerializeField] GameObject _buttonValidateConstruction;
     [SerializeField] GameObject _buttonValidateCombat;
+
+    [SerializeField] GameObject _changePlayerCanvas;
+    [SerializeField] TMP_Text _changePlayerCanvasTxt;
+    public bool ChangingPlayer;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -55,5 +59,19 @@ public class Prototype_ManagerUI : MonoBehaviour
     public void ShowButtonValidateCombat()
     {
         _buttonValidateCombat.SetActive(true);
+    }
+
+    // Change Player Canvas
+    public void ShowChangerPlayerCanvas(Player playerTurn)
+    {
+        _changePlayerCanvas.SetActive(true);
+        _changePlayerCanvasTxt.text = "Player's turn : " + playerTurn.ToString();
+        ChangingPlayer = true;
+    }
+
+    public void HideChangerPlayerCanvas()
+    {
+        _changePlayerCanvas.SetActive(false);
+        ChangingPlayer = false;
     }
 }

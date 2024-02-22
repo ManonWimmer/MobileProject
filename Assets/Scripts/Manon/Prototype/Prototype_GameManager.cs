@@ -175,6 +175,11 @@ public class Prototype_GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (Prototype_ManagerUI.instance.ChangingPlayer)
+        {
+            return;
+        }
+
         if (_buildingOnMouse != null) // update building on mouse pos
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -620,6 +625,8 @@ public class Prototype_GameManager : MonoBehaviour
 
         // update ui
         Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
+
+        Prototype_ManagerUI.instance.ShowChangerPlayerCanvas(_playerTurn);
     }
 
     private void SwitchCamera()
