@@ -19,6 +19,10 @@ public class Prototype_Tile : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
 
+    // is destroyed
+    // player -> parent grid player
+    // is vital
+
     private void Start()
     {
         _spriteRenderer = transform.GetComponent<SpriteRenderer>();

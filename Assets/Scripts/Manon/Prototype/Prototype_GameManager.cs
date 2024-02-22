@@ -8,59 +8,78 @@ using UnityEngine.WSA;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
 
+public enum Player
+{
+    Player1,
+    Player2
+}
+
+public enum Mode
+{
+    Construction, 
+    Combat
+}
+
 public class Prototype_GameManager : MonoBehaviour
 {
-    [SerializeField] GameObject _grid;
-    //[SerializeField] Prototype_CustomCursor _customCursor;
+    // ----- FIELDS ----- //
+    [SerializeField] GameObject _gridPlayer1;
+    [SerializeField] GameObject _gridPlayer2;
     [SerializeField] List<Prototype_Building> _startBuildings = new List<Prototype_Building>();
 
-    private Dictionary<Tuple<int, int>, Prototype_Tile> _dictTilesRowColumn = new Dictionary<Tuple<int, int>, Prototype_Tile>();
+    private Dictionary<Tuple<int, int>, Prototype_Tile> _dictTilesRowColumnPlayer1 = new Dictionary<Tuple<int, int>, Prototype_Tile>();
+    private Dictionary<Tuple<int, int>, Prototype_Tile> _dictTilesRowColumnPlayer2 = new Dictionary<Tuple<int, int>, Prototype_Tile>();
 
-    private List<Prototype_Tile> _tiles = new List<Prototype_Tile>();
+    private List<Prototype_Tile> _tilesPlayer1 = new List<Prototype_Tile>();
+    private List<Prototype_Tile> _tilesPlayer2 = new List<Prototype_Tile>();
     private Prototype_Building _buildingToPlace;
     private Prototype_Building _buildingToMove;
     private Prototype_Building _buildingOnMouse;
 
-
+    private Player _playerTurn;
+    private Mode _currentMode = Mode.Construction;
+    // ----- FIELDS ----- //
 
     private void Start()
     {
-        foreach (Prototype_Tile tile in _grid.GetComponentsInChildren<Prototype_Tile>())
+        #region StartConstruction
+        // Player 1
+        foreach (Prototype_Tile tile in _gridPlayer1.GetComponentsInChildren<Prototype_Tile>())
         {
-            _tiles.Add(tile);
+            _tilesPlayer1.Add(tile);
             int row = tile.Row;
             int column = tile.Column;
-            _dictTilesRowColumn[new Tuple<int, int>(row, column)] = tile;
+            _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column)] = tile;
         }
 
         // search adjacent tiles for each tile
-        foreach (Prototype_Tile tile in _tiles)
+        foreach (Prototype_Tile tile in _tilesPlayer1)
         {
             int row = tile.Row;
             int column = tile.Column;
 
             // top
-            if (_dictTilesRowColumn.ContainsKey(new Tuple<int, int>(row - 1, column)))
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column)))
             {
-                tile.TopTile = _dictTilesRowColumn[new Tuple<int, int>(row - 1, column)];
+                tile.TopTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column)];
             }
 
             // bottom
-            if (_dictTilesRowColumn.ContainsKey(new Tuple<int, int>(row + 1, column)))
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column)))
             {
-                tile.BottomTile = _dictTilesRowColumn[new Tuple<int, int>(row + 1, column)];
+                tile.BottomTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column)];
             }
 
             // right
-            if (_dictTilesRowColumn.ContainsKey(new Tuple<int, int>(row, column + 1)))
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column + 1)))
             {
-                tile.RightTile = _dictTilesRowColumn[new Tuple<int, int>(row, column + 1)];
+                tile.RightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column + 1)];
             }
 
             // left
-            if (_dictTilesRowColumn.ContainsKey(new Tuple<int, int>(row, column - 1)))
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column - 1)))
             {
-                tile.LeftTile = _dictTilesRowColumn[new Tuple<int, int>(row, column - 1)];
+                tile.LeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column - 1)];
             }
         }
 
@@ -72,7 +91,7 @@ public class Prototype_GameManager : MonoBehaviour
                 Debug.Log(startBuilding.name);
                 while (!buildingBuilt)
                 {
-                    Prototype_Tile tempTile = _tiles[Random.Range(0, _tiles.Count - 1)];
+                    Prototype_Tile tempTile = _tilesPlayer1[Random.Range(0, _tilesPlayer1.Count - 1)];
                     if (CheckCanBuild(startBuilding, tempTile))
                     {
                         CreateNewBuilding(startBuilding, tempTile);
@@ -81,6 +100,69 @@ public class Prototype_GameManager : MonoBehaviour
                 }           
             }
         }
+
+        // Same for player 2
+        foreach (Prototype_Tile tile in _gridPlayer2.GetComponentsInChildren<Prototype_Tile>())
+        {
+            _tilesPlayer2.Add(tile);
+            int row = tile.Row;
+            int column = tile.Column;
+            _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column)] = tile;
+        }
+
+        // search adjacent tiles for each tile
+        foreach (Prototype_Tile tile in _tilesPlayer2)
+        {
+            int row = tile.Row;
+            int column = tile.Column;
+
+            // top
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column)))
+            {
+                tile.TopTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column)];
+            }
+
+            // bottom
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column)))
+            {
+                tile.BottomTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column)];
+            }
+
+            // right
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column + 1)))
+            {
+                tile.RightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column + 1)];
+            }
+
+            // left
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column - 1)))
+            {
+                tile.LeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column - 1)];
+            }
+        }
+
+        if (_startBuildings.Count > 0)
+        {
+            foreach (Prototype_Building startBuilding in _startBuildings)
+            {
+                bool buildingBuilt = false;
+                Debug.Log(startBuilding.name);
+                while (!buildingBuilt)
+                {
+                    Prototype_Tile tempTile = _tilesPlayer2[Random.Range(0, _tilesPlayer2.Count - 1)];
+                    if (CheckCanBuild(startBuilding, tempTile))
+                    {
+                        CreateNewBuilding(startBuilding, tempTile);
+                        buildingBuilt = true;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        // Update UI
+        Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
+        Prototype_ManagerUI.instance.UpdateCurrentModeTxt(_currentMode);
     }
 
     private void Update()
@@ -93,61 +175,75 @@ public class Prototype_GameManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Prototype_Tile nearestTile = null;
-            float shortestDistance = float.MaxValue;
+            Prototype_Tile nearestTileGridPlayer = null;
 
-            // Find nearest tile  
-            foreach(Prototype_Tile tile in _tiles)
+            // Select tile in specific grid
+            if (_currentMode == Mode.Construction)
             {
-                float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
-                if (distance < shortestDistance)
+                nearestTileGridPlayer = FindNearestTileInGrid(_playerTurn);
+            }
+            else
+            {
+                // combat -> tile dans la grid du vaisseau ennemi
+                if (_playerTurn == Player.Player1)
                 {
-                    shortestDistance = distance;
-                    nearestTile = tile;
+                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player2);
+                }
+                else
+                {
+                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player1);
                 }
             }
 
-            if (!nearestTile.IsOccupied) // no building
+            // player 1 construct
+            if (_currentMode == Mode.Construction && nearestTileGridPlayer != null)
             {
-                if (_buildingToPlace != null)
+                #region ClickOnTileInConstruction
+                if (!nearestTileGridPlayer.IsOccupied) // no building
                 {
-                    if (CheckCanBuild(_buildingToPlace, nearestTile))
+                    if (_buildingToPlace != null)
                     {
-                        CreateNewBuilding(_buildingToPlace, nearestTile);
+                        if (CheckCanBuild(_buildingToPlace, nearestTileGridPlayer))
+                        {
+                            CreateNewBuilding(_buildingToPlace, nearestTileGridPlayer);
+                        }
+                    }
+                    else if (_buildingToMove != null)
+                    {
+                        if (CheckCanBuild(_buildingToMove, nearestTileGridPlayer))
+                        {
+                            CreateNewBuilding(_buildingToMove, nearestTileGridPlayer);
+                        }
                     }
                 }
-                else if (_buildingToMove != null)
+                else // already a building
                 {
-                    if (CheckCanBuild(_buildingToMove, nearestTile))
+                    Debug.Log("occupied");
+                    if (_buildingToMove == null)
                     {
-                        CreateNewBuilding(_buildingToMove, nearestTile);
+                        Debug.Log("new building to move");
+                        // select move building
+                        _buildingToMove = nearestTileGridPlayer.Building;
+                        nearestTileGridPlayer.IsOccupied = false;
+
+                        SetBuildingTilesNotOccupied(_buildingToMove, nearestTileGridPlayer);
+
+                        // building to mouse
+                        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        _buildingOnMouse = _buildingToMove;
+                        //_buildingOnMouse = Instantiate(_buildingToMove, new Vector3(mousePosition.x, mousePosition.y, -5), Quaternion.identity);
+
+                        //Destroy(nearestTile.Building.gameObject);
                     }
                 }
+                #endregion
             }
-            else // already a building
-            {
-                Debug.Log("occupied");
-                if (_buildingToMove == null)
-                {
-                    Debug.Log("new building to move");
-                    // select move building
-                    _buildingToMove = nearestTile.Building;
-                    nearestTile.IsOccupied = false;
 
-                    SetBuildingTilesNotOccupied(_buildingToMove, nearestTile);
 
-                    // building to mouse
-                    Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    _buildingOnMouse = _buildingToMove;
-                    //_buildingOnMouse = Instantiate(_buildingToMove, new Vector3(mousePosition.x, mousePosition.y, -5), Quaternion.identity);
-
-                    //Destroy(nearestTile.Building.gameObject);
-                }
-            }
         }
     }
 
+    #region Construction
     public void TakeBuilding(Prototype_Building building)
     {
         _buildingToPlace = building;
@@ -376,4 +472,71 @@ public class Prototype_GameManager : MonoBehaviour
             tile3.BuildingOnOtherTiles.Clear();
         }
     }
+    #endregion
+
+    public void SwitchPlayer()
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            _playerTurn = Player.Player2;
+        }
+        else
+        {
+            _playerTurn = Player.Player1;
+        }
+
+        // update ui
+        Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
+    }
+
+    public void SwitchMode()
+    {
+        if (_currentMode == Mode.Construction)
+        {
+            _currentMode = Mode.Combat;
+        }
+        else
+        {
+            _currentMode = Mode.Construction;
+        }
+
+        // update ui
+        Prototype_ManagerUI.instance.UpdateCurrentModeTxt(_currentMode);
+    }
+
+    private Prototype_Tile FindNearestTileInGrid(Player player)
+    {
+        Prototype_Tile nearestTile = null;
+        float shortestDistance = float.MaxValue;
+
+        if (player == Player.Player1)
+        {
+            foreach (Prototype_Tile tile in _tilesPlayer1)
+            {
+                float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+                if (distance < shortestDistance && distance < 1)
+                {
+                    shortestDistance = distance;
+                    nearestTile = tile;
+                }
+            }
+        }
+        else
+        {
+            foreach (Prototype_Tile tile in _tilesPlayer2)
+            {
+                float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+                if (distance < shortestDistance && distance < 1)
+                {
+                    shortestDistance = distance;
+                    nearestTile = tile;
+                }
+            }
+        }
+
+        return nearestTile;
+    } 
+            
 }
