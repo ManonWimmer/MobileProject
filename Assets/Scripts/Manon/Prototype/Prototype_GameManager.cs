@@ -68,11 +68,17 @@ public class Prototype_GameManager : MonoBehaviour
         {
             foreach (Prototype_Building startBuilding in _startBuildings)
             {
-                Prototype_Tile tempTile = _tiles[Random.Range(0, _tiles.Count - 1)];
-                if (CheckCanBuild(startBuilding, tempTile))
+                bool buildingBuilt = false;
+                Debug.Log(startBuilding.name);
+                while (!buildingBuilt)
                 {
-
-                }
+                    Prototype_Tile tempTile = _tiles[Random.Range(0, _tiles.Count - 1)];
+                    if (CheckCanBuild(startBuilding, tempTile))
+                    {
+                        CreateNewBuilding(startBuilding, tempTile);
+                        buildingBuilt = true;
+                    }
+                }           
             }
         }
     }
@@ -274,24 +280,10 @@ public class Prototype_GameManager : MonoBehaviour
 
         // no building on mouse
         Debug.Log("destroy on mouse");
-        Destroy(_buildingOnMouse.gameObject);
-    }
-
-    private void PlaceCurrentMovingBuilding(Prototype_Tile tile)
-    {
-        // move building
-        _buildingToMove.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -5);
-        _buildingToMove.gameObject.SetActive(true);
-        tile.Building = _buildingToMove;
-        tile.IsOccupied = true;
-
-        _buildingToMove = null;
-
-        //_customCursor.gameObject.SetActive(false);
-        Cursor.visible = true;
-
-        // no building on mouse
-        Destroy(_buildingOnMouse);
+        if (_buildingOnMouse != null)
+        {
+            Destroy(_buildingOnMouse.gameObject);
+        }
     }
 
     private void SetBuildingTilesOccupied(Prototype_Building building, Prototype_Tile tile)

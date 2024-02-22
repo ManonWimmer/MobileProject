@@ -3922,7 +3922,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grid: {fileID: 1576465412}
-  _startBuildings: []
+  _startBuildings:
+  - {fileID: 200755579937151920, guid: b6bc47e7b7279804582cb9b200885f6c, type: 3}
+  - {fileID: 200755579937151920, guid: b6bc47e7b7279804582cb9b200885f6c, type: 3}
 --- !u!4 &1857460080
 Transform:
   m_ObjectHideFlags: 0
