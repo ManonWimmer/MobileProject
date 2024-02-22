@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.WSA;
+using static UnityEditor.Experimental.GraphView.GraphView;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
 
@@ -505,8 +506,29 @@ public class Prototype_GameManager : MonoBehaviour
             _playerTurn = Player.Player1;
         }
 
+        SwitchCamera();
+
         // update ui
         Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
+    }
+
+    private void SwitchCamera()
+    {
+        if (_currentMode == Mode.Construction)
+        {
+            Prototype_CameraController.instance.SwitchPlayerShipCamera(_playerTurn);
+        }
+        else // combat -> vaisseau ennemi
+        {
+            if (_playerTurn == Player.Player1)
+            {
+                Prototype_CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
+            }
+            else
+            {
+                Prototype_CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
+            }
+        }
     }
 
     public void SwitchMode()
@@ -519,6 +541,8 @@ public class Prototype_GameManager : MonoBehaviour
         {
             _currentMode = Mode.Construction;
         }
+
+        SwitchCamera();
 
         // update ui
         Prototype_ManagerUI.instance.UpdateCurrentModeTxt(_currentMode);
