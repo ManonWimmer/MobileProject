@@ -666,5 +666,16 @@ public class Prototype_GameManager : MonoBehaviour
     {
         return _currentMode;
     }
-            
+
+    public void ValidateConstruction()
+    {
+        SwitchPlayer();
+        if (_playerTurn == Player.Player1)
+        {
+            SwitchMode(); // -> Combat
+            Prototype_ManagerUI.instance.HideButtonValidateConstruction();
+            Prototype_ManagerUI.instance.ShowButtonValidateCombat();
+        }
+    }
+
 }

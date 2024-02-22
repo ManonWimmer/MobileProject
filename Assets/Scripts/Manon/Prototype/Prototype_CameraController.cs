@@ -47,7 +47,8 @@ public class Prototype_CameraController : MonoBehaviour
             _currentTarget = _gridPlayer2;
         }
 
-        StartCoroutine(LerpPosition());
+        //StartCoroutine(LerpPosition());
+        transform.position = new Vector3(_currentTarget.position.x, _currentTarget.position.y, -10);
     }
 
 
