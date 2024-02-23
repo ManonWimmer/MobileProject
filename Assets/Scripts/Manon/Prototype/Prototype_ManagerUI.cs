@@ -24,6 +24,14 @@ public class Prototype_ManagerUI : MonoBehaviour
     [SerializeField] Image _testHitButton;
     [SerializeField] int _testHitEnergy = 2;
 
+    [SerializeField] GameObject _infosRoomOrAbility;
+    [SerializeField] TMP_Text _infosTitle;
+    [SerializeField] TMP_Text _infosName;
+    [SerializeField] TMP_Text _infosDescription;
+    [SerializeField] TMP_Text _infosEnergy;
+
+    [SerializeField] List<GameObject> _abilityButtons = new List<GameObject>();
+
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
 
@@ -37,9 +45,11 @@ public class Prototype_ManagerUI : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         ShowButtonValidateConstruction();
-        HideButtonValidateCombat();
+        HideButtonsCombat();
         HideEnergySlider();
         HideTestHitButton();
+        HideFiche();
+        HideValidateCombat();
     }
 
     public void UpdateCurrentPlayerTxt(Player playerTurn)
@@ -63,15 +73,32 @@ public class Prototype_ManagerUI : MonoBehaviour
         _buttonValidateConstruction.SetActive(true);
     }
 
-    // validate combat
-    public void HideButtonValidateCombat()
+    public void HideValidateCombat()
     {
         _buttonValidateCombat.SetActive(false);
     }
 
-    public void ShowButtonValidateCombat()
+    public void ShowValidateCombat()
     {
         _buttonValidateCombat.SetActive(true);
+    }
+
+    public void HideButtonsCombat()
+    {
+        foreach (GameObject abilityButton in _abilityButtons)
+        {
+            abilityButton.SetActive(false);  
+        }
+    }
+
+    public void ShowButtonsCombat()
+    {
+        foreach (GameObject abilityButton in _abilityButtons)
+        {
+            abilityButton.SetActive(true);
+        }
+
+        ShowValidateCombat();
     }
 
     // Change Player Canvas
@@ -127,6 +154,7 @@ public class Prototype_ManagerUI : MonoBehaviour
 
     public void CheckTestHitColor()
     {
+        Debug.Log("check test hit color");
         if (_energySlider.value >= _testHitEnergy && Prototype_GameManager.instance.IsTargetOnTile() && Prototype_Target.instance.CanShootOnThisTile())
         {
             _testHitButton.color = Color.white;
@@ -145,5 +173,27 @@ public class Prototype_ManagerUI : MonoBehaviour
     public void HideTestHitButton()
     {
         _testHitButton.gameObject.SetActive(false);
+    }
+
+    public void ShowFicheRoom()
+    {
+        _infosRoomOrAbility.SetActive(true);
+        _infosEnergy.enabled = false;
+    }
+
+    public void ShowFicheAbility(scriptablePower ability)
+    {
+        _infosRoomOrAbility.SetActive(true);
+        _infosEnergy.enabled = true;
+
+        _infosTitle.text = "Ability";
+        _infosName.text = "Name : " + ability._powerName;
+        _infosDescription.text = "Description : \n\n" +ability._description;
+        _infosEnergy.text = "Power needed : " + ability._powerNeed.ToString();
+    }
+
+    public void HideFiche()
+    {
+        _infosRoomOrAbility.SetActive(false);
     }
 }

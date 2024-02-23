@@ -289,7 +289,8 @@ public class Prototype_GameManager : MonoBehaviour
                 
                 if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed) 
                 {
-                    Prototype_Target.instance.ChangeTargetColorToRed(); 
+                    Prototype_Target.instance.ChangeTargetColorToRed();
+                    Prototype_ManagerUI.instance.CheckTestHitColor();
                 }
                 else
                 {
@@ -761,7 +762,7 @@ public class Prototype_GameManager : MonoBehaviour
         {
             SwitchMode(); // -> Combat
             Prototype_ManagerUI.instance.HideButtonValidateConstruction();
-            Prototype_ManagerUI.instance.ShowButtonValidateCombat();
+            Prototype_ManagerUI.instance.ShowButtonsCombat();
         }
     }
 
