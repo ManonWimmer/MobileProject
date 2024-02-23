@@ -40,6 +40,8 @@ public class Prototype_GameManager : MonoBehaviour
     private Prototype_Building _buildingToMove;
     private Prototype_Building _buildingOnMouse;
 
+    private Prototype_Tile _targetOnTile;
+
     private Player _playerTurn;
     private Mode _currentMode = Mode.Construction;
     // ----- FIELDS ----- //
@@ -282,13 +284,36 @@ public class Prototype_GameManager : MonoBehaviour
             if (_currentMode == Mode.Combat && nearestTileGridPlayer != null)
             {
                 Debug.Log("combat");
+                Prototype_Target.instance.ChangeTargetPosition(nearestTileGridPlayer.transform.position);
+                _targetOnTile = nearestTileGridPlayer;
+                
+                if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed) 
+                {
+                    Prototype_Target.instance.ChangeTargetColorToRed(); 
+                }
+                else
+                {
+                    Prototype_Target.instance.ChangeTargetColorToWhite();
+                }
+
+                Prototype_ManagerUI.instance.CheckTestHitColor();
+            }
+        }
+    }
+
+    public void TestHit()
+    {
+        if (_targetOnTile != null)
+        {
+            if (!_targetOnTile.IsDestroyed && !_targetOnTile.IsMissed) // tile jamais hit
+            {
                 if (Prototype_EnergySystem.instance.TryUseEnergy(_playerTurn, 2)) // 2 temp -> energy cost de la compétence SO
                 {
-                    if (nearestTileGridPlayer.IsOccupied)
+                    if (_targetOnTile.IsOccupied)
                     {
-                        Debug.Log("hit room " + nearestTileGridPlayer.Building.name);
-                        nearestTileGridPlayer.BuildingTileSpriteRenderer.color = Color.magenta;
-                        nearestTileGridPlayer.IsDestroyed = true;
+                        Debug.Log("hit room " + _targetOnTile.Building.name);
+                        _targetOnTile.BuildingTileSpriteRenderer.color = Color.magenta;
+                        _targetOnTile.IsDestroyed = true;
 
                         // update hidden rooms
                         if (_playerTurn == Player.Player1)
@@ -298,19 +323,29 @@ public class Prototype_GameManager : MonoBehaviour
                         else
                         {
                             ShowOnlyDestroyedBuildings(Player.Player1);
-                        } 
+                        }
                     }
                     else
                     {
+                        _targetOnTile.IsMissed = true;
                         Debug.Log("no room on hit");
                     }
+
+                    Prototype_Target.instance.ChangeTargetColorToRed();
                 }
                 else
                 {
                     Debug.Log("pas assez d'energie! (5 demandées)");
                 }
             }
-        }
+            else
+            {
+                // already hit that tile
+                Prototype_Target.instance.ChangeTargetColorToRed();
+            }
+        }  
+        
+        // update button color
     }
 
     #region Construction
@@ -660,6 +695,9 @@ public class Prototype_GameManager : MonoBehaviour
         Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
 
         Prototype_ManagerUI.instance.ShowChangerPlayerCanvas(_playerTurn);
+
+        Prototype_Target.instance.HideTarget();
+        _targetOnTile = null;
     }
 
     private void SwitchCamera()
@@ -692,6 +730,7 @@ public class Prototype_GameManager : MonoBehaviour
         if (_currentMode == Mode.Construction)
         {
             _currentMode = Mode.Combat;
+            Prototype_ManagerUI.instance.ShowTestHitButton();
             Prototype_ManagerUI.instance.ShowEnergySlider();
         }
         else
@@ -734,4 +773,8 @@ public class Prototype_GameManager : MonoBehaviour
         }
     }
 
+    public bool IsTargetOnTile()
+    {
+        return _targetOnTile;
+    }
 }
