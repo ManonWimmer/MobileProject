@@ -1,12 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using UnityEngine.WSA;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
 
@@ -287,25 +282,32 @@ public class Prototype_GameManager : MonoBehaviour
             if (_currentMode == Mode.Combat && nearestTileGridPlayer != null)
             {
                 Debug.Log("combat");
-                if (nearestTileGridPlayer.IsOccupied)
+                if (Prototype_EnergySystem.instance.TryUseEnergy(_playerTurn, 2)) // 2 temp -> energy cost de la compétence SO
                 {
-                    Debug.Log("hit room " + nearestTileGridPlayer.Building.name);
-                    nearestTileGridPlayer.BuildingTileSpriteRenderer.color = Color.magenta;
-                    nearestTileGridPlayer.IsDestroyed = true;
-
-                    // update hidden rooms
-                    if (_playerTurn == Player.Player1)
+                    if (nearestTileGridPlayer.IsOccupied)
                     {
-                        ShowOnlyDestroyedBuildings(Player.Player2);
+                        Debug.Log("hit room " + nearestTileGridPlayer.Building.name);
+                        nearestTileGridPlayer.BuildingTileSpriteRenderer.color = Color.magenta;
+                        nearestTileGridPlayer.IsDestroyed = true;
+
+                        // update hidden rooms
+                        if (_playerTurn == Player.Player1)
+                        {
+                            ShowOnlyDestroyedBuildings(Player.Player2);
+                        }
+                        else
+                        {
+                            ShowOnlyDestroyedBuildings(Player.Player1);
+                        } 
                     }
                     else
                     {
-                        ShowOnlyDestroyedBuildings(Player.Player1);
+                        Debug.Log("no room on hit");
                     }
                 }
                 else
                 {
-                    Debug.Log("no room on hit");
+                    Debug.Log("pas assez d'energie! (5 demandées)");
                 }
             }
         }
@@ -680,6 +682,8 @@ public class Prototype_GameManager : MonoBehaviour
                 ShowOnlyDestroyedBuildings(Player.Player1);
                 ShowAllBuildings(Player.Player2);
             }
+
+            Prototype_EnergySystem.instance.GetRoundEnergy(_playerTurn);
         }
     }
 
@@ -688,6 +692,7 @@ public class Prototype_GameManager : MonoBehaviour
         if (_currentMode == Mode.Construction)
         {
             _currentMode = Mode.Combat;
+            Prototype_ManagerUI.instance.ShowEnergySlider();
         }
         else
         {

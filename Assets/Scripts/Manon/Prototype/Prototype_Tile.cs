@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Prototype_Tile : MonoBehaviour
 {
+    // ----- FIELDS ----- //
     public bool IsOccupied;
     public bool IsDestroyed;
     public Prototype_Building Building;
@@ -21,9 +22,9 @@ public class Prototype_Tile : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     public SpriteRenderer BuildingTileSpriteRenderer;
 
-    // is destroyed
     // player -> parent grid player
     // is vital
+    // ----- FIELDS ----- //
 
     private void Start()
     {

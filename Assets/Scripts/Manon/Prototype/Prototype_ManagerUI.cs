@@ -17,6 +17,9 @@ public class Prototype_ManagerUI : MonoBehaviour
     [SerializeField] TMP_Text _changePlayerCanvasTxt;
     [SerializeField] TMP_Text _constructionTimeRemainingTxt;
     public bool ChangingPlayer;
+
+    [SerializeField] Slider _energySlider;
+    [SerializeField] TMP_Text _energyTxt;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -28,6 +31,7 @@ public class Prototype_ManagerUI : MonoBehaviour
     {
         ShowButtonValidateConstruction();
         HideButtonValidateCombat();
+        HideEnergySlider();
     }
 
     public void UpdateCurrentPlayerTxt(Player playerTurn)
@@ -88,5 +92,26 @@ public class Prototype_ManagerUI : MonoBehaviour
         int minutes = Mathf.FloorToInt(remainingTime / 60f);
         int seconds = Mathf.FloorToInt(remainingTime % 60f);
         _constructionTimeRemainingTxt.text = string.Format("({0:00}:{1:00} remaining...)", minutes, seconds);
+    }
+
+    // Energy Slider
+    public void HideEnergySlider()
+    {
+        _energySlider.gameObject.SetActive(false);
+        _energyTxt.enabled = false;
+    }
+
+    public void ShowEnergySlider()
+    {
+        _energySlider.gameObject.SetActive(true);
+        _energyTxt.enabled = true;
+        _energySlider.maxValue = Prototype_EnergySystem.instance.GetMaxEnergy();
+        _energySlider.value = Prototype_EnergySystem.instance.GetStartEnergy();
+    }
+
+    public void UpdateEnergySlider(Player player)
+    {
+        _energySlider.value = Prototype_EnergySystem.instance.GetPlayerEnergy(player);
+        _energyTxt.text = "Energy \n" + _energySlider.value + "/" + _energySlider.maxValue;   
     }
 }
