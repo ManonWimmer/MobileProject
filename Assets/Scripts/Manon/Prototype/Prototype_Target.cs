@@ -42,6 +42,7 @@ public class Prototype_Target : MonoBehaviour
     {
         Debug.Log("target red");
         _spriteRenderer.color = Color.red;
+        Prototype_ManagerUI.instance.CheckTestHitColor();
     }
 
     public void ChangeTargetColorToWhite()
