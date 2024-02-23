@@ -11,4 +11,5 @@ public class scriptablePower : ScriptableObject
     public Sprite _icon;
 
     public int _powerNeed;
+    public int _cooldown;
 }
