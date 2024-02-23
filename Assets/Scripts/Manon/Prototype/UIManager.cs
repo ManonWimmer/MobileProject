@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Prototype_ManagerUI : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     // ----- FIELDS ----- //
-    public static Prototype_ManagerUI instance;
+    public static UIManager instance;
     [SerializeField] TMP_Text _currentPlayerTxt;
     [SerializeField] TMP_Text _currentModeTxt;
     [SerializeField] GameObject _buttonValidateConstruction;
@@ -52,6 +52,7 @@ public class Prototype_ManagerUI : MonoBehaviour
         HideValidateCombat();
     }
 
+    #region CurrentPlayer
     public void UpdateCurrentPlayerTxt(Player playerTurn)
     {
         _currentPlayerTxt.text = "Current Player : " + playerTurn.ToString();
@@ -61,8 +62,9 @@ public class Prototype_ManagerUI : MonoBehaviour
     {
         _currentModeTxt.text = "Current Mode : " + currentMode.ToString();
     }
+    #endregion
 
-    // Validate construction
+    #region ValidateConstruction
     public void HideButtonValidateConstruction()
     {
         _buttonValidateConstruction.SetActive(false);
@@ -72,7 +74,9 @@ public class Prototype_ManagerUI : MonoBehaviour
     {
         _buttonValidateConstruction.SetActive(true);
     }
+    #endregion
 
+    #region ValideCombat
     public void HideValidateCombat()
     {
         _buttonValidateCombat.SetActive(false);
@@ -82,7 +86,9 @@ public class Prototype_ManagerUI : MonoBehaviour
     {
         _buttonValidateCombat.SetActive(true);
     }
+    #endregion
 
+    #region Ability Buttons
     public void HideButtonsCombat()
     {
         foreach (GameObject abilityButton in _abilityButtons)
@@ -100,8 +106,9 @@ public class Prototype_ManagerUI : MonoBehaviour
 
         ShowValidateCombat();
     }
+    #endregion
 
-    // Change Player Canvas
+    #region Change Player
     public void ShowChangerPlayerCanvas(Player playerTurn)
     {
         _changePlayerCanvas.SetActive(true);
@@ -114,9 +121,11 @@ public class Prototype_ManagerUI : MonoBehaviour
         _changePlayerCanvas.SetActive(false);
         ChangingPlayer = false;
 
-        Prototype_GameManager.instance.CheckIfStartConstructionTimer();
+        GameManager.instance.CheckIfStartConstructionTimer();
     }
+    #endregion
 
+    #region Construction Timer
     public void UpdateConstructionTimerTxt(float remainingTime)
     {
         remainingTime += 1;
@@ -128,8 +137,9 @@ public class Prototype_ManagerUI : MonoBehaviour
         int seconds = Mathf.FloorToInt(remainingTime % 60f);
         _constructionTimeRemainingTxt.text = string.Format("({0:00}:{1:00} remaining...)", minutes, seconds);
     }
+    #endregion
 
-    // Energy Slider
+    #region Energy
     public void HideEnergySlider()
     {
         _energySlider.gameObject.SetActive(false);
@@ -140,22 +150,24 @@ public class Prototype_ManagerUI : MonoBehaviour
     {
         _energySlider.gameObject.SetActive(true);
         _energyTxt.enabled = true;
-        _energySlider.maxValue = Prototype_EnergySystem.instance.GetMaxEnergy();
-        _energySlider.value = Prototype_EnergySystem.instance.GetStartEnergy();
+        _energySlider.maxValue = EnergySystem.instance.GetMaxEnergy();
+        _energySlider.value = EnergySystem.instance.GetStartEnergy();
     }
 
     public void UpdateEnergySlider(Player player)
     {
-        _energySlider.value = Prototype_EnergySystem.instance.GetPlayerEnergy(player);
+        _energySlider.value = EnergySystem.instance.GetPlayerEnergy(player);
         _energyTxt.text = "Energy \n" + _energySlider.value + "/" + _energySlider.maxValue;
 
         CheckTestHitColor();
     }
+    #endregion
 
+    #region Test Hit
     public void CheckTestHitColor()
     {
         Debug.Log("check test hit color");
-        if (_energySlider.value >= _testHitEnergy && Prototype_GameManager.instance.IsTargetOnTile() && Prototype_Target.instance.CanShootOnThisTile())
+        if (_energySlider.value >= _testHitEnergy && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile())
         {
             _testHitButton.color = Color.white;
         }
@@ -174,7 +186,9 @@ public class Prototype_ManagerUI : MonoBehaviour
     {
         _testHitButton.gameObject.SetActive(false);
     }
+    #endregion
 
+    #region Fiche
     public void ShowFicheRoom()
     {
         _infosRoomOrAbility.SetActive(true);
@@ -196,4 +210,5 @@ public class Prototype_ManagerUI : MonoBehaviour
     {
         _infosRoomOrAbility.SetActive(false);
     }
+    #endregion
 }

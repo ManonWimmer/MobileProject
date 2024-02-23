@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prototype_AbilityButton : MonoBehaviour
+public class AbilityButton : MonoBehaviour
 {
     // ----- FIELDS ----- //
     [SerializeField] scriptablePower _ability;

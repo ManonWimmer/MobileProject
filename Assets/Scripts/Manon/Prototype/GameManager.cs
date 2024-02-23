@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cursor = UnityEngine.Cursor;
 using Random = UnityEngine.Random;
 
 public enum Player
@@ -17,30 +16,31 @@ public enum Mode
     Combat
 }
 
-public class Prototype_GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     // ----- FIELDS ----- //
-    public static Prototype_GameManager instance;
+    public static GameManager instance;
 
     [SerializeField] GameObject _gridPlayer1;
     [SerializeField] GameObject _gridPlayer2;
-    [SerializeField] List<Prototype_Building> _startBuildings = new List<Prototype_Building>();
+    [SerializeField] List<Room> _startRooms = new List<Room>();
 
     [SerializeField] float _constructionTimerSeconds = 120f;
     private float _constructionTimerElapsedSeconds = 0f;
     private float _constructionTimerRemainingSeconds;
     private Coroutine _constructionTimerCoroutine;
 
-    private Dictionary<Tuple<int, int>, Prototype_Tile> _dictTilesRowColumnPlayer1 = new Dictionary<Tuple<int, int>, Prototype_Tile>();
-    private Dictionary<Tuple<int, int>, Prototype_Tile> _dictTilesRowColumnPlayer2 = new Dictionary<Tuple<int, int>, Prototype_Tile>();
+    private Dictionary<Tuple<int, int>, Tile> _dictTilesRowColumnPlayer1 = new Dictionary<Tuple<int, int>, Tile>();
+    private Dictionary<Tuple<int, int>, Tile> _dictTilesRowColumnPlayer2 = new Dictionary<Tuple<int, int>, Tile>();
 
-    private List<Prototype_Tile> _tilesPlayer1 = new List<Prototype_Tile>();
-    private List<Prototype_Tile> _tilesPlayer2 = new List<Prototype_Tile>();
-    private Prototype_Building _buildingToPlace;
-    private Prototype_Building _buildingToMove;
-    private Prototype_Building _buildingOnMouse;
+    private List<Tile> _tilesPlayer1 = new List<Tile>();
+    private List<Tile> _tilesPlayer2 = new List<Tile>();
 
-    private Prototype_Tile _targetOnTile;
+    private Room _roomToPlace;
+    private Room _roomToMove;
+    private Room _roomOnMouse;
+
+    private Tile _targetOnTile;
 
     private Player _playerTurn;
     private Mode _currentMode = Mode.Construction;
@@ -53,9 +53,25 @@ public class Prototype_GameManager : MonoBehaviour
 
     private void Start()
     {
-        #region StartConstruction
-        // Player 1
-        foreach (Prototype_Tile tile in _gridPlayer1.GetComponentsInChildren<Prototype_Tile>())
+        // Start Construction
+        InitGridDicts();
+        RandomizeRoomsPlacement();
+
+        // Update UI
+        UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
+        UIManager.instance.UpdateCurrentModeTxt(_currentMode);
+
+        // a changer plus tard, mettre après les choix de compétences
+        if (_currentMode == Mode.Construction)
+        {
+            _constructionTimerCoroutine = StartCoroutine(StartConstructionTimer());
+        }
+    }
+
+    private void InitGridDicts()
+    {
+        #region Player1Dict
+        foreach (Tile tile in _gridPlayer1.GetComponentsInChildren<Tile>())
         {
             _tilesPlayer1.Add(tile);
             int row = tile.Row;
@@ -64,7 +80,7 @@ public class Prototype_GameManager : MonoBehaviour
         }
 
         // search adjacent tiles for each tile
-        foreach (Prototype_Tile tile in _tilesPlayer1)
+        foreach (Tile tile in _tilesPlayer1)
         {
             int row = tile.Row;
             int column = tile.Column;
@@ -94,26 +110,27 @@ public class Prototype_GameManager : MonoBehaviour
             }
         }
 
-        if (_startBuildings.Count > 0)
+        if (_startRooms.Count > 0)
         {
-            foreach (Prototype_Building startBuilding in _startBuildings)
+            foreach (Room startBuilding in _startRooms)
             {
                 bool buildingBuilt = false;
                 Debug.Log(startBuilding.name);
                 while (!buildingBuilt)
                 {
-                    Prototype_Tile tempTile = _tilesPlayer1[Random.Range(0, _tilesPlayer1.Count - 1)];
+                    Tile tempTile = _tilesPlayer1[Random.Range(0, _tilesPlayer1.Count - 1)];
                     if (CheckCanBuild(startBuilding, tempTile))
                     {
                         CreateNewBuilding(startBuilding, tempTile);
                         buildingBuilt = true;
                     }
-                }           
+                }
             }
         }
+        #endregion
 
-        // Same for player 2
-        foreach (Prototype_Tile tile in _gridPlayer2.GetComponentsInChildren<Prototype_Tile>())
+        #region Player2Dict
+        foreach (Tile tile in _gridPlayer2.GetComponentsInChildren<Tile>())
         {
             _tilesPlayer2.Add(tile);
             int row = tile.Row;
@@ -122,7 +139,7 @@ public class Prototype_GameManager : MonoBehaviour
         }
 
         // search adjacent tiles for each tile
-        foreach (Prototype_Tile tile in _tilesPlayer2)
+        foreach (Tile tile in _tilesPlayer2)
         {
             int row = tile.Row;
             int column = tile.Column;
@@ -151,72 +168,25 @@ public class Prototype_GameManager : MonoBehaviour
                 tile.LeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column - 1)];
             }
         }
-
-        if (_startBuildings.Count > 0)
-        {
-            foreach (Prototype_Building startBuilding in _startBuildings)
-            {
-                bool buildingBuilt = false;
-                Debug.Log(startBuilding.name);
-                while (!buildingBuilt)
-                {
-                    Prototype_Tile tempTile = _tilesPlayer2[Random.Range(0, _tilesPlayer2.Count - 1)];
-                    if (CheckCanBuild(startBuilding, tempTile))
-                    {
-                        CreateNewBuilding(startBuilding, tempTile);
-                        buildingBuilt = true;
-                    }
-                }
-            }
-        }
         #endregion
-
-        // Update UI
-        Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
-        Prototype_ManagerUI.instance.UpdateCurrentModeTxt(_currentMode);
-
-        // a changer plus tard, mettre après les choix de compétences
-        if (_currentMode == Mode.Construction)
-        {
-            _constructionTimerCoroutine = StartCoroutine(StartConstructionTimer());
-        }
-    }
-
-    private IEnumerator StartConstructionTimer()
-    {
-        _constructionTimerElapsedSeconds = 0f;
-        _constructionTimerRemainingSeconds = _constructionTimerSeconds;
-
-        while (_constructionTimerElapsedSeconds < _constructionTimerSeconds)
-        {
-            _constructionTimerElapsedSeconds += Time.deltaTime;
-            _constructionTimerRemainingSeconds = _constructionTimerSeconds - _constructionTimerElapsedSeconds;
-
-            Prototype_ManagerUI.instance.UpdateConstructionTimerTxt(_constructionTimerRemainingSeconds);
-            yield return null;
-        }
-
-        // Le timer est terminé, faire quelque chose ici
-        Debug.Log("Timer terminé !");
-        ValidateConstruction();
     }
 
     private void Update()
     {
-        if (Prototype_ManagerUI.instance.ChangingPlayer)
+        if (UIManager.instance.ChangingPlayer)
         {
             return;
         }
 
-        if (_buildingOnMouse != null) // update building on mouse pos
+        if (_roomOnMouse != null) // update room on mouse pos
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            _buildingOnMouse.transform.position = new Vector3(mousePosition.x, mousePosition.y, -5);
+            _roomOnMouse.transform.position = new Vector3(mousePosition.x, mousePosition.y, -5);
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            Prototype_Tile nearestTileGridPlayer = null;
+            Tile nearestTileGridPlayer = null;
 
             // Select tile in specific grid
             if (_currentMode == Mode.Construction)
@@ -239,91 +209,104 @@ public class Prototype_GameManager : MonoBehaviour
             // construction
             if (_currentMode == Mode.Construction && nearestTileGridPlayer != null)
             {
-                #region ClickOnTileInConstruction
-                if (!nearestTileGridPlayer.IsOccupied) // no building
-                {
-                    if (_buildingToPlace != null)
-                    {
-                        if (CheckCanBuild(_buildingToPlace, nearestTileGridPlayer))
-                        {
-                            CreateNewBuilding(_buildingToPlace, nearestTileGridPlayer);
-                        }
-                    }
-                    else if (_buildingToMove != null)
-                    {
-                        if (CheckCanBuild(_buildingToMove, nearestTileGridPlayer))
-                        {
-                            CreateNewBuilding(_buildingToMove, nearestTileGridPlayer);
-                        }
-                    }
-                }
-                else // already a building
-                {
-                    Debug.Log("occupied");
-                    if (_buildingToMove == null)
-                    {
-                        Debug.Log("new building to move");
-                        // select move building
-                        _buildingToMove = nearestTileGridPlayer.Building;
-                        nearestTileGridPlayer.IsOccupied = false;
-
-                        SetBuildingTilesNotOccupied(_buildingToMove, nearestTileGridPlayer);
-
-                        // building to mouse
-                        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        _buildingOnMouse = _buildingToMove;
-                        //_buildingOnMouse = Instantiate(_buildingToMove, new Vector3(mousePosition.x, mousePosition.y, -5), Quaternion.identity);
-
-                        //Destroy(nearestTile.Building.gameObject);
-                    }
-                }
-                #endregion
+                CheckTileClickedInConstruction(nearestTileGridPlayer);
             }
 
             //combat
             if (_currentMode == Mode.Combat && nearestTileGridPlayer != null)
             {
-                Debug.Log("combat");
-                Prototype_Target.instance.ChangeTargetPosition(nearestTileGridPlayer.transform.position);
-                _targetOnTile = nearestTileGridPlayer;
-                
-                if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed) 
-                {
-                    Prototype_Target.instance.ChangeTargetColorToRed();
-                    Prototype_ManagerUI.instance.CheckTestHitColor();
-                }
-                else
-                {
-                    Prototype_Target.instance.ChangeTargetColorToWhite();
-                }
-
-                Prototype_ManagerUI.instance.CheckTestHitColor();
+                CheckTileClickedInCombat(nearestTileGridPlayer);
             }
         }
     }
 
+    #region CheckClickOnTile
+    private void CheckTileClickedInConstruction(Tile nearestTile)
+    {
+        if (!nearestTile.IsOccupied) // no building
+        {
+            if (_roomToPlace != null)
+            {
+                if (CheckCanBuild(_roomToPlace, nearestTile))
+                {
+                    CreateNewBuilding(_roomToPlace, nearestTile);
+                }
+            }
+            else if (_roomToMove != null)
+            {
+                if (CheckCanBuild(_roomToMove, nearestTile))
+                {
+                    CreateNewBuilding(_roomToMove, nearestTile);
+                }
+            }
+        }
+        else // already a building
+        {
+            Debug.Log("occupied");
+            if (_roomToMove == null)
+            {
+                Debug.Log("new building to move");
+                // select move building
+                _roomToMove = nearestTile.Building;
+                nearestTile.IsOccupied = false;
+
+                SetBuildingTilesNotOccupied(_roomToMove, nearestTile);
+
+                // building to mouse
+                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                _roomOnMouse = _roomToMove;
+            }
+        }
+    }
+
+    private void CheckTileClickedInCombat(Tile nearestTile)
+    {
+        Debug.Log("combat");
+        TargetController.instance.ChangeTargetPosition(nearestTile.transform.position);
+        _targetOnTile = nearestTile;
+
+        if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
+        {
+            TargetController.instance.ChangeTargetColorToRed();
+            UIManager.instance.CheckTestHitColor();
+        }
+        else
+        {
+            TargetController.instance.ChangeTargetColorToWhite();
+        }
+
+        UIManager.instance.CheckTestHitColor();
+    }
+
+    public bool IsTargetOnTile()
+    {
+        return _targetOnTile;
+    }
+    #endregion
+
+    #region Test Hit
     public void TestHit()
     {
         if (_targetOnTile != null)
         {
             if (!_targetOnTile.IsDestroyed && !_targetOnTile.IsMissed) // tile jamais hit
             {
-                if (Prototype_EnergySystem.instance.TryUseEnergy(_playerTurn, 2)) // 2 temp -> energy cost de la compétence SO
+                if (EnergySystem.instance.TryUseEnergy(_playerTurn, 2)) // 2 temp -> energy cost de la compétence SO
                 {
                     if (_targetOnTile.IsOccupied)
                     {
                         Debug.Log("hit room " + _targetOnTile.Building.name);
-                        _targetOnTile.BuildingTileSpriteRenderer.color = Color.magenta;
+                        _targetOnTile.RoomTileSpriteRenderer.color = Color.magenta;
                         _targetOnTile.IsDestroyed = true;
 
                         // update hidden rooms
                         if (_playerTurn == Player.Player1)
                         {
-                            ShowOnlyDestroyedBuildings(Player.Player2);
+                            ShowOnlyDestroyedRooms(Player.Player2);
                         }
                         else
                         {
-                            ShowOnlyDestroyedBuildings(Player.Player1);
+                            ShowOnlyDestroyedRooms(Player.Player1);
                         }
                     }
                     else
@@ -332,7 +315,7 @@ public class Prototype_GameManager : MonoBehaviour
                         Debug.Log("no room on hit");
                     }
 
-                    Prototype_Target.instance.ChangeTargetColorToRed();
+                    TargetController.instance.ChangeTargetColorToRed();
                 }
                 else
                 {
@@ -342,23 +325,45 @@ public class Prototype_GameManager : MonoBehaviour
             else
             {
                 // already hit that tile
-                Prototype_Target.instance.ChangeTargetColorToRed();
+                TargetController.instance.ChangeTargetColorToRed();
             }
         }  
         
         // update button color
     }
+    #endregion
 
     #region Construction
-    public void TakeBuilding(Prototype_Building building)
+    private void RandomizeRoomsPlacement()
     {
-        _buildingToPlace = building;
-
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        _buildingOnMouse = Instantiate(_buildingToPlace, new Vector3(mousePosition.x, mousePosition.y, -5), Quaternion.identity);
+        if (_startRooms.Count > 0)
+        {
+            foreach (Room startRoom in _startRooms)
+            {
+                bool roomBuilt = false;
+                Debug.Log(startRoom.name);
+                while (!roomBuilt)
+                {
+                    Tile tempTile = _tilesPlayer2[Random.Range(0, _tilesPlayer2.Count - 1)];
+                    if (CheckCanBuild(startRoom, tempTile))
+                    {
+                        CreateNewBuilding(startRoom, tempTile);
+                        roomBuilt = true;
+                    }
+                }
+            }
+        }
     }
 
-    private bool CheckCanBuild(Prototype_Building building, Prototype_Tile tile)
+    public void TakeBuilding(Room building)
+    {
+        _roomToPlace = building;
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _roomOnMouse = Instantiate(_roomToPlace, new Vector3(mousePosition.x, mousePosition.y, -5), Quaternion.identity);
+    }
+
+    private bool CheckCanBuild(Room building, Tile tile)
     {
         // center
         if (tile.IsOccupied) 
@@ -370,7 +375,7 @@ public class Prototype_GameManager : MonoBehaviour
         // left
         if (building.LeftTilesSR.Count > 0) 
         {
-            Prototype_Tile currentTile = tile;
+            Tile currentTile = tile;
             for (int i = 0; i < building.LeftTilesSR.Count; i++)
             {
                 if (tile.LeftTile != null)
@@ -394,7 +399,7 @@ public class Prototype_GameManager : MonoBehaviour
         // right
         if (building.RightTilesSR.Count > 0)
         {
-            Prototype_Tile currentTile = tile;
+            Tile currentTile = tile;
             for (int i = 0; i < building.RightTilesSR.Count; i++)
             {
                 if (tile.RightTile != null)
@@ -417,7 +422,7 @@ public class Prototype_GameManager : MonoBehaviour
         // bottom
         if (building.BottomTilesSR.Count > 0)
         {
-            Prototype_Tile currentTile = tile;
+            Tile currentTile = tile;
             for (int i = 0; i < building.BottomTilesSR.Count; i++)
             {
                 if (tile.BottomTile != null)
@@ -440,7 +445,7 @@ public class Prototype_GameManager : MonoBehaviour
         // top
         if (building.TopTilesSR.Count > 0)
         {
-            Prototype_Tile currentTile = tile;
+            Tile currentTile = tile;
             for (int i = 0; i < building.TopTilesSR.Count; i++)
             {
                 if (tile.TopTile != null)
@@ -466,12 +471,12 @@ public class Prototype_GameManager : MonoBehaviour
         return true;
     }
 
-    private void CreateNewBuilding(Prototype_Building building, Prototype_Tile tile)
+    private void CreateNewBuilding(Room building, Tile tile)
     {
         // place new building
         //Prototype_Building newBuilding = _buildingOnMouse;
         Debug.Log("instantiate new building");
-        Prototype_Building newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -5), Quaternion.identity);
+        Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -5), Quaternion.identity);
         //newBuilding.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -5); // adjust to tile position
 
         tile.Building = newBuilding;
@@ -479,31 +484,31 @@ public class Prototype_GameManager : MonoBehaviour
 
         SetBuildingTilesOccupied(newBuilding, tile);
 
-        _buildingToPlace = null;
+        _roomToPlace = null;
 
         // no building on mouse
         Debug.Log("destroy on mouse");
-        if (_buildingOnMouse != null)
+        if (_roomOnMouse != null)
         {
-            Destroy(_buildingOnMouse.gameObject);
+            Destroy(_roomOnMouse.gameObject);
         }
     }
 
-    private void SetBuildingTilesOccupied(Prototype_Building building, Prototype_Tile tile)
+    private void SetBuildingTilesOccupied(Room building, Tile tile)
     {
-        List<Prototype_Tile> tiles = new List<Prototype_Tile>();
+        List<Tile> tiles = new List<Tile>();
         tiles.Add(tile); // center
-        tile.BuildingTileSpriteRenderer = building.CenterTileSR;
+        tile.RoomTileSpriteRenderer = building.CenterTileSR;
 
         // left
         if (building.LeftTilesSR.Count > 0)
         {
-            Prototype_Tile currentTile = tile;
+            Tile currentTile = tile;
             for (int i = 0; i < building.LeftTilesSR.Count; i++)
             {
                 tile.LeftTile.IsOccupied = true;
                 tile.LeftTile.Building = building;
-                tile.LeftTile.BuildingTileSpriteRenderer = building.LeftTilesSR[i];
+                tile.LeftTile.RoomTileSpriteRenderer = building.LeftTilesSR[i];
 
                 currentTile = tile.LeftTile;
                 tiles.Add(currentTile);
@@ -512,12 +517,12 @@ public class Prototype_GameManager : MonoBehaviour
         // right
         if (building.RightTilesSR.Count > 0)
         {
-            Prototype_Tile currentTile = tile;
+            Tile currentTile = tile;
             for (int i = 0; i < building.RightTilesSR.Count; i++)
             {
                 tile.RightTile.IsOccupied = true;
                 tile.RightTile.Building = building;
-                tile.RightTile.BuildingTileSpriteRenderer = building.RightTilesSR[i];
+                tile.RightTile.RoomTileSpriteRenderer = building.RightTilesSR[i];
 
                 currentTile = tile.RightTile;
                 tiles.Add(currentTile);
@@ -526,12 +531,12 @@ public class Prototype_GameManager : MonoBehaviour
         // top
         if (building.TopTilesSR.Count > 0)
         {
-            Prototype_Tile currentTile = tile;
+            Tile currentTile = tile;
             for (int i = 0; i < building.TopTilesSR.Count; i++)
             {
                 tile.TopTile.IsOccupied = true;
                 tile.TopTile.Building = building;
-                tile.TopTile.BuildingTileSpriteRenderer = building.TopTilesSR[i];
+                tile.TopTile.RoomTileSpriteRenderer = building.TopTilesSR[i];
 
                 currentTile = tile.TopTile; 
                 tiles.Add(currentTile);
@@ -540,12 +545,12 @@ public class Prototype_GameManager : MonoBehaviour
         // bottom
         if (building.BottomTilesSR.Count > 0)
         {
-            Prototype_Tile currentTile = tile;
+            Tile currentTile = tile;
             for (int i = 0; i < building.BottomTilesSR.Count; i++)
             {
                 tile.BottomTile.IsOccupied = true;
                 tile.BottomTile.Building = building;
-                tile.BottomTile.BuildingTileSpriteRenderer = building.BottomTilesSR[i];
+                tile.BottomTile.RoomTileSpriteRenderer = building.BottomTilesSR[i];
 
                 currentTile = tile.BottomTile;
                 tiles.Add(currentTile);
@@ -554,46 +559,44 @@ public class Prototype_GameManager : MonoBehaviour
         Debug.Log(tiles.Count);
 
 
-        foreach (Prototype_Tile buildingTile in tiles)
+        foreach (Tile buildingTile in tiles)
         {
-            foreach (Prototype_Tile buildingTile2 in tiles)
+            foreach (Tile buildingTile2 in tiles)
             {
                 if (buildingTile != buildingTile2)
                 {
-                    buildingTile.BuildingOnOtherTiles.Add(buildingTile2);
+                    buildingTile.RoomOnOtherTiles.Add(buildingTile2);
                 }
             }
         }
-
-        
     }
 
-    private void SetBuildingTilesNotOccupied(Prototype_Building building, Prototype_Tile tile)
+    private void SetBuildingTilesNotOccupied(Room building, Tile tile)
     {
-        List<Prototype_Tile> tiles = new List<Prototype_Tile>();
+        List<Tile> tiles = new List<Tile>();
         tiles.Add(tile); // center
 
-        foreach(Prototype_Tile tile2 in tile.BuildingOnOtherTiles)
+        foreach(Tile tile2 in tile.RoomOnOtherTiles)
         {
             tiles.Add(tile2);
         }
 
-        foreach (Prototype_Tile tile3 in tiles)
+        foreach (Tile tile3 in tiles)
         {
             tile3.IsOccupied = false;
-            tile3.BuildingOnOtherTiles.Clear();
-            tile3.BuildingTileSpriteRenderer = null;
+            tile3.RoomOnOtherTiles.Clear();
+            tile3.RoomTileSpriteRenderer = null;
         }
     }
 
-    private Prototype_Tile FindNearestTileInGrid(Player player)
+    private Tile FindNearestTileInGrid(Player player)
     {
-        Prototype_Tile nearestTile = null;
+        Tile nearestTile = null;
         float shortestDistance = float.MaxValue;
 
         if (player == Player.Player1)
         {
-            foreach (Prototype_Tile tile in _tilesPlayer1)
+            foreach (Tile tile in _tilesPlayer1)
             {
                 float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
@@ -606,7 +609,7 @@ public class Prototype_GameManager : MonoBehaviour
         }
         else
         {
-            foreach (Prototype_Tile tile in _tilesPlayer2)
+            foreach (Tile tile in _tilesPlayer2)
             {
                 float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
@@ -620,12 +623,54 @@ public class Prototype_GameManager : MonoBehaviour
 
         return nearestTile;
     }
+
+    public void ValidateConstruction()
+    {
+        if (_constructionTimerCoroutine != null)
+        {
+            StopCoroutine(_constructionTimerCoroutine);
+        }
+        SwitchPlayer();
+
+        if (_playerTurn == Player.Player1)
+        {
+            SwitchMode(); // -> Combat
+            UIManager.instance.HideButtonValidateConstruction();
+            UIManager.instance.ShowButtonsCombat();
+        }
+    }
+
+    private IEnumerator StartConstructionTimer()
+    {
+        _constructionTimerElapsedSeconds = 0f;
+        _constructionTimerRemainingSeconds = _constructionTimerSeconds;
+
+        while (_constructionTimerElapsedSeconds < _constructionTimerSeconds)
+        {
+            _constructionTimerElapsedSeconds += Time.deltaTime;
+            _constructionTimerRemainingSeconds = _constructionTimerSeconds - _constructionTimerElapsedSeconds;
+
+            UIManager.instance.UpdateConstructionTimerTxt(_constructionTimerRemainingSeconds);
+            yield return null;
+        }
+
+        Debug.Log("Timer terminé !");
+        ValidateConstruction();
+    }
+
+    public void CheckIfStartConstructionTimer()
+    {
+        if (_currentMode == Mode.Construction)
+        {
+            _constructionTimerCoroutine = StartCoroutine(StartConstructionTimer());
+        }
+    }
     #endregion
 
     #region Combat
-    private void ShowOnlyDestroyedBuildings(Player playerShip)
+    private void ShowOnlyDestroyedRooms(Player playerShip)
     {
-        List<Prototype_Tile> tiles = new List<Prototype_Tile>();
+        List<Tile> tiles = new List<Tile>();
 
         if (playerShip == Player.Player1)
         {
@@ -636,17 +681,17 @@ public class Prototype_GameManager : MonoBehaviour
             tiles = _tilesPlayer2;
         }
 
-        foreach (Prototype_Tile tile in tiles)
+        foreach (Tile tile in tiles)
         {
             if (tile.IsOccupied)
             {
                 if (!tile.IsDestroyed)
                 {
-                    tile.BuildingTileSpriteRenderer.enabled = false;
+                    tile.RoomTileSpriteRenderer.enabled = false;
                 }
                 else
                 {
-                    tile.BuildingTileSpriteRenderer.enabled = true;
+                    tile.RoomTileSpriteRenderer.enabled = true;
                 }
             }
             
@@ -655,7 +700,7 @@ public class Prototype_GameManager : MonoBehaviour
 
     private void ShowAllBuildings(Player playerShip)
     {
-        List<Prototype_Tile> tiles = new List<Prototype_Tile>();
+        List<Tile> tiles = new List<Tile>();
 
         if (playerShip == Player.Player1)
         {
@@ -666,11 +711,11 @@ public class Prototype_GameManager : MonoBehaviour
             tiles = _tilesPlayer2;
         }
 
-        foreach (Prototype_Tile tile in tiles)
+        foreach (Tile tile in tiles)
         {
             if (tile.IsOccupied)
             {
-                tile.BuildingTileSpriteRenderer.enabled = true;
+                tile.RoomTileSpriteRenderer.enabled = true;
             }
 
         }
@@ -678,7 +723,7 @@ public class Prototype_GameManager : MonoBehaviour
 
     #endregion
 
-
+    #region Camera, Mode & Player
     public void SwitchPlayer()
     {
         if (_playerTurn == Player.Player1)
@@ -693,11 +738,11 @@ public class Prototype_GameManager : MonoBehaviour
         SwitchCamera();
 
         // update ui
-        Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
+        UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
 
-        Prototype_ManagerUI.instance.ShowChangerPlayerCanvas(_playerTurn);
+        UIManager.instance.ShowChangerPlayerCanvas(_playerTurn);
 
-        Prototype_Target.instance.HideTarget();
+        TargetController.instance.HideTarget();
         _targetOnTile = null;
     }
 
@@ -705,24 +750,24 @@ public class Prototype_GameManager : MonoBehaviour
     {
         if (_currentMode == Mode.Construction)
         {
-            Prototype_CameraController.instance.SwitchPlayerShipCamera(_playerTurn);
+            CameraController.instance.SwitchPlayerShipCamera(_playerTurn);
         }
         else // combat -> vaisseau ennemi
         {
             if (_playerTurn == Player.Player1)
             {
-                Prototype_CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
-                ShowOnlyDestroyedBuildings(Player.Player2);
+                CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
+                ShowOnlyDestroyedRooms(Player.Player2);
                 ShowAllBuildings(Player.Player1);
             }
             else
             {
-                Prototype_CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
-                ShowOnlyDestroyedBuildings(Player.Player1);
+                CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
+                ShowOnlyDestroyedRooms(Player.Player1);
                 ShowAllBuildings(Player.Player2);
             }
 
-            Prototype_EnergySystem.instance.GetRoundEnergy(_playerTurn);
+            EnergySystem.instance.GetRoundEnergy(_playerTurn);
         }
     }
 
@@ -731,8 +776,8 @@ public class Prototype_GameManager : MonoBehaviour
         if (_currentMode == Mode.Construction)
         {
             _currentMode = Mode.Combat;
-            Prototype_ManagerUI.instance.ShowTestHitButton();
-            Prototype_ManagerUI.instance.ShowEnergySlider();
+            UIManager.instance.ShowTestHitButton();
+            UIManager.instance.ShowEnergySlider();
         }
         else
         {
@@ -742,40 +787,13 @@ public class Prototype_GameManager : MonoBehaviour
         SwitchCamera();
 
         // update ui
-        Prototype_ManagerUI.instance.UpdateCurrentModeTxt(_currentMode);
+        UIManager.instance.UpdateCurrentModeTxt(_currentMode);
     }
 
     public Mode GetCurrentMode()
     {
         return _currentMode;
     }
+    #endregion
 
-    public void ValidateConstruction()
-    {
-        if (_constructionTimerCoroutine != null)
-        {
-            StopCoroutine(_constructionTimerCoroutine); 
-        }
-        SwitchPlayer();
-
-        if (_playerTurn == Player.Player1)
-        {
-            SwitchMode(); // -> Combat
-            Prototype_ManagerUI.instance.HideButtonValidateConstruction();
-            Prototype_ManagerUI.instance.ShowButtonsCombat();
-        }
-    }
-
-    public void CheckIfStartConstructionTimer()
-    {
-        if (_currentMode == Mode.Construction)
-        {
-            _constructionTimerCoroutine = StartCoroutine(StartConstructionTimer());
-        }
-    }
-
-    public bool IsTargetOnTile()
-    {
-        return _targetOnTile;
-    }
 }

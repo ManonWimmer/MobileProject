@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prototype_Grid : MonoBehaviour
+public class CustomGrid : MonoBehaviour
 {
     public Player PlayerShip;
 }

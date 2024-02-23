@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prototype_Building : MonoBehaviour
+public class Room : MonoBehaviour
 {
     // ----- FIELDS ----- //
     public SpriteRenderer CenterTileSR;

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public class Prototype_EnergySystem : MonoBehaviour
+public class EnergySystem : MonoBehaviour
 {
     // ----- FIELDS ----- //
-    public static Prototype_EnergySystem instance;
+    public static EnergySystem instance;
     [SerializeField] int _startEnergy = 10;
     [SerializeField] int _maxEnergy = 10;
     [SerializeField] int _tempGainEnergyPerTurn = 3;
@@ -57,14 +57,14 @@ public class Prototype_EnergySystem : MonoBehaviour
             _player1Energy += _tempGainEnergyPerTurn; // plus tard -> nbr générateurs ?
             _player1Energy = Mathf.Clamp(_player1Energy, 0, _maxEnergy);
 
-            Prototype_ManagerUI.instance.UpdateEnergySlider(player);
+            UIManager.instance.UpdateEnergySlider(player);
         }
         else
         {
             _player2Energy += _tempGainEnergyPerTurn; // plus tard -> nbr générateurs ?
             _player2Energy = Mathf.Clamp(_player2Energy, 0, _maxEnergy);
 
-            Prototype_ManagerUI.instance.UpdateEnergySlider(player);
+            UIManager.instance.UpdateEnergySlider(player);
         }
     }
 
@@ -77,7 +77,7 @@ public class Prototype_EnergySystem : MonoBehaviour
             if (_player1Energy - energyAmount >= 0)
             {
                 _player1Energy -= energyAmount;
-                Prototype_ManagerUI.instance.UpdateEnergySlider(player);
+                UIManager.instance.UpdateEnergySlider(player);
                 return true;
             }
         }
@@ -86,7 +86,7 @@ public class Prototype_EnergySystem : MonoBehaviour
             if (_player2Energy - energyAmount >= 0)
             {
                 _player2Energy -= energyAmount;
-                Prototype_ManagerUI.instance.UpdateEnergySlider(player);
+                UIManager.instance.UpdateEnergySlider(player);
                 return true;
             }
         }

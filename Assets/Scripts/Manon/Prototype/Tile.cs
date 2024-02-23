@@ -2,30 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prototype_Tile : MonoBehaviour
+public class Tile : MonoBehaviour
 {
     // ----- FIELDS ----- //
     public bool IsOccupied;
     public bool IsDestroyed;
     public bool IsMissed;
 
-    public Prototype_Building Building;
+    public Room Building;
 
     public int Row;
     public int Column;
 
-    public Prototype_Tile LeftTile;
-    public Prototype_Tile RightTile;
-    public Prototype_Tile TopTile;
-    public Prototype_Tile BottomTile;
+    public Tile LeftTile;
+    public Tile RightTile;
+    public Tile TopTile;
+    public Tile BottomTile;
 
-    public List<Prototype_Tile> BuildingOnOtherTiles = new List<Prototype_Tile>();
+    public List<Tile> RoomOnOtherTiles = new List<Tile>();
 
     private SpriteRenderer _spriteRenderer;
-    public SpriteRenderer BuildingTileSpriteRenderer;
+    public SpriteRenderer RoomTileSpriteRenderer;
 
-    // player -> parent grid player
-    // is vital
+    // scriptable object room
     // ----- FIELDS ----- //
 
     private void Start()
@@ -35,7 +34,7 @@ public class Prototype_Tile : MonoBehaviour
 
     private void Update()
     {
-        if (Prototype_GameManager.instance.GetCurrentMode() == Mode.Construction)
+        if (GameManager.instance.GetCurrentMode() == Mode.Construction)
         {
             if (IsOccupied)
             {
