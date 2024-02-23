@@ -16,3 +16,4 @@ MonoBehaviour:
   _description: piou piou
   _icon: {fileID: 21300000, guid: 85e4df903de1b3949bb55a954d4d6589, type: 3}
   _powerNeed: 4
+  _cooldown: 2
