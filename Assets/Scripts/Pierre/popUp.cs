@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class popUp : MonoBehaviour
 {
-    private GameObject _descriptionPage;
     [SerializeField] private TextMeshProUGUI _description;
     [SerializeField] private TextMeshProUGUI _name;
     [SerializeField] private TextMeshProUGUI _powerNeed;
@@ -15,7 +14,6 @@ public class popUp : MonoBehaviour
 
     private void Start()
     {
-        _descriptionPage = GetComponent<GameObject>();
         gameObject.SetActive(false);
     }
 
@@ -25,5 +23,10 @@ public class popUp : MonoBehaviour
         _name.text = scriptable._powerName;
         _powerNeed.text = scriptable._powerNeed.ToString();
         _icon.sprite = scriptable._icon;
+    }
+
+    public void Close()
+    {
+        gameObject.SetActive(false);
     }
 }
