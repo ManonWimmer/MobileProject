@@ -7,6 +7,8 @@ public class Prototype_Tile : MonoBehaviour
     // ----- FIELDS ----- //
     public bool IsOccupied;
     public bool IsDestroyed;
+    public bool IsMissed;
+
     public Prototype_Building Building;
 
     public int Row;
@@ -46,7 +48,14 @@ public class Prototype_Tile : MonoBehaviour
         }
         else
         {
-            _spriteRenderer.color = Color.black;
+            if (IsDestroyed || IsMissed)
+            {
+                _spriteRenderer.color = Color.red;
+            }
+            else
+            {
+                _spriteRenderer.color = Color.black;
+            }
         }
     }
 }

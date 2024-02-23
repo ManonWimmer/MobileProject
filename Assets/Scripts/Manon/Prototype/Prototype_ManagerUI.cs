@@ -20,6 +20,11 @@ public class Prototype_ManagerUI : MonoBehaviour
 
     [SerializeField] Slider _energySlider;
     [SerializeField] TMP_Text _energyTxt;
+
+    [SerializeField] Image _testHitButton;
+    [SerializeField] int _testHitEnergy = 2;
+
+    private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -29,9 +34,12 @@ public class Prototype_ManagerUI : MonoBehaviour
 
     private void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+
         ShowButtonValidateConstruction();
         HideButtonValidateCombat();
         HideEnergySlider();
+        HideTestHitButton();
     }
 
     public void UpdateCurrentPlayerTxt(Player playerTurn)
@@ -112,6 +120,30 @@ public class Prototype_ManagerUI : MonoBehaviour
     public void UpdateEnergySlider(Player player)
     {
         _energySlider.value = Prototype_EnergySystem.instance.GetPlayerEnergy(player);
-        _energyTxt.text = "Energy \n" + _energySlider.value + "/" + _energySlider.maxValue;   
+        _energyTxt.text = "Energy \n" + _energySlider.value + "/" + _energySlider.maxValue;
+
+        CheckTestHitColor();
+    }
+
+    public void CheckTestHitColor()
+    {
+        if (_energySlider.value >= _testHitEnergy && Prototype_GameManager.instance.IsTargetOnTile() && Prototype_Target.instance.CanShootOnThisTile())
+        {
+            _testHitButton.color = Color.white;
+        }
+        else
+        {
+            _testHitButton.color = Color.gray;
+        } 
+    }
+
+    public void ShowTestHitButton()
+    {
+        _testHitButton.gameObject.SetActive(true);
+    }
+
+    public void HideTestHitButton()
+    {
+        _testHitButton.gameObject.SetActive(false);
     }
 }
