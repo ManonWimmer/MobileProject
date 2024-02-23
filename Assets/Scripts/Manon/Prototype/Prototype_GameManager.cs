@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.WSA;
@@ -29,6 +30,11 @@ public class Prototype_GameManager : MonoBehaviour
     [SerializeField] GameObject _gridPlayer1;
     [SerializeField] GameObject _gridPlayer2;
     [SerializeField] List<Prototype_Building> _startBuildings = new List<Prototype_Building>();
+
+    [SerializeField] float _constructionTimerSeconds = 120f;
+    private float _constructionTimerElapsedSeconds = 0f;
+    private float _constructionTimerRemainingSeconds;
+    private Coroutine _constructionTimerCoroutine;
 
     private Dictionary<Tuple<int, int>, Prototype_Tile> _dictTilesRowColumnPlayer1 = new Dictionary<Tuple<int, int>, Prototype_Tile>();
     private Dictionary<Tuple<int, int>, Prototype_Tile> _dictTilesRowColumnPlayer2 = new Dictionary<Tuple<int, int>, Prototype_Tile>();
@@ -171,6 +177,31 @@ public class Prototype_GameManager : MonoBehaviour
         // Update UI
         Prototype_ManagerUI.instance.UpdateCurrentPlayerTxt(_playerTurn);
         Prototype_ManagerUI.instance.UpdateCurrentModeTxt(_currentMode);
+
+        // a changer plus tard, mettre après les choix de compétences
+        if (_currentMode == Mode.Construction)
+        {
+            _constructionTimerCoroutine = StartCoroutine(StartConstructionTimer());
+        }
+    }
+
+    private IEnumerator StartConstructionTimer()
+    {
+        _constructionTimerElapsedSeconds = 0f;
+        _constructionTimerRemainingSeconds = _constructionTimerSeconds;
+
+        while (_constructionTimerElapsedSeconds < _constructionTimerSeconds)
+        {
+            _constructionTimerElapsedSeconds += Time.deltaTime;
+            _constructionTimerRemainingSeconds = _constructionTimerSeconds - _constructionTimerElapsedSeconds;
+
+            Prototype_ManagerUI.instance.UpdateConstructionTimerTxt(_constructionTimerRemainingSeconds);
+            yield return null;
+        }
+
+        // Le timer est terminé, faire quelque chose ici
+        Debug.Log("Timer terminé !");
+        ValidateConstruction();
     }
 
     private void Update()
@@ -676,12 +707,25 @@ public class Prototype_GameManager : MonoBehaviour
 
     public void ValidateConstruction()
     {
+        if (_constructionTimerCoroutine != null)
+        {
+            StopCoroutine(_constructionTimerCoroutine); 
+        }
         SwitchPlayer();
+
         if (_playerTurn == Player.Player1)
         {
             SwitchMode(); // -> Combat
             Prototype_ManagerUI.instance.HideButtonValidateConstruction();
             Prototype_ManagerUI.instance.ShowButtonValidateCombat();
+        }
+    }
+
+    public void CheckIfStartConstructionTimer()
+    {
+        if (_currentMode == Mode.Construction)
+        {
+            _constructionTimerCoroutine = StartCoroutine(StartConstructionTimer());
         }
     }
 

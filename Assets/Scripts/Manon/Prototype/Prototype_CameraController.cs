@@ -63,6 +63,7 @@ public class Prototype_CameraController : MonoBehaviour
             _cameraShipPlayer2.enabled = true;
         }
 
+
         //StartCoroutine(LerpPosition());
         //transform.position = new Vector3(_currentTarget.position.x, _currentTarget.position.y, -10);
     }

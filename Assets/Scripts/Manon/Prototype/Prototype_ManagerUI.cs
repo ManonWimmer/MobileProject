@@ -15,6 +15,7 @@ public class Prototype_ManagerUI : MonoBehaviour
 
     [SerializeField] GameObject _changePlayerCanvas;
     [SerializeField] TMP_Text _changePlayerCanvasTxt;
+    [SerializeField] TMP_Text _constructionTimeRemainingTxt;
     public bool ChangingPlayer;
     // ----- FIELDS ----- //
 
@@ -69,9 +70,23 @@ public class Prototype_ManagerUI : MonoBehaviour
         ChangingPlayer = true;
     }
 
-    public void HideChangerPlayerCanvas()
+    public void HideChangePlayerCanvas()
     {
         _changePlayerCanvas.SetActive(false);
         ChangingPlayer = false;
+
+        Prototype_GameManager.instance.CheckIfStartConstructionTimer();
+    }
+
+    public void UpdateConstructionTimerTxt(float remainingTime)
+    {
+        remainingTime += 1;
+        if (remainingTime < 0)
+        {
+            remainingTime = 0;
+        }
+        int minutes = Mathf.FloorToInt(remainingTime / 60f);
+        int seconds = Mathf.FloorToInt(remainingTime % 60f);
+        _constructionTimeRemainingTxt.text = string.Format("({0:00}:{1:00} remaining...)", minutes, seconds);
     }
 }
