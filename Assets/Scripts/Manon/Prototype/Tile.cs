@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
     public bool IsDestroyed;
     public bool IsMissed;
 
-    public Room Building;
+    public Room Room;
 
     public int Row;
     public int Column;
@@ -23,8 +23,6 @@ public class Tile : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     public SpriteRenderer RoomTileSpriteRenderer;
-
-    // scriptable object room
     // ----- FIELDS ----- //
 
     private void Start()

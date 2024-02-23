@@ -10,6 +10,7 @@ public class Room : MonoBehaviour
     public List<SpriteRenderer> RightTilesSR = new List<SpriteRenderer>();
     public List<SpriteRenderer> TopTilesSR = new List<SpriteRenderer>();
     public List<SpriteRenderer> BottomTilesSR = new List<SpriteRenderer>();
-    // ----- FIELDS ----- //
 
+    public RoomSO RoomData;
+    // ----- FIELDS ----- //
 }

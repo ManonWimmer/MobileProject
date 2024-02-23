@@ -24,11 +24,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image _testHitButton;
     [SerializeField] int _testHitEnergy = 2;
 
-    [SerializeField] GameObject _infosRoomOrAbility;
-    [SerializeField] TMP_Text _infosTitle;
-    [SerializeField] TMP_Text _infosName;
-    [SerializeField] TMP_Text _infosDescription;
+    [SerializeField] GameObject _infosAbility;
+    [SerializeField] TMP_Text _infosNameAbility;
+    [SerializeField] TMP_Text _infosDescriptionAbility;
     [SerializeField] TMP_Text _infosEnergy;
+
+    [SerializeField] GameObject _infosRoom;
+    [SerializeField] Image _infosRoomIcon;
+    [SerializeField] Image _infosRoomPattern;
+    [SerializeField] TMP_Text _infosNameRoom;
+    [SerializeField] TMP_Text _infosNameRoomAbility;
+    [SerializeField] TMP_Text _infosDescriptionRoomAbility;
+
 
     [SerializeField] List<GameObject> _abilityButtons = new List<GameObject>();
 
@@ -48,7 +55,8 @@ public class UIManager : MonoBehaviour
         HideButtonsCombat();
         HideEnergySlider();
         HideTestHitButton();
-        HideFiche();
+        HideFicheAbility();
+        HideFicheRoom();
         HideValidateCombat();
     }
 
@@ -188,27 +196,35 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    #region Fiche
-    public void ShowFicheRoom()
+    #region Fiche Ability & Room
+    public void ShowFicheAbility(scriptablePower abilityData)
     {
-        _infosRoomOrAbility.SetActive(true);
-        _infosEnergy.enabled = false;
+        _infosAbility.SetActive(true);
+
+        _infosNameAbility.text = "Name : " + abilityData._powerName;
+        _infosDescriptionAbility.text = "Description : \n\n" +abilityData._description;
+        _infosEnergy.text = "Power needed : " + abilityData._powerNeed.ToString();
     }
 
-    public void ShowFicheAbility(scriptablePower ability)
+    public void HideFicheAbility()
     {
-        _infosRoomOrAbility.SetActive(true);
-        _infosEnergy.enabled = true;
-
-        _infosTitle.text = "Ability";
-        _infosName.text = "Name : " + ability._powerName;
-        _infosDescription.text = "Description : \n\n" +ability._description;
-        _infosEnergy.text = "Power needed : " + ability._powerNeed.ToString();
+        _infosAbility.SetActive(false);
     }
 
-    public void HideFiche()
+    public void ShowFicheRoom(RoomSO roomData)
     {
-        _infosRoomOrAbility.SetActive(false);
+        _infosRoom.SetActive(true);
+
+        _infosRoomIcon.sprite = roomData.RoomIcon;
+        _infosRoomPattern.sprite = roomData.RoomPatternImg;
+        _infosNameRoom.text = roomData.RoomName;
+        _infosNameRoomAbility.text = roomData.RoomAbility._powerName;
+        _infosDescriptionRoomAbility.text = roomData.RoomAbility._description;
+    }
+
+    public void HideFicheRoom()
+    {
+        _infosRoom.SetActive(false);
     }
     #endregion
 }

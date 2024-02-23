@@ -247,7 +247,7 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("new building to move");
                 // select move building
-                _roomToMove = nearestTile.Building;
+                _roomToMove = nearestTile.Room;
                 nearestTile.IsOccupied = false;
 
                 SetBuildingTilesNotOccupied(_roomToMove, nearestTile);
@@ -269,10 +269,12 @@ public class GameManager : MonoBehaviour
         {
             TargetController.instance.ChangeTargetColorToRed();
             UIManager.instance.CheckTestHitColor();
+            UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
         }
         else
         {
             TargetController.instance.ChangeTargetColorToWhite();
+            UIManager.instance.HideFicheRoom();
         }
 
         UIManager.instance.CheckTestHitColor();
@@ -295,7 +297,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (_targetOnTile.IsOccupied)
                     {
-                        Debug.Log("hit room " + _targetOnTile.Building.name);
+                        Debug.Log("hit room " + _targetOnTile.Room.name);
                         _targetOnTile.RoomTileSpriteRenderer.color = Color.magenta;
                         _targetOnTile.IsDestroyed = true;
 
@@ -308,11 +310,15 @@ public class GameManager : MonoBehaviour
                         {
                             ShowOnlyDestroyedRooms(Player.Player1);
                         }
+
+                        UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
                     }
                     else
                     {
                         _targetOnTile.IsMissed = true;
                         Debug.Log("no room on hit");
+
+                        UIManager.instance.HideFicheRoom();
                     }
 
                     TargetController.instance.ChangeTargetColorToRed();
@@ -479,7 +485,7 @@ public class GameManager : MonoBehaviour
         Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -5), Quaternion.identity);
         //newBuilding.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -5); // adjust to tile position
 
-        tile.Building = newBuilding;
+        tile.Room = newBuilding;
         tile.IsOccupied = true;
 
         SetBuildingTilesOccupied(newBuilding, tile);
@@ -507,7 +513,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.LeftTilesSR.Count; i++)
             {
                 tile.LeftTile.IsOccupied = true;
-                tile.LeftTile.Building = building;
+                tile.LeftTile.Room = building;
                 tile.LeftTile.RoomTileSpriteRenderer = building.LeftTilesSR[i];
 
                 currentTile = tile.LeftTile;
@@ -521,7 +527,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.RightTilesSR.Count; i++)
             {
                 tile.RightTile.IsOccupied = true;
-                tile.RightTile.Building = building;
+                tile.RightTile.Room = building;
                 tile.RightTile.RoomTileSpriteRenderer = building.RightTilesSR[i];
 
                 currentTile = tile.RightTile;
@@ -535,7 +541,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.TopTilesSR.Count; i++)
             {
                 tile.TopTile.IsOccupied = true;
-                tile.TopTile.Building = building;
+                tile.TopTile.Room = building;
                 tile.TopTile.RoomTileSpriteRenderer = building.TopTilesSR[i];
 
                 currentTile = tile.TopTile; 
@@ -549,7 +555,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.BottomTilesSR.Count; i++)
             {
                 tile.BottomTile.IsOccupied = true;
-                tile.BottomTile.Building = building;
+                tile.BottomTile.Room = building;
                 tile.BottomTile.RoomTileSpriteRenderer = building.BottomTilesSR[i];
 
                 currentTile = tile.BottomTile;
@@ -698,7 +704,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ShowAllBuildings(Player playerShip)
+    private void ShowAllRooms(Player playerShip)
     {
         List<Tile> tiles = new List<Tile>();
 
@@ -758,13 +764,13 @@ public class GameManager : MonoBehaviour
             {
                 CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
                 ShowOnlyDestroyedRooms(Player.Player2);
-                ShowAllBuildings(Player.Player1);
+                ShowAllRooms(Player.Player1);
             }
             else
             {
                 CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
                 ShowOnlyDestroyedRooms(Player.Player1);
-                ShowAllBuildings(Player.Player2);
+                ShowAllRooms(Player.Player2);
             }
 
             EnergySystem.instance.GetRoundEnergy(_playerTurn);
