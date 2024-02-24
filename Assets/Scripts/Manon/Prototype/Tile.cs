@@ -6,6 +6,7 @@ public class Tile : MonoBehaviour
 {
     // ----- FIELDS ----- //
     public bool IsOccupied;
+    public bool IsReavealed;
     public bool IsDestroyed;
     public bool IsMissed;
 
@@ -45,7 +46,7 @@ public class Tile : MonoBehaviour
         }
         else
         {
-            if (IsDestroyed || IsMissed)
+            if (IsDestroyed || IsMissed || IsReavealed)
             {
                 _spriteRenderer.color = Color.red;
             }

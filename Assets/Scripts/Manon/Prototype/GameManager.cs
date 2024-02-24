@@ -44,6 +44,10 @@ public class GameManager : MonoBehaviour
 
     private Player _playerTurn;
     private Mode _currentMode = Mode.Construction;
+
+    public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
+    public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
+
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -268,7 +272,6 @@ public class GameManager : MonoBehaviour
         if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
         {
             TargetController.instance.ChangeTargetColorToRed();
-            UIManager.instance.CheckTestHitColor();
             UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
         }
         else
@@ -277,65 +280,12 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideFicheRoom();
         }
 
-        UIManager.instance.CheckTestHitColor();
+        UIManager.instance.CheckAbilityButtonsColor();
     }
 
     public bool IsTargetOnTile()
     {
         return _targetOnTile;
-    }
-    #endregion
-
-    #region Test Hit
-    public void TestHit()
-    {
-        if (_targetOnTile != null)
-        {
-            if (!_targetOnTile.IsDestroyed && !_targetOnTile.IsMissed) // tile jamais hit
-            {
-                if (EnergySystem.instance.TryUseEnergy(_playerTurn, 2)) // 2 temp -> energy cost de la compétence SO
-                {
-                    if (_targetOnTile.IsOccupied)
-                    {
-                        Debug.Log("hit room " + _targetOnTile.Room.name);
-                        _targetOnTile.RoomTileSpriteRenderer.color = Color.magenta;
-                        _targetOnTile.IsDestroyed = true;
-
-                        // update hidden rooms
-                        if (_playerTurn == Player.Player1)
-                        {
-                            ShowOnlyDestroyedRooms(Player.Player2);
-                        }
-                        else
-                        {
-                            ShowOnlyDestroyedRooms(Player.Player1);
-                        }
-
-                        UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
-                    }
-                    else
-                    {
-                        _targetOnTile.IsMissed = true;
-                        Debug.Log("no room on hit");
-
-                        UIManager.instance.HideFicheRoom();
-                    }
-
-                    TargetController.instance.ChangeTargetColorToRed();
-                }
-                else
-                {
-                    Debug.Log("pas assez d'energie! (5 demandées)");
-                }
-            }
-            else
-            {
-                // already hit that tile
-                TargetController.instance.ChangeTargetColorToRed();
-            }
-        }  
-        
-        // update button color
     }
     #endregion
 
@@ -674,7 +624,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Combat
-    private void ShowOnlyDestroyedRooms(Player playerShip)
+    public void ShowOnlyDestroyedAndReavealedRooms(Player playerShip)
     {
         List<Tile> tiles = new List<Tile>();
 
@@ -691,7 +641,7 @@ public class GameManager : MonoBehaviour
         {
             if (tile.IsOccupied)
             {
-                if (!tile.IsDestroyed)
+                if (!tile.IsDestroyed && !tile.IsReavealed)
                 {
                     tile.RoomTileSpriteRenderer.enabled = false;
                 }
@@ -704,7 +654,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ShowAllRooms(Player playerShip)
+    public void ShowAllRooms(Player playerShip)
     {
         List<Tile> tiles = new List<Tile>();
 
@@ -763,13 +713,13 @@ public class GameManager : MonoBehaviour
             if (_playerTurn == Player.Player1)
             {
                 CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
-                ShowOnlyDestroyedRooms(Player.Player2);
+                ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
                 ShowAllRooms(Player.Player1);
             }
             else
             {
                 CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
-                ShowOnlyDestroyedRooms(Player.Player1);
+                ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
                 ShowAllRooms(Player.Player2);
             }
 
@@ -782,7 +732,6 @@ public class GameManager : MonoBehaviour
         if (_currentMode == Mode.Construction)
         {
             _currentMode = Mode.Combat;
-            UIManager.instance.ShowTestHitButton();
             UIManager.instance.ShowEnergySlider();
         }
         else

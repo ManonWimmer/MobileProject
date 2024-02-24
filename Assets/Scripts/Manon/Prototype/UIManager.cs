@@ -21,9 +21,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] Slider _energySlider;
     [SerializeField] TMP_Text _energyTxt;
 
-    [SerializeField] Image _testHitButton;
-    [SerializeField] int _testHitEnergy = 2;
-
     [SerializeField] GameObject _infosAbility;
     [SerializeField] TMP_Text _infosNameAbility;
     [SerializeField] TMP_Text _infosDescriptionAbility;
@@ -54,7 +51,6 @@ public class UIManager : MonoBehaviour
         ShowButtonValidateConstruction();
         HideButtonsCombat();
         HideEnergySlider();
-        HideTestHitButton();
         HideFicheAbility();
         HideFicheRoom();
         HideValidateCombat();
@@ -114,6 +110,24 @@ public class UIManager : MonoBehaviour
 
         ShowValidateCombat();
     }
+
+    public void CheckAbilityButtonsColor()
+    {
+        Debug.Log("check ability buttons color");
+        foreach (GameObject abilityButton in _abilityButtons)
+        {
+            AbilityButton button = abilityButton.GetComponentInChildren<AbilityButton>();
+            if (_energySlider.value >= button.GetAbility()._powerNeed && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile())
+            {
+                button.GetComponent<Image>().color = Color.white;
+            }
+            else
+            {
+                button.GetComponent<Image>().color = Color.gray;
+            }
+        }
+    }
+
     #endregion
 
     #region Change Player
@@ -167,32 +181,7 @@ public class UIManager : MonoBehaviour
         _energySlider.value = EnergySystem.instance.GetPlayerEnergy(player);
         _energyTxt.text = "Energy \n" + _energySlider.value + "/" + _energySlider.maxValue;
 
-        CheckTestHitColor();
-    }
-    #endregion
-
-    #region Test Hit
-    public void CheckTestHitColor()
-    {
-        Debug.Log("check test hit color");
-        if (_energySlider.value >= _testHitEnergy && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile())
-        {
-            _testHitButton.color = Color.white;
-        }
-        else
-        {
-            _testHitButton.color = Color.gray;
-        } 
-    }
-
-    public void ShowTestHitButton()
-    {
-        _testHitButton.gameObject.SetActive(true);
-    }
-
-    public void HideTestHitButton()
-    {
-        _testHitButton.gameObject.SetActive(false);
+        CheckAbilityButtonsColor();
     }
     #endregion
 
@@ -201,14 +190,29 @@ public class UIManager : MonoBehaviour
     {
         _infosAbility.SetActive(true);
 
-        _infosNameAbility.text = "Name : " + abilityData._powerName;
-        _infosDescriptionAbility.text = "Description : \n\n" +abilityData._description;
-        _infosEnergy.text = "Power needed : " + abilityData._powerNeed.ToString();
+        UpdateFicheAbility(abilityData);
     }
 
     public void HideFicheAbility()
     {
         _infosAbility.SetActive(false);
+    }
+
+    public bool IsFicheAbilityOpened()
+    {
+        return _infosAbility.activeSelf;
+    }
+
+    public void UpdateFicheAbility(scriptablePower abilityData)
+    {
+        _infosNameAbility.text = "Name : " + abilityData._powerName;
+        _infosDescriptionAbility.text = "Description : \n\n" + abilityData._description;
+        _infosEnergy.text = "Power needed : " + abilityData._powerNeed.ToString();
+    }
+
+    public bool IsFicheAbilityWithSameAbility(scriptablePower abilityData)
+    {
+        return _infosNameAbility.text == "Name : " + abilityData._powerName;
     }
 
     public void ShowFicheRoom(RoomSO roomData)

@@ -8,8 +8,23 @@ public class AbilityFiche : MonoBehaviour
     [SerializeField] AbilityButton _abilityButton;
     // ----- FIELDS ----- //
 
-    public void ShowAbilityFiche()
+    public void ToggleAbilityFiche()
     {
-        UIManager.instance.ShowFicheAbility(_abilityButton.GetAbility());
+        if (UIManager.instance.IsFicheAbilityOpened())
+        {
+            if (UIManager.instance.IsFicheAbilityWithSameAbility(_abilityButton.GetAbility()))
+            {
+                UIManager.instance.HideFicheAbility();
+            }
+            else
+            {
+                UIManager.instance.UpdateFicheAbility(_abilityButton.GetAbility());
+            }
+        }
+        else
+        {
+            UIManager.instance.ShowFicheAbility(_abilityButton.GetAbility());
+        }
+
     }
 }

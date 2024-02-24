@@ -45,7 +45,7 @@ public class TargetController : MonoBehaviour
     {
         Debug.Log("target red");
         _spriteRenderer.color = Color.red;
-        UIManager.instance.CheckTestHitColor();
+        UIManager.instance.CheckAbilityButtonsColor();
     }
 
     public void ChangeTargetColorToWhite()
