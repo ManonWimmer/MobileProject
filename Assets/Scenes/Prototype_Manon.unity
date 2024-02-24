@@ -9839,8 +9839,6 @@ MonoBehaviour:
   ChangingPlayer: 0
   _energySlider: {fileID: 468370507}
   _energyTxt: {fileID: 1804980193}
-  _testHitButton: {fileID: 1442200429}
-  _testHitEnergy: 2
   _infosAbility: {fileID: 1367382857}
   _infosNameAbility: {fileID: 25025397}
   _infosDescriptionAbility: {fileID: 1506265749}
@@ -13281,7 +13279,7 @@ MonoBehaviour:
   _gridPlayer2: {fileID: 727498661}
   _startRooms:
   - {fileID: 200755579937151920, guid: 635a398eba240c94ba0cbdad8b89f63e, type: 3}
-  - {fileID: 200755579937151920, guid: b6bc47e7b7279804582cb9b200885f6c, type: 3}
+  - {fileID: 200755579937151920, guid: de095271680e49f4a91f438488bf19f3, type: 3}
   _constructionTimerSeconds: 10
 --- !u!4 &1857460080
 Transform:

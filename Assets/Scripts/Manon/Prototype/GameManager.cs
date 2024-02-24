@@ -328,6 +328,7 @@ public class GameManager : MonoBehaviour
             return false;
         }
 
+        #region Left, Right, Bottom Top
         // left
         if (building.LeftTilesSR.Count > 0) 
         {
@@ -421,8 +422,103 @@ public class GameManager : MonoBehaviour
                 currentTile = tile.TopTile;
             }
         }
+        #endregion
 
+        #region Diag Left & Right Botton - Left & Right Top
+        // diag left bottom
+        if (building.DiagBottomLeftTilesSR.Count > 0)
+        {
+            Tile currentTile = tile;
+            for (int i = 0; i < building.DiagBottomLeftTilesSR.Count; i++)
+            {
+                if (tile.LeftTile.BottomTile != null)
+                {
+                    if (tile.LeftTile.BottomTile.IsOccupied)
+                    {
+                        Debug.Log("left tile occupied " + i);
+                        return false;
+                    }
 
+                }
+                else
+                {
+                    Debug.Log("no tile at left " + i);
+                    return false;
+                }
+
+                currentTile = tile.LeftTile.BottomTile;
+            }
+        }
+        // diag right bottom
+        if (building.DiagBottomRightTilesSR.Count > 0)
+        {
+            Tile currentTile = tile;
+            for (int i = 0; i < building.DiagBottomRightTilesSR.Count; i++)
+            {
+                if (tile.RightTile.BottomTile != null)
+                {
+                    if (tile.RightTile.BottomTile.IsOccupied)
+                    {
+                        Debug.Log("right tile occupied " + i);
+                        return false;
+                    }
+                }
+                else
+                {
+                    Debug.Log("no tile at right " + i);
+                    return false;
+                }
+
+                currentTile = tile.RightTile.BottomTile;
+            }
+        }
+        // diag left top
+        if (building.DiagTopLeftTilesSR.Count > 0)
+        {
+            Tile currentTile = tile;
+            for (int i = 0; i < building.DiagTopLeftTilesSR.Count; i++)
+            {
+                if (tile.LeftTile.TopTile != null)
+                {
+                    if (tile.LeftTile.TopTile.IsOccupied)
+                    {
+                        Debug.Log("bottom tile occupied " + i);
+                        return false;
+                    }
+                }
+                else
+                {
+                    Debug.Log("no tile at bottom " + i);
+                    return false;
+                }
+
+                currentTile = tile.LeftTile.TopTile;
+            }
+        }
+        // diag right top
+        if (building.DiagTopRightTilesSR.Count > 0)
+        {
+            Tile currentTile = tile;
+            for (int i = 0; i < building.DiagTopRightTilesSR.Count; i++)
+            {
+                if (tile.RightTile.TopTile != null)
+                {
+                    if (tile.RightTile.TopTile.IsOccupied)
+                    {
+                        Debug.Log("bottom tile occupied " + i);
+                        return false;
+                    }
+                }
+                else
+                {
+                    Debug.Log("no tile at bottom " + i);
+                    return false;
+                }
+
+                currentTile = tile.RightTile.TopTile;
+            }
+        }
+        #endregion
         Debug.Log("can build");
         return true;
     }
@@ -456,6 +552,7 @@ public class GameManager : MonoBehaviour
         tiles.Add(tile); // center
         tile.RoomTileSpriteRenderer = building.CenterTileSR;
 
+        #region Left, Right, Top & Bottom
         // left
         if (building.LeftTilesSR.Count > 0)
         {
@@ -512,8 +609,66 @@ public class GameManager : MonoBehaviour
                 tiles.Add(currentTile);
             }
         }
-        Debug.Log(tiles.Count);
+        #endregion
 
+        #region Diag Left & Right Bottom - Left & Right Top
+        // diag left bottom
+        if (building.DiagBottomLeftTilesSR.Count > 0)
+        {
+            Tile currentTile = tile;
+            for (int i = 0; i < building.DiagBottomLeftTilesSR.Count; i++)
+            {
+                tile.LeftTile.BottomTile.IsOccupied = true;
+                tile.LeftTile.BottomTile.Room = building;
+                tile.LeftTile.BottomTile.RoomTileSpriteRenderer = building.DiagBottomLeftTilesSR[i];
+
+                currentTile = tile.LeftTile.BottomTile;
+                tiles.Add(currentTile);
+            }
+        }
+        // diag right bottom
+        if (building.DiagBottomRightTilesSR.Count > 0)
+        {
+            Tile currentTile = tile;
+            for (int i = 0; i < building.DiagBottomRightTilesSR.Count; i++)
+            {
+                tile.RightTile.BottomTile.IsOccupied = true;
+                tile.RightTile.BottomTile.Room = building;
+                tile.RightTile.BottomTile.RoomTileSpriteRenderer = building.DiagBottomRightTilesSR[i];
+
+                currentTile = tile.RightTile.BottomTile;
+                tiles.Add(currentTile);
+            }
+        }
+        // diag left top
+        if (building.DiagTopLeftTilesSR.Count > 0)
+        {
+            Tile currentTile = tile;
+            for (int i = 0; i < building.DiagTopLeftTilesSR.Count; i++)
+            {
+                tile.LeftTile.TopTile.IsOccupied = true;
+                tile.LeftTile.TopTile.Room = building;
+                tile.LeftTile.TopTile.RoomTileSpriteRenderer = building.DiagTopLeftTilesSR[i];
+
+                currentTile = tile.LeftTile.TopTile;
+                tiles.Add(currentTile);
+            }
+        }
+        // diag right top
+        if (building.DiagTopRightTilesSR.Count > 0)
+        {
+            Tile currentTile = tile;
+            for (int i = 0; i < building.DiagTopRightTilesSR.Count; i++)
+            {
+                tile.RightTile.TopTile.IsOccupied = true;
+                tile.RightTile.TopTile.Room = building;
+                tile.RightTile.TopTile.RoomTileSpriteRenderer = building.DiagTopRightTilesSR[i];
+
+                currentTile = tile.RightTile.TopTile;
+                tiles.Add(currentTile);
+            }
+        }
+        #endregion
 
         foreach (Tile buildingTile in tiles)
         {

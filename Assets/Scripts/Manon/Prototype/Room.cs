@@ -11,6 +11,11 @@ public class Room : MonoBehaviour
     public List<SpriteRenderer> TopTilesSR = new List<SpriteRenderer>();
     public List<SpriteRenderer> BottomTilesSR = new List<SpriteRenderer>();
 
+    public List<SpriteRenderer> DiagBottomLeftTilesSR = new List<SpriteRenderer>();
+    public List<SpriteRenderer> DiagBottomRightTilesSR = new List<SpriteRenderer>();
+    public List<SpriteRenderer> DiagTopLeftTilesSR = new List<SpriteRenderer>();
+    public List<SpriteRenderer> DiagTopRightTilesSR = new List<SpriteRenderer>();
+
     public RoomSO RoomData;
     // ----- FIELDS ----- //
 }
