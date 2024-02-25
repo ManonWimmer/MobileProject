@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
 {
     // ----- FIELDS ----- //
     public static UIManager instance;
+
+    [SerializeField] GameObject _gameCanvas;
+
     [SerializeField] TMP_Text _currentPlayerTxt;
     [SerializeField] TMP_Text _currentModeTxt;
     [SerializeField] GameObject _buttonValidateConstruction;
@@ -54,6 +57,16 @@ public class UIManager : MonoBehaviour
         HideFicheAbility();
         HideFicheRoom();
         HideValidateCombat();
+    }
+
+    public void HideGameCanvas()
+    {
+        _gameCanvas.SetActive(false);
+    }
+
+    public void ShowGameCanvas()
+    {
+        _gameCanvas.SetActive(true);
     }
 
     #region CurrentPlayer
@@ -141,9 +154,15 @@ public class UIManager : MonoBehaviour
     public void HideChangePlayerCanvas()
     {
         _changePlayerCanvas.SetActive(false);
-        ChangingPlayer = false;
+        StartCoroutine(WaitBeforeCanMoveConstruction());
 
         GameManager.instance.CheckIfStartConstructionTimer();
+    }
+
+    private IEnumerator WaitBeforeCanMoveConstruction() // sinon click sur ready et ça sélectionne direct une salle si en dessous
+    {
+        yield return new WaitForSeconds(0.5f);
+        ChangingPlayer = false;
     }
     #endregion
 

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16a99debe98348e4ca84da7e5acc4b73, type: 3}
-  m_Name: TestRoom03
+  m_Name: TestRoom04
   m_EditorClassIdentifier: 
-  RoomName: Test Room 03
-  RoomIcon: {fileID: 21300000, guid: adf8673d8f34cc14d985eb18a5d4113d, type: 3}
-  RoomPatternImg: {fileID: 21300000, guid: ec75fdd81b7777b4b90f6733e5f17efb, type: 3}
+  RoomName: Test Room 04
+  RoomIcon: {fileID: 21300000, guid: 347ba161e48826b48a9507398c1b0e6b, type: 3}
+  RoomPatternImg: {fileID: 21300000, guid: 0c0b168cf29d4004fb2c0408fc0f43bf, type: 3}
   RoomAbility: {fileID: 11400000, guid: 0496029f2df908c4cbe22288cf3ced03, type: 2}
   IsRoomDestroyed: 0
