@@ -15,8 +15,10 @@ public class SimpleHit : MonoBehaviour
                     if (GameManager.instance.TargetOnTile.IsOccupied)
                     {
                         Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
-                        GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.magenta;
+                        GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.black;
                         GameManager.instance.TargetOnTile.IsDestroyed = true;
+
+                        GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
 
                         // update hidden rooms
                         if (GameManager.instance.PlayerTurn == Player.Player1)

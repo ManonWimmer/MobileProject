@@ -15,7 +15,7 @@ public class SimpleReveal : MonoBehaviour
                     if (GameManager.instance.TargetOnTile.IsOccupied)
                     {
                         Debug.Log("reveal room " + GameManager.instance.TargetOnTile.Room.name);
-                        //GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.magenta;
+                        
                         GameManager.instance.TargetOnTile.IsReavealed = true;
 
                         // update hidden rooms

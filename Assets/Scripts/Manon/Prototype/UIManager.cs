@@ -154,16 +154,11 @@ public class UIManager : MonoBehaviour
     public void HideChangePlayerCanvas()
     {
         _changePlayerCanvas.SetActive(false);
-        StartCoroutine(WaitBeforeCanMoveConstruction());
-
+        ChangingPlayer = false;
+        
         GameManager.instance.CheckIfStartConstructionTimer();
     }
 
-    private IEnumerator WaitBeforeCanMoveConstruction() // sinon click sur ready et ça sélectionne direct une salle si en dessous
-    {
-        yield return new WaitForSeconds(0.5f);
-        ChangingPlayer = false;
-    }
     #endregion
 
     #region Construction Timer

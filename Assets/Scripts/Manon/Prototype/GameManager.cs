@@ -202,7 +202,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (UIManager.instance.ChangingPlayer && !_gameStarted)
+        if (UIManager.instance.ChangingPlayer || !_gameStarted)
         {
             _roomOnMouse = null;
             return;
@@ -862,7 +862,30 @@ public class GameManager : MonoBehaviour
                     tile.RoomTileSpriteRenderer.enabled = true;
                 }
             }
-            
+        }
+    }
+
+    public void CheckIfTargetRoomIsCompletelyDestroyed()
+    {
+        bool roomCompletelyDestroyed = true;
+
+        foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
+        {
+            if (!tile.IsDestroyed)
+            {
+                roomCompletelyDestroyed = false;
+            }
+        }
+
+        if (roomCompletelyDestroyed)
+        {
+            _targetOnTile.RoomTileSpriteRenderer.color = Color.red;
+
+            foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
+            {
+                tile.RoomTileSpriteRenderer.color = Color.red;
+                tile.Room.RoomData.IsRoomDestroyed = true;
+            }
         }
     }
 
