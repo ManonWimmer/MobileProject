@@ -12,6 +12,7 @@ public enum Player
 
 public enum Mode
 {
+    Draft,
     Construction, 
     Combat
 }
@@ -23,7 +24,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject _gridPlayer1;
     [SerializeField] GameObject _gridPlayer2;
+
     [SerializeField] List<Room> _startRooms = new List<Room>();
+    [SerializeField] List<Room> _draftRooms1 = new List<Room>();
+    private List<Room> _selectedDraftRooms = new List<Room>();
+    private List<Room> _choosenDraftRoomsPlayer1 = new List<Room>();
+    private List<Room> _choosenDraftRoomsPlayer2 = new List<Room>();
 
     [SerializeField] float _constructionTimerSeconds = 120f;
     private float _constructionTimerElapsedSeconds = 0f;
@@ -43,7 +49,9 @@ public class GameManager : MonoBehaviour
     private Tile _targetOnTile;
 
     private Player _playerTurn;
-    private Mode _currentMode = Mode.Construction;
+    private Mode _currentMode = Mode.Draft;
+
+    private bool _gameStarted;
 
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
@@ -57,6 +65,43 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        StartDraftRooms1();
+    }
+
+    private void StartDraftRooms1()
+    {
+        DraftManagerUI.instance.ShowDraftUI();
+
+        _selectedDraftRooms.Clear();
+
+        while (_selectedDraftRooms.Count < 3)
+        {
+            int randomIndex = Random.Range(0, _draftRooms1.Count - 1);
+
+            if (!_selectedDraftRooms.Contains(_draftRooms1[randomIndex]))
+            {
+                _selectedDraftRooms.Add(_draftRooms1[randomIndex]);
+                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms1[randomIndex]);
+            }
+        }
+    }
+
+    public void SelectDraftRoom(Room room)
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            _choosenDraftRoomsPlayer1.Add(room);
+        }
+        else
+        {
+            _choosenDraftRoomsPlayer2.Add(room);
+        }
+
+        SwitchPlayer();
+    }
+
+    private void StartGame()
+    {
         // Start Construction
         InitGridDicts();
         RandomizeRoomsPlacement();
@@ -65,11 +110,9 @@ public class GameManager : MonoBehaviour
         UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
         UIManager.instance.UpdateCurrentModeTxt(_currentMode);
 
-        // a changer plus tard, mettre après les choix de compétences
-        if (_currentMode == Mode.Construction)
-        {
-            _constructionTimerCoroutine = StartCoroutine(StartConstructionTimer());
-        }
+        SwitchMode();
+
+        _gameStarted = true;
     }
 
     private void InitGridDicts()
@@ -111,24 +154,6 @@ public class GameManager : MonoBehaviour
             if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column - 1)))
             {
                 tile.LeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column - 1)];
-            }
-        }
-
-        if (_startRooms.Count > 0)
-        {
-            foreach (Room startBuilding in _startRooms)
-            {
-                bool buildingBuilt = false;
-                Debug.Log(startBuilding.name);
-                while (!buildingBuilt)
-                {
-                    Tile tempTile = _tilesPlayer1[Random.Range(0, _tilesPlayer1.Count - 1)];
-                    if (CheckCanBuild(startBuilding, tempTile))
-                    {
-                        CreateNewBuilding(startBuilding, tempTile);
-                        buildingBuilt = true;
-                    }
-                }
             }
         }
         #endregion
@@ -177,8 +202,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (UIManager.instance.ChangingPlayer)
+        if (UIManager.instance.ChangingPlayer || !_gameStarted)
         {
+            _roomOnMouse = null;
             return;
         }
 
@@ -190,6 +216,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("click");
             Tile nearestTileGridPlayer = null;
 
             // Select tile in specific grid
@@ -292,18 +319,44 @@ public class GameManager : MonoBehaviour
     #region Construction
     private void RandomizeRoomsPlacement()
     {
-        if (_startRooms.Count > 0)
+        List<Room> player1Rooms = new List<Room>();
+        player1Rooms.AddRange(_startRooms);
+        player1Rooms.AddRange(_choosenDraftRoomsPlayer1);
+
+        if (player1Rooms.Count > 0)
         {
-            foreach (Room startRoom in _startRooms)
+            foreach (Room player1Room in player1Rooms)
             {
                 bool roomBuilt = false;
-                Debug.Log(startRoom.name);
+                Debug.Log(player1Room.name);
+                while (!roomBuilt)
+                {
+                    Tile tempTile = _tilesPlayer1[Random.Range(0, _tilesPlayer1.Count - 1)];
+                    if (CheckCanBuild(player1Room, tempTile))
+                    {
+                        CreateNewBuilding(player1Room, tempTile);
+                        roomBuilt = true;
+                    }
+                }
+            }
+        }
+
+        List<Room> player2Rooms = new List<Room>();
+        player2Rooms.AddRange(_startRooms);
+        player2Rooms.AddRange(_choosenDraftRoomsPlayer2);
+
+        if (player2Rooms.Count > 0)
+        {
+            foreach (Room player2Room in player2Rooms)
+            {
+                bool roomBuilt = false;
+                Debug.Log(player2Room.name);
                 while (!roomBuilt)
                 {
                     Tile tempTile = _tilesPlayer2[Random.Range(0, _tilesPlayer2.Count - 1)];
-                    if (CheckCanBuild(startRoom, tempTile))
+                    if (CheckCanBuild(player2Room, tempTile))
                     {
-                        CreateNewBuilding(startRoom, tempTile);
+                        CreateNewBuilding(player2Room, tempTile);
                         roomBuilt = true;
                     }
                 }
@@ -756,7 +809,7 @@ public class GameManager : MonoBehaviour
         _constructionTimerElapsedSeconds = 0f;
         _constructionTimerRemainingSeconds = _constructionTimerSeconds;
 
-        while (_constructionTimerElapsedSeconds < _constructionTimerSeconds)
+        while (_constructionTimerElapsedSeconds < _constructionTimerSeconds && _currentMode == Mode.Construction)
         {
             _constructionTimerElapsedSeconds += Time.deltaTime;
             _constructionTimerRemainingSeconds = _constructionTimerSeconds - _constructionTimerElapsedSeconds;
@@ -765,14 +818,18 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Timer terminé !");
-        ValidateConstruction();
+        if (_currentMode == Mode.Construction)
+        {
+            Debug.Log("Timer terminé !");
+            ValidateConstruction();
+        }
     }
 
     public void CheckIfStartConstructionTimer()
     {
         if (_currentMode == Mode.Construction)
         {
+            Debug.Log("start construction timer");
             _constructionTimerCoroutine = StartCoroutine(StartConstructionTimer());
         }
     }
@@ -805,7 +862,30 @@ public class GameManager : MonoBehaviour
                     tile.RoomTileSpriteRenderer.enabled = true;
                 }
             }
-            
+        }
+    }
+
+    public void CheckIfTargetRoomIsCompletelyDestroyed()
+    {
+        bool roomCompletelyDestroyed = true;
+
+        foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
+        {
+            if (!tile.IsDestroyed)
+            {
+                roomCompletelyDestroyed = false;
+            }
+        }
+
+        if (roomCompletelyDestroyed)
+        {
+            _targetOnTile.RoomTileSpriteRenderer.color = Color.red;
+
+            foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
+            {
+                tile.RoomTileSpriteRenderer.color = Color.red;
+                tile.Room.RoomData.IsRoomDestroyed = true;
+            }
         }
     }
 
@@ -846,6 +926,13 @@ public class GameManager : MonoBehaviour
             _playerTurn = Player.Player1;
         }
 
+        if (_playerTurn == Player.Player1 && _currentMode == Mode.Draft)
+        {
+            StartGame();
+            DraftManagerUI.instance.HideDraftUI();
+            UIManager.instance.ShowGameCanvas();
+        }
+
         SwitchCamera();
 
         // update ui
@@ -863,7 +950,7 @@ public class GameManager : MonoBehaviour
         {
             CameraController.instance.SwitchPlayerShipCamera(_playerTurn);
         }
-        else // combat -> vaisseau ennemi
+        else if (_currentMode == Mode.Combat)// combat -> vaisseau ennemi
         {
             if (_playerTurn == Player.Player1)
             {
@@ -880,6 +967,7 @@ public class GameManager : MonoBehaviour
 
             EnergySystem.instance.GetRoundEnergy(_playerTurn);
         }
+        // Draft on s'en fout
     }
 
     public void SwitchMode()
@@ -888,6 +976,11 @@ public class GameManager : MonoBehaviour
         {
             _currentMode = Mode.Combat;
             UIManager.instance.ShowEnergySlider();
+        }
+        else if (_currentMode == Mode.Draft)
+        {
+            _currentMode = Mode.Construction;
+            
         }
         else
         {
