@@ -256,6 +256,7 @@ public class GameManager : MonoBehaviour
     {
         if (!nearestTile.IsOccupied) // no building
         {
+            UIManager.instance.HideFicheRoom();
             if (_roomToPlace != null)
             {
                 if (CheckCanBuild(_roomToPlace, nearestTile))
@@ -269,6 +270,11 @@ public class GameManager : MonoBehaviour
                 {
                     CreateNewBuilding(_roomToMove, nearestTile);
                 }
+            }
+            else
+            {
+                // a voir lequel des deux on mets hide fiche (quand on relache la room ou quand on clique sur une case vide)
+                //UIManager.instance.HideFicheRoom();
             }
         }
         else // already a building
@@ -286,6 +292,8 @@ public class GameManager : MonoBehaviour
                 // building to mouse
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 _roomOnMouse = _roomToMove;
+
+                UIManager.instance.ShowFicheRoom(_roomOnMouse.RoomData);
             }
         }
     }
@@ -319,10 +327,44 @@ public class GameManager : MonoBehaviour
     #region Construction
     private void RandomizeRoomsPlacement()
     {
+        RandomizeRoomsPlayer1();
+        RandomizeRoomsPlayer2();
+    }
+
+    public void RandomizeRooms()
+    {
+        Debug.Log("randomize rooms");
+        if (_playerTurn == Player.Player1)
+        {
+            RandomizeRoomsPlayer1();
+        }
+        else
+        {
+            RandomizeRoomsPlayer2();
+        }
+    }
+
+    private void RandomizeRoomsPlayer1()
+    {
+        Debug.Log("randomize rooms player 1");
         List<Room> player1Rooms = new List<Room>();
         player1Rooms.AddRange(_startRooms);
         player1Rooms.AddRange(_choosenDraftRoomsPlayer1);
 
+        // Reset if already some rooms
+        Debug.Log("reset rooms");
+        foreach(Tile tile in _tilesPlayer1)
+        {
+            if (tile.Room != null)
+            {
+                Debug.Log("la");
+                Destroy(tile.Room.gameObject);
+                tile.IsOccupied = false;
+                tile.Room = null;
+            }
+        }
+
+        Debug.Log("add rooms");
         if (player1Rooms.Count > 0)
         {
             foreach (Room player1Room in player1Rooms)
@@ -340,11 +382,28 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
 
+    private void RandomizeRoomsPlayer2()
+    {
         List<Room> player2Rooms = new List<Room>();
         player2Rooms.AddRange(_startRooms);
         player2Rooms.AddRange(_choosenDraftRoomsPlayer2);
 
+        // Reset if already some rooms
+        Debug.Log("reset rooms");
+        foreach (Tile tile in _tilesPlayer2)
+        {
+            if (tile.Room != null)
+            {
+                Debug.Log("la");
+                Destroy(tile.Room.gameObject);
+                tile.IsOccupied = false;
+                tile.Room = null;
+            }
+        }
+
+        Debug.Log("add rooms");
         if (player2Rooms.Count > 0)
         {
             foreach (Room player2Room in player2Rooms)
@@ -976,6 +1035,7 @@ public class GameManager : MonoBehaviour
         {
             _currentMode = Mode.Combat;
             UIManager.instance.ShowEnergySlider();
+            UIManager.instance.HideRandomizeRoomsButton();
         }
         else if (_currentMode == Mode.Draft)
         {

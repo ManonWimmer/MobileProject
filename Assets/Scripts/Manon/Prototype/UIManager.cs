@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text _infosNameRoomAbility;
     [SerializeField] TMP_Text _infosDescriptionRoomAbility;
 
-
+    [SerializeField] GameObject _randomizeRoomsButton;
     [SerializeField] List<GameObject> _abilityButtons = new List<GameObject>();
 
     private SpriteRenderer _spriteRenderer;
@@ -52,6 +52,7 @@ public class UIManager : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         ShowButtonValidateConstruction();
+        ShowRandomizeRoomsButton();
         HideButtonsCombat();
         HideEnergySlider();
         HideFicheAbility();
@@ -67,6 +68,16 @@ public class UIManager : MonoBehaviour
     public void ShowGameCanvas()
     {
         _gameCanvas.SetActive(true);
+    }
+
+    public void HideRandomizeRoomsButton()
+    {
+        _randomizeRoomsButton.SetActive(false);
+    }
+
+    public void ShowRandomizeRoomsButton()
+    {
+        _randomizeRoomsButton.SetActive(true);
     }
 
     #region CurrentPlayer
