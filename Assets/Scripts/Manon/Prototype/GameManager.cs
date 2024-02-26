@@ -307,7 +307,7 @@ public class GameManager : MonoBehaviour
         if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
         {
             TargetController.instance.ChangeTargetColorToRed();
-            UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
+            UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);    
         }
         else
         {
@@ -358,8 +358,10 @@ public class GameManager : MonoBehaviour
             if (tile.Room != null)
             {
                 Debug.Log("la");
-                Destroy(tile.Room.gameObject);
                 tile.IsOccupied = false;
+                tile.RoomOnOtherTiles.Clear();
+                tile.RoomTileSpriteRenderer = null;
+                Destroy(tile.Room.gameObject);
                 tile.Room = null;
             }
         }
@@ -926,18 +928,21 @@ public class GameManager : MonoBehaviour
 
     public void CheckIfTargetRoomIsCompletelyDestroyed()
     {
+        Debug.Log("check if target room is completely destoyed");
         bool roomCompletelyDestroyed = true;
 
         foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
         {
             if (!tile.IsDestroyed)
             {
+                Debug.Log(tile.name + "not destroyed");
                 roomCompletelyDestroyed = false;
             }
         }
 
         if (roomCompletelyDestroyed)
         {
+            Debug.Log("room completely destroyed");
             _targetOnTile.RoomTileSpriteRenderer.color = Color.red;
 
             foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)

@@ -11504,6 +11504,7 @@ MonoBehaviour:
   _infosNameRoom: {fileID: 670489954}
   _infosNameRoomAbility: {fileID: 270119896}
   _infosDescriptionRoomAbility: {fileID: 713573709}
+  _randomizeRoomsButton: {fileID: 1835723589}
   _abilityButtons:
   - {fileID: 459641182}
   - {fileID: 1188819275}
@@ -15319,7 +15320,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 130, y: 130}
+  m_AnchoredPosition: {x: 193, y: 130}
   m_SizeDelta: {x: 300, y: 198.29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1835723591
