@@ -75,36 +75,60 @@ public class GameManager : MonoBehaviour
         StartDraftRooms1();
     }
 
-    private void StartDraftRooms1()
+    private void Update()
     {
-        DraftManagerUI.instance.ShowDraftUI();
-
-        _selectedDraftRooms.Clear();
-
-        while (_selectedDraftRooms.Count < 3)
+        if (UIManager.instance.ChangingPlayer || !_gameStarted)
         {
-            int randomIndex = Random.Range(0, _draftRooms1.Count - 1);
+            _roomOnMouse = null;
+            return;
+        }
 
-            if (!_selectedDraftRooms.Contains(_draftRooms1[randomIndex]))
+        if (_roomOnMouse != null) // update room on mouse pos
+        {
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _roomOnMouse.transform.position = new Vector3(mousePosition.x, mousePosition.y, -5);
+        }
+
+        if (_currentMode == Mode.Construction)
+        {
+            ClearPlacedRoomsLists();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("click");
+            Tile nearestTileGridPlayer = null;
+
+            // Select tile in specific grid
+            if (_currentMode == Mode.Construction)
             {
-                _selectedDraftRooms.Add(_draftRooms1[randomIndex]);
-                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms1[randomIndex]);
+                nearestTileGridPlayer = FindNearestTileInGrid(_playerTurn);
+            }
+            else
+            {
+                // combat -> tile dans la grid du vaisseau ennemi
+                if (_playerTurn == Player.Player1)
+                {
+                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player2);
+                }
+                else
+                {
+                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player1);
+                }
+            }
+
+            // construction
+            if (_currentMode == Mode.Construction && nearestTileGridPlayer != null)
+            {
+                CheckTileClickedInConstruction(nearestTileGridPlayer);
+            }
+
+            //combat
+            if (_currentMode == Mode.Combat && nearestTileGridPlayer != null)
+            {
+                CheckTileClickedInCombat(nearestTileGridPlayer);
             }
         }
-    }
-
-    public void SelectDraftRoom(Room room)
-    {
-        if (_playerTurn == Player.Player1)
-        {
-            _choosenDraftRoomsPlayer1.Add(room);
-        }
-        else
-        {
-            _choosenDraftRoomsPlayer2.Add(room);
-        }
-
-        SwitchPlayer();
     }
 
     private void StartGame()
@@ -123,6 +147,80 @@ public class GameManager : MonoBehaviour
         InitAbilitesSOButtons();
     }
 
+    #region CheckClickOnTile
+    private void CheckTileClickedInConstruction(Tile nearestTile)
+    {
+        if (!nearestTile.IsOccupied) // no building
+        {
+            UIManager.instance.HideFicheRoom();
+            if (_roomToPlace != null)
+            {
+                if (CheckCanBuild(_roomToPlace, nearestTile))
+                {
+                    CreateNewBuilding(_roomToPlace, nearestTile, _playerTurn);
+                }
+            }
+            else if (_roomToMove != null)
+            {
+                if (CheckCanBuild(_roomToMove, nearestTile))
+                {
+                    CreateNewBuilding(_roomToMove, nearestTile, _playerTurn);
+                }
+            }
+            else
+            {
+                // a voir lequel des deux on mets hide fiche (quand on relache la room ou quand on clique sur une case vide)
+                //UIManager.instance.HideFicheRoom();
+            }
+        }
+        else // already a building
+        {
+            Debug.Log("occupied");
+            if (_roomToMove == null)
+            {
+                Debug.Log("new building to move");
+                // select move building
+                _roomToMove = nearestTile.Room;
+                nearestTile.IsOccupied = false;
+
+                SetBuildingTilesNotOccupied(_roomToMove, nearestTile);
+
+                // building to mouse
+                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                _roomOnMouse = _roomToMove;
+
+                UIManager.instance.ShowFicheRoom(_roomOnMouse.RoomData);
+            }
+        }
+    }
+
+    private void CheckTileClickedInCombat(Tile nearestTile)
+    {
+        Debug.Log("combat");
+        TargetController.instance.ChangeTargetPosition(nearestTile.transform.position);
+        _targetOnTile = nearestTile;
+
+        if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
+        {
+            TargetController.instance.ChangeTargetColorToRed();
+            UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);    
+        }
+        else
+        {
+            TargetController.instance.ChangeTargetColorToWhite();
+            UIManager.instance.HideFicheRoom();
+        }
+
+        UIManager.instance.CheckAbilityButtonsColor();
+    }
+
+    public bool IsTargetOnTile()
+    {
+        return _targetOnTile;
+    }
+    #endregion
+
+    #region Construction
     private void InitGridDicts()
     {
         #region Player1Dict
@@ -208,253 +306,38 @@ public class GameManager : MonoBehaviour
         #endregion
     }
 
-    public void CheckVictory()
+    private void StartDraftRooms1()
     {
-        Debug.Log("check victory");
-        bool player1Dead = true;
-        foreach(Room room in _placedRoomsPlayer1)
-        {
-            Debug.Log(room.name);
-            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
-            {
-                Debug.Log("vital not destroyed " + room.name);
-                player1Dead = false;
-                Debug.Log("player1 dead");
-            }
-        }
+        DraftManagerUI.instance.ShowDraftUI();
 
-        bool player2Dead = true;
-        foreach (Room room in _placedRoomsPlayer2)
-        {
-            Debug.Log(room.name);
-            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
-            {
-                Debug.Log("vital not destroyed " + room.name);
-                player2Dead = false;
-            }
-        }
+        _selectedDraftRooms.Clear();
 
-        if (player1Dead)
+        while (_selectedDraftRooms.Count < 3)
         {
-            UIManager.instance.ShowVictoryCanvas(Player.Player2);
-        }
-        else if (player2Dead)
-        {
-            UIManager.instance.ShowVictoryCanvas(Player.Player1);
-        }
-    }
-    private void InitAbilitesSOButtons()
-    {
-        Debug.Log("init abilities so buttons");
-        foreach (scriptablePower ability in abilitiesSO)
-        {
-            switch (ability._powerName)
+            int randomIndex = Random.Range(0, _draftRooms1.Count - 1);
+
+            if (!_selectedDraftRooms.Contains(_draftRooms1[randomIndex]))
             {
-                case ("Simple Hit"):
-                    for (int i = 0; i < abilitiesButtons.Count; i++) 
-                    {
-                        if (abilitiesButtons[i].name == "SimpleHit") 
-                        {
-                            ability.AbilityButton = abilitiesButtons[i];
-                            Debug.Log("found simple hit button");
-                            break; 
-                        } 
-                    }
-                    break;
-                case ("Simple Reveal"):
-                    for (int i = 0; i < abilitiesButtons.Count; i++)
-                    {
-                        if (abilitiesButtons[i].name == "SimpleReveal")
-                        {
-                            ability.AbilityButton = abilitiesButtons[i];
-                            Debug.Log("found simple reveal button");
-                            break;
-                        }
-                    }
-                    break;
+                _selectedDraftRooms.Add(_draftRooms1[randomIndex]);
+                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms1[randomIndex]);
             }
         }
     }
 
-    private void CheckPlayerAbilityButtonsEnabled()
+    public void SelectDraftRoom(Room room)
     {
-        Debug.Log("check player ability buttons enabled");
         if (_playerTurn == Player.Player1)
         {
-            foreach(Room room in _placedRoomsPlayer1)
-            {
-                if (room.IsRoomDestroyed)
-                {
-                    Debug.Log("room destroyed " + room.name);
-                    if (room.RoomData.RoomAbility != null)
-                    {
-                        Debug.Log("room inactive");
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
-                    }
-                }
-                else
-                {
-                    if (room.RoomData.RoomAbility != null)
-                    {
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
-                    }
-                }
-            }
-        }
-        if (_playerTurn == Player.Player2)
-        {
-            foreach (Room room in _placedRoomsPlayer2)
-            {
-                if (room.IsRoomDestroyed)
-                {
-                    Debug.Log("room destroyed " + room.name);
-                    if (room.RoomData.RoomAbility != null)
-                    {
-                        Debug.Log("room inactive");
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
-                    }
-                }
-                else
-                {
-                    if (room.RoomData.RoomAbility != null)
-                    {
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
-                    }
-                }
-            }
-        }
-    }
-
-    private void Update()
-    {
-        if (UIManager.instance.ChangingPlayer || !_gameStarted)
-        {
-            _roomOnMouse = null;
-            return;
-        }
-
-        if (_roomOnMouse != null) // update room on mouse pos
-        {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            _roomOnMouse.transform.position = new Vector3(mousePosition.x, mousePosition.y, -5);
-        }
-
-        if (_currentMode == Mode.Construction)
-        {
-            ClearPlacedRoomsLists();
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("click");
-            Tile nearestTileGridPlayer = null;
-
-            // Select tile in specific grid
-            if (_currentMode == Mode.Construction)
-            {
-                nearestTileGridPlayer = FindNearestTileInGrid(_playerTurn);
-            }
-            else
-            {
-                // combat -> tile dans la grid du vaisseau ennemi
-                if (_playerTurn == Player.Player1)
-                {
-                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player2);
-                }
-                else
-                {
-                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player1);
-                }
-            }
-
-            // construction
-            if (_currentMode == Mode.Construction && nearestTileGridPlayer != null)
-            {
-                CheckTileClickedInConstruction(nearestTileGridPlayer);
-            }
-
-            //combat
-            if (_currentMode == Mode.Combat && nearestTileGridPlayer != null)
-            {
-                CheckTileClickedInCombat(nearestTileGridPlayer);
-            }
-        }
-    }
-
-    #region CheckClickOnTile
-    private void CheckTileClickedInConstruction(Tile nearestTile)
-    {
-        if (!nearestTile.IsOccupied) // no building
-        {
-            UIManager.instance.HideFicheRoom();
-            if (_roomToPlace != null)
-            {
-                if (CheckCanBuild(_roomToPlace, nearestTile))
-                {
-                    CreateNewBuilding(_roomToPlace, nearestTile, _playerTurn);
-                }
-            }
-            else if (_roomToMove != null)
-            {
-                if (CheckCanBuild(_roomToMove, nearestTile))
-                {
-                    CreateNewBuilding(_roomToMove, nearestTile, _playerTurn);
-                }
-            }
-            else
-            {
-                // a voir lequel des deux on mets hide fiche (quand on relache la room ou quand on clique sur une case vide)
-                //UIManager.instance.HideFicheRoom();
-            }
-        }
-        else // already a building
-        {
-            Debug.Log("occupied");
-            if (_roomToMove == null)
-            {
-                Debug.Log("new building to move");
-                // select move building
-                _roomToMove = nearestTile.Room;
-                nearestTile.IsOccupied = false;
-
-                SetBuildingTilesNotOccupied(_roomToMove, nearestTile);
-
-                // building to mouse
-                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                _roomOnMouse = _roomToMove;
-
-                UIManager.instance.ShowFicheRoom(_roomOnMouse.RoomData);
-            }
-        }
-    }
-
-    private void CheckTileClickedInCombat(Tile nearestTile)
-    {
-        Debug.Log("combat");
-        TargetController.instance.ChangeTargetPosition(nearestTile.transform.position);
-        _targetOnTile = nearestTile;
-
-        if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
-        {
-            TargetController.instance.ChangeTargetColorToRed();
-            UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);    
+            _choosenDraftRoomsPlayer1.Add(room);
         }
         else
         {
-            TargetController.instance.ChangeTargetColorToWhite();
-            UIManager.instance.HideFicheRoom();
+            _choosenDraftRoomsPlayer2.Add(room);
         }
 
-        UIManager.instance.CheckAbilityButtonsColor();
+        SwitchPlayer();
     }
 
-    public bool IsTargetOnTile()
-    {
-        return _targetOnTile;
-    }
-    #endregion
-
-    #region Construction
     private void RandomizeRoomsPlacement()
     {
         RandomizeRoomsPlayer1();
@@ -1048,6 +931,124 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Combat
+    public void CheckVictory()
+    {
+        Debug.Log("check victory");
+        bool player1Dead = true;
+        foreach (Room room in _placedRoomsPlayer1)
+        {
+            Debug.Log(room.name);
+            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
+            {
+                Debug.Log("vital not destroyed " + room.name);
+                player1Dead = false;
+                Debug.Log("player1 dead");
+            }
+        }
+
+        bool player2Dead = true;
+        foreach (Room room in _placedRoomsPlayer2)
+        {
+            Debug.Log(room.name);
+            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
+            {
+                Debug.Log("vital not destroyed " + room.name);
+                player2Dead = false;
+            }
+        }
+
+        if (player1Dead)
+        {
+            UIManager.instance.ShowVictoryCanvas(Player.Player2);
+        }
+        else if (player2Dead)
+        {
+            UIManager.instance.ShowVictoryCanvas(Player.Player1);
+        }
+    }
+
+    private void InitAbilitesSOButtons()
+    {
+        Debug.Log("init abilities so buttons");
+        foreach (scriptablePower ability in abilitiesSO)
+        {
+            switch (ability._powerName)
+            {
+                case ("Simple Hit"):
+                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    {
+                        if (abilitiesButtons[i].name == "SimpleHit")
+                        {
+                            ability.AbilityButton = abilitiesButtons[i];
+                            Debug.Log("found simple hit button");
+                            break;
+                        }
+                    }
+                    break;
+                case ("Simple Reveal"):
+                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    {
+                        if (abilitiesButtons[i].name == "SimpleReveal")
+                        {
+                            ability.AbilityButton = abilitiesButtons[i];
+                            Debug.Log("found simple reveal button");
+                            break;
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void CheckPlayerAbilityButtonsEnabled()
+    {
+        Debug.Log("check player ability buttons enabled");
+        if (_playerTurn == Player.Player1)
+        {
+            foreach (Room room in _placedRoomsPlayer1)
+            {
+                if (room.IsRoomDestroyed)
+                {
+                    Debug.Log("room destroyed " + room.name);
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        Debug.Log("room inactive");
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                    }
+                }
+                else
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
+                    }
+                }
+            }
+        }
+        if (_playerTurn == Player.Player2)
+        {
+            foreach (Room room in _placedRoomsPlayer2)
+            {
+                if (room.IsRoomDestroyed)
+                {
+                    Debug.Log("room destroyed " + room.name);
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        Debug.Log("room inactive");
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                    }
+                }
+                else
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
+                    }
+                }
+            }
+        }
+    }
+
     public void ShowOnlyDestroyedAndReavealedRooms(Player playerShip)
     {
         List<Tile> tiles = new List<Tile>();
