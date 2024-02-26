@@ -9,10 +9,11 @@ public enum AbilityType
 }
 
 
-
 public class AbilityInvoker : MonoBehaviour
 {
     [SerializeField] scriptablePower[] abilitiesArray = null;
+    [SerializeField] ShipManager senderTESTManager;
+    [SerializeField] ShipManager receiverTESTManager;
 
     private void Awake()
     {
@@ -23,7 +24,8 @@ public class AbilityInvoker : MonoBehaviour
     }
     public void ExecuteCommand(AbilityType abilityType, ShipManager senderManager, ShipManager receiverManager, Vector2 tileAimed)
     {
-        ACommand command = _GenerateCommmand(abilityType);
+        Debug.Log("Ability Invoker Setup");
+        ACommand<AbilityType> command = _GenerateCommmand(abilityType);
         // le truc pour passer le scriptable object est moche je sais
         command.Init(senderManager, receiverManager, abilitiesArray[(int)abilityType]);
         CommandContext args = new CommandContext();
@@ -32,10 +34,17 @@ public class AbilityInvoker : MonoBehaviour
         args.SenderID = senderManager.ShipID;
         args.ReceiverID = receiverManager.ShipID;
         // execute command
-        command.Execute(args);
+        launchAbility(command, args);
+        Debug.Log("Ability Invoker Setup ends");
     }
 
-    private ACommand _GenerateCommmand(AbilityType abilityType)
+    private void launchAbility(ACommand<AbilityType> command, CommandContext args)
+    {
+        Debug.Log("launch ability");
+        StartCoroutine(command.Execute(args));
+    }
+
+    private ACommand<AbilityType> _GenerateCommmand(AbilityType abilityType)
     {
         switch(abilityType)
         {
@@ -43,5 +52,13 @@ public class AbilityInvoker : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void TestAbility()
+    {
+        Debug.Log("test execute command starts");
+        ExecuteCommand(AbilityType.LaserShoot, senderTESTManager, receiverTESTManager, new Vector2(0, 0));
+        Debug.Log("test execute command completed");
+
     }
 }
