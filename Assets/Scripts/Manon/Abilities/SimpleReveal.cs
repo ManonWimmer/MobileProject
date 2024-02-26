@@ -10,7 +10,7 @@ public class SimpleReveal : MonoBehaviour
         {
             if (!GameManager.instance.TargetOnTile.IsDestroyed && !GameManager.instance.TargetOnTile.IsMissed) // tile jamais hit
             {
-                if (EnergySystem.instance.TryUseEnergy(GameManager.instance.PlayerTurn, 2)) // 2 temp -> energy cost de la compétence SO
+                if (ActionPointsManager.instance.TryUseActionPoints(GameManager.instance.PlayerTurn)) 
                 {
                     if (GameManager.instance.TargetOnTile.IsOccupied)
                     {

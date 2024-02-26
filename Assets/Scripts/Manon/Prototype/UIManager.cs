@@ -26,9 +26,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text _constructionTimeRemainingTxt;
     public bool ChangingPlayer;
 
-    [Header("Energy")]
-    [SerializeField] Slider _energySlider;
-    [SerializeField] TMP_Text _energyTxt;
+    [Header("Action Points")]
+    [SerializeField] TMP_Text _actionPointsTxt;
+    [SerializeField] TMP_Text _currentRoundTxt;
 
     [Header("Infos Ability")]
     [SerializeField] GameObject _infosAbility;
@@ -67,13 +67,14 @@ public class UIManager : MonoBehaviour
         ShowButtonValidateConstruction();
         ShowRandomizeRoomsButton();
         HideButtonsCombat();
-        HideEnergySlider();
+        HideActionPoints();
         HideFicheAbility();
         HideFicheRoom();
         HideValidateCombat();
         HideVictoryCanvas();
     }
 
+    #region Victory / Game Canvas
     public void HideVictoryCanvas()
     {
         _victoryCanvas.SetActive(false);
@@ -94,7 +95,9 @@ public class UIManager : MonoBehaviour
     {
         _gameCanvas.SetActive(true);
     }
+    #endregion
 
+    #region Randomize Rooms Button
     public void HideRandomizeRoomsButton()
     {
         _randomizeRoomsButton.SetActive(false);
@@ -104,6 +107,7 @@ public class UIManager : MonoBehaviour
     {
         _randomizeRoomsButton.SetActive(true);
     }
+    #endregion
 
     #region CurrentPlayer
     public void UpdateCurrentPlayerTxt(Player playerTurn)
@@ -166,7 +170,7 @@ public class UIManager : MonoBehaviour
         foreach (GameObject abilityButton in _abilityButtons)
         {
             AbilityButton button = abilityButton.GetComponentInChildren<AbilityButton>();
-            if (_energySlider.value >= button.GetAbility()._powerNeed && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline)
+            if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()) > 0 && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline)
             {
                 button.GetComponent<Image>().color = Color.white;
             }
@@ -215,27 +219,21 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    #region Energy
-    public void HideEnergySlider()
+    #region Action Points
+    public void HideActionPoints()
     {
-        _energySlider.gameObject.SetActive(false);
-        _energyTxt.enabled = false;
+        _actionPointsTxt.gameObject.SetActive(false);
+        _currentModeTxt.gameObject.SetActive(false);
     }
 
-    public void ShowEnergySlider()
+    public void ShowOrUpdateActionPoints()
     {
-        _energySlider.gameObject.SetActive(true);
-        _energyTxt.enabled = true;
-        _energySlider.maxValue = EnergySystem.instance.GetMaxEnergy();
-        _energySlider.value = EnergySystem.instance.GetStartEnergy();
-    }
+        Debug.Log("show or update action points");
+        _actionPointsTxt.gameObject.SetActive(true);
+        _currentModeTxt.gameObject.SetActive(true);
 
-    public void UpdateEnergySlider(Player player)
-    {
-        _energySlider.value = EnergySystem.instance.GetPlayerEnergy(player);
-        _energyTxt.text = "Energy \n" + _energySlider.value + "/" + _energySlider.maxValue;
-
-        CheckAbilityButtonsColor();
+        _actionPointsTxt.text = "Action points : " + ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer());
+        _currentRoundTxt.text = "Current round : " + GameManager.instance.GetCurrentRound().ToString();
     }
     #endregion
 

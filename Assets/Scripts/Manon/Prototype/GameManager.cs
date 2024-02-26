@@ -23,21 +23,26 @@ public class GameManager : MonoBehaviour
     // ----- FIELDS ----- //
     public static GameManager instance;
 
+    [Header("Abilities")]
     [SerializeField] List<scriptablePower> abilitiesSO = new List<scriptablePower>();
     [SerializeField] List<GameObject> abilitiesButtons = new List<GameObject>();
 
+    [Header("Grids")]
     [SerializeField] GameObject _gridPlayer1;
     [SerializeField] GameObject _gridPlayer2;
 
+    [Header("Rooms")]
     [SerializeField] List<Room> _startVitalRooms = new List<Room>();
     [SerializeField] List<Room> _draftRooms1 = new List<Room>();
     private List<Room> _selectedDraftRooms = new List<Room>();
+
     private List<Room> _choosenDraftRoomsPlayer1 = new List<Room>();
     private List<Room> _choosenDraftRoomsPlayer2 = new List<Room>();
 
     private List<Room> _placedRoomsPlayer1 = new List<Room>();
     private List<Room> _placedRoomsPlayer2 = new List<Room>();
 
+    [Header("Construction Timer")]
     [SerializeField] float _constructionTimerSeconds = 120f;
     private float _constructionTimerElapsedSeconds = 0f;
     private float _constructionTimerRemainingSeconds;
@@ -59,6 +64,8 @@ public class GameManager : MonoBehaviour
     private Mode _currentMode = Mode.Draft;
 
     private bool _gameStarted;
+
+    private int _currentRound;
 
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
@@ -132,7 +139,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void StartGame()
-    {
+    {  
         // Start Construction
         InitGridDicts();
         RandomizeRoomsPlacement();
@@ -144,6 +151,7 @@ public class GameManager : MonoBehaviour
         SwitchMode();
 
         _gameStarted = true;
+        UIManager.instance.ShowOrUpdateActionPoints();
         InitAbilitesSOButtons();
     }
 
@@ -659,7 +667,7 @@ public class GameManager : MonoBehaviour
         // place new building
         //Prototype_Building newBuilding = _buildingOnMouse;
         Debug.Log("instantiate new building");
-        Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -5), Quaternion.identity);
+        Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -0.5f), Quaternion.identity);
         //newBuilding.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -5); // adjust to tile position
 
         if (player == Player.Player1)
@@ -1177,15 +1185,19 @@ public class GameManager : MonoBehaviour
                 CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
                 ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
                 ShowAllRooms(Player.Player1);
+
+                // new round
+                _currentRound++;
+                Debug.Log("+1 round : " + _currentRound);
+                ActionPointsManager.instance.InitRoundActionPoints(_currentRound);
             }
             else
             {
                 CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
                 ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
+                UIManager.instance.ShowOrUpdateActionPoints();
                 ShowAllRooms(Player.Player2);
             }
-
-            EnergySystem.instance.GetRoundEnergy(_playerTurn);
         }
         // Draft on s'en fout
     }
@@ -1195,7 +1207,8 @@ public class GameManager : MonoBehaviour
         if (_currentMode == Mode.Construction)
         {
             _currentMode = Mode.Combat;
-            UIManager.instance.ShowEnergySlider();
+            _currentRound = 0;
+            UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.HideRandomizeRoomsButton();
         }
         else if (_currentMode == Mode.Draft)
@@ -1217,6 +1230,16 @@ public class GameManager : MonoBehaviour
     public Mode GetCurrentMode()
     {
         return _currentMode;
+    }
+
+    public int GetCurrentRound()
+    {
+        return _currentRound;
+    }
+
+    public Player GetCurrentPlayer()
+    {
+        return _playerTurn;
     }
     #endregion
 
