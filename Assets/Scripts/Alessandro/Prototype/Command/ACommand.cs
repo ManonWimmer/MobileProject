@@ -9,7 +9,7 @@ public class CommandContext
     public int ReceiverID { get; set; }
 }
 
-public abstract class ACommand
+public abstract class ACommand<T>
 {
     protected ShipManager _receiver;
     protected ShipManager _sender;
