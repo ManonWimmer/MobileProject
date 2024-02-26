@@ -15,5 +15,4 @@ MonoBehaviour:
   RoomName: Generator
   RoomIcon: {fileID: 21300000, guid: b22e40016c6f3be4e913a58ecf71c7b6, type: 3}
   RoomPatternImg: {fileID: 21300000, guid: bd0ee160a61c5094ab38905fdaca5088, type: 3}
-  RoomAbility: {fileID: 11400000, guid: 0496029f2df908c4cbe22288cf3ced03, type: 2}
-  IsRoomDestroyed: 0
+  RoomAbility: {fileID: 0}

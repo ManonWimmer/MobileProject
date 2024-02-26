@@ -141,9 +141,13 @@ public class UIManager : MonoBehaviour
         foreach (GameObject abilityButton in _abilityButtons)
         {
             AbilityButton button = abilityButton.GetComponentInChildren<AbilityButton>();
-            if (_energySlider.value >= button.GetAbility()._powerNeed && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile())
+            if (_energySlider.value >= button.GetAbility()._powerNeed && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline)
             {
                 button.GetComponent<Image>().color = Color.white;
+            }
+            else if (button.IsOffline)
+            {
+                button.GetComponent<Image>().color = Color.red;
             }
             else
             {

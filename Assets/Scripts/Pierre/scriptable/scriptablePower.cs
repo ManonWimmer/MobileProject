@@ -12,4 +12,6 @@ public class scriptablePower : ScriptableObject
 
     public int _powerNeed;
     public int _cooldown;
+
+    public GameObject AbilityButton;
 }

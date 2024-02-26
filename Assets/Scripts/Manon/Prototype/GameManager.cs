@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     // ----- FIELDS ----- //
     public static GameManager instance;
 
+    [SerializeField] List<scriptablePower> abilitiesSO = new List<scriptablePower>();
+    [SerializeField] List<GameObject> abilitiesButtons = new List<GameObject>();
+
     [SerializeField] GameObject _gridPlayer1;
     [SerializeField] GameObject _gridPlayer2;
 
@@ -30,6 +33,9 @@ public class GameManager : MonoBehaviour
     private List<Room> _selectedDraftRooms = new List<Room>();
     private List<Room> _choosenDraftRoomsPlayer1 = new List<Room>();
     private List<Room> _choosenDraftRoomsPlayer2 = new List<Room>();
+
+    private List<Room> _placedRoomsPlayer1 = new List<Room>();
+    private List<Room> _placedRoomsPlayer2 = new List<Room>();
 
     [SerializeField] float _constructionTimerSeconds = 120f;
     private float _constructionTimerElapsedSeconds = 0f;
@@ -113,6 +119,7 @@ public class GameManager : MonoBehaviour
         SwitchMode();
 
         _gameStarted = true;
+        InitAbilitesSOButtons();
     }
 
     private void InitGridDicts()
@@ -200,6 +207,88 @@ public class GameManager : MonoBehaviour
         #endregion
     }
 
+    private void InitAbilitesSOButtons()
+    {
+        Debug.Log("init abilities so buttons");
+        foreach (scriptablePower ability in abilitiesSO)
+        {
+            switch (ability._powerName)
+            {
+                case ("Simple Hit"):
+                    for (int i = 0; i < abilitiesButtons.Count; i++) 
+                    {
+                        if (abilitiesButtons[i].name == "SimpleHit") 
+                        {
+                            ability.AbilityButton = abilitiesButtons[i];
+                            Debug.Log("found simple hit button");
+                            break; 
+                        } 
+                    }
+                    break;
+                case ("Simple Reveal"):
+                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    {
+                        if (abilitiesButtons[i].name == "SimpleReveal")
+                        {
+                            ability.AbilityButton = abilitiesButtons[i];
+                            Debug.Log("found simple reveal button");
+                            break;
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void CheckPlayerAbilityButtonsEnabled()
+    {
+        Debug.Log("check player ability buttons enabled");
+        if (_playerTurn == Player.Player1)
+        {
+            foreach(Room room in _placedRoomsPlayer1)
+            {
+                if (room.IsRoomDestroyed)
+                {
+                    Debug.Log("room destroyed " + room.name);
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        Debug.Log("room inactive");
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                    }
+                }
+                else
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
+                    }
+                }
+            }
+        }
+        if (_playerTurn == Player.Player2)
+        {
+            foreach (Room room in _placedRoomsPlayer2)
+            {
+                if (room.IsRoomDestroyed)
+                {
+                    Debug.Log("room destroyed " + room.name);
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        Debug.Log("room inactive");
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                    }
+                }
+                else
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
+                    }
+                }
+            }
+        }
+    }
+
     private void Update()
     {
         if (UIManager.instance.ChangingPlayer || !_gameStarted)
@@ -261,14 +350,14 @@ public class GameManager : MonoBehaviour
             {
                 if (CheckCanBuild(_roomToPlace, nearestTile))
                 {
-                    CreateNewBuilding(_roomToPlace, nearestTile);
+                    CreateNewBuilding(_roomToPlace, nearestTile, _playerTurn);
                 }
             }
             else if (_roomToMove != null)
             {
                 if (CheckCanBuild(_roomToMove, nearestTile))
                 {
-                    CreateNewBuilding(_roomToMove, nearestTile);
+                    CreateNewBuilding(_roomToMove, nearestTile, _playerTurn);
                 }
             }
             else
@@ -352,6 +441,8 @@ public class GameManager : MonoBehaviour
         player1Rooms.AddRange(_choosenDraftRoomsPlayer1);
 
         // Reset if already some rooms
+        _placedRoomsPlayer1.Clear();
+
         Debug.Log("reset rooms");
         foreach(Tile tile in _tilesPlayer1)
         {
@@ -378,7 +469,7 @@ public class GameManager : MonoBehaviour
                     Tile tempTile = _tilesPlayer1[Random.Range(0, _tilesPlayer1.Count - 1)];
                     if (CheckCanBuild(player1Room, tempTile))
                     {
-                        CreateNewBuilding(player1Room, tempTile);
+                        CreateNewBuilding(player1Room, tempTile, Player.Player1);
                         roomBuilt = true;
                     }
                 }
@@ -393,6 +484,8 @@ public class GameManager : MonoBehaviour
         player2Rooms.AddRange(_choosenDraftRoomsPlayer2);
 
         // Reset if already some rooms
+        _placedRoomsPlayer2.Clear();
+
         Debug.Log("reset rooms");
         foreach (Tile tile in _tilesPlayer2)
         {
@@ -417,7 +510,7 @@ public class GameManager : MonoBehaviour
                     Tile tempTile = _tilesPlayer2[Random.Range(0, _tilesPlayer2.Count - 1)];
                     if (CheckCanBuild(player2Room, tempTile))
                     {
-                        CreateNewBuilding(player2Room, tempTile);
+                        CreateNewBuilding(player2Room, tempTile, Player.Player2);
                         roomBuilt = true;
                     }
                 }
@@ -637,13 +730,23 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private void CreateNewBuilding(Room building, Tile tile)
+    private void CreateNewBuilding(Room building, Tile tile, Player player)
     {
         // place new building
         //Prototype_Building newBuilding = _buildingOnMouse;
         Debug.Log("instantiate new building");
         Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -5), Quaternion.identity);
         //newBuilding.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -5); // adjust to tile position
+
+        if (player == Player.Player1)
+        {
+            _placedRoomsPlayer1.Add(newBuilding);
+        }
+        else
+        {
+            _placedRoomsPlayer2.Add(newBuilding);
+
+        }
 
         tile.Room = newBuilding;
         tile.IsOccupied = true;
@@ -948,7 +1051,7 @@ public class GameManager : MonoBehaviour
             foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
             {
                 tile.RoomTileSpriteRenderer.color = Color.red;
-                tile.Room.RoomData.IsRoomDestroyed = true;
+                tile.Room.IsRoomDestroyed = true;
             }
         }
     }
@@ -1006,6 +1109,8 @@ public class GameManager : MonoBehaviour
 
         TargetController.instance.HideTarget();
         _targetOnTile = null;
+
+        CheckPlayerAbilityButtonsEnabled();
     }
 
     private void SwitchCamera()

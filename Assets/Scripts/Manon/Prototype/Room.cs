@@ -17,5 +17,7 @@ public class Room : MonoBehaviour
     public List<SpriteRenderer> DiagTopRightTilesSR = new List<SpriteRenderer>();
 
     public RoomSO RoomData;
+
+    public bool IsRoomDestroyed;
     // ----- FIELDS ----- //
 }

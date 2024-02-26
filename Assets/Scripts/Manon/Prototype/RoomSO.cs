@@ -9,5 +9,4 @@ public class RoomSO : ScriptableObject
     public Sprite RoomIcon;
     public Sprite RoomPatternImg;
     public scriptablePower RoomAbility;
-    public bool IsRoomDestroyed;
 }
