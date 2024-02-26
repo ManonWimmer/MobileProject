@@ -9,26 +9,34 @@ public class UIManager : MonoBehaviour
     // ----- FIELDS ----- //
     public static UIManager instance;
 
+    [Header("Canvas")]
     [SerializeField] GameObject _gameCanvas;
 
+    [Header("Debug Text")]
     [SerializeField] TMP_Text _currentPlayerTxt;
     [SerializeField] TMP_Text _currentModeTxt;
+
+    [Header("Validate Buttons")]
     [SerializeField] GameObject _buttonValidateConstruction;
     [SerializeField] GameObject _buttonValidateCombat;
 
+    [Header("Change Player")]
     [SerializeField] GameObject _changePlayerCanvas;
     [SerializeField] TMP_Text _changePlayerCanvasTxt;
     [SerializeField] TMP_Text _constructionTimeRemainingTxt;
     public bool ChangingPlayer;
 
+    [Header("Energy")]
     [SerializeField] Slider _energySlider;
     [SerializeField] TMP_Text _energyTxt;
 
+    [Header("Infos Ability")]
     [SerializeField] GameObject _infosAbility;
     [SerializeField] TMP_Text _infosNameAbility;
     [SerializeField] TMP_Text _infosDescriptionAbility;
     [SerializeField] TMP_Text _infosEnergy;
 
+    [Header("Infos Room")]
     [SerializeField] GameObject _infosRoom;
     [SerializeField] Image _infosRoomIcon;
     [SerializeField] Image _infosRoomPattern;
@@ -36,8 +44,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text _infosNameRoomAbility;
     [SerializeField] TMP_Text _infosDescriptionRoomAbility;
 
+    [Header("Ability Buttons")]
     [SerializeField] GameObject _randomizeRoomsButton;
     [SerializeField] List<GameObject> _abilityButtons = new List<GameObject>();
+
+    [Header("Victory")]
+    [SerializeField] GameObject _victoryCanvas;
+    [SerializeField] TMP_Text _victoryTxt;
 
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
@@ -58,6 +71,18 @@ public class UIManager : MonoBehaviour
         HideFicheAbility();
         HideFicheRoom();
         HideValidateCombat();
+        HideVictoryCanvas();
+    }
+
+    public void HideVictoryCanvas()
+    {
+        _victoryCanvas.SetActive(false);
+    }
+
+    public void ShowVictoryCanvas(Player winner)
+    {
+        _victoryCanvas.SetActive(true);
+        _victoryTxt.text = "Winner : " + winner.ToString();
     }
 
     public void HideGameCanvas()
@@ -251,8 +276,20 @@ public class UIManager : MonoBehaviour
         _infosRoomIcon.sprite = roomData.RoomIcon;
         _infosRoomPattern.sprite = roomData.RoomPatternImg;
         _infosNameRoom.text = roomData.RoomName;
-        _infosNameRoomAbility.text = roomData.RoomAbility._powerName;
-        _infosDescriptionRoomAbility.text = roomData.RoomAbility._description;
+
+        if (roomData.RoomAbility != null)
+        {
+            _infosNameRoomAbility.gameObject.SetActive(true);
+            _infosDescriptionRoomAbility.gameObject.SetActive(true);
+
+            _infosNameRoomAbility.text = roomData.RoomAbility._powerName;
+            _infosDescriptionRoomAbility.text = roomData.RoomAbility._description;
+        }
+        else
+        {
+            _infosNameRoomAbility.gameObject.SetActive(false);
+            _infosDescriptionRoomAbility.gameObject.SetActive(false);
+        }
     }
 
     public void HideFicheRoom()

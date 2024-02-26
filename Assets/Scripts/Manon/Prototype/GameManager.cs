@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -28,7 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _gridPlayer1;
     [SerializeField] GameObject _gridPlayer2;
 
-    [SerializeField] List<Room> _startRooms = new List<Room>();
+    [SerializeField] List<Room> _startVitalRooms = new List<Room>();
     [SerializeField] List<Room> _draftRooms1 = new List<Room>();
     private List<Room> _selectedDraftRooms = new List<Room>();
     private List<Room> _choosenDraftRoomsPlayer1 = new List<Room>();
@@ -207,6 +208,41 @@ public class GameManager : MonoBehaviour
         #endregion
     }
 
+    public void CheckVictory()
+    {
+        Debug.Log("check victory");
+        bool player1Dead = true;
+        foreach(Room room in _placedRoomsPlayer1)
+        {
+            Debug.Log(room.name);
+            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
+            {
+                Debug.Log("vital not destroyed " + room.name);
+                player1Dead = false;
+                Debug.Log("player1 dead");
+            }
+        }
+
+        bool player2Dead = true;
+        foreach (Room room in _placedRoomsPlayer2)
+        {
+            Debug.Log(room.name);
+            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
+            {
+                Debug.Log("vital not destroyed " + room.name);
+                player2Dead = false;
+            }
+        }
+
+        if (player1Dead)
+        {
+            UIManager.instance.ShowVictoryCanvas(Player.Player2);
+        }
+        else if (player2Dead)
+        {
+            UIManager.instance.ShowVictoryCanvas(Player.Player1);
+        }
+    }
     private void InitAbilitesSOButtons()
     {
         Debug.Log("init abilities so buttons");
@@ -301,6 +337,11 @@ public class GameManager : MonoBehaviour
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _roomOnMouse.transform.position = new Vector3(mousePosition.x, mousePosition.y, -5);
+        }
+
+        if (_currentMode == Mode.Construction)
+        {
+            ClearPlacedRoomsLists();
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -437,7 +478,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("randomize rooms player 1");
         List<Room> player1Rooms = new List<Room>();
-        player1Rooms.AddRange(_startRooms);
+        player1Rooms.AddRange(_startVitalRooms);
         player1Rooms.AddRange(_choosenDraftRoomsPlayer1);
 
         // Reset if already some rooms
@@ -480,7 +521,7 @@ public class GameManager : MonoBehaviour
     private void RandomizeRoomsPlayer2()
     {
         List<Room> player2Rooms = new List<Room>();
-        player2Rooms.AddRange(_startRooms);
+        player2Rooms.AddRange(_startVitalRooms);
         player2Rooms.AddRange(_choosenDraftRoomsPlayer2);
 
         // Reset if already some rooms
@@ -761,6 +802,13 @@ public class GameManager : MonoBehaviour
         {
             Destroy(_roomOnMouse.gameObject);
         }
+    }
+
+    private void ClearPlacedRoomsLists()
+    {
+        //Debug.Log("clear room lists");
+        _placedRoomsPlayer1.RemoveAll(s => s == null);
+        _placedRoomsPlayer2.RemoveAll(s => s == null);
     }
 
     private void SetBuildingTilesOccupied(Room building, Tile tile)
@@ -1054,6 +1102,8 @@ public class GameManager : MonoBehaviour
                 tile.Room.IsRoomDestroyed = true;
             }
         }
+
+        CheckVictory();
     }
 
     public void ShowAllRooms(Player playerShip)

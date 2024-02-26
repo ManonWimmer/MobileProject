@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16a99debe98348e4ca84da7e5acc4b73, type: 3}
-  m_Name: Generator
+  m_Name: Cockpit
   m_EditorClassIdentifier: 
-  RoomName: Generator
-  RoomIcon: {fileID: 21300000, guid: b22e40016c6f3be4e913a58ecf71c7b6, type: 3}
-  RoomPatternImg: {fileID: 21300000, guid: ec75fdd81b7777b4b90f6733e5f17efb, type: 3}
+  RoomName: Cockpit
+  RoomIcon: {fileID: 21300000, guid: de4582e1590410b4c8fe706acd7b46da, type: 3}
+  RoomPatternImg: {fileID: 21300000, guid: 099d8011c084a2d4c84d5757b3e9e078, type: 3}
   RoomAbility: {fileID: 0}
   IsVital: 1
