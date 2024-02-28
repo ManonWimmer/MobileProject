@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Unity.VisualScripting;
+using UnityEditor.Playables;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -68,11 +70,12 @@ public class GameManager : MonoBehaviour
     private int _currentRound;
 
     // (pas possible de les modifier dans les scriptable objects parce que ça dépend des joueurs)
-    private int _simpleHitCooldownPlayer1;
-    private int _simpleHitCooldownPlayer2;
 
     private int _simpleRevealCooldownPlayer1;
     private int _simpleRevealCooldownPlayer2;
+
+    private int _empCooldownPlayer1;
+    private int _empCooldownPlayer2;
 
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
@@ -253,6 +256,7 @@ public class GameManager : MonoBehaviour
             int row = tile.Row;
             int column = tile.Column;
 
+            #region Top, Bottom, Left & Right
             // top
             if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column)))
             {
@@ -276,6 +280,33 @@ public class GameManager : MonoBehaviour
             {
                 tile.LeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column - 1)];
             }
+            #endregion
+
+            #region Diag Top Left & Right, Bottom Left & Right
+            // diag top left
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column - 1)))
+            {
+                tile.DiagTopLeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column - 1)];
+            }
+
+            // diag top right
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column + 1)))
+            {
+                tile.DiagTopRightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column + 1)];
+            }
+
+            // diag bottom left
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column - 1)))
+            {
+                tile.DiagBottomLeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column - 1)];
+            }
+
+            // diag bottom right
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column + 1)))
+            {
+                tile.DiagBottomRightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column + 1)];
+            }
+            #endregion
         }
         #endregion
 
@@ -294,6 +325,7 @@ public class GameManager : MonoBehaviour
             int row = tile.Row;
             int column = tile.Column;
 
+            #region Top, Bottom, Left & Right
             // top
             if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column)))
             {
@@ -317,6 +349,33 @@ public class GameManager : MonoBehaviour
             {
                 tile.LeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column - 1)];
             }
+            #endregion
+
+            #region Diag Top Left & Right, Bottom Left & Right
+            // diag top left
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column - 1)))
+            {
+                tile.DiagTopLeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column - 1)];
+            }
+
+            // diag top right
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column + 1)))
+            {
+                tile.DiagTopRightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column + 1)];
+            }
+
+            // diag bottom left
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column - 1)))
+            {
+                tile.DiagBottomLeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column - 1)];
+            }
+
+            // diag bottom right
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column + 1)))
+            {
+                tile.DiagBottomRightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column + 1)];
+            }
+            #endregion
         }
         #endregion
     }
@@ -781,11 +840,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomLeftTilesSR.Count; i++)
             {
-                tile.LeftTile.BottomTile.IsOccupied = true;
-                tile.LeftTile.BottomTile.Room = building;
-                tile.LeftTile.BottomTile.RoomTileSpriteRenderer = building.DiagBottomLeftTilesSR[i];
+                tile.DiagBottomLeftTile.IsOccupied = true;
+                tile.DiagBottomLeftTile.Room = building;
+                tile.DiagBottomLeftTile.RoomTileSpriteRenderer = building.DiagBottomLeftTilesSR[i];
 
-                currentTile = tile.LeftTile.BottomTile;
+                currentTile = tile.DiagBottomLeftTile;
                 tiles.Add(currentTile);
             }
         }
@@ -795,11 +854,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomRightTilesSR.Count; i++)
             {
-                tile.RightTile.BottomTile.IsOccupied = true;
-                tile.RightTile.BottomTile.Room = building;
-                tile.RightTile.BottomTile.RoomTileSpriteRenderer = building.DiagBottomRightTilesSR[i];
+                tile.DiagBottomRightTile.IsOccupied = true;
+                tile.DiagBottomRightTile.Room = building;
+                tile.DiagBottomRightTile.RoomTileSpriteRenderer = building.DiagBottomRightTilesSR[i];
 
-                currentTile = tile.RightTile.BottomTile;
+                currentTile = tile.DiagBottomRightTile;
                 tiles.Add(currentTile);
             }
         }
@@ -809,11 +868,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopLeftTilesSR.Count; i++)
             {
-                tile.LeftTile.TopTile.IsOccupied = true;
-                tile.LeftTile.TopTile.Room = building;
-                tile.LeftTile.TopTile.RoomTileSpriteRenderer = building.DiagTopLeftTilesSR[i];
+                tile.DiagTopLeftTile.IsOccupied = true;
+                tile.DiagTopLeftTile.Room = building;
+                tile.DiagTopLeftTile.RoomTileSpriteRenderer = building.DiagTopLeftTilesSR[i];
 
-                currentTile = tile.LeftTile.TopTile;
+                currentTile = tile.DiagTopLeftTile;
                 tiles.Add(currentTile);
             }
         }
@@ -823,11 +882,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopRightTilesSR.Count; i++)
             {
-                tile.RightTile.TopTile.IsOccupied = true;
-                tile.RightTile.TopTile.Room = building;
-                tile.RightTile.TopTile.RoomTileSpriteRenderer = building.DiagTopRightTilesSR[i];
+                tile.DiagTopRightTile.IsOccupied = true;
+                tile.DiagTopRightTile.Room = building;
+                tile.DiagTopRightTile.RoomTileSpriteRenderer = building.DiagTopRightTilesSR[i];
 
-                currentTile = tile.RightTile.TopTile;
+                currentTile = tile.DiagTopRightTile;
                 tiles.Add(currentTile);
             }
         }
@@ -911,6 +970,7 @@ public class GameManager : MonoBehaviour
             SwitchMode(); // -> Combat
             UIManager.instance.HideButtonValidateConstruction();
             UIManager.instance.ShowButtonsCombat();
+            CheckPlayerAbilityButtonsEnabled();
         }
     }
 
@@ -955,9 +1015,7 @@ public class GameManager : MonoBehaviour
             Debug.Log(room.name);
             if (room.RoomData.IsVital && !room.IsRoomDestroyed)
             {
-                Debug.Log("vital not destroyed " + room.name);
                 player1Dead = false;
-                Debug.Log("player1 dead");
             }
         }
 
@@ -967,7 +1025,6 @@ public class GameManager : MonoBehaviour
             Debug.Log(room.name);
             if (room.RoomData.IsVital && !room.IsRoomDestroyed)
             {
-                Debug.Log("vital not destroyed " + room.name);
                 player2Dead = false;
             }
         }
@@ -990,15 +1047,26 @@ public class GameManager : MonoBehaviour
             switch (ability.AbilityName)
             {
                 case ("Simple Hit"):
-                    _simpleHitCooldownPlayer1 = 0;
-                    _simpleHitCooldownPlayer2 = 0;
-
                     for (int i = 0; i < abilitiesButtons.Count; i++)
                     {
                         if (abilitiesButtons[i].name == "SimpleHit")
                         {
                             ability.AbilityButton = abilitiesButtons[i];
                             Debug.Log("found simple hit button");
+                            break;
+                        }
+                    }
+                    break;
+                case ("EMP"):
+                    _empCooldownPlayer1 = 0;
+                    _empCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    {
+                        if (abilitiesButtons[i].name == "EMP")
+                        {
+                            ability.AbilityButton = abilitiesButtons[i];
+                            Debug.Log("found emp button");
                             break;
                         }
                     }
@@ -1024,10 +1092,13 @@ public class GameManager : MonoBehaviour
     private void CheckPlayerAbilityButtonsEnabled()
     {
         Debug.Log("check player ability buttons enabled");
+        List<scriptablePower> inRoomsAbilities = new List<scriptablePower>();
+
         if (_playerTurn == Player.Player1)
         {
             foreach (Room room in _placedRoomsPlayer1)
             {
+                Debug.Log(room.name);
                 if (room.IsRoomDestroyed)
                 {
                     Debug.Log("room destroyed " + room.name);
@@ -1044,9 +1115,20 @@ public class GameManager : MonoBehaviour
                         room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
                     }
                 }
+              
+                foreach (scriptablePower ability in abilitiesSO)
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        if (room.RoomData.RoomAbility == ability)
+                        {
+                            inRoomsAbilities.Add(ability);
+                        }
+                    }
+                }
             }
         }
-        if (_playerTurn == Player.Player2)
+        else
         {
             foreach (Room room in _placedRoomsPlayer2)
             {
@@ -1066,8 +1148,33 @@ public class GameManager : MonoBehaviour
                         room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
                     }
                 }
+
+
+                foreach (scriptablePower ability in abilitiesSO)
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        if (room.RoomData.RoomAbility == ability)
+                        {
+                            inRoomsAbilities.Add(ability);
+                        }
+                    }
+                }
+            } 
+        }
+
+        foreach(scriptablePower ability in abilitiesSO)
+        {
+            if (inRoomsAbilities.Contains(ability))
+            {
+                ability.AbilityButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                ability.AbilityButton.gameObject.SetActive(false);
             }
         }
+
     }
 
     public void ShowOnlyDestroyedAndReavealedRooms(Player playerShip)
@@ -1183,7 +1290,10 @@ public class GameManager : MonoBehaviour
         TargetController.instance.HideTarget();
         _targetOnTile = null;
 
-        CheckPlayerAbilityButtonsEnabled();
+        if (_currentMode == Mode.Combat)
+        {
+            CheckPlayerAbilityButtonsEnabled();
+        }
     }
 
     private void SwitchCamera()
@@ -1273,7 +1383,7 @@ public class GameManager : MonoBehaviour
             {
                 if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
                 {
-                    if (IsAbilityInCooldown(ability))
+                    if (!IsAbilityInCooldown(ability))
                     {
                         Debug.Log("current ability cooldown 0");
                         ActionPointsManager.instance.UseActionPoint(_playerTurn);
@@ -1308,14 +1418,14 @@ public class GameManager : MonoBehaviour
         
         switch (ability.AbilityName)
         {
-            case ("Simple Hit"):
+            case ("EMP"):
                 if (_playerTurn == Player.Player1)
                 {
-                    _simpleHitCooldownPlayer1 = ability.Cooldown;
+                    _empCooldownPlayer1 = ability.Cooldown;
                 }
                 else
                 {
-                    _simpleHitCooldownPlayer2 = ability.Cooldown;
+                    _empCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
             case ("Simple Reveal"):
@@ -1329,9 +1439,37 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
+    }
 
+    public void AddEnemyAbilityOneCooldown(scriptablePower ability)
+    {
+        Debug.Log("set ability cooldown " + ability.name + " " + _playerTurn);
 
-        // update ui
+        switch (ability.AbilityName)
+        {
+            case ("EMP"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _empCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _empCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    Debug.Log("a");
+                    _simpleRevealCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    Debug.Log("aa");
+                    _simpleRevealCooldownPlayer1 += 2;
+                }
+                break;
+        }
     }
 
     private bool IsAbilityInCooldown(scriptablePower ability)
@@ -1341,18 +1479,20 @@ public class GameManager : MonoBehaviour
         switch (ability.AbilityName)
         {
             case ("Simple Hit"):
+                return false; // jamais de cooldown
+            case ("EMP"):
                 if (_playerTurn == Player.Player1)
                 {
-                    if (_simpleHitCooldownPlayer1 == 0)
+                    if (_empCooldownPlayer1 == 0)
                     {
-                        return true;
+                        return false;
                     }
                 }
                 else
                 {
-                    if (_simpleHitCooldownPlayer2 == 0)
+                    if (_empCooldownPlayer2 == 0)
                     {
-                        return true;
+                        return false;
                     }
                 }
                 break;
@@ -1361,20 +1501,20 @@ public class GameManager : MonoBehaviour
                 {
                     if (_simpleRevealCooldownPlayer1 == 0)
                     {
-                        return true;
+                        return false;
                     }
                 }
                 else
                 {
                     if (_simpleRevealCooldownPlayer2 == 0)
                     {
-                        return true;
+                        return false;
                     }
                 }
                 break;
         }
 
-        return false;
+        return true;
     }
 
     private void SetRoundCooldowns(Player player)
@@ -1382,13 +1522,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("set round cooldowns player " + player);
         if (player == Player.Player1)
         {
-            _simpleHitCooldownPlayer1 = (int)Mathf.Clamp(_simpleHitCooldownPlayer1 -= 1, 0, Mathf.Infinity);
-            _simpleHitCooldownPlayer2 = (int)Mathf.Clamp(_simpleHitCooldownPlayer2 -= 1, 0, Mathf.Infinity);
+            _simpleRevealCooldownPlayer1 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer1 -= 1, 0, Mathf.Infinity);
+            _empCooldownPlayer1 = (int)Mathf.Clamp(_empCooldownPlayer1 -= 1, 0, Mathf.Infinity);
         }
         else
         {
-            _simpleRevealCooldownPlayer1 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer1 -= 1, 0, Mathf.Infinity);
             _simpleRevealCooldownPlayer2 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer2 -= 1, 0, Mathf.Infinity);
+            _empCooldownPlayer2 = (int)Mathf.Clamp(_empCooldownPlayer2 -= 1, 0, Mathf.Infinity);
         }
     }
 
@@ -1396,14 +1536,14 @@ public class GameManager : MonoBehaviour
     {
         switch (ability.AbilityName)
         {
-            case ("Simple Hit"):
+            case ("EMP"):
                 if (_playerTurn == Player.Player1)
                 {
-                    return _simpleHitCooldownPlayer1;
+                    return _empCooldownPlayer1;
                 }
                 else
                 {
-                    return _simpleHitCooldownPlayer2;
+                    return _empCooldownPlayer2;
                 }
             case ("Simple Reveal"):
                 if (_playerTurn == Player.Player1)
@@ -1413,6 +1553,33 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _simpleRevealCooldownPlayer2;
+                }
+        }
+
+        return 0;
+    }
+
+    public int GetEnemyCurrentCooldown(scriptablePower ability)
+    {
+        switch (ability.AbilityName)
+        {
+            case ("EMP"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _empCooldownPlayer2;
+                }
+                else
+                {
+                    return _empCooldownPlayer1;
+                }
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _simpleRevealCooldownPlayer2;
+                }
+                else
+                {
+                    return _simpleRevealCooldownPlayer1;
                 }
         }
 

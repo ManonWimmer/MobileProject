@@ -20,6 +20,11 @@ public class Tile : MonoBehaviour
     public Tile TopTile;
     public Tile BottomTile;
 
+    public Tile DiagBottomLeftTile;
+    public Tile DiagBottomRightTile;
+    public Tile DiagTopLeftTile;
+    public Tile DiagTopRightTile;
+
     public List<Tile> RoomOnOtherTiles = new List<Tile>();
 
     private SpriteRenderer _spriteRenderer;

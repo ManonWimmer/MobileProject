@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class AbilityButton : MonoBehaviour
 {
@@ -67,6 +68,7 @@ public class AbilityButton : MonoBehaviour
 
     public void SetOnline()
     {
+        Debug.Log("set online " + _ability.name);
         int cooldown = GameManager.instance.GetCurrentCooldown(_ability);
 
         if (cooldown > 0)
@@ -92,8 +94,6 @@ public class AbilityButton : MonoBehaviour
             IsOffline = false;
 
             _cooldownTxt.gameObject.SetActive(false);
-        }
-
-        
+        }   
     }
 }
