@@ -36,10 +36,10 @@ public class powerButton : MonoBehaviour
         _animator.enabled = false;
         AddList();
 
-        _icon.sprite = _scriptable._icon;
-        _powerNeed.text = _scriptable._powerNeed.ToString();
+        _icon.sprite = _scriptable.Icon;
+        _powerNeed.text = _scriptable.ActionPointsNeeded.ToString();
 
-        _turnCooldown = _scriptable._cooldown;
+        _turnCooldown = _scriptable.Cooldown;
     }
 
     private void AddList()

@@ -6,12 +6,12 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "NewItem", menuName = "scriptable/Power")]
 public class scriptablePower : ScriptableObject
 {
-    public string _powerName;
-    public string _description;
-    public Sprite _icon;
+    public string AbilityName;
+    public string Description;
+    public Sprite Icon;
 
-    public int _powerNeed;
-    public int _cooldown;
+    public int ActionPointsNeeded;
+    public int Cooldown;
 
     public GameObject AbilityButton;
 }

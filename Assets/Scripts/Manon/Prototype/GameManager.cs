@@ -67,6 +67,13 @@ public class GameManager : MonoBehaviour
 
     private int _currentRound;
 
+    // (pas possible de les modifier dans les scriptable objects parce que ça dépend des joueurs)
+    private int _simpleHitCooldownPlayer1;
+    private int _simpleHitCooldownPlayer2;
+
+    private int _simpleRevealCooldownPlayer1;
+    private int _simpleRevealCooldownPlayer2;
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
 
@@ -980,9 +987,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("init abilities so buttons");
         foreach (scriptablePower ability in abilitiesSO)
         {
-            switch (ability._powerName)
+            switch (ability.AbilityName)
             {
                 case ("Simple Hit"):
+                    _simpleHitCooldownPlayer1 = 0;
+                    _simpleHitCooldownPlayer2 = 0;
+
                     for (int i = 0; i < abilitiesButtons.Count; i++)
                     {
                         if (abilitiesButtons[i].name == "SimpleHit")
@@ -994,6 +1004,9 @@ public class GameManager : MonoBehaviour
                     }
                     break;
                 case ("Simple Reveal"):
+                    _simpleRevealCooldownPlayer1 = 0;
+                    _simpleRevealCooldownPlayer2 = 0;
+
                     for (int i = 0; i < abilitiesButtons.Count; i++)
                     {
                         if (abilitiesButtons[i].name == "SimpleReveal")
@@ -1198,6 +1211,11 @@ public class GameManager : MonoBehaviour
                 UIManager.instance.ShowOrUpdateActionPoints();
                 ShowAllRooms(Player.Player2);
             }
+
+            if (_currentRound >= 1)
+            {
+                SetRoundCooldowns(_playerTurn);
+            }
         }
         // Draft on s'en fout
     }
@@ -1243,4 +1261,160 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public bool CanUseAbility(scriptablePower ability)
+    {
+        Debug.Log("can use ability ?");
+
+        if (_targetOnTile != null)
+        {
+            if (!_targetOnTile.IsDestroyed && !_targetOnTile.IsMissed) // tile jamais hit
+            {
+                if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
+                {
+                    if (IsAbilityInCooldown(ability))
+                    {
+                        Debug.Log("current ability cooldown 0");
+                        ActionPointsManager.instance.UseActionPoint(_playerTurn);
+                        SetAbilityCooldown(ability);
+                        Debug.Log("can use ability");
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("ability en cooldown");
+                    }
+                }
+                else
+                {
+                    Debug.Log("no action points and / or no room ability on target");
+                }
+            }
+            else
+            {
+                // already hit that tile
+                TargetController.instance.ChangeTargetColorToRed();
+            }
+        }
+        Debug.Log("can't use ability");
+        return false;
+    }
+
+    #region Cooldown 
+    public void SetAbilityCooldown(scriptablePower ability)
+    {
+        Debug.Log("set ability cooldown " + ability.name + " " + _playerTurn);
+        
+        switch (ability.AbilityName)
+        {
+            case ("Simple Hit"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _simpleHitCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _simpleHitCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _simpleRevealCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _simpleRevealCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
+        }
+
+
+        // update ui
+    }
+
+    private bool IsAbilityInCooldown(scriptablePower ability)
+    {
+        Debug.Log("is ability in cooldown");
+
+        switch (ability.AbilityName)
+        {
+            case ("Simple Hit"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_simpleHitCooldownPlayer1 == 0)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (_simpleHitCooldownPlayer2 == 0)
+                    {
+                        return true;
+                    }
+                }
+                break;
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_simpleRevealCooldownPlayer1 == 0)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (_simpleRevealCooldownPlayer2 == 0)
+                    {
+                        return true;
+                    }
+                }
+                break;
+        }
+
+        return false;
+    }
+
+    private void SetRoundCooldowns(Player player)
+    {
+        Debug.Log("set round cooldowns player " + player);
+        if (player == Player.Player1)
+        {
+            _simpleHitCooldownPlayer1 = (int)Mathf.Clamp(_simpleHitCooldownPlayer1 -= 1, 0, Mathf.Infinity);
+            _simpleHitCooldownPlayer2 = (int)Mathf.Clamp(_simpleHitCooldownPlayer2 -= 1, 0, Mathf.Infinity);
+        }
+        else
+        {
+            _simpleRevealCooldownPlayer1 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer1 -= 1, 0, Mathf.Infinity);
+            _simpleRevealCooldownPlayer2 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer2 -= 1, 0, Mathf.Infinity);
+        }
+    }
+
+    public int GetCurrentCooldown(scriptablePower ability)
+    {
+        switch (ability.AbilityName)
+        {
+            case ("Simple Hit"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _simpleHitCooldownPlayer1;
+                }
+                else
+                {
+                    return _simpleHitCooldownPlayer2;
+                }
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _simpleRevealCooldownPlayer1;
+                }
+                else
+                {
+                    return _simpleRevealCooldownPlayer2;
+                }
+        }
+
+        return 0;
+    }
+    #endregion
 }

@@ -170,7 +170,7 @@ public class UIManager : MonoBehaviour
         foreach (GameObject abilityButton in _abilityButtons)
         {
             AbilityButton button = abilityButton.GetComponentInChildren<AbilityButton>();
-            if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()) > 0 && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline)
+            if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()) > 0 && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline && GameManager.instance.GetCurrentCooldown(button.GetAbility()) == 0)
             {
                 button.GetComponent<Image>().color = Color.white;
             }
@@ -257,14 +257,14 @@ public class UIManager : MonoBehaviour
 
     public void UpdateFicheAbility(scriptablePower abilityData)
     {
-        _infosNameAbility.text = "Name : " + abilityData._powerName;
-        _infosDescriptionAbility.text = "Description : \n\n" + abilityData._description;
-        _infosEnergy.text = "Power needed : " + abilityData._powerNeed.ToString();
+        _infosNameAbility.text = "Name : " + abilityData.AbilityName;
+        _infosDescriptionAbility.text = "Description : \n\n" + abilityData.Description;
+        _infosEnergy.text = "Power needed : " + abilityData.ActionPointsNeeded.ToString();
     }
 
     public bool IsFicheAbilityWithSameAbility(scriptablePower abilityData)
     {
-        return _infosNameAbility.text == "Name : " + abilityData._powerName;
+        return _infosNameAbility.text == "Name : " + abilityData.AbilityName;
     }
 
     public void ShowFicheRoom(RoomSO roomData)
@@ -280,8 +280,8 @@ public class UIManager : MonoBehaviour
             _infosNameRoomAbility.gameObject.SetActive(true);
             _infosDescriptionRoomAbility.gameObject.SetActive(true);
 
-            _infosNameRoomAbility.text = roomData.RoomAbility._powerName;
-            _infosDescriptionRoomAbility.text = roomData.RoomAbility._description;
+            _infosNameRoomAbility.text = roomData.RoomAbility.AbilityName;
+            _infosDescriptionRoomAbility.text = roomData.RoomAbility.Description;
         }
         else
         {

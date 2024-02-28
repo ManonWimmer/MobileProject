@@ -4,54 +4,53 @@ using UnityEngine;
 
 public class SimpleReveal : MonoBehaviour
 {
+    // ----- FIELDs ----- //
+    private scriptablePower _ability;
+    private AbilityButton _abilityButton;
+    // ----- FIELDS ----- //
+
+    private void Start()
+    {
+        _abilityButton = GetComponent<AbilityButton>();
+        _ability = _abilityButton.GetAbility();
+    }
+
     public void TrySimpleReveal()
     {
-        if (GameManager.instance.TargetOnTile != null)
+        Debug.Log("try simple reveal");
+
+        if (GameManager.instance.CanUseAbility(_ability))
         {
-            if (!GameManager.instance.TargetOnTile.IsDestroyed && !GameManager.instance.TargetOnTile.IsMissed) // tile jamais hit
+            _abilityButton.SetCooldown();
+
+            if (GameManager.instance.TargetOnTile.IsOccupied)
             {
-                if (ActionPointsManager.instance.TryUseActionPoints(GameManager.instance.PlayerTurn)) 
+                Debug.Log("reveal room " + GameManager.instance.TargetOnTile.Room.name);
+                GameManager.instance.TargetOnTile.IsReavealed = true;
+
+                GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
+
+                // update hidden rooms
+                if (GameManager.instance.PlayerTurn == Player.Player1)
                 {
-                    if (GameManager.instance.TargetOnTile.IsOccupied)
-                    {
-                        Debug.Log("reveal room " + GameManager.instance.TargetOnTile.Room.name);
-                        
-                        GameManager.instance.TargetOnTile.IsReavealed = true;
-
-                        // update hidden rooms
-                        if (GameManager.instance.PlayerTurn == Player.Player1)
-                        {
-                            GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
-                        }
-                        else
-                        {
-                            GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
-                        }
-
-                        UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
-                    }
-                    else
-                    {
-                        GameManager.instance.TargetOnTile.IsMissed = true; 
-                        Debug.Log("no room on reveal");
-
-                        UIManager.instance.HideFicheRoom();
-                    }
-
-                    TargetController.instance.ChangeTargetColorToRed();
+                    GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
                 }
                 else
                 {
-                    Debug.Log("pas assez d'energie! (2 demandées)");
+                    GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
                 }
+
+                UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
             }
             else
             {
-                // already hit that tile
-                TargetController.instance.ChangeTargetColorToRed();
-            }
-        }
+                GameManager.instance.TargetOnTile.IsMissed = true;
+                Debug.Log("no room on hit");
 
-        // update button color
+                UIManager.instance.HideFicheRoom();
+            }
+
+            TargetController.instance.ChangeTargetColorToRed();
+        }
     }
 }

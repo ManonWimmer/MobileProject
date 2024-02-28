@@ -19,10 +19,10 @@ public class popUp : MonoBehaviour
 
     public void OpenDesc(scriptablePower scriptable)
     {
-        _description.text = scriptable._description;
-        _name.text = scriptable._powerName;
-        _powerNeed.text = scriptable._powerNeed.ToString();
-        _icon.sprite = scriptable._icon;
+        _description.text = scriptable.Description;
+        _name.text = scriptable.AbilityName;
+        _powerNeed.text = scriptable.ActionPointsNeeded.ToString();
+        _icon.sprite = scriptable.Icon;
     }
 
     public void Close()

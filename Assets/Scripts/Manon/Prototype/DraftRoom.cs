@@ -27,8 +27,8 @@ public class DraftRoom : MonoBehaviour
         _infosRoomIcon.sprite = _roomData.RoomIcon;
         _infosRoomPattern.sprite = _roomData.RoomPatternImg;
         _infosNameRoom.text = _roomData.RoomName;
-        _infosNameRoomAbility.text = _roomData.RoomAbility._powerName;
-        _infosDescriptionRoomAbility.text = _roomData.RoomAbility._description;
+        _infosNameRoomAbility.text = _roomData.RoomAbility.AbilityName;
+        _infosDescriptionRoomAbility.text = _roomData.RoomAbility.Description;
     }
 
     public void SelectDraftRoom() // on click

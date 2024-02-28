@@ -46,7 +46,6 @@ public class ActionPointsManager : MonoBehaviour
         {
             if (_player1ActionPoints > 0)
             {
-                _player1ActionPoints -= 1;
                 UIManager.instance.ShowOrUpdateActionPoints();
                 return true;
             }
@@ -62,6 +61,20 @@ public class ActionPointsManager : MonoBehaviour
 
         }
         return false;
+    }
 
+    public void UseActionPoint(Player player)
+    {
+        if (player == Player.Player1)
+        {
+            _player1ActionPoints -= 1;
+        }
+        else
+        {
+            _player2ActionPoints -= 1;
+
+        }
+
+        UIManager.instance.ShowOrUpdateActionPoints();
     }
 }

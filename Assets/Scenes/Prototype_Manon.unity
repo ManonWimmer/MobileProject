@@ -9801,10 +9801,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimpleReveal
       objectReference: {fileID: 0}
-    - target: {fileID: 3919478094390652889, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5157765761565112801, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
