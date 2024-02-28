@@ -54,7 +54,6 @@ public class ActionPointsManager : MonoBehaviour
         {
             if (_player2ActionPoints > 0)
             {
-                _player2ActionPoints -= 1;
                 UIManager.instance.ShowOrUpdateActionPoints();
                 return true;
             }

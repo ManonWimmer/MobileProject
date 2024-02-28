@@ -1170,6 +1170,7 @@ public class GameManager : MonoBehaviour
             StartGame();
             DraftManagerUI.instance.HideDraftUI();
             UIManager.instance.ShowGameCanvas();
+            
         }
 
         SwitchCamera();
@@ -1189,13 +1190,13 @@ public class GameManager : MonoBehaviour
     {
         if (_currentMode == Mode.Construction)
         {
-            CameraController.instance.SwitchPlayerShipCamera(_playerTurn);
+            CameraController.instance.SwitchPlayerShipCameraDirectly(_playerTurn);
         }
         else if (_currentMode == Mode.Combat)// combat -> vaisseau ennemi
         {
             if (_playerTurn == Player.Player1)
             {
-                CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
+                CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
                 ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
                 ShowAllRooms(Player.Player1);
 
@@ -1206,7 +1207,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
+                CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
                 ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
                 UIManager.instance.ShowOrUpdateActionPoints();
                 ShowAllRooms(Player.Player2);
@@ -1228,6 +1229,7 @@ public class GameManager : MonoBehaviour
             _currentRound = 0;
             UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.HideRandomizeRoomsButton();
+            UIManager.instance.ShowShitchShipButton();
         }
         else if (_currentMode == Mode.Draft)
         {

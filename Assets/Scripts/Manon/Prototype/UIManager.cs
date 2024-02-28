@@ -52,6 +52,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject _victoryCanvas;
     [SerializeField] TMP_Text _victoryTxt;
 
+    [Header("Switch Ship")]
+    [SerializeField] GameObject _switchShipButton;
+
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
 
@@ -72,7 +75,20 @@ public class UIManager : MonoBehaviour
         HideFicheRoom();
         HideValidateCombat();
         HideVictoryCanvas();
+        HideSwitchShipButton();
     }
+
+    #region Switch Ship 
+    public void HideSwitchShipButton()
+    {
+        _switchShipButton.SetActive(false);
+    }
+
+    public void ShowShitchShipButton()
+    {
+        _switchShipButton.SetActive(true);
+    }
+    #endregion
 
     #region Victory / Game Canvas
     public void HideVictoryCanvas()
