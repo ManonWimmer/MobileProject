@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 929b3046bf6d3904aa38aefc45dd0216, type: 3}
   m_Name: shield
   m_EditorClassIdentifier: 
-  _powerName: Shield
-  _description: hgfefdgljkeporktpojkntyr
-  _powerNeed: 5
+  AbilityName: Shield
+  Description: gshvcxbvcncv
+  Icon: {fileID: 21300000, guid: 4d68e08446c09a446b2a230d2d5bcb56, type: 3}
+  ActionPointsNeeded: 2
+  Cooldown: 2
+  AbilityButton: {fileID: 0}

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b7acb8510a531143b7c9e4f1a8875c4, type: 3}
   m_Name: fire
   m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: 85e4df903de1b3949bb55a954d4d6589, type: 3}
-  _name: Fire
-  _description: burnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+  Icon: {fileID: 21300000, guid: 85e4df903de1b3949bb55a954d4d6589, type: 3}
+  DebuffName: Fireeeeeeeeeeeeeeeeeeee
+  Description: burn burn burn burn burn burn burn burn burn
