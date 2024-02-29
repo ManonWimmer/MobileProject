@@ -77,6 +77,9 @@ public class GameManager : MonoBehaviour
     private int _empCooldownPlayer1;
     private int _empCooldownPlayer2;
 
+    private int _timeAcceleratorCooldownPlayer1;
+    private int _timeAcceleratorCooldownPlayer2;
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
 
@@ -1074,6 +1077,20 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
+                case ("Time Accelerator"):
+                    _timeAcceleratorCooldownPlayer1 = 0;
+                    _timeAcceleratorCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    {
+                        if (abilitiesButtons[i].name == "TimeAccelerator")
+                        {
+                            ability.AbilityButton = abilitiesButtons[i];
+                            Debug.Log("found time accelerator button");
+                            break;
+                        }
+                    }
+                    break;
                 case ("Simple Reveal"):
                     _simpleRevealCooldownPlayer1 = 0;
                     _simpleRevealCooldownPlayer2 = 0;
@@ -1436,6 +1453,16 @@ public class GameManager : MonoBehaviour
                     _empCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _timeAcceleratorCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _timeAcceleratorCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
             case ("Simple Reveal"):
                 if (_playerTurn == Player.Player1)
                 {
@@ -1465,15 +1492,23 @@ public class GameManager : MonoBehaviour
                     _empCooldownPlayer1 += 2;
                 }
                 break;
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _timeAcceleratorCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _timeAcceleratorCooldownPlayer1 += 2;
+                }
+                break;
             case ("Simple Reveal"):
                 if (_playerTurn == Player.Player1)
                 {
-                    Debug.Log("a");
                     _simpleRevealCooldownPlayer2 += 2;
                 }
                 else
                 {
-                    Debug.Log("aa");
                     _simpleRevealCooldownPlayer1 += 2;
                 }
                 break;
@@ -1504,6 +1539,22 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_timeAcceleratorCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_timeAcceleratorCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
             case ("Simple Reveal"):
                 if (_playerTurn == Player.Player1)
                 {
@@ -1528,15 +1579,24 @@ public class GameManager : MonoBehaviour
     private void SetRoundCooldowns(Player player)
     {
         Debug.Log("set round cooldowns player " + player);
-        if (player == Player.Player1)
+        CurrentPlayerLessCooldown(1);
+    }
+
+    public void CurrentPlayerLessCooldown(int amount)
+    {
+        Debug.Log("current player less coldown"); 
+
+        if (_playerTurn == Player.Player1)
         {
-            _simpleRevealCooldownPlayer1 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer1 -= 1, 0, Mathf.Infinity);
-            _empCooldownPlayer1 = (int)Mathf.Clamp(_empCooldownPlayer1 -= 1, 0, Mathf.Infinity);
+            _simpleRevealCooldownPlayer1 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer1 -= amount, 0, Mathf.Infinity);
+            _empCooldownPlayer1 = (int)Mathf.Clamp(_empCooldownPlayer1 -= amount, 0, Mathf.Infinity);
+            _timeAcceleratorCooldownPlayer1 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer1 -= amount, 0, Mathf.Infinity);
         }
         else
         {
-            _simpleRevealCooldownPlayer2 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer2 -= 1, 0, Mathf.Infinity);
-            _empCooldownPlayer2 = (int)Mathf.Clamp(_empCooldownPlayer2 -= 1, 0, Mathf.Infinity);
+            _simpleRevealCooldownPlayer2 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer2 -= amount, 0, Mathf.Infinity);
+            _empCooldownPlayer2 = (int)Mathf.Clamp(_empCooldownPlayer2 -= amount, 0, Mathf.Infinity);
+            _timeAcceleratorCooldownPlayer2 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer2 -= amount, 0, Mathf.Infinity);
         }
     }
 
@@ -1552,6 +1612,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _empCooldownPlayer2;
+                }
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _timeAcceleratorCooldownPlayer1;
+                }
+                else
+                {
+                    return _timeAcceleratorCooldownPlayer2;
                 }
             case ("Simple Reveal"):
                 if (_playerTurn == Player.Player1)
@@ -1579,6 +1648,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _empCooldownPlayer1;
+                }
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _timeAcceleratorCooldownPlayer2;
+                }
+                else
+                {
+                    return _timeAcceleratorCooldownPlayer1;
                 }
             case ("Simple Reveal"):
                 if (_playerTurn == Player.Player1)
