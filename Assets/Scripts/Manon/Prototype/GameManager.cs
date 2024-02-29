@@ -80,6 +80,10 @@ public class GameManager : MonoBehaviour
     private int _timeAcceleratorCooldownPlayer1;
     private int _timeAcceleratorCooldownPlayer2;
 
+    private int _alternateShotCooldownPlayer1;
+    private int _alternateShotCooldownPlayer2;
+
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
 
@@ -215,7 +219,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void CheckTileClickedInCombat(Tile nearestTile)
+    public void CheckTileClickedInCombat(Tile nearestTile)
     {
         Debug.Log("combat");
         TargetController.instance.ChangeTargetPosition(nearestTile.transform.position);
@@ -224,7 +228,10 @@ public class GameManager : MonoBehaviour
         if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
         {
             TargetController.instance.ChangeTargetColorToRed();
-            UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);    
+            if (_targetOnTile.Room != null)
+            {
+                UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
+            } 
         }
         else
         {
@@ -642,22 +649,22 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomLeftTilesSR.Count; i++)
             {
-                if (tile.LeftTile.BottomTile != null)
+                if (tile.DiagBottomLeftTile != null)
                 {
-                    if (tile.LeftTile.BottomTile.IsOccupied)
+                    if (tile.DiagBottomLeftTile.IsOccupied)
                     {
-                        Debug.Log("left tile occupied " + i);
+                        Debug.Log("diag bottom left tile occupied " + i);
                         return false;
                     }
 
                 }
                 else
                 {
-                    Debug.Log("no tile at left " + i);
+                    Debug.Log("no tile at diag bottomleft " + i);
                     return false;
                 }
 
-                currentTile = tile.LeftTile.BottomTile;
+                currentTile = tile.DiagBottomLeftTile;
             }
         }
         // diag right bottom
@@ -666,21 +673,21 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomRightTilesSR.Count; i++)
             {
-                if (tile.RightTile.BottomTile != null)
+                if (tile.DiagBottomRightTile != null)
                 {
-                    if (tile.RightTile.BottomTile.IsOccupied)
+                    if (tile.DiagBottomRightTile.IsOccupied)
                     {
-                        Debug.Log("right tile occupied " + i);
+                        Debug.Log("diag bottom right tile occupied " + i);
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.Log("no tile at right " + i);
+                    Debug.Log("no tile at diag bottom right " + i);
                     return false;
                 }
 
-                currentTile = tile.RightTile.BottomTile;
+                currentTile = tile.DiagBottomRightTile;
             }
         }
         // diag left top
@@ -689,21 +696,21 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopLeftTilesSR.Count; i++)
             {
-                if (tile.LeftTile.TopTile != null)
+                if (tile.DiagTopLeftTile != null)
                 {
-                    if (tile.LeftTile.TopTile.IsOccupied)
+                    if (tile.DiagTopLeftTile.IsOccupied)
                     {
-                        Debug.Log("bottom tile occupied " + i);
+                        Debug.Log("diag top left tile occupied " + i);
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.Log("no tile at bottom " + i);
+                    Debug.Log("no tile at diag top left " + i);
                     return false;
                 }
 
-                currentTile = tile.LeftTile.TopTile;
+                currentTile = tile.DiagTopLeftTile;
             }
         }
         // diag right top
@@ -712,21 +719,21 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopRightTilesSR.Count; i++)
             {
-                if (tile.RightTile.TopTile != null)
+                if (tile.DiagTopRightTile != null)
                 {
-                    if (tile.RightTile.TopTile.IsOccupied)
+                    if (tile.DiagTopRightTile.IsOccupied)
                     {
-                        Debug.Log("bottom tile occupied " + i);
+                        Debug.Log("diag top right tile occupied " + i);
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.Log("no tile at bottom " + i);
+                    Debug.Log("no tile at diag top right " + i);
                     return false;
                 }
 
-                currentTile = tile.RightTile.TopTile;
+                currentTile = tile.DiagTopRightTile;
             }
         }
         #endregion
@@ -1105,6 +1112,20 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
+                case ("Alternate Shot"):
+                    _alternateShotCooldownPlayer1 = 0;
+                    _alternateShotCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    {
+                        if (abilitiesButtons[i].name == "AlternateShot")
+                        {
+                            ability.AbilityButton = abilitiesButtons[i];
+                            Debug.Log("found alternate shot button");
+                            break;
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -1228,30 +1249,33 @@ public class GameManager : MonoBehaviour
 
     public void CheckIfTargetRoomIsCompletelyDestroyed()
     {
-        Debug.Log("check if target room is completely destoyed");
-        bool roomCompletelyDestroyed = true;
-
-        foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
+        if (_targetOnTile.Room != null)
         {
-            if (!tile.IsDestroyed)
-            {
-                Debug.Log(tile.name + "not destroyed");
-                roomCompletelyDestroyed = false;
-            }
-        }
-
-        if (roomCompletelyDestroyed)
-        {
-            Debug.Log("room completely destroyed");
-            _targetOnTile.RoomTileSpriteRenderer.color = Color.red;
+            Debug.Log("check if target room is completely destoyed");
+            bool roomCompletelyDestroyed = true;
 
             foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
             {
-                tile.RoomTileSpriteRenderer.color = Color.red;
-                tile.Room.IsRoomDestroyed = true;
+                if (!tile.IsDestroyed)
+                {
+                    Debug.Log(tile.name + "not destroyed");
+                    roomCompletelyDestroyed = false;
+                }
             }
-        }
 
+            if (roomCompletelyDestroyed)
+            {
+                Debug.Log("room completely destroyed");
+                _targetOnTile.RoomTileSpriteRenderer.color = Color.red;
+
+                foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
+                {
+                    tile.RoomTileSpriteRenderer.color = Color.red;
+                    tile.Room.IsRoomDestroyed = true;
+                }
+            }
+
+        } 
         CheckVictory();
     }
 
@@ -1473,6 +1497,16 @@ public class GameManager : MonoBehaviour
                     _simpleRevealCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _alternateShotCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _alternateShotCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
         }
     }
 
@@ -1512,10 +1546,20 @@ public class GameManager : MonoBehaviour
                     _simpleRevealCooldownPlayer1 += 2;
                 }
                 break;
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _alternateShotCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _alternateShotCooldownPlayer1 += 2;
+                }
+                break;
         }
     }
 
-    private bool IsAbilityInCooldown(scriptablePower ability)
+    public bool IsAbilityInCooldown(scriptablePower ability)
     {
         Debug.Log("is ability in cooldown");
 
@@ -1571,6 +1615,22 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_alternateShotCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_alternateShotCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
         }
 
         return true;
@@ -1588,15 +1648,17 @@ public class GameManager : MonoBehaviour
 
         if (_playerTurn == Player.Player1)
         {
-            _simpleRevealCooldownPlayer1 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer1 -= amount, 0, Mathf.Infinity);
-            _empCooldownPlayer1 = (int)Mathf.Clamp(_empCooldownPlayer1 -= amount, 0, Mathf.Infinity);
-            _timeAcceleratorCooldownPlayer1 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer1 -= amount, 0, Mathf.Infinity);
+            _simpleRevealCooldownPlayer1 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _empCooldownPlayer1 = (int)Mathf.Clamp(_empCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _timeAcceleratorCooldownPlayer1 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _alternateShotCooldownPlayer1 = (int)Mathf.Clamp(_alternateShotCooldownPlayer1 - amount, 0, Mathf.Infinity);
         }
         else
         {
-            _simpleRevealCooldownPlayer2 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer2 -= amount, 0, Mathf.Infinity);
-            _empCooldownPlayer2 = (int)Mathf.Clamp(_empCooldownPlayer2 -= amount, 0, Mathf.Infinity);
-            _timeAcceleratorCooldownPlayer2 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer2 -= amount, 0, Mathf.Infinity);
+            _simpleRevealCooldownPlayer2 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _empCooldownPlayer2 = (int)Mathf.Clamp(_empCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _timeAcceleratorCooldownPlayer2 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _alternateShotCooldownPlayer2 = (int)Mathf.Clamp(_alternateShotCooldownPlayer2 - amount, 0, Mathf.Infinity);
         }
     }
 
@@ -1630,6 +1692,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _simpleRevealCooldownPlayer2;
+                }
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _alternateShotCooldownPlayer1;
+                }
+                else
+                {
+                    return _alternateShotCooldownPlayer2;
                 }
         }
 
@@ -1666,6 +1737,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _simpleRevealCooldownPlayer1;
+                }
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _alternateShotCooldownPlayer2;
+                }
+                else
+                {
+                    return _alternateShotCooldownPlayer1;
                 }
         }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Playables;
 using UnityEngine;
 
 public class TimeAccelerator : MonoBehaviour
@@ -19,11 +20,13 @@ public class TimeAccelerator : MonoBehaviour
     {
         Debug.Log("try time accelerator");
 
-        if (GameManager.instance.CanUseAbility(_ability))
+        //if (GameManager.instance.CanUseAbility(_ability)) on s'en fout d'ou est la target
+        if (ActionPointsManager.instance.TryUseActionPoints(GameManager.instance.PlayerTurn) && !GameManager.instance.IsAbilityInCooldown(_ability))
         {
+            ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
             _abilityButton.SetCooldown();
 
-            /*
+            /* Pas de destroy à la target
             if (GameManager.instance.TargetOnTile.IsOccupied)
             {
                 Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
