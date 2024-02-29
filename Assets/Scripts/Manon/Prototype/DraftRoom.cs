@@ -15,9 +15,18 @@ public class DraftRoom : MonoBehaviour
     [SerializeField] TMP_Text _infosNameRoomAbility;
     [SerializeField] TMP_Text _infosDescriptionRoomAbility;
 
+    [SerializeField] int _roomIndex;
+
+    private Image _image;
+
     private RoomSO _roomData;
     private Room _room;
     // ----- FIELDS ----- //
+
+    private void Start()
+    {
+        _image = GetComponent<Image>();
+    }
 
     public void InitDraftRoom(Room room)
     {
@@ -33,6 +42,21 @@ public class DraftRoom : MonoBehaviour
 
     public void SelectDraftRoom() // on click
     {
-        GameManager.instance.SelectDraftRoom(_room);
+        DraftManager.instance.SelectRoom(_roomIndex);
+    }
+
+    public Room GetRoom()
+    {
+        return _room;
+    }
+
+    public void SelectRoomUI()
+    {
+        GetComponent<Image>().color = new Color(0.34f, 0.54f, 0.77f, 1f);
+    }
+
+    public void DeselectRoomUI()
+    {
+        GetComponent<Image>().color = new Color(0.6f, 0.6f, 0.6f, 1f);
     }
 }

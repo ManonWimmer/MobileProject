@@ -383,6 +383,7 @@ public class GameManager : MonoBehaviour
     private void StartDraftRooms1()
     {
         DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraft(1);
 
         _selectedDraftRooms.Clear();
 
@@ -396,9 +397,11 @@ public class GameManager : MonoBehaviour
                 DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms1[randomIndex]);
             }
         }
+
+
     }
 
-    public void SelectDraftRoom(Room room)
+    public void SelectDraftRoom1(Room room)
     {
         if (_playerTurn == Player.Player1)
         {
@@ -1293,6 +1296,11 @@ public class GameManager : MonoBehaviour
         if (_currentMode == Mode.Combat)
         {
             CheckPlayerAbilityButtonsEnabled();
+        }
+
+        if (_currentMode == Mode.Draft)
+        {
+            DraftManager.instance.SelectRoom(0);
         }
     }
 
