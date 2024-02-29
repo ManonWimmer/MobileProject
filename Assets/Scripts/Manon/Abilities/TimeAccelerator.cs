@@ -23,6 +23,7 @@ public class TimeAccelerator : MonoBehaviour
         {
             _abilityButton.SetCooldown();
 
+            /*
             if (GameManager.instance.TargetOnTile.IsOccupied)
             {
                 Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
@@ -50,8 +51,9 @@ public class TimeAccelerator : MonoBehaviour
 
                 UIManager.instance.HideFicheRoom();
             }
-
             TargetController.instance.ChangeTargetColorToRed();
+            */
+            UIManager.instance.CheckAbilityButtonsColor();
 
             // All player cooldown - 1
             GameManager.instance.CurrentPlayerLessCooldown(1);
