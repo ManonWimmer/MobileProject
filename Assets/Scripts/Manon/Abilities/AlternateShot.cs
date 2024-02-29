@@ -80,13 +80,14 @@ public class AlternateShot : MonoBehaviour
 
     private void TryDestroyRoom(Tile tile)
     {
-        if (tile.IsOccupied)
+        Debug.Log("destroy room " + tile.name);
+        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
         {
             Debug.Log("hit room " + tile.Room.name);
             tile.RoomTileSpriteRenderer.color = Color.black;
             tile.IsDestroyed = true;
 
-            GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
+            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
 
             // update hidden rooms
             if (GameManager.instance.PlayerTurn == Player.Player1)

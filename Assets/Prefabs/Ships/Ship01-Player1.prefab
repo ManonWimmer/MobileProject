@@ -186,6 +186,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 13
@@ -193,6 +194,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &67143792654831580
@@ -297,6 +302,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 12
@@ -304,6 +310,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &227193229067934890
@@ -576,6 +586,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 12
@@ -583,6 +594,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &327599315725097306
@@ -687,6 +702,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 8
@@ -694,6 +710,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &328073310004791047
@@ -882,6 +902,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 9
@@ -889,6 +910,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &464909191386916632
@@ -1161,6 +1186,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 4
@@ -1168,6 +1194,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &540697551942811949
@@ -1440,6 +1470,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 5
@@ -1447,6 +1478,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &763798714711004331
@@ -1551,6 +1586,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 3
@@ -1558,6 +1594,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &766405570107315290
@@ -1662,6 +1702,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 12
@@ -1669,6 +1710,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &842346180411885614
@@ -1773,6 +1818,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 10
@@ -1780,6 +1826,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &917070672543258986
@@ -1884,6 +1934,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 11
@@ -1891,6 +1942,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &928021081232099615
@@ -1995,6 +2050,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 9
@@ -2002,6 +2058,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &1035098062547641885
@@ -2190,6 +2250,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 7
@@ -2197,6 +2258,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &1210489961473127439
@@ -2469,6 +2534,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 5
@@ -2476,6 +2542,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &1419688546242680584
@@ -2832,6 +2902,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 4
@@ -2839,6 +2910,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &1762939172034820727
@@ -2943,6 +3018,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 3
@@ -2950,6 +3026,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &1874696248997570322
@@ -3222,6 +3302,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 7
@@ -3229,6 +3310,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &2254091345183564008
@@ -3333,6 +3418,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 6
@@ -3340,6 +3426,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &2269513637734420337
@@ -3444,6 +3534,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 10
@@ -3451,6 +3542,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &2357410556183437269
@@ -3639,6 +3734,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 7
@@ -3646,6 +3742,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &2428730057669003966
@@ -3750,6 +3850,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 1
@@ -3757,6 +3858,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &2463768382619547676
@@ -4457,6 +4562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerShip: 0
+  StartRoundTargetTile: {fileID: 1125626023144896115}
 --- !u!1 &2972298895404856740
 GameObject:
   m_ObjectHideFlags: 0
@@ -4559,6 +4665,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 6
@@ -4566,6 +4673,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &2985360196465665352
@@ -4670,6 +4781,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 3
@@ -4677,6 +4789,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &3095946420941514214
@@ -4949,6 +5065,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 12
@@ -4956,6 +5073,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &3204414082032034651
@@ -5228,6 +5349,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 11
@@ -5235,6 +5357,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &3486930424465273760
@@ -5423,6 +5549,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 4
@@ -5430,6 +5557,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &3632968634435888816
@@ -5534,6 +5665,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 1
@@ -5541,6 +5673,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &3830964862808621480
@@ -5729,6 +5865,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 8
@@ -5736,6 +5873,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &3868878720835027631
@@ -6008,6 +6149,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 13
@@ -6015,6 +6157,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &4110582576960157186
@@ -6287,6 +6433,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 10
@@ -6294,6 +6441,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &4242297349442098420
@@ -6566,6 +6717,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 2
@@ -6573,6 +6725,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &4436272437449730273
@@ -6677,6 +6833,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 6
@@ -6684,6 +6841,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &4471153236919937863
@@ -6956,6 +7117,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 2
@@ -6963,6 +7125,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &4661819998603564068
@@ -7151,6 +7317,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 11
@@ -7158,6 +7325,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &4825159291096086218
@@ -7346,6 +7517,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 1
@@ -7353,6 +7525,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &4873039431876073977
@@ -7457,6 +7633,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 13
@@ -7464,6 +7641,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &4921839839777460166
@@ -7568,6 +7749,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 8
@@ -7575,6 +7757,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &4960064972014507341
@@ -7931,6 +8117,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 5
@@ -7938,6 +8125,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &5287896295535336276
@@ -8378,6 +8569,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 4
@@ -8385,6 +8577,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &5652904293268028627
@@ -8489,6 +8685,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 13
@@ -8496,6 +8693,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &5775017951184370673
@@ -8600,6 +8801,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 10
@@ -8607,6 +8809,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &5858306556862459323
@@ -8711,6 +8917,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 2
@@ -8718,6 +8925,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &5939268857872645751
@@ -8822,6 +9033,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 6
@@ -8829,6 +9041,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &5961781971334690228
@@ -9101,6 +9317,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 9
@@ -9108,6 +9325,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6030322974381303320
@@ -9212,6 +9433,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 2
@@ -9219,6 +9441,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6060944822598774099
@@ -9323,6 +9549,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 7
@@ -9330,6 +9557,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6198735813274303682
@@ -9518,6 +9749,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 5
@@ -9525,6 +9757,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6246702639020007851
@@ -9713,6 +9949,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 3
@@ -9720,6 +9957,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6437858370825356311
@@ -9824,6 +10065,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 12
@@ -9831,6 +10073,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6451609504723533291
@@ -9935,6 +10181,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 11
@@ -9942,6 +10189,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6467114302002002098
@@ -10046,6 +10297,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 3
@@ -10053,6 +10305,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6481543425865638204
@@ -10157,6 +10413,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 9
@@ -10164,6 +10421,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6710087254783014465
@@ -10268,6 +10529,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 6
@@ -10275,6 +10537,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6909869820131953746
@@ -10379,6 +10645,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 9
@@ -10386,6 +10653,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &6955845360299045845
@@ -10490,6 +10761,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 8
@@ -10497,6 +10769,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &7030834859751564386
@@ -10853,6 +11129,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 7
@@ -10860,6 +11137,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &7244665794969518466
@@ -11048,6 +11329,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 3
   Column: 8
@@ -11055,6 +11337,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &7320710178080507971
@@ -11243,6 +11529,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 11
@@ -11250,6 +11537,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &7698705487823604873
@@ -11438,6 +11729,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 1
   Column: 2
@@ -11445,6 +11737,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &7746905091404626873
@@ -11549,6 +11845,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 5
@@ -11556,6 +11853,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &7748727961495900717
@@ -11744,6 +12045,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 13
@@ -11751,6 +12053,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &7891106370788704436
@@ -11855,6 +12161,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 1
@@ -11862,6 +12169,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &7920192268731828729
@@ -12050,6 +12361,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 2
   Column: 4
@@ -12057,6 +12369,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &7992159359846224678
@@ -12497,6 +12813,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 4
   Column: 2
@@ -12504,6 +12821,10 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}
 --- !u!1 &8967406442524350670
@@ -12776,6 +13097,7 @@ MonoBehaviour:
   IsReavealed: 0
   IsDestroyed: 0
   IsMissed: 0
+  IsAbilitySelected: 0
   Room: {fileID: 0}
   Row: 5
   Column: 10
@@ -12783,5 +13105,9 @@ MonoBehaviour:
   RightTile: {fileID: 0}
   TopTile: {fileID: 0}
   BottomTile: {fileID: 0}
+  DiagBottomLeftTile: {fileID: 0}
+  DiagBottomRightTile: {fileID: 0}
+  DiagTopLeftTile: {fileID: 0}
+  DiagTopRightTile: {fileID: 0}
   RoomOnOtherTiles: []
   RoomTileSpriteRenderer: {fileID: 0}

@@ -56,8 +56,23 @@ PrefabInstance:
       propertyPath: PlayerShip
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7396735823854083104, guid: c0e670251bd8ceb4b962e247625e7fef, type: 3}
+      propertyPath: StartRoundTargetTile
+      value: 
+      objectReference: {fileID: 870615033983332375}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e670251bd8ceb4b962e247625e7fef, type: 3}
+--- !u!114 &870615033983332375 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1125626023144896115, guid: c0e670251bd8ceb4b962e247625e7fef, type: 3}
+  m_PrefabInstance: {fileID: 255030784816858724}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d460adae93f234c9906224b24a126a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

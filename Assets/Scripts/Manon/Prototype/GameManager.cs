@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour
     private List<GameObject> _abilityButtons = new List<GameObject>();
 
     [Header("Grids")]
-    [SerializeField] GameObject _gridPlayer1;
-    [SerializeField] GameObject _gridPlayer2;
+    [SerializeField] CustomGrid _gridPlayer1;
+    [SerializeField] CustomGrid _gridPlayer2;
 
     [Header("Rooms")]
     [SerializeField] List<Room> _startVitalRooms = new List<Room>();
@@ -255,7 +255,7 @@ public class GameManager : MonoBehaviour
     private void InitGridDicts()
     {
         #region Player1Dict
-        foreach (Tile tile in _gridPlayer1.GetComponentsInChildren<Tile>())
+        foreach (Tile tile in _gridPlayer1.gameObject.GetComponentsInChildren<Tile>())
         {
             _tilesPlayer1.Add(tile);
             int row = tile.Row;
@@ -1143,10 +1143,13 @@ public class GameManager : MonoBehaviour
                 if (room.IsRoomDestroyed)
                 {
                     Debug.Log("room destroyed " + room.name);
-                    if (room.RoomData.RoomAbility != null)
+                    if (room.RoomData.RoomAbility != null )
                     {
-                        Debug.Log("room inactive");
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                        if (room.RoomData.name != "SimpleHit")
+                        {
+                            Debug.Log("room inactive");
+                            room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                        }
                     }
                 }
                 else
@@ -1178,8 +1181,11 @@ public class GameManager : MonoBehaviour
                     Debug.Log("room destroyed " + room.name);
                     if (room.RoomData.RoomAbility != null)
                     {
-                        Debug.Log("room inactive");
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                        if (room.RoomData.RoomAbility.name != "SimpleHit")
+                        {
+                            Debug.Log("room inactive");
+                            room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                        }
                     }
                 }
                 else
@@ -1220,6 +1226,7 @@ public class GameManager : MonoBehaviour
 
     public void ShowOnlyDestroyedAndReavealedRooms(Player playerShip)
     {
+        Debug.Log("show only destroyed and revealed rooms");
         List<Tile> tiles = new List<Tile>();
 
         if (playerShip == Player.Player1)
@@ -1279,6 +1286,38 @@ public class GameManager : MonoBehaviour
         CheckVictory();
     }
 
+    public void CheckIfTileRoomIsCompletelyDestroyed(Tile targetTile)
+    {
+        if (targetTile.Room != null)
+        {
+            Debug.Log("check if tile room is completely destoyed");
+            bool roomCompletelyDestroyed = true;
+
+            foreach (Tile tile in targetTile.RoomOnOtherTiles)
+            {
+                if (!tile.IsDestroyed)
+                {
+                    Debug.Log(tile.name + "not destroyed");
+                    roomCompletelyDestroyed = false;
+                }
+            }
+
+            if (roomCompletelyDestroyed)
+            {
+                Debug.Log("room completely destroyed");
+                targetTile.RoomTileSpriteRenderer.color = Color.red;
+
+                foreach (Tile tile in targetTile.RoomOnOtherTiles)
+                {
+                    tile.RoomTileSpriteRenderer.color = Color.red;
+                    tile.Room.IsRoomDestroyed = true;
+                }
+            }
+
+        }
+        CheckVictory();
+    }
+
     public void ShowAllRooms(Player playerShip)
     {
         List<Tile> tiles = new List<Tile>();
@@ -1331,19 +1370,34 @@ public class GameManager : MonoBehaviour
 
         UIManager.instance.ShowChangerPlayerCanvas(_playerTurn);
 
-        TargetController.instance.HideTarget();
+        //TargetController.instance.HideTarget();
         _targetOnTile = null;
 
         if (_currentMode == Mode.Combat)
         {
             CheckPlayerAbilityButtonsEnabled();
             AbilityButtonsManager.instance.ResetRoundAbilityButtons();
+            SetRoundTargetPos();
         }
 
         if (_currentMode == Mode.Draft)
         {
             DraftManager.instance.SelectRoom(0);
         }
+    }
+
+    private void SetRoundTargetPos()
+    {
+        Debug.Log("set round target pos");
+        if (_playerTurn == Player.Player1)
+        {
+            CheckTileClickedInCombat(_gridPlayer2.StartRoundTargetTile);
+        }
+        else
+        {
+            CheckTileClickedInCombat(_gridPlayer1.StartRoundTargetTile);
+        }
+
     }
 
     private void SwitchCamera()
@@ -1390,6 +1444,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.HideRandomizeRoomsButton();
             UIManager.instance.ShowShitchShipButton();
+            SetRoundTargetPos();
         }
         else if (_currentMode == Mode.Draft)
         {

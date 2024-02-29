@@ -22,7 +22,6 @@ public class TimeAccelerator : MonoBehaviour
     {
         Debug.Log("try time accelerator");
 
-        Debug.Log("try simple hit");
         _target = GameManager.instance.TargetOnTile; // maybe target à enlever parce qu'on s'en fout mais du coup mettre ce bouton avec couleur clicable dès le début du round sans la condition target != null
 
         if (_target == null)
