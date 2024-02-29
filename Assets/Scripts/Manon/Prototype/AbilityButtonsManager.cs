@@ -85,13 +85,16 @@ public class AbilityButtonsManager : MonoBehaviour
             return;
         }
 
-
-        Debug.Log(_selectedButton.GetAbility().name);
         switch (_selectedButton.GetAbility().name)
         {
             case ("AlternateShot"):
                 AlternateShot_SelectAbilityTiles();
                 break;
+            case ("SimpleHit"):
+                SimpleHit_SelectAbilityTiles();
+                break;
+            case ("TimeAccelerator"):
+                break; // Pas de tile à sélectionner lol
         }
     }
 
@@ -151,6 +154,19 @@ public class AbilityButtonsManager : MonoBehaviour
         }
     }
     #endregion
+
+    public void SimpleHit_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles simple hit");
+        if (_selectedTiles != null)
+        {
+            DeselectAbilityTiles();
+            _selectedTiles.Clear();
+        }
+
+        _target.IsAbilitySelected = true;
+        _selectedTiles.Add(_target);
+    }
 
     public List<GameObject> GetAbilityButtonsList()
     {

@@ -44,8 +44,6 @@ public class AlternateShot : MonoBehaviour
             {
                 _abilityButton.SetCooldown();
 
-                
-
                 if (AbilityButtonsManager.instance.CurrentAlternateShotDirection == AlternateShotDirection.Horizontal)
                 {
                     if (_target.LeftTile != null)

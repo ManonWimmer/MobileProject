@@ -7,6 +7,8 @@ public class SimpleHit : MonoBehaviour
     // ----- FIELDs ----- //
     private scriptablePower _ability;
     private AbilityButton _abilityButton;
+
+    private Tile _target;
     // ----- FIELDS ----- //
 
     private void Start()
@@ -18,40 +20,54 @@ public class SimpleHit : MonoBehaviour
     public void TrySimpleHit()
     {
         Debug.Log("try simple hit");
+        _target = GameManager.instance.TargetOnTile;
 
-        if (GameManager.instance.CanUseAbility(_ability)) 
+        if (_target == null)
         {
-            _abilityButton.SetCooldown();
+            return;
+        }
 
-            if (GameManager.instance.TargetOnTile.IsOccupied)
+        if (!_abilityButton.IsSelected)
+        {
+            AbilityButtonsManager.instance.SelectAbilityButton(_abilityButton);
+            return;
+        }
+        else
+        {
+            if (GameManager.instance.CanUseAbility(_ability))
             {
-                Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
-                GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.black;
-                GameManager.instance.TargetOnTile.IsDestroyed = true;
+                _abilityButton.SetCooldown();
 
-                GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
-
-                // update hidden rooms
-                if (GameManager.instance.PlayerTurn == Player.Player1)
+                if (GameManager.instance.TargetOnTile.IsOccupied)
                 {
-                    GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
+                    Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
+                    GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.black;
+                    GameManager.instance.TargetOnTile.IsDestroyed = true;
+
+                    GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
+
+                    // update hidden rooms
+                    if (GameManager.instance.PlayerTurn == Player.Player1)
+                    {
+                        GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
+                    }
+                    else
+                    {
+                        GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
+                    }
+
+                    UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
                 }
                 else
                 {
-                    GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
+                    GameManager.instance.TargetOnTile.IsMissed = true;
+                    Debug.Log("no room on hit");
+
+                    UIManager.instance.HideFicheRoom();
                 }
 
-                UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
+                TargetController.instance.ChangeTargetColorToRed();
             }
-            else
-            {
-                GameManager.instance.TargetOnTile.IsMissed = true;
-                Debug.Log("no room on hit");
-
-                UIManager.instance.HideFicheRoom();
-            }
-
-            TargetController.instance.ChangeTargetColorToRed();
-        }
+        } 
     } 
 }
