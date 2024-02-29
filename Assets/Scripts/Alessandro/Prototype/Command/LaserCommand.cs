@@ -12,7 +12,7 @@ class LaserCommand : ACommand<AbilityType>
         // the active logic of the command
         // different steps, staircase mode
         // attacking step, hit step, applying damage step, feedback step
-        _sender.GetHitLaser(args);
+        _receiver.GetHitLaser(args);
         yield return null;
     }
 
