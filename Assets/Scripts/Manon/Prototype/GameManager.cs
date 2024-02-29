@@ -402,16 +402,13 @@ public class GameManager : MonoBehaviour
 
         while (_selectedDraftRooms.Count < 3)
         {
-            int randomIndex = Random.Range(0, _draftRooms1.Count - 1);
-
+            int randomIndex = Random.Range(0, _draftRooms1.Count);
             if (!_selectedDraftRooms.Contains(_draftRooms1[randomIndex]))
             {
                 _selectedDraftRooms.Add(_draftRooms1[randomIndex]);
                 DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms1[randomIndex]);
             }
         }
-
-
     }
 
     public void SelectDraftRoom1(Room room)

@@ -9,6 +9,8 @@ public class EMP : MonoBehaviour
     // ----- FIELDs ----- //
     private scriptablePower _ability;
     private AbilityButton _abilityButton;
+
+    private Tile _target;
     // ----- FIELDS ----- //
 
     private void Start()
@@ -20,159 +22,171 @@ public class EMP : MonoBehaviour
     public void TryEMP()
     {
         Debug.Log("try emp");
+        _target = GameManager.instance.TargetOnTile;
 
-        if (GameManager.instance.CanUseAbility(_ability))
+        if (_target == null)
         {
-            _abilityButton.SetCooldown();
+            return;
+        }
 
-            // Simple hit on target (destroyed or missed)
-            if (GameManager.instance.TargetOnTile.IsOccupied)
+        if (!_abilityButton.IsSelected)
+        {
+            AbilityButtonsManager.instance.SelectAbilityButton(_abilityButton);
+            return;
+        }
+        else
+        {
+            if (GameManager.instance.CanUseAbility(_ability))
             {
-                Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
-                GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.black;
-                GameManager.instance.TargetOnTile.IsDestroyed = true;
+                _abilityButton.SetCooldown();
 
-                GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
-
-                // update hidden rooms
-                if (GameManager.instance.PlayerTurn == Player.Player1)
+                // Simple hit on target (destroyed or missed)
+                if (GameManager.instance.TargetOnTile.IsOccupied)
                 {
-                    GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
+                    Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
+                    GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.black;
+                    GameManager.instance.TargetOnTile.IsDestroyed = true;
+
+                    GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
+
+                    // update hidden rooms
+                    if (GameManager.instance.PlayerTurn == Player.Player1)
+                    {
+                        GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
+                    }
+                    else
+                    {
+                        GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
+                    }
+
+                    UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
                 }
                 else
                 {
-                    GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
+                    GameManager.instance.TargetOnTile.IsMissed = true;
+                    Debug.Log("no room on hit");
+
+                    UIManager.instance.HideFicheRoom();
                 }
 
-                UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
-            }
-            else
-            {
-                GameManager.instance.TargetOnTile.IsMissed = true;
-                Debug.Log("no room on hit");
+                TargetController.instance.ChangeTargetColorToRed();
 
-                UIManager.instance.HideFicheRoom();
-            }
+                // Desactivate for one turn room's abilities around the target (+1 cooldown)
+                List<Room> roomsToDesactivate = new List<Room>();
 
-            TargetController.instance.ChangeTargetColorToRed();
-
-            // Desactivate for one turn room's abilities around the target (+1 cooldown)
-            List<Room> roomsToDesactivate = new List<Room>();
-
-            #region Right, Left, Bottom & Top
-            // Right
-            if (GameManager.instance.TargetOnTile.RightTile != null)
-            {
-                if (GameManager.instance.TargetOnTile.RightTile.Room != null)
+                #region Right, Left, Bottom & Top
+                // Right
+                if (GameManager.instance.TargetOnTile.RightTile != null)
                 {
-                    if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.RightTile.Room))
+                    if (GameManager.instance.TargetOnTile.RightTile.Room != null)
                     {
-                        roomsToDesactivate.Add(GameManager.instance.TargetOnTile.RightTile.Room);
-                    }
-                }      
-            }
-
-            // Left
-            if (GameManager.instance.TargetOnTile.LeftTile != null)
-            {
-                if (GameManager.instance.TargetOnTile.LeftTile.Room != null)
-                {
-                    if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.LeftTile.Room))
-                    {
-                        roomsToDesactivate.Add(GameManager.instance.TargetOnTile.LeftTile.Room);
-                    }
-                }      
-            }
-
-            // Bottom
-            if (GameManager.instance.TargetOnTile.BottomTile != null)
-            {
-                if (GameManager.instance.TargetOnTile.BottomTile.Room != null)
-                {
-                    if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.BottomTile.Room))
-                    {
-                        roomsToDesactivate.Add(GameManager.instance.TargetOnTile.BottomTile.Room);
-                    }
-                }  
-            }
-
-            // Top
-            if (GameManager.instance.TargetOnTile.TopTile != null)
-            {
-                if (GameManager.instance.TargetOnTile.TopTile.Room != null)
-                {
-                    if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.TopTile.Room))
-                    {
-                        roomsToDesactivate.Add(GameManager.instance.TargetOnTile.TopTile.Room);
-                    }
-                }      
-            }
-            #endregion
-
-            #region Diag Top Left & Right, Bottom Left & Right
-            // Diag top left
-            if (GameManager.instance.TargetOnTile.DiagTopLeftTile != null)
-            {
-                if (GameManager.instance.TargetOnTile.DiagTopLeftTile.Room != null)
-                {
-                    if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.DiagTopLeftTile.Room))
-                    {
-                        roomsToDesactivate.Add(GameManager.instance.TargetOnTile.DiagTopLeftTile.Room);
-                    }
-                }   
-            }
-
-            // Diag top right
-            if (GameManager.instance.TargetOnTile.DiagTopRightTile != null)
-            {
-                if (GameManager.instance.TargetOnTile.DiagTopRightTile.Room != null)
-                {
-                    if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.DiagTopRightTile.Room))
-                    {
-                        roomsToDesactivate.Add(GameManager.instance.TargetOnTile.DiagTopRightTile.Room);
-                    }
-                }  
-            }
-
-            // Diag bottom left
-            if (GameManager.instance.TargetOnTile.DiagBottomLeftTile != null)
-            {
-                if (GameManager.instance.TargetOnTile.DiagBottomLeftTile.Room != null)
-                {
-                    if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.DiagBottomLeftTile.Room))
-                    {
-                        roomsToDesactivate.Add(GameManager.instance.TargetOnTile.DiagBottomLeftTile.Room);
+                        if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.RightTile.Room))
+                        {
+                            roomsToDesactivate.Add(GameManager.instance.TargetOnTile.RightTile.Room);
+                        }
                     }
                 }
-            }
 
-            // Diag bottom right
-            if (GameManager.instance.TargetOnTile.DiagBottomRightTile != null)
-            {
-                if (GameManager.instance.TargetOnTile.DiagBottomRightTile.Room != null)
+                // Left
+                if (GameManager.instance.TargetOnTile.LeftTile != null)
                 {
-                    if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.DiagBottomRightTile.Room))
+                    if (GameManager.instance.TargetOnTile.LeftTile.Room != null)
                     {
-                        roomsToDesactivate.Add(GameManager.instance.TargetOnTile.DiagBottomRightTile.Room);
+                        if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.LeftTile.Room))
+                        {
+                            roomsToDesactivate.Add(GameManager.instance.TargetOnTile.LeftTile.Room);
+                        }
                     }
-                }     
-            }
-            #endregion
+                }
 
-            foreach(Room room in roomsToDesactivate)
-            {
-                if (room.RoomData.RoomAbility != null)
+                // Bottom
+                if (GameManager.instance.TargetOnTile.BottomTile != null)
                 {
-                    Debug.Log("AAA" + room.RoomData.RoomAbility.name);
-                    Debug.Log("cooldown " + GameManager.instance.GetCurrentCooldown(room.RoomData.RoomAbility));
-                    if (GameManager.instance.GetEnemyCurrentCooldown(room.RoomData.RoomAbility) == 0)
+                    if (GameManager.instance.TargetOnTile.BottomTile.Room != null)
                     {
-                        GameManager.instance.AddEnemyAbilityOneCooldown(room.RoomData.RoomAbility);
-                        Debug.Log("add 1 cooldown to " + room.RoomData.RoomAbility.name);
+                        if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.BottomTile.Room))
+                        {
+                            roomsToDesactivate.Add(GameManager.instance.TargetOnTile.BottomTile.Room);
+                        }
+                    }
+                }
+
+                // Top
+                if (GameManager.instance.TargetOnTile.TopTile != null)
+                {
+                    if (GameManager.instance.TargetOnTile.TopTile.Room != null)
+                    {
+                        if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.TopTile.Room))
+                        {
+                            roomsToDesactivate.Add(GameManager.instance.TargetOnTile.TopTile.Room);
+                        }
+                    }
+                }
+                #endregion
+
+                #region Diag Top Left & Right, Bottom Left & Right
+                // Diag top left
+                if (GameManager.instance.TargetOnTile.DiagTopLeftTile != null)
+                {
+                    if (GameManager.instance.TargetOnTile.DiagTopLeftTile.Room != null)
+                    {
+                        if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.DiagTopLeftTile.Room))
+                        {
+                            roomsToDesactivate.Add(GameManager.instance.TargetOnTile.DiagTopLeftTile.Room);
+                        }
+                    }
+                }
+
+                // Diag top right
+                if (GameManager.instance.TargetOnTile.DiagTopRightTile != null)
+                {
+                    if (GameManager.instance.TargetOnTile.DiagTopRightTile.Room != null)
+                    {
+                        if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.DiagTopRightTile.Room))
+                        {
+                            roomsToDesactivate.Add(GameManager.instance.TargetOnTile.DiagTopRightTile.Room);
+                        }
+                    }
+                }
+
+                // Diag bottom left
+                if (GameManager.instance.TargetOnTile.DiagBottomLeftTile != null)
+                {
+                    if (GameManager.instance.TargetOnTile.DiagBottomLeftTile.Room != null)
+                    {
+                        if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.DiagBottomLeftTile.Room))
+                        {
+                            roomsToDesactivate.Add(GameManager.instance.TargetOnTile.DiagBottomLeftTile.Room);
+                        }
+                    }
+                }
+
+                // Diag bottom right
+                if (GameManager.instance.TargetOnTile.DiagBottomRightTile != null)
+                {
+                    if (GameManager.instance.TargetOnTile.DiagBottomRightTile.Room != null)
+                    {
+                        if (!roomsToDesactivate.Contains(GameManager.instance.TargetOnTile.DiagBottomRightTile.Room))
+                        {
+                            roomsToDesactivate.Add(GameManager.instance.TargetOnTile.DiagBottomRightTile.Room);
+                        }
+                    }
+                }
+                #endregion
+
+                foreach (Room room in roomsToDesactivate)
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        Debug.Log("cooldown " + GameManager.instance.GetCurrentCooldown(room.RoomData.RoomAbility));
+                        if (GameManager.instance.GetEnemyCurrentCooldown(room.RoomData.RoomAbility) == 0)
+                        {
+                            GameManager.instance.AddEnemyAbilityOneCooldown(room.RoomData.RoomAbility);
+                            Debug.Log("add 1 cooldown to " + room.RoomData.RoomAbility.name);
+                        }
                     }
                 }
             }
         }
     }
-    
 }

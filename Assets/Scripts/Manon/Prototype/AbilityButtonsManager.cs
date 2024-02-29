@@ -49,6 +49,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
     public void SelectAbilityButton(AbilityButton button)
     {
+        Debug.Log("select ability button");
         _selectedButton = button;
         _target = GameManager.instance.TargetOnTile;
 
@@ -93,6 +94,12 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("SimpleHit"):
                 SimpleHit_SelectAbilityTiles();
                 break;
+            case ("SimpleReveal"):
+                SimpleReveal_SelectAbilityTiles();
+                break;
+            case ("EMP"):
+                EMP_SelectAbilityTiles();
+                break;
             case ("TimeAccelerator"):
                 break; // Pas de tile à sélectionner lol
         }
@@ -114,8 +121,82 @@ public class AbilityButtonsManager : MonoBehaviour
         _selectedTiles.Clear();
     }
 
+    private void EMP_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles emp");
+        if (_selectedTiles != null)
+        {
+            DeselectAbilityTiles();
+            _selectedTiles.Clear();
+        }
+
+        // Center
+        _target.IsAbilitySelected = true;
+        _selectedTiles.Add(_target);
+
+        #region Right, Left, Bottom & Top
+        // Right
+        if (_target.RightTile != null)
+        {
+            _target.RightTile.IsAbilitySelected = true;
+            _selectedTiles.Add(_target.RightTile);
+        }
+
+        // Left
+        if (_target.LeftTile != null)
+        {
+            _target.LeftTile.IsAbilitySelected = true;
+            _selectedTiles.Add(_target.LeftTile);
+        }
+
+        // Bottom
+        if (_target.BottomTile != null)
+        {
+            _target.BottomTile.IsAbilitySelected = true;
+            _selectedTiles.Add(_target.BottomTile);
+        }
+
+        // Top
+        if (_target.TopTile != null)
+        {
+            _target.TopTile.IsAbilitySelected = true;
+            _selectedTiles.Add(_target.TopTile);
+        }
+        #endregion
+
+        #region Diag Top Left & Right, Bottom Left & Right
+        // Diag top left
+        if (_target.DiagTopLeftTile != null)
+        {
+            _target.DiagTopLeftTile.IsAbilitySelected = true;
+            _selectedTiles.Add(_target.DiagTopLeftTile);
+        }
+
+        // Diag top right
+        if (_target.DiagTopRightTile != null)
+        {
+            _target.DiagTopRightTile.IsAbilitySelected = true;
+            _selectedTiles.Add(_target.DiagTopRightTile);
+        }
+
+        // Diag bottom left
+        if (_target.DiagBottomLeftTile != null)
+        {
+            _target.DiagBottomLeftTile.IsAbilitySelected = true;
+            _selectedTiles.Add(_target.DiagBottomLeftTile);
+        }
+
+        // Diag bottom right
+        if (_target.DiagBottomRightTile != null)
+        {
+            _target.DiagBottomRightTile.IsAbilitySelected = true;
+            _selectedTiles.Add(_target.DiagBottomRightTile);
+        }
+        #endregion
+    }
+
     #region Alternate Shot Selection
-    public void AlternateShot_SelectAbilityTiles()
+    private void AlternateShot_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles alternate shot");
         if (_selectedTiles != null)
@@ -155,9 +236,21 @@ public class AbilityButtonsManager : MonoBehaviour
     }
     #endregion
 
-    public void SimpleHit_SelectAbilityTiles()
+    #region Simple Hit & Reveal
+    private void SimpleHit_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles simple hit");
+        SelectOnlyTargetTile();
+    }
+
+    private void SimpleReveal_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles simple reveal");
+        SelectOnlyTargetTile();
+    }
+
+    private void SelectOnlyTargetTile()
+    {
         if (_selectedTiles != null)
         {
             DeselectAbilityTiles();
@@ -167,6 +260,7 @@ public class AbilityButtonsManager : MonoBehaviour
         _target.IsAbilitySelected = true;
         _selectedTiles.Add(_target);
     }
+    #endregion
 
     public List<GameObject> GetAbilityButtonsList()
     {

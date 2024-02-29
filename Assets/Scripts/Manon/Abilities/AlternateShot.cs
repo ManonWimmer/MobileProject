@@ -14,6 +14,7 @@ public class AlternateShot : MonoBehaviour
     // ----- FIELDS ----- //
     private scriptablePower _ability;
     private AbilityButton _abilityButton;
+
     private Tile _target;
     // ----- FIELDS ----- //
 
