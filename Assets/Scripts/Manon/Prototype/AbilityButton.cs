@@ -13,9 +13,13 @@ public class AbilityButton : MonoBehaviour
     private Image _image;
     private Button _button;
     private Button.ButtonClickedEvent _onClickOnline;
+
     private bool _isSelected;
 
     public bool IsOffline = false;
+
+    public bool IsSelected { get => _isSelected; set => _isSelected = value; }
+
     // ----- FIELDS ----- //
 
     private void Start()
@@ -29,6 +33,18 @@ public class AbilityButton : MonoBehaviour
     public scriptablePower GetAbility()
     {
         return _ability;
+    }
+
+    public void SelectButton()
+    {
+        Debug.Log("select ability button");
+        _isSelected = true;
+    }
+
+    public void DeselectButton()
+    {
+        Debug.Log("deselect ability button");
+        _isSelected = false;
     }
 
     public void SetCooldown()

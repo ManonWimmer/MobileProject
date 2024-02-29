@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("Abilities")]
-    [SerializeField] List<scriptablePower> abilitiesSO = new List<scriptablePower>();
-    [SerializeField] List<GameObject> abilitiesButtons = new List<GameObject>();
+    [SerializeField] List<scriptablePower> _abilitiesSO = new List<scriptablePower>();
+    private List<GameObject> _abilityButtons = new List<GameObject>();
 
     [Header("Grids")]
     [SerializeField] GameObject _gridPlayer1;
@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _abilityButtons = AbilityButtonsManager.instance.GetAbilityButtonsList();
         StartDraftRooms1();
     }
 
@@ -225,6 +226,7 @@ public class GameManager : MonoBehaviour
         TargetController.instance.ChangeTargetPosition(nearestTile.transform.position);
         _targetOnTile = nearestTile;
 
+
         if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
         {
             TargetController.instance.ChangeTargetColorToRed();
@@ -239,6 +241,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideFicheRoom();
         }
 
+        AbilityButtonsManager.instance.ChangeSelectedTilesOnTargetPos();
         UIManager.instance.CheckAbilityButtonsColor();
     }
 
@@ -1055,16 +1058,16 @@ public class GameManager : MonoBehaviour
     private void InitAbilitesSOButtons()
     {
         Debug.Log("init abilities so buttons");
-        foreach (scriptablePower ability in abilitiesSO)
+        foreach (scriptablePower ability in _abilitiesSO)
         {
             switch (ability.AbilityName)
             {
                 case ("Simple Hit"):
-                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    for (int i = 0; i < _abilityButtons.Count; i++)
                     {
-                        if (abilitiesButtons[i].name == "SimpleHit")
+                        if (_abilityButtons[i].name == "SimpleHit")
                         {
-                            ability.AbilityButton = abilitiesButtons[i];
+                            ability.AbilityButton = _abilityButtons[i];
                             Debug.Log("found simple hit button");
                             break;
                         }
@@ -1074,11 +1077,11 @@ public class GameManager : MonoBehaviour
                     _empCooldownPlayer1 = 0;
                     _empCooldownPlayer2 = 0;
 
-                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    for (int i = 0; i < _abilityButtons.Count; i++)
                     {
-                        if (abilitiesButtons[i].name == "EMP")
+                        if (_abilityButtons[i].name == "EMP")
                         {
-                            ability.AbilityButton = abilitiesButtons[i];
+                            ability.AbilityButton = _abilityButtons[i];
                             Debug.Log("found emp button");
                             break;
                         }
@@ -1088,11 +1091,11 @@ public class GameManager : MonoBehaviour
                     _timeAcceleratorCooldownPlayer1 = 0;
                     _timeAcceleratorCooldownPlayer2 = 0;
 
-                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    for (int i = 0; i < _abilityButtons.Count; i++)
                     {
-                        if (abilitiesButtons[i].name == "TimeAccelerator")
+                        if (_abilityButtons[i].name == "TimeAccelerator")
                         {
-                            ability.AbilityButton = abilitiesButtons[i];
+                            ability.AbilityButton = _abilityButtons[i];
                             Debug.Log("found time accelerator button");
                             break;
                         }
@@ -1102,11 +1105,11 @@ public class GameManager : MonoBehaviour
                     _simpleRevealCooldownPlayer1 = 0;
                     _simpleRevealCooldownPlayer2 = 0;
 
-                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    for (int i = 0; i < _abilityButtons.Count; i++)
                     {
-                        if (abilitiesButtons[i].name == "SimpleReveal")
+                        if (_abilityButtons[i].name == "SimpleReveal")
                         {
-                            ability.AbilityButton = abilitiesButtons[i];
+                            ability.AbilityButton = _abilityButtons[i];
                             Debug.Log("found simple reveal button");
                             break;
                         }
@@ -1116,11 +1119,11 @@ public class GameManager : MonoBehaviour
                     _alternateShotCooldownPlayer1 = 0;
                     _alternateShotCooldownPlayer2 = 0;
 
-                    for (int i = 0; i < abilitiesButtons.Count; i++)
+                    for (int i = 0; i < _abilityButtons.Count; i++)
                     {
-                        if (abilitiesButtons[i].name == "AlternateShot")
+                        if (_abilityButtons[i].name == "AlternateShot")
                         {
-                            ability.AbilityButton = abilitiesButtons[i];
+                            ability.AbilityButton = _abilityButtons[i];
                             Debug.Log("found alternate shot button");
                             break;
                         }
@@ -1157,7 +1160,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
               
-                foreach (scriptablePower ability in abilitiesSO)
+                foreach (scriptablePower ability in _abilitiesSO)
                 {
                     if (room.RoomData.RoomAbility != null)
                     {
@@ -1191,7 +1194,7 @@ public class GameManager : MonoBehaviour
                 }
 
 
-                foreach (scriptablePower ability in abilitiesSO)
+                foreach (scriptablePower ability in _abilitiesSO)
                 {
                     if (room.RoomData.RoomAbility != null)
                     {
@@ -1204,7 +1207,7 @@ public class GameManager : MonoBehaviour
             } 
         }
 
-        foreach(scriptablePower ability in abilitiesSO)
+        foreach(scriptablePower ability in _abilitiesSO)
         {
             if (inRoomsAbilities.Contains(ability))
             {
@@ -1337,6 +1340,7 @@ public class GameManager : MonoBehaviour
         if (_currentMode == Mode.Combat)
         {
             CheckPlayerAbilityButtonsEnabled();
+            AbilityButtonsManager.instance.ResetRoundAbilityButtons();
         }
 
         if (_currentMode == Mode.Draft)

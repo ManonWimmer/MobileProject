@@ -14,8 +14,7 @@ public class AlternateShot : MonoBehaviour
     // ----- FIELDS ----- //
     private scriptablePower _ability;
     private AbilityButton _abilityButton;
-
-    private AlternateShotDirection _currentAlternateShotDirection = AlternateShotDirection.Horizontal;
+    private Tile _target;
     // ----- FIELDS ----- //
 
     private void Start()
@@ -27,42 +26,56 @@ public class AlternateShot : MonoBehaviour
     public void TryAlternateShot()
     {
         Debug.Log("try simple hit");
+        _target = GameManager.instance.TargetOnTile;
 
-        if (GameManager.instance.CanUseAbility(_ability))
+        if (_target == null)
         {
-            _abilityButton.SetCooldown();
+            return;
+        }
 
-            Tile target = GameManager.instance.TargetOnTile;
-
-            if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
+        if (!_abilityButton.IsSelected)
+        {
+            AbilityButtonsManager.instance.SelectAbilityButton(_abilityButton);
+            return;
+        }
+        else
+        {
+            if (GameManager.instance.CanUseAbility(_ability))
             {
-                if (target.LeftTile != null)
+                _abilityButton.SetCooldown();
+
+                
+
+                if (AbilityButtonsManager.instance.CurrentAlternateShotDirection == AlternateShotDirection.Horizontal)
                 {
-                    TryDestroyRoom(target.LeftTile);
+                    if (_target.LeftTile != null)
+                    {
+                        TryDestroyRoom(_target.LeftTile);
+                    }
+
+                    if (_target.RightTile != null)
+                    {
+                        TryDestroyRoom(_target.RightTile);
+                    }
+                }
+                else
+                {
+                    if (_target.TopTile != null)
+                    {
+                        TryDestroyRoom(_target.TopTile);
+                    }
+
+                    if (_target.BottomTile != null)
+                    {
+                        TryDestroyRoom(_target.BottomTile);
+                    }
                 }
 
-                if (target.RightTile != null)
-                {
-                    TryDestroyRoom(target.RightTile);
-                }
+                TryDestroyRoom(_target);
+
+                TargetController.instance.ChangeTargetColorToRed();
+                ChangeAlternateShotDirection();
             }
-            else
-            {
-                if (target.TopTile != null)
-                {
-                    TryDestroyRoom(target.TopTile);
-                }
-
-                if (target.BottomTile != null)
-                {
-                    TryDestroyRoom(target.BottomTile);
-                }
-            }
-
-            TryDestroyRoom(target);
-
-            TargetController.instance.ChangeTargetColorToRed();
-            ChangeAlternateShotDirection();
         }
     }
 
@@ -101,13 +114,13 @@ public class AlternateShot : MonoBehaviour
 
     private void ChangeAlternateShotDirection()
     {
-        if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
+        if (AbilityButtonsManager.instance.CurrentAlternateShotDirection == AlternateShotDirection.Horizontal)
         {
-            _currentAlternateShotDirection = AlternateShotDirection.Vertical;
+            AbilityButtonsManager.instance.CurrentAlternateShotDirection = AlternateShotDirection.Vertical;
         }
         else
         {
-            _currentAlternateShotDirection = AlternateShotDirection.Horizontal;
+            AbilityButtonsManager.instance.CurrentAlternateShotDirection = AlternateShotDirection.Horizontal;
         }
     }
 }

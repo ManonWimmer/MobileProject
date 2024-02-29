@@ -9,6 +9,7 @@ public class Tile : MonoBehaviour
     public bool IsReavealed;
     public bool IsDestroyed;
     public bool IsMissed;
+    public bool IsAbilitySelected;
 
     public Room Room;
 
@@ -54,6 +55,17 @@ public class Tile : MonoBehaviour
             if (IsDestroyed || IsMissed || IsReavealed)
             {
                 _spriteRenderer.color = Color.red;
+            }
+            else if (IsAbilitySelected && ActionPointsManager.instance.TryUseActionPoints(GameManager.instance.PlayerTurn) && AbilityButtonsManager.instance.GetCurrentlySelectedAbilityButton() != null)
+            {
+                if (GameManager.instance.IsAbilityInCooldown(AbilityButtonsManager.instance.GetCurrentlySelectedAbilityButton().GetAbility()))
+                {
+                    _spriteRenderer.color = Color.black;
+                }
+                else
+                {
+                    _spriteRenderer.color = Color.white;
+                }   
             }
             else
             {

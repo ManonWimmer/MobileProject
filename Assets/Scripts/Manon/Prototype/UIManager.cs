@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Ability Buttons")]
     [SerializeField] GameObject _randomizeRoomsButton;
-    [SerializeField] List<GameObject> _abilityButtons = new List<GameObject>();
+    private List<GameObject> _abilityButtons = new List<GameObject>();
 
     [Header("Victory")]
     [SerializeField] GameObject _victoryCanvas;
@@ -65,6 +65,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        _abilityButtons = AbilityButtonsManager.instance.GetAbilityButtonsList();
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         ShowButtonValidateConstruction();
@@ -164,6 +165,7 @@ public class UIManager : MonoBehaviour
     #region Ability Buttons
     public void HideButtonsCombat()
     {
+        Debug.Log("hide buttons combat");
         foreach (GameObject abilityButton in _abilityButtons)
         {
             abilityButton.SetActive(false);  
@@ -172,6 +174,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowButtonsCombat()
     {
+        Debug.Log("show buttons combat");
+
         foreach (GameObject abilityButton in _abilityButtons)
         {
             abilityButton.SetActive(true);
@@ -188,7 +192,14 @@ public class UIManager : MonoBehaviour
             AbilityButton button = abilityButton.GetComponentInChildren<AbilityButton>();
             if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()) > 0 && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline && GameManager.instance.GetCurrentCooldown(button.GetAbility()) == 0)
             {
-                button.GetComponent<Image>().color = Color.white;
+                if (button.IsSelected)
+                {
+                    button.GetComponent<Image>().color = new Color(0.34f, 0.54f, 77f);
+                }
+                else
+                {
+                    button.GetComponent<Image>().color = Color.white;
+                }
             }
             else if (button.IsOffline)
             {
