@@ -99,14 +99,14 @@ PrefabInstance:
     - target: {fileID: 4129928616791618933, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 928284470921288621}
+      objectReference: {fileID: 895401990759942017}
     - target: {fileID: 4129928616791618933, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryCapacitor
+      value: SelectOrDeselectAbility
       objectReference: {fileID: 0}
     - target: {fileID: 4129928616791618933, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Capacitor, Assembly-CSharp
+      value: AbilityButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4488421761339112639, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: _ability
@@ -124,25 +124,16 @@ PrefabInstance:
     - {fileID: 544967888995129320, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4849851221215077128, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 928284470921288621}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
---- !u!1 &8172108555804497974 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4849851221215077128, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
+--- !u!114 &895401990759942017 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4488421761339112639, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
   m_PrefabInstance: {fileID: 3613866651170945854}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &928284470921288621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8172108555804497974}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76740ee3a4d2db942b1631164cf5f823, type: 3}
+  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

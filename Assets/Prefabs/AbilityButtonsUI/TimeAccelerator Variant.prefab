@@ -98,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2650013509581391840, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
       propertyPath: m_text
-      value: EMP
+      value: Time Accelerator
       objectReference: {fileID: 0}
     - target: {fileID: 3642740347650835965, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
       propertyPath: _ability
@@ -107,14 +107,14 @@ PrefabInstance:
     - target: {fileID: 3861831141973789751, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 919171474659898102}
+      objectReference: {fileID: 3235217273157199517}
     - target: {fileID: 3861831141973789751, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryTimeAccelerator
+      value: SelectOrDeselectAbility
       objectReference: {fileID: 0}
     - target: {fileID: 3861831141973789751, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: TimeAccelerator, Assembly-CSharp
+      value: AbilityButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5731304660530289226, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
       propertyPath: m_Name
@@ -136,25 +136,16 @@ PrefabInstance:
     - {fileID: 2882317087886601681, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5731304660530289226, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 919171474659898102}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
---- !u!1 &5900277133749188906 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5731304660530289226, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
+--- !u!114 &3235217273157199517 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3642740347650835965, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
   m_PrefabInstance: {fileID: 2191091326576501600}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &919171474659898102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5900277133749188906}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7199a57b6018f8e4a8a44b88a728a874, type: 3}
+  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 177754232018495723}
   - component: {fileID: 9109795276489203915}
   - component: {fileID: 8752210913978624257}
-  - component: {fileID: 7204501981145907501}
   m_Layer: 5
   m_Name: SimpleRevealButton
   m_TagString: Untagged
@@ -124,9 +123,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7204501981145907501}
-        m_TargetAssemblyTypeName: SimpleReveal, Assembly-CSharp
-        m_MethodName: TrySimpleReveal
+      - m_Target: {fileID: 8752210913978624257}
+        m_TargetAssemblyTypeName: AbilityButton, Assembly-CSharp
+        m_MethodName: SelectOrDeselectAbility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -151,18 +150,6 @@ MonoBehaviour:
   _ability: {fileID: 11400000, guid: d337bd36531b7fd4686f48ecaca9c362, type: 2}
   _cooldownTxt: {fileID: 2435483680375109051}
   IsOffline: 0
---- !u!114 &7204501981145907501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 320366105933313718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a1e44d027a66cc489a414b29e21d21d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2081468264348203938
 GameObject:
   m_ObjectHideFlags: 0

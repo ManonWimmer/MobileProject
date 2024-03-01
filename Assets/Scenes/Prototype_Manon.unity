@@ -2522,17 +2522,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319442558}
   m_CullTransparentMesh: 1
---- !u!114 &425249218 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8752210913978624257, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
-  m_PrefabInstance: {fileID: 3102322018899790869}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &459641182 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8120930495469785031, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
@@ -3019,28 +3008,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488192657}
   m_CullTransparentMesh: 1
---- !u!114 &512946057 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8517046354590538446, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
-  m_PrefabInstance: {fileID: 4564236313073088556}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &539784477 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 895401990759942017, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
-  m_PrefabInstance: {fileID: 7088789590931666823}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &555573471
 GameObject:
   m_ObjectHideFlags: 0
@@ -4587,17 +4554,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &816323304 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3235217273157199517, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
-  m_PrefabInstance: {fileID: 591627640103170443}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &863691137
 GameObject:
   m_ObjectHideFlags: 0
@@ -6740,17 +6696,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353427862}
   m_CullTransparentMesh: 1
---- !u!114 &1359122446 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4488421761339112639, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
-  m_PrefabInstance: {fileID: 4020998380045802970}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1367382857
 GameObject:
   m_ObjectHideFlags: 0
@@ -7082,17 +7027,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412288647}
   m_CullTransparentMesh: 1
---- !u!114 &1425076237 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4897599997762137039, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
-  m_PrefabInstance: {fileID: 6798085389150773589}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1438035687
 GameObject:
   m_ObjectHideFlags: 0
@@ -11029,28 +10963,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3170440703489322839, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 816323304}
-    - target: {fileID: 3170440703489322839, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectOrDeselectAbility
-      objectReference: {fileID: 0}
-    - target: {fileID: 3170440703489322839, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AbilityButton, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4228577465353495680, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
-      propertyPath: m_text
-      value: Time Accelerator
-      objectReference: {fileID: 0}
     - target: {fileID: 7203258031723012165, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_Name
       value: TimeAccelerator
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 919171474659898102, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -11068,14 +10985,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1529084517}
     m_Modifications:
-    - target: {fileID: 177754232018495723, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 320366105933313718, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3919478094390652889, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
       propertyPath: m_Name
       value: SimpleReveal
@@ -11160,20 +11069,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9109795276489203915, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 425249218}
-    - target: {fileID: 9109795276489203915, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectOrDeselectAbility
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109795276489203915, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AbilityButton, Assembly-CSharp
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7204501981145907501, guid: 3cc8d5d9246a6424780dd2d3b0c3d70c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -11266,24 +11162,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4129928616791618933, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1359122446}
-    - target: {fileID: 4129928616791618933, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectOrDeselectAbility
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129928616791618933, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AbilityButton, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 8167491454192220775, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_Name
       value: Scanner
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 544967888995129320, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -11386,52 +11269,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1555619890089648843, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: m_Name
-      value: EMPFiche
-      objectReference: {fileID: 0}
-    - target: {fileID: 1555619890089648843, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650013509581391840, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: m_text
-      value: EMP
-      objectReference: {fileID: 0}
-    - target: {fileID: 3642740347650835965, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: _ability
-      value: 
-      objectReference: {fileID: 11400000, guid: 14cd06d598982034983d7e59607c8230, type: 2}
-    - target: {fileID: 3861831141973789751, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 4481998650988935696}
-    - target: {fileID: 3861831141973789751, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectOrDeselectAbility
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861831141973789751, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AbilityButton, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5731304660530289226, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: m_Name
-      value: EMPButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 5731304660530289226, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9052038370541978405, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
       propertyPath: m_Name
       value: EMP
       objectReference: {fileID: 0}
-    - target: {fileID: 9052038370541978405, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2882317087886601681, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -11441,17 +11283,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 896098530539246877, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
   m_PrefabInstance: {fileID: 4481998650988935692}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4481998650988935696 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3642740347650835965, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
-  m_PrefabInstance: {fileID: 4481998650988935692}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4564236313073088556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11544,24 +11375,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5848365635557588472, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8153986432788206340, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 512946057}
-    - target: {fileID: 8153986432788206340, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectOrDeselectAbility
-      objectReference: {fileID: 0}
-    - target: {fileID: 8153986432788206340, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AbilityButton, Assembly-CSharp
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3779477264171125507, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -11668,20 +11482,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimpleHit
       objectReference: {fileID: 0}
-    - target: {fileID: 8900515014772974557, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1425076237}
-    - target: {fileID: 8900515014772974557, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectOrDeselectAbility
-      objectReference: {fileID: 0}
-    - target: {fileID: 8900515014772974557, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AbilityButton, Assembly-CSharp
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 725553571801016757, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -11694,18 +11495,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1529084517}
     m_Modifications:
-    - target: {fileID: 826266085148397131, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 539784477}
-    - target: {fileID: 826266085148397131, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectOrDeselectAbility
-      objectReference: {fileID: 0}
-    - target: {fileID: 826266085148397131, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AbilityButton, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 3643151014935140193, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -11790,8 +11579,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Capacitor
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 928284470921288621, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
