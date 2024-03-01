@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using Unity.VisualScripting;
+using UnityEditor.Playables;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,21 +25,26 @@ public class GameManager : MonoBehaviour
     // ----- FIELDS ----- //
     public static GameManager instance;
 
-    [SerializeField] List<scriptablePower> abilitiesSO = new List<scriptablePower>();
-    [SerializeField] List<GameObject> abilitiesButtons = new List<GameObject>();
+    [Header("Abilities")]
+    [SerializeField] List<scriptablePower> _abilitiesSO = new List<scriptablePower>();
+    private List<GameObject> _abilityButtons = new List<GameObject>();
 
-    [SerializeField] GameObject _gridPlayer1;
-    [SerializeField] GameObject _gridPlayer2;
+    [Header("Grids")]
+    [SerializeField] CustomGrid _gridPlayer1;
+    [SerializeField] CustomGrid _gridPlayer2;
 
-    [SerializeField] List<Room> _startRooms = new List<Room>();
+    [Header("Rooms")]
+    [SerializeField] List<Room> _startVitalRooms = new List<Room>();
     [SerializeField] List<Room> _draftRooms1 = new List<Room>();
     private List<Room> _selectedDraftRooms = new List<Room>();
+
     private List<Room> _choosenDraftRoomsPlayer1 = new List<Room>();
     private List<Room> _choosenDraftRoomsPlayer2 = new List<Room>();
 
     private List<Room> _placedRoomsPlayer1 = new List<Room>();
     private List<Room> _placedRoomsPlayer2 = new List<Room>();
 
+    [Header("Construction Timer")]
     [SerializeField] float _constructionTimerSeconds = 120f;
     private float _constructionTimerElapsedSeconds = 0f;
     private float _constructionTimerRemainingSeconds;
@@ -59,6 +67,23 @@ public class GameManager : MonoBehaviour
 
     private bool _gameStarted;
 
+    private int _currentRound;
+
+    // (pas possible de les modifier dans les scriptable objects parce que ça dépend des joueurs)
+
+    private int _simpleRevealCooldownPlayer1;
+    private int _simpleRevealCooldownPlayer2;
+
+    private int _empCooldownPlayer1;
+    private int _empCooldownPlayer2;
+
+    private int _timeAcceleratorCooldownPlayer1;
+    private int _timeAcceleratorCooldownPlayer2;
+
+    private int _alternateShotCooldownPlayer1;
+    private int _alternateShotCooldownPlayer2;
+
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
 
@@ -71,222 +96,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _abilityButtons = AbilityButtonsManager.instance.GetAbilityButtonsList();
         StartDraftRooms1();
-    }
-
-    private void StartDraftRooms1()
-    {
-        DraftManagerUI.instance.ShowDraftUI();
-
-        _selectedDraftRooms.Clear();
-
-        while (_selectedDraftRooms.Count < 3)
-        {
-            int randomIndex = Random.Range(0, _draftRooms1.Count - 1);
-
-            if (!_selectedDraftRooms.Contains(_draftRooms1[randomIndex]))
-            {
-                _selectedDraftRooms.Add(_draftRooms1[randomIndex]);
-                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms1[randomIndex]);
-            }
-        }
-    }
-
-    public void SelectDraftRoom(Room room)
-    {
-        if (_playerTurn == Player.Player1)
-        {
-            _choosenDraftRoomsPlayer1.Add(room);
-        }
-        else
-        {
-            _choosenDraftRoomsPlayer2.Add(room);
-        }
-
-        SwitchPlayer();
-    }
-
-    private void StartGame()
-    {
-        // Start Construction
-        InitGridDicts();
-        RandomizeRoomsPlacement();
-
-        // Update UI
-        UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
-        UIManager.instance.UpdateCurrentModeTxt(_currentMode);
-
-        SwitchMode();
-
-        _gameStarted = true;
-        InitAbilitesSOButtons();
-    }
-
-    private void InitGridDicts()
-    {
-        #region Player1Dict
-        foreach (Tile tile in _gridPlayer1.GetComponentsInChildren<Tile>())
-        {
-            _tilesPlayer1.Add(tile);
-            int row = tile.Row;
-            int column = tile.Column;
-            _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column)] = tile;
-        }
-
-        // search adjacent tiles for each tile
-        foreach (Tile tile in _tilesPlayer1)
-        {
-            int row = tile.Row;
-            int column = tile.Column;
-
-            // top
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column)))
-            {
-                tile.TopTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column)];
-            }
-
-            // bottom
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column)))
-            {
-                tile.BottomTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column)];
-            }
-
-            // right
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column + 1)))
-            {
-                tile.RightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column + 1)];
-            }
-
-            // left
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column - 1)))
-            {
-                tile.LeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column - 1)];
-            }
-        }
-        #endregion
-
-        #region Player2Dict
-        foreach (Tile tile in _gridPlayer2.GetComponentsInChildren<Tile>())
-        {
-            _tilesPlayer2.Add(tile);
-            int row = tile.Row;
-            int column = tile.Column;
-            _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column)] = tile;
-        }
-
-        // search adjacent tiles for each tile
-        foreach (Tile tile in _tilesPlayer2)
-        {
-            int row = tile.Row;
-            int column = tile.Column;
-
-            // top
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column)))
-            {
-                tile.TopTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column)];
-            }
-
-            // bottom
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column)))
-            {
-                tile.BottomTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column)];
-            }
-
-            // right
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column + 1)))
-            {
-                tile.RightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column + 1)];
-            }
-
-            // left
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column - 1)))
-            {
-                tile.LeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column - 1)];
-            }
-        }
-        #endregion
-    }
-
-    private void InitAbilitesSOButtons()
-    {
-        Debug.Log("init abilities so buttons");
-        foreach (scriptablePower ability in abilitiesSO)
-        {
-            switch (ability._powerName)
-            {
-                case ("Simple Hit"):
-                    for (int i = 0; i < abilitiesButtons.Count; i++) 
-                    {
-                        if (abilitiesButtons[i].name == "SimpleHit") 
-                        {
-                            ability.AbilityButton = abilitiesButtons[i];
-                            Debug.Log("found simple hit button");
-                            break; 
-                        } 
-                    }
-                    break;
-                case ("Simple Reveal"):
-                    for (int i = 0; i < abilitiesButtons.Count; i++)
-                    {
-                        if (abilitiesButtons[i].name == "SimpleReveal")
-                        {
-                            ability.AbilityButton = abilitiesButtons[i];
-                            Debug.Log("found simple reveal button");
-                            break;
-                        }
-                    }
-                    break;
-            }
-        }
-    }
-
-    private void CheckPlayerAbilityButtonsEnabled()
-    {
-        Debug.Log("check player ability buttons enabled");
-        if (_playerTurn == Player.Player1)
-        {
-            foreach(Room room in _placedRoomsPlayer1)
-            {
-                if (room.IsRoomDestroyed)
-                {
-                    Debug.Log("room destroyed " + room.name);
-                    if (room.RoomData.RoomAbility != null)
-                    {
-                        Debug.Log("room inactive");
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
-                    }
-                }
-                else
-                {
-                    if (room.RoomData.RoomAbility != null)
-                    {
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
-                    }
-                }
-            }
-        }
-        if (_playerTurn == Player.Player2)
-        {
-            foreach (Room room in _placedRoomsPlayer2)
-            {
-                if (room.IsRoomDestroyed)
-                {
-                    Debug.Log("room destroyed " + room.name);
-                    if (room.RoomData.RoomAbility != null)
-                    {
-                        Debug.Log("room inactive");
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
-                    }
-                }
-                else
-                {
-                    if (room.RoomData.RoomAbility != null)
-                    {
-                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
-                    }
-                }
-            }
-        }
     }
 
     private void Update()
@@ -301,6 +112,11 @@ public class GameManager : MonoBehaviour
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _roomOnMouse.transform.position = new Vector3(mousePosition.x, mousePosition.y, -5);
+        }
+
+        if (_currentMode == Mode.Construction)
+        {
+            ClearPlacedRoomsLists();
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -338,6 +154,23 @@ public class GameManager : MonoBehaviour
                 CheckTileClickedInCombat(nearestTileGridPlayer);
             }
         }
+    }
+
+    private void StartGame()
+    {  
+        // Start Construction
+        InitGridDicts();
+        RandomizeRoomsPlacement();
+
+        // Update UI
+        UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
+        UIManager.instance.UpdateCurrentModeTxt(_currentMode);
+
+        SwitchMode();
+
+        _gameStarted = true;
+        UIManager.instance.ShowOrUpdateActionPoints();
+        InitAbilitesSOButtons();
     }
 
     #region CheckClickOnTile
@@ -387,16 +220,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void CheckTileClickedInCombat(Tile nearestTile)
+    public void CheckTileClickedInCombat(Tile nearestTile)
     {
         Debug.Log("combat");
         TargetController.instance.ChangeTargetPosition(nearestTile.transform.position);
         _targetOnTile = nearestTile;
 
+
         if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
         {
             TargetController.instance.ChangeTargetColorToRed();
-            UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);    
+            if (_targetOnTile.Room != null)
+            {
+                UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
+            } 
         }
         else
         {
@@ -404,6 +241,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideFicheRoom();
         }
 
+        AbilityButtonsManager.instance.ChangeSelectedTilesOnTargetPos();
         UIManager.instance.CheckAbilityButtonsColor();
     }
 
@@ -414,6 +252,179 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Construction
+    private void InitGridDicts()
+    {
+        #region Player1Dict
+        foreach (Tile tile in _gridPlayer1.gameObject.GetComponentsInChildren<Tile>())
+        {
+            _tilesPlayer1.Add(tile);
+            int row = tile.Row;
+            int column = tile.Column;
+            _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column)] = tile;
+        }
+
+        // search adjacent tiles for each tile
+        foreach (Tile tile in _tilesPlayer1)
+        {
+            int row = tile.Row;
+            int column = tile.Column;
+
+            #region Top, Bottom, Left & Right
+            // top
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column)))
+            {
+                tile.TopTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column)];
+            }
+
+            // bottom
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column)))
+            {
+                tile.BottomTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column)];
+            }
+
+            // right
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column + 1)))
+            {
+                tile.RightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column + 1)];
+            }
+
+            // left
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column - 1)))
+            {
+                tile.LeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column - 1)];
+            }
+            #endregion
+
+            #region Diag Top Left & Right, Bottom Left & Right
+            // diag top left
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column - 1)))
+            {
+                tile.DiagTopLeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column - 1)];
+            }
+
+            // diag top right
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column + 1)))
+            {
+                tile.DiagTopRightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column + 1)];
+            }
+
+            // diag bottom left
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column - 1)))
+            {
+                tile.DiagBottomLeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column - 1)];
+            }
+
+            // diag bottom right
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column + 1)))
+            {
+                tile.DiagBottomRightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column + 1)];
+            }
+            #endregion
+        }
+        #endregion
+
+        #region Player2Dict
+        foreach (Tile tile in _gridPlayer2.GetComponentsInChildren<Tile>())
+        {
+            _tilesPlayer2.Add(tile);
+            int row = tile.Row;
+            int column = tile.Column;
+            _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column)] = tile;
+        }
+
+        // search adjacent tiles for each tile
+        foreach (Tile tile in _tilesPlayer2)
+        {
+            int row = tile.Row;
+            int column = tile.Column;
+
+            #region Top, Bottom, Left & Right
+            // top
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column)))
+            {
+                tile.TopTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column)];
+            }
+
+            // bottom
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column)))
+            {
+                tile.BottomTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column)];
+            }
+
+            // right
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column + 1)))
+            {
+                tile.RightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column + 1)];
+            }
+
+            // left
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column - 1)))
+            {
+                tile.LeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column - 1)];
+            }
+            #endregion
+
+            #region Diag Top Left & Right, Bottom Left & Right
+            // diag top left
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column - 1)))
+            {
+                tile.DiagTopLeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column - 1)];
+            }
+
+            // diag top right
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column + 1)))
+            {
+                tile.DiagTopRightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column + 1)];
+            }
+
+            // diag bottom left
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column - 1)))
+            {
+                tile.DiagBottomLeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column - 1)];
+            }
+
+            // diag bottom right
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column + 1)))
+            {
+                tile.DiagBottomRightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column + 1)];
+            }
+            #endregion
+        }
+        #endregion
+    }
+
+    private void StartDraftRooms1()
+    {
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraft(1);
+
+        _selectedDraftRooms.Clear();
+
+        while (_selectedDraftRooms.Count < 3)
+        {
+            int randomIndex = Random.Range(0, _draftRooms1.Count);
+            if (!_selectedDraftRooms.Contains(_draftRooms1[randomIndex]))
+            {
+                _selectedDraftRooms.Add(_draftRooms1[randomIndex]);
+                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms1[randomIndex]);
+            }
+        }
+    }
+
+    public void SelectDraftRoom1(Room room)
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            _choosenDraftRoomsPlayer1.Add(room);
+        }
+        else
+        {
+            _choosenDraftRoomsPlayer2.Add(room);
+        }
+
+        SwitchPlayer();
+    }
+
     private void RandomizeRoomsPlacement()
     {
         RandomizeRoomsPlayer1();
@@ -437,7 +448,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("randomize rooms player 1");
         List<Room> player1Rooms = new List<Room>();
-        player1Rooms.AddRange(_startRooms);
+        player1Rooms.AddRange(_startVitalRooms);
         player1Rooms.AddRange(_choosenDraftRoomsPlayer1);
 
         // Reset if already some rooms
@@ -480,7 +491,7 @@ public class GameManager : MonoBehaviour
     private void RandomizeRoomsPlayer2()
     {
         List<Room> player2Rooms = new List<Room>();
-        player2Rooms.AddRange(_startRooms);
+        player2Rooms.AddRange(_startVitalRooms);
         player2Rooms.AddRange(_choosenDraftRoomsPlayer2);
 
         // Reset if already some rooms
@@ -638,22 +649,22 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomLeftTilesSR.Count; i++)
             {
-                if (tile.LeftTile.BottomTile != null)
+                if (tile.DiagBottomLeftTile != null)
                 {
-                    if (tile.LeftTile.BottomTile.IsOccupied)
+                    if (tile.DiagBottomLeftTile.IsOccupied)
                     {
-                        Debug.Log("left tile occupied " + i);
+                        Debug.Log("diag bottom left tile occupied " + i);
                         return false;
                     }
 
                 }
                 else
                 {
-                    Debug.Log("no tile at left " + i);
+                    Debug.Log("no tile at diag bottomleft " + i);
                     return false;
                 }
 
-                currentTile = tile.LeftTile.BottomTile;
+                currentTile = tile.DiagBottomLeftTile;
             }
         }
         // diag right bottom
@@ -662,21 +673,21 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomRightTilesSR.Count; i++)
             {
-                if (tile.RightTile.BottomTile != null)
+                if (tile.DiagBottomRightTile != null)
                 {
-                    if (tile.RightTile.BottomTile.IsOccupied)
+                    if (tile.DiagBottomRightTile.IsOccupied)
                     {
-                        Debug.Log("right tile occupied " + i);
+                        Debug.Log("diag bottom right tile occupied " + i);
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.Log("no tile at right " + i);
+                    Debug.Log("no tile at diag bottom right " + i);
                     return false;
                 }
 
-                currentTile = tile.RightTile.BottomTile;
+                currentTile = tile.DiagBottomRightTile;
             }
         }
         // diag left top
@@ -685,21 +696,21 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopLeftTilesSR.Count; i++)
             {
-                if (tile.LeftTile.TopTile != null)
+                if (tile.DiagTopLeftTile != null)
                 {
-                    if (tile.LeftTile.TopTile.IsOccupied)
+                    if (tile.DiagTopLeftTile.IsOccupied)
                     {
-                        Debug.Log("bottom tile occupied " + i);
+                        Debug.Log("diag top left tile occupied " + i);
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.Log("no tile at bottom " + i);
+                    Debug.Log("no tile at diag top left " + i);
                     return false;
                 }
 
-                currentTile = tile.LeftTile.TopTile;
+                currentTile = tile.DiagTopLeftTile;
             }
         }
         // diag right top
@@ -708,21 +719,21 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopRightTilesSR.Count; i++)
             {
-                if (tile.RightTile.TopTile != null)
+                if (tile.DiagTopRightTile != null)
                 {
-                    if (tile.RightTile.TopTile.IsOccupied)
+                    if (tile.DiagTopRightTile.IsOccupied)
                     {
-                        Debug.Log("bottom tile occupied " + i);
+                        Debug.Log("diag top right tile occupied " + i);
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.Log("no tile at bottom " + i);
+                    Debug.Log("no tile at diag top right " + i);
                     return false;
                 }
 
-                currentTile = tile.RightTile.TopTile;
+                currentTile = tile.DiagTopRightTile;
             }
         }
         #endregion
@@ -735,7 +746,7 @@ public class GameManager : MonoBehaviour
         // place new building
         //Prototype_Building newBuilding = _buildingOnMouse;
         Debug.Log("instantiate new building");
-        Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -5), Quaternion.identity);
+        Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -0.5f), Quaternion.identity);
         //newBuilding.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -5); // adjust to tile position
 
         if (player == Player.Player1)
@@ -761,6 +772,13 @@ public class GameManager : MonoBehaviour
         {
             Destroy(_roomOnMouse.gameObject);
         }
+    }
+
+    private void ClearPlacedRoomsLists()
+    {
+        //Debug.Log("clear room lists");
+        _placedRoomsPlayer1.RemoveAll(s => s == null);
+        _placedRoomsPlayer2.RemoveAll(s => s == null);
     }
 
     private void SetBuildingTilesOccupied(Room building, Tile tile)
@@ -835,11 +853,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomLeftTilesSR.Count; i++)
             {
-                tile.LeftTile.BottomTile.IsOccupied = true;
-                tile.LeftTile.BottomTile.Room = building;
-                tile.LeftTile.BottomTile.RoomTileSpriteRenderer = building.DiagBottomLeftTilesSR[i];
+                tile.DiagBottomLeftTile.IsOccupied = true;
+                tile.DiagBottomLeftTile.Room = building;
+                tile.DiagBottomLeftTile.RoomTileSpriteRenderer = building.DiagBottomLeftTilesSR[i];
 
-                currentTile = tile.LeftTile.BottomTile;
+                currentTile = tile.DiagBottomLeftTile;
                 tiles.Add(currentTile);
             }
         }
@@ -849,11 +867,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomRightTilesSR.Count; i++)
             {
-                tile.RightTile.BottomTile.IsOccupied = true;
-                tile.RightTile.BottomTile.Room = building;
-                tile.RightTile.BottomTile.RoomTileSpriteRenderer = building.DiagBottomRightTilesSR[i];
+                tile.DiagBottomRightTile.IsOccupied = true;
+                tile.DiagBottomRightTile.Room = building;
+                tile.DiagBottomRightTile.RoomTileSpriteRenderer = building.DiagBottomRightTilesSR[i];
 
-                currentTile = tile.RightTile.BottomTile;
+                currentTile = tile.DiagBottomRightTile;
                 tiles.Add(currentTile);
             }
         }
@@ -863,11 +881,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopLeftTilesSR.Count; i++)
             {
-                tile.LeftTile.TopTile.IsOccupied = true;
-                tile.LeftTile.TopTile.Room = building;
-                tile.LeftTile.TopTile.RoomTileSpriteRenderer = building.DiagTopLeftTilesSR[i];
+                tile.DiagTopLeftTile.IsOccupied = true;
+                tile.DiagTopLeftTile.Room = building;
+                tile.DiagTopLeftTile.RoomTileSpriteRenderer = building.DiagTopLeftTilesSR[i];
 
-                currentTile = tile.LeftTile.TopTile;
+                currentTile = tile.DiagTopLeftTile;
                 tiles.Add(currentTile);
             }
         }
@@ -877,11 +895,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopRightTilesSR.Count; i++)
             {
-                tile.RightTile.TopTile.IsOccupied = true;
-                tile.RightTile.TopTile.Room = building;
-                tile.RightTile.TopTile.RoomTileSpriteRenderer = building.DiagTopRightTilesSR[i];
+                tile.DiagTopRightTile.IsOccupied = true;
+                tile.DiagTopRightTile.Room = building;
+                tile.DiagTopRightTile.RoomTileSpriteRenderer = building.DiagTopRightTilesSR[i];
 
-                currentTile = tile.RightTile.TopTile;
+                currentTile = tile.DiagTopRightTile;
                 tiles.Add(currentTile);
             }
         }
@@ -965,6 +983,7 @@ public class GameManager : MonoBehaviour
             SwitchMode(); // -> Combat
             UIManager.instance.HideButtonValidateConstruction();
             UIManager.instance.ShowButtonsCombat();
+            CheckPlayerAbilityButtonsEnabled();
         }
     }
 
@@ -1000,8 +1019,214 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Combat
+    public void CheckVictory()
+    {
+        Debug.Log("check victory");
+        bool player1Dead = true;
+        foreach (Room room in _placedRoomsPlayer1)
+        {
+            Debug.Log(room.name);
+            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
+            {
+                player1Dead = false;
+            }
+        }
+
+        bool player2Dead = true;
+        foreach (Room room in _placedRoomsPlayer2)
+        {
+            Debug.Log(room.name);
+            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
+            {
+                player2Dead = false;
+            }
+        }
+
+        if (player1Dead)
+        {
+            UIManager.instance.ShowVictoryCanvas(Player.Player2);
+        }
+        else if (player2Dead)
+        {
+            UIManager.instance.ShowVictoryCanvas(Player.Player1);
+        }
+    }
+
+    private void InitAbilitesSOButtons()
+    {
+        Debug.Log("init abilities so buttons");
+        foreach (scriptablePower ability in _abilitiesSO)
+        {
+            switch (ability.AbilityName)
+            {
+                case ("Simple Hit"):
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "SimpleHit")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found simple hit button");
+                            break;
+                        }
+                    }
+                    break;
+                case ("EMP"):
+                    _empCooldownPlayer1 = 0;
+                    _empCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "EMP")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found emp button");
+                            break;
+                        }
+                    }
+                    break;
+                case ("Time Accelerator"):
+                    _timeAcceleratorCooldownPlayer1 = 0;
+                    _timeAcceleratorCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "TimeAccelerator")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found time accelerator button");
+                            break;
+                        }
+                    }
+                    break;
+                case ("Simple Reveal"):
+                    _simpleRevealCooldownPlayer1 = 0;
+                    _simpleRevealCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "SimpleReveal")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found simple reveal button");
+                            break;
+                        }
+                    }
+                    break;
+                case ("Alternate Shot"):
+                    _alternateShotCooldownPlayer1 = 0;
+                    _alternateShotCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "AlternateShot")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found alternate shot button");
+                            break;
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void CheckPlayerAbilityButtonsEnabled()
+    {
+        Debug.Log("check player ability buttons enabled");
+        List<scriptablePower> inRoomsAbilities = new List<scriptablePower>();
+
+        if (_playerTurn == Player.Player1)
+        {
+            foreach (Room room in _placedRoomsPlayer1)
+            {
+                Debug.Log(room.name);
+                if (room.IsRoomDestroyed)
+                {
+                    Debug.Log("room destroyed " + room.name);
+                    if (room.RoomData.RoomAbility != null )
+                    {
+                        if (room.RoomData.name != "SimpleHit")
+                        {
+                            Debug.Log("room inactive");
+                            room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                        }
+                    }
+                }
+                else
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
+                    }
+                }
+              
+                foreach (scriptablePower ability in _abilitiesSO)
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        if (room.RoomData.RoomAbility == ability)
+                        {
+                            inRoomsAbilities.Add(ability);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (Room room in _placedRoomsPlayer2)
+            {
+                if (room.IsRoomDestroyed)
+                {
+                    Debug.Log("room destroyed " + room.name);
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        if (room.RoomData.RoomAbility.name != "SimpleHit")
+                        {
+                            Debug.Log("room inactive");
+                            room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
+                        }
+                    }
+                }
+                else
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
+                    }
+                }
+
+
+                foreach (scriptablePower ability in _abilitiesSO)
+                {
+                    if (room.RoomData.RoomAbility != null)
+                    {
+                        if (room.RoomData.RoomAbility == ability)
+                        {
+                            inRoomsAbilities.Add(ability);
+                        }
+                    }
+                }
+            } 
+        }
+
+        foreach(scriptablePower ability in _abilitiesSO)
+        {
+            if (inRoomsAbilities.Contains(ability))
+            {
+                ability.AbilityButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                ability.AbilityButton.gameObject.SetActive(false);
+            }
+        }
+
+    }
+
     public void ShowOnlyDestroyedAndReavealedRooms(Player playerShip)
     {
+        Debug.Log("show only destroyed and revealed rooms");
         List<Tile> tiles = new List<Tile>();
 
         if (playerShip == Player.Player1)
@@ -1031,29 +1256,66 @@ public class GameManager : MonoBehaviour
 
     public void CheckIfTargetRoomIsCompletelyDestroyed()
     {
-        Debug.Log("check if target room is completely destoyed");
-        bool roomCompletelyDestroyed = true;
-
-        foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
+        if (_targetOnTile.Room != null)
         {
-            if (!tile.IsDestroyed)
-            {
-                Debug.Log(tile.name + "not destroyed");
-                roomCompletelyDestroyed = false;
-            }
-        }
-
-        if (roomCompletelyDestroyed)
-        {
-            Debug.Log("room completely destroyed");
-            _targetOnTile.RoomTileSpriteRenderer.color = Color.red;
+            Debug.Log("check if target room is completely destoyed");
+            bool roomCompletelyDestroyed = true;
 
             foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
             {
-                tile.RoomTileSpriteRenderer.color = Color.red;
-                tile.Room.IsRoomDestroyed = true;
+                if (!tile.IsDestroyed)
+                {
+                    Debug.Log(tile.name + "not destroyed");
+                    roomCompletelyDestroyed = false;
+                }
             }
+
+            if (roomCompletelyDestroyed)
+            {
+                Debug.Log("room completely destroyed");
+                _targetOnTile.RoomTileSpriteRenderer.color = Color.red;
+
+                foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
+                {
+                    tile.RoomTileSpriteRenderer.color = Color.red;
+                    tile.Room.IsRoomDestroyed = true;
+                }
+            }
+
+        } 
+        CheckVictory();
+    }
+
+    public void CheckIfTileRoomIsCompletelyDestroyed(Tile targetTile)
+    {
+        if (targetTile.Room != null)
+        {
+            Debug.Log("check if tile room is completely destoyed");
+            bool roomCompletelyDestroyed = true;
+
+            foreach (Tile tile in targetTile.RoomOnOtherTiles)
+            {
+                if (!tile.IsDestroyed)
+                {
+                    Debug.Log(tile.name + "not destroyed");
+                    roomCompletelyDestroyed = false;
+                }
+            }
+
+            if (roomCompletelyDestroyed)
+            {
+                Debug.Log("room completely destroyed");
+                targetTile.RoomTileSpriteRenderer.color = Color.red;
+
+                foreach (Tile tile in targetTile.RoomOnOtherTiles)
+                {
+                    tile.RoomTileSpriteRenderer.color = Color.red;
+                    tile.Room.IsRoomDestroyed = true;
+                }
+            }
+
         }
+        CheckVictory();
     }
 
     public void ShowAllRooms(Player playerShip)
@@ -1098,6 +1360,7 @@ public class GameManager : MonoBehaviour
             StartGame();
             DraftManagerUI.instance.HideDraftUI();
             UIManager.instance.ShowGameCanvas();
+            
         }
 
         SwitchCamera();
@@ -1107,34 +1370,67 @@ public class GameManager : MonoBehaviour
 
         UIManager.instance.ShowChangerPlayerCanvas(_playerTurn);
 
-        TargetController.instance.HideTarget();
+        //TargetController.instance.HideTarget();
         _targetOnTile = null;
 
-        CheckPlayerAbilityButtonsEnabled();
+        if (_currentMode == Mode.Combat)
+        {
+            CheckPlayerAbilityButtonsEnabled();
+            AbilityButtonsManager.instance.ResetRoundAbilityButtons();
+            SetRoundTargetPos();
+        }
+
+        if (_currentMode == Mode.Draft)
+        {
+            DraftManager.instance.SelectRoom(0);
+        }
+    }
+
+    private void SetRoundTargetPos()
+    {
+        Debug.Log("set round target pos");
+        if (_playerTurn == Player.Player1)
+        {
+            CheckTileClickedInCombat(_gridPlayer2.StartRoundTargetTile);
+        }
+        else
+        {
+            CheckTileClickedInCombat(_gridPlayer1.StartRoundTargetTile);
+        }
+
     }
 
     private void SwitchCamera()
     {
         if (_currentMode == Mode.Construction)
         {
-            CameraController.instance.SwitchPlayerShipCamera(_playerTurn);
+            CameraController.instance.SwitchPlayerShipCameraDirectly(_playerTurn);
         }
         else if (_currentMode == Mode.Combat)// combat -> vaisseau ennemi
         {
             if (_playerTurn == Player.Player1)
             {
-                CameraController.instance.SwitchPlayerShipCamera(Player.Player2);
+                CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
                 ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
                 ShowAllRooms(Player.Player1);
+
+                // new round
+                _currentRound++;
+                Debug.Log("+1 round : " + _currentRound);
+                ActionPointsManager.instance.InitRoundActionPoints(_currentRound);
             }
             else
             {
-                CameraController.instance.SwitchPlayerShipCamera(Player.Player1);
+                CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
                 ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
+                UIManager.instance.ShowOrUpdateActionPoints();
                 ShowAllRooms(Player.Player2);
             }
 
-            EnergySystem.instance.GetRoundEnergy(_playerTurn);
+            if (_currentRound >= 1)
+            {
+                SetRoundCooldowns(_playerTurn);
+            }
         }
         // Draft on s'en fout
     }
@@ -1144,8 +1440,11 @@ public class GameManager : MonoBehaviour
         if (_currentMode == Mode.Construction)
         {
             _currentMode = Mode.Combat;
-            UIManager.instance.ShowEnergySlider();
+            _currentRound = 0;
+            UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.HideRandomizeRoomsButton();
+            UIManager.instance.ShowShitchShipButton();
+            SetRoundTargetPos();
         }
         else if (_currentMode == Mode.Draft)
         {
@@ -1167,6 +1466,346 @@ public class GameManager : MonoBehaviour
     {
         return _currentMode;
     }
+
+    public int GetCurrentRound()
+    {
+        return _currentRound;
+    }
+
+    public Player GetCurrentPlayer()
+    {
+        return _playerTurn;
+    }
     #endregion
 
+    public bool CanUseAbility(scriptablePower ability)
+    {
+        Debug.Log("can use ability ?");
+
+        if (_targetOnTile != null)
+        {
+            if (!_targetOnTile.IsDestroyed && !_targetOnTile.IsMissed) // tile jamais hit
+            {
+                if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
+                {
+                    if (!IsAbilityInCooldown(ability))
+                    {
+                        Debug.Log("current ability cooldown 0");
+                        ActionPointsManager.instance.UseActionPoint(_playerTurn);
+                        SetAbilityCooldown(ability);
+                        Debug.Log("can use ability");
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("ability en cooldown");
+                    }
+                }
+                else
+                {
+                    Debug.Log("no action points and / or no room ability on target");
+                }
+            }
+            else
+            {
+                // already hit that tile
+                TargetController.instance.ChangeTargetColorToRed();
+            }
+        }
+        Debug.Log("can't use ability");
+        return false;
+    }
+
+    #region Cooldown 
+    public void SetAbilityCooldown(scriptablePower ability)
+    {
+        Debug.Log("set ability cooldown " + ability.name + " " + _playerTurn);
+        
+        switch (ability.AbilityName)
+        {
+            case ("EMP"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _empCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _empCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _timeAcceleratorCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _timeAcceleratorCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _simpleRevealCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _simpleRevealCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _alternateShotCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _alternateShotCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
+        }
+    }
+
+    public void AddEnemyAbilityOneCooldown(scriptablePower ability)
+    {
+        Debug.Log("set ability cooldown " + ability.name + " " + _playerTurn);
+
+        switch (ability.AbilityName)
+        {
+            case ("EMP"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _empCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _empCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _timeAcceleratorCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _timeAcceleratorCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _simpleRevealCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _simpleRevealCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _alternateShotCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _alternateShotCooldownPlayer1 += 2;
+                }
+                break;
+        }
+    }
+
+    public bool IsAbilityInCooldown(scriptablePower ability)
+    {
+        Debug.Log("is ability in cooldown");
+
+        switch (ability.AbilityName)
+        {
+            case ("Simple Hit"):
+                return false; // jamais de cooldown
+            case ("EMP"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_empCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_empCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_timeAcceleratorCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_timeAcceleratorCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_simpleRevealCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_simpleRevealCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_alternateShotCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_alternateShotCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
+        }
+
+        return true;
+    }
+
+    private void SetRoundCooldowns(Player player)
+    {
+        Debug.Log("set round cooldowns player " + player);
+        CurrentPlayerLessCooldown(1);
+    }
+
+    public void CurrentPlayerLessCooldown(int amount)
+    {
+        Debug.Log("current player less coldown"); 
+
+        if (_playerTurn == Player.Player1)
+        {
+            _simpleRevealCooldownPlayer1 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _empCooldownPlayer1 = (int)Mathf.Clamp(_empCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _timeAcceleratorCooldownPlayer1 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _alternateShotCooldownPlayer1 = (int)Mathf.Clamp(_alternateShotCooldownPlayer1 - amount, 0, Mathf.Infinity);
+        }
+        else
+        {
+            _simpleRevealCooldownPlayer2 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _empCooldownPlayer2 = (int)Mathf.Clamp(_empCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _timeAcceleratorCooldownPlayer2 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _alternateShotCooldownPlayer2 = (int)Mathf.Clamp(_alternateShotCooldownPlayer2 - amount, 0, Mathf.Infinity);
+        }
+    }
+
+    public int GetCurrentCooldown(scriptablePower ability)
+    {
+        switch (ability.AbilityName)
+        {
+            case ("EMP"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _empCooldownPlayer1;
+                }
+                else
+                {
+                    return _empCooldownPlayer2;
+                }
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _timeAcceleratorCooldownPlayer1;
+                }
+                else
+                {
+                    return _timeAcceleratorCooldownPlayer2;
+                }
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _simpleRevealCooldownPlayer1;
+                }
+                else
+                {
+                    return _simpleRevealCooldownPlayer2;
+                }
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _alternateShotCooldownPlayer1;
+                }
+                else
+                {
+                    return _alternateShotCooldownPlayer2;
+                }
+        }
+
+        return 0;
+    }
+
+    public int GetEnemyCurrentCooldown(scriptablePower ability)
+    {
+        switch (ability.AbilityName)
+        {
+            case ("EMP"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _empCooldownPlayer2;
+                }
+                else
+                {
+                    return _empCooldownPlayer1;
+                }
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _timeAcceleratorCooldownPlayer2;
+                }
+                else
+                {
+                    return _timeAcceleratorCooldownPlayer1;
+                }
+            case ("Simple Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _simpleRevealCooldownPlayer2;
+                }
+                else
+                {
+                    return _simpleRevealCooldownPlayer1;
+                }
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _alternateShotCooldownPlayer2;
+                }
+                else
+                {
+                    return _alternateShotCooldownPlayer1;
+                }
+        }
+
+        return 0;
+    }
+    #endregion
 }

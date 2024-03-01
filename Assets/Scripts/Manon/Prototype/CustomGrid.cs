@@ -5,4 +5,5 @@ using UnityEngine;
 public class CustomGrid : MonoBehaviour
 {
     public Player PlayerShip;
+    public Tile StartRoundTargetTile;
 }

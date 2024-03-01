@@ -8,15 +8,15 @@ public class CameraController : MonoBehaviour
 {
     // ----- FIELDS ----- //
     public static CameraController instance;
-    //[SerializeField] Transform _gridPlayer1;
-    //[SerializeField] Transform _gridPlayer2;
-    [SerializeField] Camera _cameraShipPlayer1;
-    [SerializeField] Camera _cameraShipPlayer2;
-    [SerializeField] float _lerpDuration;
+    [SerializeField] Transform _cameraPosShipPlayer1;
+    [SerializeField] Transform _cameraPosShipPlayer2;
 
-    private Camera _currentActiveCamera;
+    [SerializeField] Camera _mainCamera;
+    [SerializeField] float _lerpDuration = 1f;
 
-    private Transform _currentTarget;
+    private bool _isMoving;
+
+    private Transform _currentPos;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -26,25 +26,58 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        _cameraShipPlayer1.enabled = true;
-        _cameraShipPlayer2.enabled = false;
-
-        _currentActiveCamera = _cameraShipPlayer1;
+        _mainCamera.transform.position = _cameraPosShipPlayer1.position;
+        _currentPos = _cameraPosShipPlayer1;
     }
 
-    public void SwitchPlayerShipCamera(Player player)
+    public void SwitchPlayerShipCameraDirectly(Player player)
     {
         Debug.Log("switch player ship camera " + player.ToString());
         if (player == Player.Player1)
         {
-            _cameraShipPlayer1.enabled = true;
-            _cameraShipPlayer2.enabled = false;
+            _mainCamera.transform.position = _cameraPosShipPlayer1.position;
+            _currentPos = _cameraPosShipPlayer1;
         }
         else
         {
-            _cameraShipPlayer1.enabled = false;
-            _cameraShipPlayer2.enabled = true;
+            _mainCamera.transform.position = _cameraPosShipPlayer2.position;
+            _currentPos = _cameraPosShipPlayer2;
         }
+    }
+    public void SwitchPlayerShipCameraWithLerp()
+    {
+        Debug.Log("a");
+        if (!_isMoving)
+        {
+            if (_currentPos == _cameraPosShipPlayer1)
+            {
+                StartCoroutine(LerpPosition(_cameraPosShipPlayer2));
+            }
+            else
+            {
+                StartCoroutine(LerpPosition(_cameraPosShipPlayer1));
+            }
+        }
+    }
+
+
+    IEnumerator LerpPosition(Transform transTarget)
+    {
+        Debug.Log("lerp camera position " + transTarget.name);
+        _isMoving = true;
+        float timeElapsed = 0f;
+        Vector3 startingPos = _mainCamera.transform.position;
+        Vector3 targetPos = new Vector3(transTarget.position.x, transTarget.position.y, -10);
+
+        while (timeElapsed < _lerpDuration)
+        {
+            _mainCamera.transform.position = Vector3.Lerp(startingPos, targetPos, timeElapsed / _lerpDuration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        _isMoving = false;
+        _currentPos = transTarget;
     }
 }
 

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16a99debe98348e4ca84da7e5acc4b73, type: 3}
-  m_Name: TestRoom04
+  m_Name: EMP
   m_EditorClassIdentifier: 
-  RoomName: Test Room 04
-  RoomIcon: {fileID: 21300000, guid: 347ba161e48826b48a9507398c1b0e6b, type: 3}
-  RoomPatternImg: {fileID: 21300000, guid: 0c0b168cf29d4004fb2c0408fc0f43bf, type: 3}
-  RoomAbility: {fileID: 11400000, guid: d337bd36531b7fd4686f48ecaca9c362, type: 2}
-  IsRoomDestroyed: 0
+  RoomName: EMP Room
+  RoomIcon: {fileID: 21300000, guid: adf8673d8f34cc14d985eb18a5d4113d, type: 3}
+  RoomPatternImg: {fileID: 21300000, guid: ec75fdd81b7777b4b90f6733e5f17efb, type: 3}
+  RoomAbility: {fileID: 11400000, guid: 14cd06d598982034983d7e59607c8230, type: 2}
+  IsVital: 0

@@ -20,10 +20,11 @@ public class powerButton : MonoBehaviour
 
     private Animator _animator;
     private bool _selected;
-    private List<powerButton> _selectedObjects = new List<powerButton>();
+    private List<powerButton> _abilitys = new List<powerButton>();
+    private List<debuffButton> _debuffs = new List<debuffButton>();
+
 
     public void GetEndTrun() => EndTrun();
-
     public bool GetSelected() => _selected;
     public void DisabledSelected() => UnSelected();
 
@@ -36,12 +37,13 @@ public class powerButton : MonoBehaviour
         _animator.enabled = false;
         AddList();
 
-        _icon.sprite = _scriptable._icon;
-        _powerNeed.text = _scriptable._powerNeed.ToString();
+        _icon.sprite = _scriptable.Icon;
+        _powerNeed.text = _scriptable.ActionPointsNeeded.ToString();
 
-        _turnCooldown = _scriptable._cooldown;
+        _turnCooldown = _scriptable.Cooldown;
     }
 
+    #region ListButtons
     private void AddList()
     {
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("Button");
@@ -51,9 +53,14 @@ public class powerButton : MonoBehaviour
             if (button != gameObject)
             {
                 powerButton powerButtonScript = button.GetComponent<powerButton>();
+                debuffButton debuffButtonScript = button.GetComponent<debuffButton>();
                 if (powerButtonScript != null)
                 {
-                    _selectedObjects.Add(powerButtonScript);
+                    _abilitys.Add(powerButtonScript);
+                }
+                if (debuffButtonScript != null)
+                {
+                    _debuffs.Add(debuffButtonScript);
                 }
             }
         }
@@ -61,19 +68,27 @@ public class powerButton : MonoBehaviour
 
     private void CheckSelected()
     {
-        foreach (powerButton buttonSlected in _selectedObjects)
+        foreach (powerButton buttonSlected in _abilitys)
         {
             if (buttonSlected.GetSelected())
             {
                  buttonSlected.DisabledSelected();
             }
         }
+        foreach (debuffButton buttonSlected in _debuffs)
+        {
+            if (buttonSlected.GetSelected())
+            {
+                buttonSlected.DisabledSelected();
+            }
+        }
     }
+    #endregion
 
     // SELECTED
     public void Action()
     {
-        if (_cooldown <= 1)
+        if (_cooldown <= 1 && !_selected)
         {
             CheckSelected();
             _selected = true;
@@ -84,6 +99,9 @@ public class powerButton : MonoBehaviour
 
             //Attack
             //Cooldown();
+        } else
+        {
+            UnSelected();
         }
     }
 
@@ -97,11 +115,11 @@ public class powerButton : MonoBehaviour
     }
 
 
-    // DESCRIPTION
+    // OPEN DESCRIPTION 
     public void OpenDescription()
     {
         _description.SetActive(true);
-        _description.GetComponent<popUp>().OpenDesc(_scriptable);
+        _description.GetComponent<popUp>().OpenDescAbility(_scriptable);
     }
 
 

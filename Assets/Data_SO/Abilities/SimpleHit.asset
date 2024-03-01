@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 929b3046bf6d3904aa38aefc45dd0216, type: 3}
   m_Name: SimpleHit
   m_EditorClassIdentifier: 
-  _powerName: Simple Hit
-  _description: Can destroy one room
-  _icon: {fileID: 0}
-  _powerNeed: 1
-  _cooldown: 0
+  AbilityName: Simple Hit
+  Description: Simple hit description
+  Icon: {fileID: 0}
+  ActionPointsNeeded: 1
+  Cooldown: 0
+  CurrentCooldown: 0
+  AbilityButton: {fileID: 0}

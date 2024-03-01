@@ -4,56 +4,70 @@ using UnityEngine;
 
 public class SimpleHit : MonoBehaviour
 {
+    // ----- FIELDs ----- //
+    private scriptablePower _ability;
+    private AbilityButton _abilityButton;
+
+    private Tile _target;
+    // ----- FIELDS ----- //
+
+    private void Start()
+    {
+        _abilityButton = GetComponent<AbilityButton>();
+        _ability = _abilityButton.GetAbility();
+    }
+
     public void TrySimpleHit()
     {
-        if (GameManager.instance.TargetOnTile != null)
+        Debug.Log("try simple hit");
+        _target = GameManager.instance.TargetOnTile;
+
+        if (_target == null)
         {
-            if (!GameManager.instance.TargetOnTile.IsDestroyed && !GameManager.instance.TargetOnTile.IsMissed) // tile jamais hit
+            return;
+        }
+
+        if (!_abilityButton.IsSelected)
+        {
+            AbilityButtonsManager.instance.SelectAbilityButton(_abilityButton);
+            return;
+        }
+        else
+        {
+            if (GameManager.instance.CanUseAbility(_ability))
             {
-                if (EnergySystem.instance.TryUseEnergy(GameManager.instance.PlayerTurn, 2)) // 2 temp -> energy cost de la compétence SO
+                _abilityButton.SetCooldown();
+
+                if (GameManager.instance.TargetOnTile.IsOccupied)
                 {
-                    if (GameManager.instance.TargetOnTile.IsOccupied)
+                    Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
+                    GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.black;
+                    GameManager.instance.TargetOnTile.IsDestroyed = true;
+
+                    GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
+
+                    // update hidden rooms
+                    if (GameManager.instance.PlayerTurn == Player.Player1)
                     {
-                        Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
-                        GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.black;
-                        GameManager.instance.TargetOnTile.IsDestroyed = true;
-
-                        GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
-
-                        // update hidden rooms
-                        if (GameManager.instance.PlayerTurn == Player.Player1)
-                        {
-                            GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
-                        }
-                        else
-                        {
-                            GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
-                        }
-
-                        UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
+                        GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
                     }
                     else
                     {
-                        GameManager.instance.TargetOnTile.IsMissed = true;
-                        Debug.Log("no room on hit");
-
-                        UIManager.instance.HideFicheRoom();
+                        GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
                     }
 
-                    TargetController.instance.ChangeTargetColorToRed();
+                    UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
                 }
                 else
                 {
-                    Debug.Log("pas assez d'energie! (2 demandées)");
+                    GameManager.instance.TargetOnTile.IsMissed = true;
+                    Debug.Log("no room on hit");
+
+                    UIManager.instance.HideFicheRoom();
                 }
-            }
-            else
-            {
-                // already hit that tile
+
                 TargetController.instance.ChangeTargetColorToRed();
             }
-        }
-
-        // update button color
-    }
+        } 
+    } 
 }

@@ -36,6 +36,7 @@ public class TargetController : MonoBehaviour
 
     public void ChangeTargetPosition(Vector3 pos)
     {
+        Debug.Log("change target position");
         ShowTarget();
         transform.position = new Vector3(pos.x, pos.y, transform.position.z);
     }

@@ -9,26 +9,34 @@ public class UIManager : MonoBehaviour
     // ----- FIELDS ----- //
     public static UIManager instance;
 
+    [Header("Canvas")]
     [SerializeField] GameObject _gameCanvas;
 
+    [Header("Debug Text")]
     [SerializeField] TMP_Text _currentPlayerTxt;
     [SerializeField] TMP_Text _currentModeTxt;
+
+    [Header("Validate Buttons")]
     [SerializeField] GameObject _buttonValidateConstruction;
     [SerializeField] GameObject _buttonValidateCombat;
 
+    [Header("Change Player")]
     [SerializeField] GameObject _changePlayerCanvas;
     [SerializeField] TMP_Text _changePlayerCanvasTxt;
     [SerializeField] TMP_Text _constructionTimeRemainingTxt;
     public bool ChangingPlayer;
 
-    [SerializeField] Slider _energySlider;
-    [SerializeField] TMP_Text _energyTxt;
+    [Header("Action Points")]
+    [SerializeField] TMP_Text _actionPointsTxt;
+    [SerializeField] TMP_Text _currentRoundTxt;
 
+    [Header("Infos Ability")]
     [SerializeField] GameObject _infosAbility;
     [SerializeField] TMP_Text _infosNameAbility;
     [SerializeField] TMP_Text _infosDescriptionAbility;
     [SerializeField] TMP_Text _infosEnergy;
 
+    [Header("Infos Room")]
     [SerializeField] GameObject _infosRoom;
     [SerializeField] Image _infosRoomIcon;
     [SerializeField] Image _infosRoomPattern;
@@ -36,8 +44,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text _infosNameRoomAbility;
     [SerializeField] TMP_Text _infosDescriptionRoomAbility;
 
+    [Header("Ability Buttons")]
     [SerializeField] GameObject _randomizeRoomsButton;
-    [SerializeField] List<GameObject> _abilityButtons = new List<GameObject>();
+    private List<GameObject> _abilityButtons = new List<GameObject>();
+
+    [Header("Victory")]
+    [SerializeField] GameObject _victoryCanvas;
+    [SerializeField] TMP_Text _victoryTxt;
+
+    [Header("Switch Ship")]
+    [SerializeField] GameObject _switchShipButton;
 
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
@@ -49,15 +65,42 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        _abilityButtons = AbilityButtonsManager.instance.GetAbilityButtonsList();
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         ShowButtonValidateConstruction();
         ShowRandomizeRoomsButton();
         HideButtonsCombat();
-        HideEnergySlider();
+        HideActionPoints();
         HideFicheAbility();
         HideFicheRoom();
         HideValidateCombat();
+        HideVictoryCanvas();
+        HideSwitchShipButton();
+    }
+
+    #region Switch Ship 
+    public void HideSwitchShipButton()
+    {
+        _switchShipButton.SetActive(false);
+    }
+
+    public void ShowShitchShipButton()
+    {
+        _switchShipButton.SetActive(true);
+    }
+    #endregion
+
+    #region Victory / Game Canvas
+    public void HideVictoryCanvas()
+    {
+        _victoryCanvas.SetActive(false);
+    }
+
+    public void ShowVictoryCanvas(Player winner)
+    {
+        _victoryCanvas.SetActive(true);
+        _victoryTxt.text = "Winner : " + winner.ToString();
     }
 
     public void HideGameCanvas()
@@ -69,7 +112,9 @@ public class UIManager : MonoBehaviour
     {
         _gameCanvas.SetActive(true);
     }
+    #endregion
 
+    #region Randomize Rooms Button
     public void HideRandomizeRoomsButton()
     {
         _randomizeRoomsButton.SetActive(false);
@@ -79,6 +124,7 @@ public class UIManager : MonoBehaviour
     {
         _randomizeRoomsButton.SetActive(true);
     }
+    #endregion
 
     #region CurrentPlayer
     public void UpdateCurrentPlayerTxt(Player playerTurn)
@@ -119,6 +165,7 @@ public class UIManager : MonoBehaviour
     #region Ability Buttons
     public void HideButtonsCombat()
     {
+        Debug.Log("hide buttons combat");
         foreach (GameObject abilityButton in _abilityButtons)
         {
             abilityButton.SetActive(false);  
@@ -127,6 +174,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowButtonsCombat()
     {
+        Debug.Log("show buttons combat");
+
         foreach (GameObject abilityButton in _abilityButtons)
         {
             abilityButton.SetActive(true);
@@ -141,9 +190,16 @@ public class UIManager : MonoBehaviour
         foreach (GameObject abilityButton in _abilityButtons)
         {
             AbilityButton button = abilityButton.GetComponentInChildren<AbilityButton>();
-            if (_energySlider.value >= button.GetAbility()._powerNeed && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline)
+            if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()) > 0 && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline && GameManager.instance.GetCurrentCooldown(button.GetAbility()) == 0)
             {
-                button.GetComponent<Image>().color = Color.white;
+                if (button.IsSelected)
+                {
+                    button.GetComponent<Image>().color = new Color(0.34f, 0.54f, 77f);
+                }
+                else
+                {
+                    button.GetComponent<Image>().color = Color.white;
+                }
             }
             else if (button.IsOffline)
             {
@@ -190,27 +246,21 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    #region Energy
-    public void HideEnergySlider()
+    #region Action Points
+    public void HideActionPoints()
     {
-        _energySlider.gameObject.SetActive(false);
-        _energyTxt.enabled = false;
+        _actionPointsTxt.gameObject.SetActive(false);
+        _currentModeTxt.gameObject.SetActive(false);
     }
 
-    public void ShowEnergySlider()
+    public void ShowOrUpdateActionPoints()
     {
-        _energySlider.gameObject.SetActive(true);
-        _energyTxt.enabled = true;
-        _energySlider.maxValue = EnergySystem.instance.GetMaxEnergy();
-        _energySlider.value = EnergySystem.instance.GetStartEnergy();
-    }
+        Debug.Log("show or update action points");
+        _actionPointsTxt.gameObject.SetActive(true);
+        _currentModeTxt.gameObject.SetActive(true);
 
-    public void UpdateEnergySlider(Player player)
-    {
-        _energySlider.value = EnergySystem.instance.GetPlayerEnergy(player);
-        _energyTxt.text = "Energy \n" + _energySlider.value + "/" + _energySlider.maxValue;
-
-        CheckAbilityButtonsColor();
+        _actionPointsTxt.text = "Action points : " + ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer());
+        _currentRoundTxt.text = "Current round : " + GameManager.instance.GetCurrentRound().ToString();
     }
     #endregion
 
@@ -234,14 +284,14 @@ public class UIManager : MonoBehaviour
 
     public void UpdateFicheAbility(scriptablePower abilityData)
     {
-        _infosNameAbility.text = "Name : " + abilityData._powerName;
-        _infosDescriptionAbility.text = "Description : \n\n" + abilityData._description;
-        _infosEnergy.text = "Power needed : " + abilityData._powerNeed.ToString();
+        _infosNameAbility.text = "Name : " + abilityData.AbilityName;
+        _infosDescriptionAbility.text = "Description : \n\n" + abilityData.Description;
+        _infosEnergy.text = "Power needed : " + abilityData.ActionPointsNeeded.ToString();
     }
 
     public bool IsFicheAbilityWithSameAbility(scriptablePower abilityData)
     {
-        return _infosNameAbility.text == "Name : " + abilityData._powerName;
+        return _infosNameAbility.text == "Name : " + abilityData.AbilityName;
     }
 
     public void ShowFicheRoom(RoomSO roomData)
@@ -251,8 +301,20 @@ public class UIManager : MonoBehaviour
         _infosRoomIcon.sprite = roomData.RoomIcon;
         _infosRoomPattern.sprite = roomData.RoomPatternImg;
         _infosNameRoom.text = roomData.RoomName;
-        _infosNameRoomAbility.text = roomData.RoomAbility._powerName;
-        _infosDescriptionRoomAbility.text = roomData.RoomAbility._description;
+
+        if (roomData.RoomAbility != null)
+        {
+            _infosNameRoomAbility.gameObject.SetActive(true);
+            _infosDescriptionRoomAbility.gameObject.SetActive(true);
+
+            _infosNameRoomAbility.text = roomData.RoomAbility.AbilityName;
+            _infosDescriptionRoomAbility.text = roomData.RoomAbility.Description;
+        }
+        else
+        {
+            _infosNameRoomAbility.gameObject.SetActive(false);
+            _infosDescriptionRoomAbility.gameObject.SetActive(false);
+        }
     }
 
     public void HideFicheRoom()

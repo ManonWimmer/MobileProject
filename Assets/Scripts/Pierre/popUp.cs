@@ -12,21 +12,67 @@ public class popUp : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _powerNeed;
     [SerializeField] private Image _icon;
 
+    [SerializeField] private popUp _popup;
+    [SerializeField] private bool _popupVisible;
+
+    public void CheckPopupIsOpen() => CheckOpen();
+
     private void Start()
     {
+        Transform parentTransform = transform.parent;
+        foreach (Transform childTransform in parentTransform)
+        {
+            if (childTransform.name == "content" && gameObject.name == "contentDebuff")
+            {
+                GameObject childGameObject = childTransform.gameObject;
+                _popup = childGameObject.GetComponent<popUp>();
+                break;
+            } 
+            else if(childTransform.name == "contentDebuff" && gameObject.name == "content")
+            {
+                GameObject childGameObject = childTransform.gameObject;
+                _popup = childGameObject.GetComponent<popUp>();
+                break;
+            }
+        }
+
         gameObject.SetActive(false);
     }
 
-    public void OpenDesc(scriptablePower scriptable)
+    public void CheckOpen()
     {
-        _description.text = scriptable._description;
-        _name.text = scriptable._powerName;
-        _powerNeed.text = scriptable._powerNeed.ToString();
-        _icon.sprite = scriptable._icon;
+        if (_popupVisible)
+        {
+            Close();
+        }
     }
+
+    #region Description Open
+    public void OpenDescAbility(scriptablePower scriptable)
+    {
+        _popup.CheckOpen();
+        _popupVisible = true;
+
+        _description.text = scriptable.Description;
+        _name.text = scriptable.AbilityName;
+        _powerNeed.text = scriptable.ActionPointsNeeded.ToString();
+        _icon.sprite = scriptable.Icon;
+    }
+
+    public void OpenDescDebuff(scriptableDebuff scriptable)
+    {
+        _popup.CheckOpen();
+        _popupVisible = true;
+
+        _description.text = scriptable.Description;
+        _name.text = scriptable.DebuffName;
+        _icon.sprite = scriptable.Icon;
+    }
+    #endregion
 
     public void Close()
     {
+        _popupVisible = false;
         gameObject.SetActive(false);
     }
 }
