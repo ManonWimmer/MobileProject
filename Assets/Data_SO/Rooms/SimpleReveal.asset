@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SimpleReveal
   m_EditorClassIdentifier: 
   RoomName: Simple Reveal
-  RoomIcon: {fileID: 21300000, guid: 347ba161e48826b48a9507398c1b0e6b, type: 3}
+  RoomIcon: {fileID: 21300000, guid: 5761467de6b5ff041b9a0faccb88311d, type: 3}
   RoomPatternImg: {fileID: 21300000, guid: 0c0b168cf29d4004fb2c0408fc0f43bf, type: 3}
   RoomAbility: {fileID: 11400000, guid: d337bd36531b7fd4686f48ecaca9c362, type: 2}
   IsVital: 0

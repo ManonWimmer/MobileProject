@@ -240,7 +240,6 @@ public class AbilityButtonsManager : MonoBehaviour
             }
         }
         #endregion
-
         #region Player 2
         if (GameManager.instance.PlayerTurn == Player.Player2)
         {

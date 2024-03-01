@@ -553,9 +553,9 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.LeftTilesSR.Count; i++)
             {
-                if (tile.LeftTile != null)
+                if (currentTile.LeftTile != null)
                 {
-                    if (tile.LeftTile.IsOccupied)
+                    if (currentTile.LeftTile.IsOccupied)
                     {
                         Debug.Log("left tile occupied " + i);
                         return false;
@@ -568,7 +568,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                currentTile = tile.LeftTile;
+                currentTile = currentTile.LeftTile;
             }
         }
         // right
@@ -577,9 +577,9 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.RightTilesSR.Count; i++)
             {
-                if (tile.RightTile != null)
+                if (currentTile.RightTile != null)
                 {
-                    if (tile.RightTile.IsOccupied)
+                    if (currentTile.RightTile.IsOccupied)
                     {
                         Debug.Log("right tile occupied " + i);
                         return false;
@@ -591,7 +591,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                currentTile = tile.RightTile;
+                currentTile = currentTile.RightTile;
             }
         }
         // bottom
@@ -600,9 +600,9 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.BottomTilesSR.Count; i++)
             {
-                if (tile.BottomTile != null)
+                if (currentTile.BottomTile != null)
                 {
-                    if (tile.BottomTile.IsOccupied)
+                    if (currentTile.BottomTile.IsOccupied)
                     {
                         Debug.Log("bottom tile occupied " + i);
                         return false;
@@ -614,7 +614,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                currentTile = tile.BottomTile;
+                currentTile = currentTile.BottomTile;
             }
         }
         // top
@@ -623,9 +623,9 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.TopTilesSR.Count; i++)
             {
-                if (tile.TopTile != null)
+                if (currentTile.TopTile != null)
                 {
-                    if (tile.TopTile.IsOccupied)
+                    if (currentTile.TopTile.IsOccupied)
                     {
                         Debug.Log("bottom tile occupied " + i);
                         return false;
@@ -637,7 +637,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                currentTile = tile.TopTile;
+                currentTile = currentTile.TopTile;
             }
         }
         #endregion
@@ -649,9 +649,9 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomLeftTilesSR.Count; i++)
             {
-                if (tile.DiagBottomLeftTile != null)
+                if (currentTile.DiagBottomLeftTile != null)
                 {
-                    if (tile.DiagBottomLeftTile.IsOccupied)
+                    if (currentTile.DiagBottomLeftTile.IsOccupied)
                     {
                         Debug.Log("diag bottom left tile occupied " + i);
                         return false;
@@ -664,7 +664,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                currentTile = tile.DiagBottomLeftTile;
+                currentTile = currentTile.DiagBottomLeftTile;
             }
         }
         // diag right bottom
@@ -673,9 +673,9 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomRightTilesSR.Count; i++)
             {
-                if (tile.DiagBottomRightTile != null)
+                if (currentTile.DiagBottomRightTile != null)
                 {
-                    if (tile.DiagBottomRightTile.IsOccupied)
+                    if (currentTile.DiagBottomRightTile.IsOccupied)
                     {
                         Debug.Log("diag bottom right tile occupied " + i);
                         return false;
@@ -687,7 +687,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                currentTile = tile.DiagBottomRightTile;
+                currentTile = currentTile.DiagBottomRightTile;
             }
         }
         // diag left top
@@ -696,9 +696,9 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopLeftTilesSR.Count; i++)
             {
-                if (tile.DiagTopLeftTile != null)
+                if (currentTile.DiagTopLeftTile != null)
                 {
-                    if (tile.DiagTopLeftTile.IsOccupied)
+                    if (currentTile.DiagTopLeftTile.IsOccupied)
                     {
                         Debug.Log("diag top left tile occupied " + i);
                         return false;
@@ -710,7 +710,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                currentTile = tile.DiagTopLeftTile;
+                currentTile = currentTile.DiagTopLeftTile;
             }
         }
         // diag right top
@@ -719,9 +719,9 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopRightTilesSR.Count; i++)
             {
-                if (tile.DiagTopRightTile != null)
+                if (currentTile.DiagTopRightTile != null)
                 {
-                    if (tile.DiagTopRightTile.IsOccupied)
+                    if (currentTile.DiagTopRightTile.IsOccupied)
                     {
                         Debug.Log("diag top right tile occupied " + i);
                         return false;
@@ -733,7 +733,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                currentTile = tile.DiagTopRightTile;
+                currentTile = currentTile.DiagTopRightTile;
             }
         }
         #endregion
@@ -794,11 +794,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.LeftTilesSR.Count; i++)
             {
-                tile.LeftTile.IsOccupied = true;
-                tile.LeftTile.Room = building;
-                tile.LeftTile.RoomTileSpriteRenderer = building.LeftTilesSR[i];
+                currentTile.LeftTile.IsOccupied = true;
+                currentTile.LeftTile.Room = building;
+                currentTile.LeftTile.RoomTileSpriteRenderer = building.LeftTilesSR[i];
 
-                currentTile = tile.LeftTile;
+                currentTile = currentTile.LeftTile;
                 tiles.Add(currentTile);
             }
         }
@@ -808,11 +808,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.RightTilesSR.Count; i++)
             {
-                tile.RightTile.IsOccupied = true;
-                tile.RightTile.Room = building;
-                tile.RightTile.RoomTileSpriteRenderer = building.RightTilesSR[i];
+                currentTile.RightTile.IsOccupied = true;
+                currentTile.RightTile.Room = building;
+                currentTile.RightTile.RoomTileSpriteRenderer = building.RightTilesSR[i];
 
-                currentTile = tile.RightTile;
+                currentTile = currentTile.RightTile;
                 tiles.Add(currentTile);
             }
         }
@@ -822,11 +822,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.TopTilesSR.Count; i++)
             {
-                tile.TopTile.IsOccupied = true;
-                tile.TopTile.Room = building;
-                tile.TopTile.RoomTileSpriteRenderer = building.TopTilesSR[i];
+                currentTile.TopTile.IsOccupied = true;
+                currentTile.TopTile.Room = building;
+                currentTile.TopTile.RoomTileSpriteRenderer = building.TopTilesSR[i];
 
-                currentTile = tile.TopTile; 
+                currentTile = currentTile.TopTile; 
                 tiles.Add(currentTile);
             }
         }
@@ -836,11 +836,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.BottomTilesSR.Count; i++)
             {
-                tile.BottomTile.IsOccupied = true;
-                tile.BottomTile.Room = building;
-                tile.BottomTile.RoomTileSpriteRenderer = building.BottomTilesSR[i];
+                currentTile.BottomTile.IsOccupied = true;
+                currentTile.BottomTile.Room = building;
+                currentTile.BottomTile.RoomTileSpriteRenderer = building.BottomTilesSR[i];
 
-                currentTile = tile.BottomTile;
+                currentTile = currentTile.BottomTile;
                 tiles.Add(currentTile);
             }
         }
@@ -853,11 +853,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomLeftTilesSR.Count; i++)
             {
-                tile.DiagBottomLeftTile.IsOccupied = true;
-                tile.DiagBottomLeftTile.Room = building;
-                tile.DiagBottomLeftTile.RoomTileSpriteRenderer = building.DiagBottomLeftTilesSR[i];
+                currentTile.DiagBottomLeftTile.IsOccupied = true;
+                currentTile.DiagBottomLeftTile.Room = building;
+                currentTile.DiagBottomLeftTile.RoomTileSpriteRenderer = building.DiagBottomLeftTilesSR[i];
 
-                currentTile = tile.DiagBottomLeftTile;
+                currentTile = currentTile.DiagBottomLeftTile;
                 tiles.Add(currentTile);
             }
         }
@@ -867,11 +867,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagBottomRightTilesSR.Count; i++)
             {
-                tile.DiagBottomRightTile.IsOccupied = true;
-                tile.DiagBottomRightTile.Room = building;
-                tile.DiagBottomRightTile.RoomTileSpriteRenderer = building.DiagBottomRightTilesSR[i];
+                currentTile.DiagBottomRightTile.IsOccupied = true;
+                currentTile.DiagBottomRightTile.Room = building;
+                currentTile.DiagBottomRightTile.RoomTileSpriteRenderer = building.DiagBottomRightTilesSR[i];
 
-                currentTile = tile.DiagBottomRightTile;
+                currentTile = currentTile.DiagBottomRightTile;
                 tiles.Add(currentTile);
             }
         }
@@ -881,11 +881,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopLeftTilesSR.Count; i++)
             {
-                tile.DiagTopLeftTile.IsOccupied = true;
-                tile.DiagTopLeftTile.Room = building;
-                tile.DiagTopLeftTile.RoomTileSpriteRenderer = building.DiagTopLeftTilesSR[i];
+                currentTile.DiagTopLeftTile.IsOccupied = true;
+                currentTile.DiagTopLeftTile.Room = building;
+                currentTile.DiagTopLeftTile.RoomTileSpriteRenderer = building.DiagTopLeftTilesSR[i];
 
-                currentTile = tile.DiagTopLeftTile;
+                currentTile = currentTile.DiagTopLeftTile;
                 tiles.Add(currentTile);
             }
         }
@@ -895,11 +895,11 @@ public class GameManager : MonoBehaviour
             Tile currentTile = tile;
             for (int i = 0; i < building.DiagTopRightTilesSR.Count; i++)
             {
-                tile.DiagTopRightTile.IsOccupied = true;
-                tile.DiagTopRightTile.Room = building;
-                tile.DiagTopRightTile.RoomTileSpriteRenderer = building.DiagTopRightTilesSR[i];
+                currentTile.DiagTopRightTile.IsOccupied = true;
+                currentTile.DiagTopRightTile.Room = building;
+                currentTile.DiagTopRightTile.RoomTileSpriteRenderer = building.DiagTopRightTilesSR[i];
 
-                currentTile = tile.DiagTopRightTile;
+                currentTile = currentTile.DiagTopRightTile;
                 tiles.Add(currentTile);
             }
         }
