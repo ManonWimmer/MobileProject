@@ -7,6 +7,7 @@ TagManager:
   - Description
   - Button
   - debuffButton
+  - Cards
   layers:
   - Default
   - TransparentFX
