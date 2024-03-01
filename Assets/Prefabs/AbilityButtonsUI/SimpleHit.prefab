@@ -369,7 +369,6 @@ GameObject:
   - component: {fileID: 4163853260447552714}
   - component: {fileID: 8900515014772974557}
   - component: {fileID: 4897599997762137039}
-  - component: {fileID: 725553571801016757}
   m_Layer: 5
   m_Name: SimpleHitButton
   m_TagString: Untagged
@@ -480,9 +479,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 725553571801016757}
-        m_TargetAssemblyTypeName: SimpleHit, Assembly-CSharp
-        m_MethodName: TrySimpleHit
+      - m_Target: {fileID: 4897599997762137039}
+        m_TargetAssemblyTypeName: AbilityButton, Assembly-CSharp
+        m_MethodName: SelectOrDeselectAbility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -507,18 +506,6 @@ MonoBehaviour:
   _ability: {fileID: 11400000, guid: 0496029f2df908c4cbe22288cf3ced03, type: 2}
   _cooldownTxt: {fileID: 1549888531643595271}
   IsOffline: 0
---- !u!114 &725553571801016757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5764031651455875376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 917a2e74ef70a5e44bf638f71c64cb5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6707212936157042783
 GameObject:
   m_ObjectHideFlags: 0

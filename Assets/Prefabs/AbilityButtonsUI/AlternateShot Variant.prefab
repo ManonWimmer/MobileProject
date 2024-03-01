@@ -170,14 +170,14 @@ PrefabInstance:
     - target: {fileID: 3170440703489322839, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3779477264171125507}
+      objectReference: {fileID: 8517046354590538446}
     - target: {fileID: 3170440703489322839, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryAlternateShot
+      value: SelectOrDeselectAbility
       objectReference: {fileID: 0}
     - target: {fileID: 3170440703489322839, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AlternateShot, Assembly-CSharp
+      value: AbilityButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3235217273157199517, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: _ability
@@ -202,31 +202,21 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1299223820951008893, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6814763830800878662}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5900277133749188906, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3779477264171125507}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
---- !u!1 &807994511193228665 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5900277133749188906, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
-  m_PrefabInstance: {fileID: 6545819815277870163}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3779477264171125507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 807994511193228665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 792aaf095151c1b4f92653677ef37acb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _alternateShotDirectionImg: {fileID: 8326610266945375968}
 --- !u!224 &5246879790012238382 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1299223820951008893, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
   m_PrefabInstance: {fileID: 6545819815277870163}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8517046354590538446 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3235217273157199517, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
+  m_PrefabInstance: {fileID: 6545819815277870163}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3035d76fe49b2e54b9bdb687dd4be8bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
