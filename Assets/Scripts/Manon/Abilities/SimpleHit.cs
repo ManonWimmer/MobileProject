@@ -41,23 +41,11 @@ public class SimpleHit : MonoBehaviour
                 if (GameManager.instance.TargetOnTile.IsOccupied)
                 {
                     Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
+
                     GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.black;
                     GameManager.instance.TargetOnTile.IsDestroyed = true;
-
-                    GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
-
-                    // update hidden rooms
-                    if (GameManager.instance.PlayerTurn == Player.Player1)
-                    {
-                        GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
-                    }
-                    else
-                    {
-                        GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
-                    }
-
                     UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
-                }
+                }  
                 else
                 {
                     GameManager.instance.TargetOnTile.IsMissed = true;
@@ -67,6 +55,69 @@ public class SimpleHit : MonoBehaviour
                 }
 
                 TargetController.instance.ChangeTargetColorToRed();
+
+                if (AbilityButtonsManager.instance.GetIfSimpleHitXS())
+                {
+                    Debug.Log("simple hit x2");
+
+                    // Try destroy right
+                    if (_target.RightTile != null)
+                    {
+                        if (_target.RightTile.IsOccupied)
+                        {
+                            _target.RightTile.RoomTileSpriteRenderer.color = Color.black;
+                            _target.RightTile.IsDestroyed = true;
+                        }
+                        else
+                        {
+                            _target.RightTile.IsMissed = true;
+                        }
+                    }
+
+                    // Try destroy bottom
+                    if (_target.BottomTile != null)
+                    {
+                        if (_target.BottomTile.IsOccupied)
+                        {
+                            _target.BottomTile.RoomTileSpriteRenderer.color = Color.black;
+                            _target.BottomTile.IsDestroyed = true;
+                        }
+                        else
+                        {
+                            _target.BottomTile.IsMissed = true;
+                        }
+                    }
+
+                    // Try destroy diag bottom right
+                    if (_target.DiagBottomRightTile != null)
+                    {
+                        if (_target.DiagBottomRightTile.IsOccupied)
+                        {
+                            _target.DiagBottomRightTile.RoomTileSpriteRenderer.color = Color.black;
+                            _target.DiagBottomRightTile.IsDestroyed = true;
+                        }
+                        else
+                        {
+                            _target.DiagBottomRightTile.IsMissed = true;
+                        }
+                    }
+
+                    AbilityButtonsManager.instance.DesactivateSimpleHitX2IfActivated();
+                }
+
+                // update hidden rooms
+                if (GameManager.instance.PlayerTurn == Player.Player1)
+                {
+                    GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
+                }
+                else
+                {
+                    GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
+                }
+
+                GameManager.instance.CheckTileClickedInCombat(_target);
+                TargetController.instance.ChangeTargetColorToRed();
+                UIManager.instance.CheckAbilityButtonsColor();
             }
         } 
     } 

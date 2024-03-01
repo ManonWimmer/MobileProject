@@ -86,6 +86,9 @@ public class GameManager : MonoBehaviour
     private int _scannerCooldownPlayer1;
     private int _scannerCooldownPlayer2;
 
+    private int _capacitorCooldownPlayer1;
+    private int _capacitorCooldownPlayer2;
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
 
@@ -1146,6 +1149,20 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
+                case ("Capacitor"):
+                    _capacitorCooldownPlayer1 = 0;
+                    _capacitorCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "Capacitor")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found capacitor button");
+                            break;
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -1598,6 +1615,16 @@ public class GameManager : MonoBehaviour
                     _scannerCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
+            case ("Capacitor"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _capacitorCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _capacitorCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
 
         }
     }
@@ -1656,6 +1683,16 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     _scannerCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Capacitor"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _capacitorCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _capacitorCooldownPlayer1 += 2;
                 }
                 break;
         }
@@ -1749,6 +1786,22 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
+            case ("Capacitor"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_capacitorCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_capacitorCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
         }
 
         return true;
@@ -1829,6 +1882,15 @@ public class GameManager : MonoBehaviour
                 {
                     return _scannerCooldownPlayer2;
                 }
+            case ("Capacitor"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _capacitorCooldownPlayer1;
+                }
+                else
+                {
+                    return _capacitorCooldownPlayer2;
+                }
         }
 
         return 0;
@@ -1882,6 +1944,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _scannerCooldownPlayer1;
+                }
+            case ("Capacitor"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _capacitorCooldownPlayer2;
+                }
+                else
+                {
+                    return _capacitorCooldownPlayer1;
                 }
         }
 

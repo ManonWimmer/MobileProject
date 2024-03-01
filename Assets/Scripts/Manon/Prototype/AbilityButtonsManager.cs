@@ -113,7 +113,9 @@ public class AbilityButtonsManager : MonoBehaviour
                 Scanner_SelectAbilityTiles();
                 break;
             case ("TimeAccelerator"):
+            case ("Capacitor"):
                 break; // Pas de tile à sélectionner lol
+
         }
     }
 
@@ -346,7 +348,45 @@ public class AbilityButtonsManager : MonoBehaviour
     private void SimpleHit_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles simple hit");
-        SelectOnlyTargetTile();
+
+        if (GetIfSimpleHitXS())
+        {
+            Debug.Log("simple hit x2 selection");
+
+            if (_selectedTiles != null)
+            {
+                DeselectAbilityTiles();
+                _selectedTiles.Clear();
+            }
+
+            _target.IsAbilitySelected = true;
+            _selectedTiles.Add(_target);
+
+            // right
+            if (_target.RightTile != null)
+            {
+                _target.RightTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.RightTile);
+            }
+
+            // bottom
+            if (_target.BottomTile != null)
+            {
+                _target.BottomTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.BottomTile);
+            }
+
+            // diag bottom right
+            if (_target.DiagBottomRightTile != null)
+            {
+                _target.DiagBottomRightTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.DiagBottomRightTile);
+            }
+        }
+        else
+        {
+            SelectOnlyTargetTile();
+        }
     }
 
     private void SimpleReveal_SelectAbilityTiles()
@@ -380,13 +420,14 @@ public class AbilityButtonsManager : MonoBehaviour
 
     public void ActivateSimpleHitX2()
     {
+        Debug.Log("activate simplte hit x2");
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
             _simpleHitX2Player1 = true;
         }
-        else
+        else 
         {
-            _simpleHitX2Player2 = false;
+            _simpleHitX2Player2 = true;
         }
 
         UIManager.instance.CheckSimpleHitX2Img();
@@ -394,15 +435,33 @@ public class AbilityButtonsManager : MonoBehaviour
 
     public void DesactivateSimpleHitX2IfActivated()
     {
-        if (_simpleHitX2Player1)
+        if (GameManager.instance.PlayerTurn == Player.Player1)
         {
-            _simpleHitX2Player1 = false;
+            if (_simpleHitX2Player1)
+            {
+                _simpleHitX2Player1 = false;
+            }
         }
-        else if (_simpleHitX2Player2)
+        else
         {
-            _simpleHitX2Player2 = false;
+            if (_simpleHitX2Player2)
+            {
+                _simpleHitX2Player2 = false;
+            }
         }
 
         UIManager.instance.CheckSimpleHitX2Img();
+    }
+
+    public bool GetIfSimpleHitXS()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            return _simpleHitX2Player1;
+        }
+        else
+        {
+            return _simpleHitX2Player2;
+        }
     }
 }
