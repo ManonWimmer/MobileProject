@@ -1505,8 +1505,8 @@ public class GameManager : MonoBehaviour
 
         if (_targetOnTile != null)
         {
-            if (!_targetOnTile.IsDestroyed && !_targetOnTile.IsMissed) // tile jamais hit
-            {
+            //if (!_targetOnTile.IsDestroyed && !_targetOnTile.IsMissed) // tile jamais hit
+            //{
                 if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
                 {
                     if (!IsAbilityInCooldown(ability))
@@ -1526,12 +1526,14 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("no action points and / or no room ability on target");
                 }
-            }
+            //}
+            /*
             else
             {
                 // already hit that tile
                 TargetController.instance.ChangeTargetColorToRed();
             }
+            */
         }
         Debug.Log("can't use ability");
         return false;
