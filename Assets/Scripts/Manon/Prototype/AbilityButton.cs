@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using static UnityEngine.GraphicsBuffer;
 
 public class AbilityButton : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class AbilityButton : MonoBehaviour
     private Image _image;
     private Button _button;
     private Button.ButtonClickedEvent _onClickOnline;
+    private Tile _target;
 
     private bool _isSelected;
 
@@ -111,5 +113,28 @@ public class AbilityButton : MonoBehaviour
 
             _cooldownTxt.gameObject.SetActive(false);
         }   
+    }
+
+    public void SelectOrDeselectAbility()
+    {
+        Debug.Log("select / deselect ability");
+        _target = GameManager.instance.TargetOnTile;
+
+        if (_target == null)
+        {
+            return;
+        }
+
+        if (!IsSelected)
+        {
+            if (GameManager.instance.CanUseAbility(_ability))
+            {
+                AbilityButtonsManager.instance.SelectAbilityButton(this);
+            }
+        }
+        else
+        {
+            AbilityButtonsManager.instance.DeselectAbilityButton(this);
+        }
     }
 }

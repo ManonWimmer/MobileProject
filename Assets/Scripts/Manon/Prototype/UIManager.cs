@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     [Header("Validate Buttons")]
     [SerializeField] GameObject _buttonValidateConstruction;
     [SerializeField] GameObject _buttonValidateCombat;
+    [SerializeField] GameObject _fireButtonCombat;
 
     [Header("Change Player")]
     [SerializeField] GameObject _changePlayerCanvas;
@@ -81,6 +82,7 @@ public class UIManager : MonoBehaviour
         HideValidateCombat();
         HideVictoryCanvas();
         HideSwitchShipButton();
+        HideFireButton();
     }
 
     public void CheckAlternateShotDirectionImgRotation()
@@ -200,9 +202,21 @@ public class UIManager : MonoBehaviour
         _buttonValidateCombat.SetActive(false);
     }
 
+    public void HideFireButton()
+    {
+        _fireButtonCombat.SetActive(false); 
+    }
+
     public void ShowValidateCombat()
     {
         _buttonValidateCombat.SetActive(true);
+        _fireButtonCombat.SetActive(false);
+    }
+
+    public void ShowFireButton()
+    {
+        _buttonValidateCombat.SetActive(false);
+        _fireButtonCombat.SetActive(true);
     }
     #endregion
 

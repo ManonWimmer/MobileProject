@@ -1531,8 +1531,8 @@ public class GameManager : MonoBehaviour
                     if (!IsAbilityInCooldown(ability))
                     {
                         Debug.Log("current ability cooldown 0");
-                        ActionPointsManager.instance.UseActionPoint(_playerTurn);
-                        SetAbilityCooldown(ability);
+                        //ActionPointsManager.instance.UseActionPoint(_playerTurn);
+                        //SetAbilityCooldown(ability);
                         Debug.Log("can use ability");
                         return true;
                     }
