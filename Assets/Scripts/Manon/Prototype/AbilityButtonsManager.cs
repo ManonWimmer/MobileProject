@@ -23,6 +23,13 @@ public class AbilityButtonsManager : MonoBehaviour
     public AlternateShotDirection CurrentAlternateShotDirectionPlayer1 { get => _currentAlternateShotDirectionPlayer1; set => _currentAlternateShotDirectionPlayer1 = value; }
     public AlternateShotDirection CurrentAlternateShotDirectionPlayer2 { get => _currentAlternateShotDirectionPlayer2; set => _currentAlternateShotDirectionPlayer2 = value; }
 
+    private bool _simpleHitX2Player1;
+    private bool _simpleHitX2Player2;
+    public bool SimpleHitX2Player1 { get => _simpleHitX2Player1; set => _simpleHitX2Player1 = value; }
+    public bool SimpleHitX2Player2 { get => _simpleHitX2Player2; set => _simpleHitX2Player2 = value; }
+
+    
+
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -139,6 +146,7 @@ public class AbilityButtonsManager : MonoBehaviour
         _target.IsAbilitySelected = true;
         _selectedTiles.Add(_target);
 
+        #region Top
         // Top
         bool canGoTop = true;
         Tile currentTile = _target;
@@ -156,7 +164,9 @@ public class AbilityButtonsManager : MonoBehaviour
                 canGoTop = false;
             }
         }
+        #endregion
 
+        #region Bottom
         // Bottom
         bool canGoBottom = true;
         currentTile = _target;
@@ -174,6 +184,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 canGoBottom = false;
             }
         }
+        #endregion
     }
 
     private void EMP_SelectAbilityTiles()
@@ -365,5 +376,33 @@ public class AbilityButtonsManager : MonoBehaviour
     public AbilityButton GetCurrentlySelectedAbilityButton()
     {
         return _selectedButton;
+    }
+
+    public void ActivateSimpleHitX2()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            _simpleHitX2Player1 = true;
+        }
+        else
+        {
+            _simpleHitX2Player2 = false;
+        }
+
+        UIManager.instance.CheckSimpleHitX2Img();
+    }
+
+    public void DesactivateSimpleHitX2IfActivated()
+    {
+        if (_simpleHitX2Player1)
+        {
+            _simpleHitX2Player1 = false;
+        }
+        else if (_simpleHitX2Player2)
+        {
+            _simpleHitX2Player2 = false;
+        }
+
+        UIManager.instance.CheckSimpleHitX2Img();
     }
 }

@@ -39,6 +39,8 @@ public class SimpleReveal : MonoBehaviour
             {
                 _abilityButton.SetCooldown();
 
+                AbilityButtonsManager.instance.DesactivateSimpleHitX2IfActivated();
+
                 if (GameManager.instance.TargetOnTile.IsOccupied)
                 {
                     Debug.Log("reveal room " + GameManager.instance.TargetOnTile.Room.name);

@@ -36,7 +36,9 @@ public class Scanner : MonoBehaviour
         {
             if (GameManager.instance.CanUseAbility(_ability))
             {
-                _abilityButton.SetCooldown();;
+                _abilityButton.SetCooldown();
+
+                AbilityButtonsManager.instance.DesactivateSimpleHitX2IfActivated();
 
                 // Top
                 bool canGoTop = true;

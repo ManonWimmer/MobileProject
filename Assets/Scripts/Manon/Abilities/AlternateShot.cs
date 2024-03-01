@@ -46,6 +46,8 @@ public class AlternateShot : MonoBehaviour
             {
                 _abilityButton.SetCooldown();
 
+                AbilityButtonsManager.instance.DesactivateSimpleHitX2IfActivated();
+
                 GetCurrentPlayerAlternateShotDirection();
 
                 if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)

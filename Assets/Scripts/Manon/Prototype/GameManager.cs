@@ -1399,6 +1399,7 @@ public class GameManager : MonoBehaviour
             AbilityButtonsManager.instance.ResetRoundAbilityButtons();
             SetRoundTargetPos();
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
+            UIManager.instance.CheckSimpleHitX2Img();
         }
 
         if (_currentMode == Mode.Draft)
@@ -1466,6 +1467,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideRandomizeRoomsButton();
             UIManager.instance.ShowShitchShipButton();
             SetRoundTargetPos();
+            UIManager.instance.CheckSimpleHitX2Img();
         }
         else if (_currentMode == Mode.Draft)
         {

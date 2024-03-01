@@ -40,6 +40,8 @@ public class EMP : MonoBehaviour
             {
                 _abilityButton.SetCooldown();
 
+                AbilityButtonsManager.instance.DesactivateSimpleHitX2IfActivated();
+
                 // Simple hit on target (destroyed or missed)
                 if (GameManager.instance.TargetOnTile.IsOccupied)
                 {

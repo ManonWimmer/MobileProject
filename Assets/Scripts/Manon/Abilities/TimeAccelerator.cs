@@ -22,7 +22,7 @@ public class TimeAccelerator : MonoBehaviour
     {
         Debug.Log("try time accelerator");
 
-        _target = GameManager.instance.TargetOnTile; // maybe target à enlever parce qu'on s'en fout mais du coup mettre ce bouton avec couleur clicable dès le début du round sans la condition target != null
+        _target = GameManager.instance.TargetOnTile; 
 
         if (_target == null)
         {
@@ -36,11 +36,11 @@ public class TimeAccelerator : MonoBehaviour
         }
         else
         {
-            //if (GameManager.instance.CanUseAbility(_ability)) on s'en fout d'ou est la target
-            if (ActionPointsManager.instance.TryUseActionPoints(GameManager.instance.PlayerTurn) && !GameManager.instance.IsAbilityInCooldown(_ability))
+            if (GameManager.instance.CanUseAbility(_ability))           
             {
-                ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
                 _abilityButton.SetCooldown();
+
+                AbilityButtonsManager.instance.DesactivateSimpleHitX2IfActivated();
 
                 /* Pas de destroy à la target
                 if (GameManager.instance.TargetOnTile.IsOccupied)

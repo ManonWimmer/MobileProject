@@ -55,8 +55,9 @@ public class UIManager : MonoBehaviour
     [Header("Switch Ship")]
     [SerializeField] GameObject _switchShipButton;
 
-    [Header("Alternate Shot")]
+    [Header("Ability Bonus Images")]
     [SerializeField] Image _alternateShotDirectionImg;
+    [SerializeField] Image _simpleHitX2Img;
 
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
@@ -104,6 +105,22 @@ public class UIManager : MonoBehaviour
             Debug.Log("vertical");
             _alternateShotDirectionImg.rectTransform.eulerAngles = new Vector3(0, 0, 90);
         }
+    }
+
+    public void CheckSimpleHitX2Img()
+    {
+        Debug.Log("check simple hit x2 img");
+        bool showImg;
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            showImg = AbilityButtonsManager.instance.SimpleHitX2Player1;
+        }
+        else
+        {
+            showImg = AbilityButtonsManager.instance.SimpleHitX2Player2;
+        }
+
+        _simpleHitX2Img.enabled = showImg;
     }
 
     #region Switch Ship 
