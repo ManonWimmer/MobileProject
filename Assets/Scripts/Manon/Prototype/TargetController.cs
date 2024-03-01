@@ -44,8 +44,8 @@ public class TargetController : MonoBehaviour
     #region Color
     public void ChangeTargetColorToRed()
     {
-        Debug.Log("target red");
-        _spriteRenderer.color = Color.red;
+        Debug.Log("target red (desactivated)");
+        _spriteRenderer.color = Color.magenta;
         UIManager.instance.CheckAbilityButtonsColor();
     }
 
