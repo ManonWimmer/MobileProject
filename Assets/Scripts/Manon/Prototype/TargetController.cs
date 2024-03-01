@@ -52,13 +52,13 @@ public class TargetController : MonoBehaviour
     public void ChangeTargetColorToWhite()
     {
         Debug.Log("target white");
-        _spriteRenderer.color = Color.white;
+        _spriteRenderer.color = Color.magenta; // white on voit pas avec les sprite blanches temp, a changer plus tard avec les assets
     }
     #endregion
 
     public bool CanShootOnThisTile()
     {
-        if (_spriteRenderer.color == Color.white)
+        if (_spriteRenderer.color == Color.magenta)
         {
             return true;
         }

@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviour
     private int _alternateShotCooldownPlayer1;
     private int _alternateShotCooldownPlayer2;
 
+    private int _scannerCooldownPlayer1;
+    private int _scannerCooldownPlayer2;
 
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
@@ -234,6 +236,10 @@ public class GameManager : MonoBehaviour
             {
                 UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
             } 
+        }
+        else if (_targetOnTile.IsReavealed)
+        {
+            UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
         }
         else
         {
@@ -1126,6 +1132,20 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
+                case ("Scanner"):
+                    _scannerCooldownPlayer1 = 0;
+                    _scannerCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "Scanner")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found scanner button");
+                            break;
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -1564,6 +1584,17 @@ public class GameManager : MonoBehaviour
                     _alternateShotCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
+            case ("Scanner"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _scannerCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _scannerCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
+
         }
     }
 
@@ -1611,6 +1642,16 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     _alternateShotCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Scanner"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _scannerCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _scannerCooldownPlayer1 += 2;
                 }
                 break;
         }
@@ -1688,6 +1729,22 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
+            case ("Scanner"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_scannerCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_scannerCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
         }
 
         return true;
@@ -1759,6 +1816,15 @@ public class GameManager : MonoBehaviour
                 {
                     return _alternateShotCooldownPlayer2;
                 }
+            case ("Scanner"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _scannerCooldownPlayer1;
+                }
+                else
+                {
+                    return _scannerCooldownPlayer2;
+                }
         }
 
         return 0;
@@ -1803,6 +1869,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _alternateShotCooldownPlayer1;
+                }
+            case ("Scanner"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _scannerCooldownPlayer2;
+                }
+                else
+                {
+                    return _scannerCooldownPlayer1;
                 }
         }
 

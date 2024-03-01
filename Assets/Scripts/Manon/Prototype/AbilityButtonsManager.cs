@@ -102,6 +102,9 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("EMP"):
                 EMP_SelectAbilityTiles();
                 break;
+            case ("Scanner"):
+                Scanner_SelectAbilityTiles();
+                break;
             case ("TimeAccelerator"):
                 break; // Pas de tile à sélectionner lol
         }
@@ -121,6 +124,56 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         _selectedTiles.Clear();
+    }
+
+    private void Scanner_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles scanner");
+        if (_selectedTiles != null)
+        {
+            DeselectAbilityTiles();
+            _selectedTiles.Clear();
+        }
+
+        // Center
+        _target.IsAbilitySelected = true;
+        _selectedTiles.Add(_target);
+
+        // Top
+        bool canGoTop = true;
+        Tile currentTile = _target;
+        while (canGoTop)
+        {
+            if (currentTile.TopTile != null)
+            {
+                currentTile.TopTile.IsAbilitySelected = true;
+                _selectedTiles.Add(currentTile.TopTile);
+
+                currentTile = currentTile.TopTile;
+            }
+            else
+            {
+                canGoTop = false;
+            }
+        }
+
+        // Bottom
+        bool canGoBottom = true;
+        currentTile = _target;
+        while (canGoBottom)
+        {
+            if (currentTile.BottomTile != null)
+            {
+                currentTile.BottomTile.IsAbilitySelected = true;
+                _selectedTiles.Add(currentTile.BottomTile);
+
+                currentTile = currentTile.BottomTile;
+            }
+            else
+            {
+                canGoBottom = false;
+            }
+        }
     }
 
     private void EMP_SelectAbilityTiles()
@@ -240,6 +293,7 @@ public class AbilityButtonsManager : MonoBehaviour
             }
         }
         #endregion
+
         #region Player 2
         if (GameManager.instance.PlayerTurn == Player.Player2)
         {
