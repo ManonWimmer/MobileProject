@@ -1378,6 +1378,7 @@ public class GameManager : MonoBehaviour
             CheckPlayerAbilityButtonsEnabled();
             AbilityButtonsManager.instance.ResetRoundAbilityButtons();
             SetRoundTargetPos();
+            UIManager.instance.CheckAlternateShotDirectionImgRotation();
         }
 
         if (_currentMode == Mode.Draft)

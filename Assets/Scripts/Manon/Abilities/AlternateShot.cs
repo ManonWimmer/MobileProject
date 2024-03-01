@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using UnityEngine.UI;
 
 public enum AlternateShotDirection
 {
@@ -16,6 +16,7 @@ public class AlternateShot : MonoBehaviour
     private AbilityButton _abilityButton;
 
     private Tile _target;
+    private AlternateShotDirection _currentAlternateShotDirection;
     // ----- FIELDS ----- //
 
     private void Start()
@@ -45,7 +46,9 @@ public class AlternateShot : MonoBehaviour
             {
                 _abilityButton.SetCooldown();
 
-                if (AbilityButtonsManager.instance.CurrentAlternateShotDirection == AlternateShotDirection.Horizontal)
+                GetCurrentPlayerAlternateShotDirection();
+
+                if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
                 {
                     if (_target.LeftTile != null)
                     {
@@ -75,6 +78,18 @@ public class AlternateShot : MonoBehaviour
                 TargetController.instance.ChangeTargetColorToRed();
                 ChangeAlternateShotDirection();
             }
+        }
+    }
+
+    private void GetCurrentPlayerAlternateShotDirection()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            _currentAlternateShotDirection = AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer1;
+        }
+        else
+        {
+            _currentAlternateShotDirection = AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer2;
         }
     }
 
@@ -114,13 +129,35 @@ public class AlternateShot : MonoBehaviour
 
     private void ChangeAlternateShotDirection()
     {
-        if (AbilityButtonsManager.instance.CurrentAlternateShotDirection == AlternateShotDirection.Horizontal)
+        GetCurrentPlayerAlternateShotDirection();
+
+        if (GameManager.instance.PlayerTurn == Player.Player1)
         {
-            AbilityButtonsManager.instance.CurrentAlternateShotDirection = AlternateShotDirection.Vertical;
+            if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
+            {
+                _currentAlternateShotDirection = AlternateShotDirection.Vertical;
+            }
+            else
+            {
+                _currentAlternateShotDirection = AlternateShotDirection.Horizontal;
+            }
+
+            AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer1 = _currentAlternateShotDirection;
         }
         else
         {
-            AbilityButtonsManager.instance.CurrentAlternateShotDirection = AlternateShotDirection.Horizontal;
+            if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
+            {
+                _currentAlternateShotDirection = AlternateShotDirection.Vertical;
+            }
+            else
+            {
+                _currentAlternateShotDirection = AlternateShotDirection.Horizontal;
+            }
+
+            AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer2 = _currentAlternateShotDirection;
         }
+
+        UIManager.instance.CheckAlternateShotDirectionImgRotation();
     }
 }

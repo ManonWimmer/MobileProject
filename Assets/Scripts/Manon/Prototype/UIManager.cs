@@ -55,6 +55,9 @@ public class UIManager : MonoBehaviour
     [Header("Switch Ship")]
     [SerializeField] GameObject _switchShipButton;
 
+    [Header("Alternate Shot")]
+    [SerializeField] Image _alternateShotDirectionImg;
+
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
 
@@ -77,6 +80,30 @@ public class UIManager : MonoBehaviour
         HideValidateCombat();
         HideVictoryCanvas();
         HideSwitchShipButton();
+    }
+
+    public void CheckAlternateShotDirectionImgRotation()
+    {
+        AlternateShotDirection _currentAlternateShotDirection;
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            _currentAlternateShotDirection = AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer1;
+        }
+        else
+        {
+            _currentAlternateShotDirection = AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer2;
+        }
+
+        if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
+        {
+            Debug.Log("horizontal");
+            _alternateShotDirectionImg.rectTransform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            Debug.Log("vertical");
+            _alternateShotDirectionImg.rectTransform.eulerAngles = new Vector3(0, 0, 90);
+        }
     }
 
     #region Switch Ship 

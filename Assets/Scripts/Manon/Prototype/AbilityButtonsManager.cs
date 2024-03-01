@@ -17,9 +17,11 @@ public class AbilityButtonsManager : MonoBehaviour
     private AbilityButton _selectedButton = null;
     private List<Tile> _selectedTiles = new List<Tile>();
 
-    private AlternateShotDirection _currentAlternateShotDirection = AlternateShotDirection.Horizontal;
+    private AlternateShotDirection _currentAlternateShotDirectionPlayer1 = AlternateShotDirection.Horizontal;
+    private AlternateShotDirection _currentAlternateShotDirectionPlayer2 = AlternateShotDirection.Horizontal;
 
-    public AlternateShotDirection CurrentAlternateShotDirection { get => _currentAlternateShotDirection; set => _currentAlternateShotDirection = value; }
+    public AlternateShotDirection CurrentAlternateShotDirectionPlayer1 { get => _currentAlternateShotDirectionPlayer1; set => _currentAlternateShotDirectionPlayer1 = value; }
+    public AlternateShotDirection CurrentAlternateShotDirectionPlayer2 { get => _currentAlternateShotDirectionPlayer2; set => _currentAlternateShotDirectionPlayer2 = value; }
 
     // ----- FIELDS ----- //
 
@@ -205,34 +207,74 @@ public class AbilityButtonsManager : MonoBehaviour
             _selectedTiles.Clear();
         }
 
-        if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
+        #region Player 1
+        if (GameManager.instance.PlayerTurn == Player.Player1)
         {
-            if (_target.LeftTile != null)
+            if (_currentAlternateShotDirectionPlayer1 == AlternateShotDirection.Horizontal)
             {
-                _target.LeftTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.LeftTile);
-            }
+                if (_target.LeftTile != null)
+                {
+                    _target.LeftTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.LeftTile);
+                }
 
-            if (_target.RightTile != null)
+                if (_target.RightTile != null)
+                {
+                    _target.RightTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.RightTile);
+                }
+            }
+            else
             {
-                _target.RightTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.RightTile);
+                if (_target.TopTile != null)
+                {
+                    _target.TopTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.TopTile);
+                }
+
+                if (_target.BottomTile != null)
+                {
+                    _target.BottomTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.BottomTile);
+                }
             }
         }
-        else
-        {
-            if (_target.TopTile != null)
-            {
-                _target.TopTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.TopTile);
-            }
+        #endregion
 
-            if (_target.BottomTile != null)
+        #region Player 2
+        if (GameManager.instance.PlayerTurn == Player.Player2)
+        {
+            if (_currentAlternateShotDirectionPlayer2 == AlternateShotDirection.Horizontal)
             {
-                _target.BottomTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.BottomTile);
+                if (_target.LeftTile != null)
+                {
+                    _target.LeftTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.LeftTile);
+                }
+
+                if (_target.RightTile != null)
+                {
+                    _target.RightTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.RightTile);
+                }
+            }
+            else
+            {
+                if (_target.TopTile != null)
+                {
+                    _target.TopTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.TopTile);
+                }
+
+                if (_target.BottomTile != null)
+                {
+                    _target.BottomTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.BottomTile);
+                }
             }
         }
+        #endregion
+
     }
     #endregion
 

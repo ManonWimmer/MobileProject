@@ -6820,6 +6820,7 @@ MonoBehaviour:
   _victoryCanvas: {fileID: 1543358633}
   _victoryTxt: {fileID: 1306871851}
   _switchShipButton: {fileID: 1152081684}
+  _alternateShotDirectionImg: {fileID: 1974290797}
 --- !u!4 &1379391156
 Transform:
   m_ObjectHideFlags: 0
@@ -9980,6 +9981,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1964639462}
   m_CullTransparentMesh: 1
+--- !u!114 &1974290797 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8326610266945375968, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+  m_PrefabInstance: {fileID: 4564236313073088556}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1974440440
 GameObject:
   m_ObjectHideFlags: 0
