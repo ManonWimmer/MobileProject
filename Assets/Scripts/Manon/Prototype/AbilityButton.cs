@@ -51,6 +51,12 @@ public class AbilityButton : MonoBehaviour
 
     public void SetCooldown()
     {
+        GameManager.instance.SetAbilityCooldown(_ability);
+        UpdateCooldown();
+    }
+
+    public void UpdateCooldown()
+    {
         int cooldown = GameManager.instance.GetCurrentCooldown(_ability);
 
         if (cooldown > 0)

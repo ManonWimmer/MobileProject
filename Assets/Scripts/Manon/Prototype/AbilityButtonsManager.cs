@@ -50,6 +50,14 @@ public class AbilityButtonsManager : MonoBehaviour
         }
     }
 
+    public void UpdateAllAbilityButtonsCooldown()
+    {
+        foreach(AbilityButton button in _abilitiesButtons)
+        {
+            button.UpdateCooldown();
+        }
+    }
+
     public void ResetRoundAbilityButtons()
     {
         if (_selectedButton != null)
