@@ -99,7 +99,7 @@ public class AbilityButton : MonoBehaviour
             }
 
             _cooldownTxt.gameObject.SetActive(true);
-            _cooldownTxt.text = "Cooldown " + cooldown.ToString();
+            _cooldownTxt.text = cooldown.ToString();
         }
         else
         {

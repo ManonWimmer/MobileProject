@@ -9,6 +9,9 @@ public class DraftManager : MonoBehaviour
     [SerializeField] List<DraftRoom> _draftRooms = new List<DraftRoom>();
     private int _selectedRoomIndex = 0;
     private int _currentDraft = 0;
+
+    public int CurrentDraft { get => _currentDraft; set => _currentDraft = value; }
+
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -41,11 +44,6 @@ public class DraftManager : MonoBehaviour
 
     public void ValidateDraftRoomSelection() // on click
     {
-        switch (_currentDraft)
-        {
-            case (1):
-                GameManager.instance.SelectDraftRoom1(_draftRooms[_selectedRoomIndex].GetRoom());
-                break;
-        }
+        GameManager.instance.SelectDraftRoom(_draftRooms[_selectedRoomIndex].GetRoom());
     }
 }

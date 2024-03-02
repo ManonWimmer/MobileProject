@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Rooms")]
     [SerializeField] List<Room> _startVitalRooms = new List<Room>();
-    [SerializeField] List<Room> _draftRooms1 = new List<Room>();
+    [SerializeField] List<Room> _draftRooms = new List<Room>();
     private List<Room> _selectedDraftRooms = new List<Room>();
 
     private List<Room> _choosenDraftRoomsPlayer1 = new List<Room>();
@@ -408,19 +408,21 @@ public class GameManager : MonoBehaviour
         DraftManager.instance.StartDraft(1);
 
         _selectedDraftRooms.Clear();
+        int i = 0;
 
-        while (_selectedDraftRooms.Count < 3)
+        while (i < 3)
         {
-            int randomIndex = Random.Range(0, _draftRooms1.Count);
-            if (!_selectedDraftRooms.Contains(_draftRooms1[randomIndex]))
+            int randomIndex = Random.Range(0, _draftRooms.Count);
+            if (!_selectedDraftRooms.Contains(_draftRooms[randomIndex]))
             {
-                _selectedDraftRooms.Add(_draftRooms1[randomIndex]);
-                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms1[randomIndex]);
+                _selectedDraftRooms.Add(_draftRooms[randomIndex]);
+                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms[randomIndex]);
+                i += 1;
             }
         }
     }
 
-    public void SelectDraftRoom1(Room room)
+    public void SelectDraftRoom(Room room)
     {
         if (_playerTurn == Player.Player1)
         {
@@ -432,6 +434,25 @@ public class GameManager : MonoBehaviour
         }
 
         SwitchPlayer();
+    }
+
+    private void StartDraftRooms2()
+    {
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraft(2);
+
+        int i = 0;
+
+        while (i < 3)
+        {
+            int randomIndex = Random.Range(0, _draftRooms.Count);
+            if (!_selectedDraftRooms.Contains(_draftRooms[randomIndex]))
+            {
+                _selectedDraftRooms.Add(_draftRooms[randomIndex]);
+                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 4, _draftRooms[randomIndex]);
+                i += 1;
+            }
+        }
     }
 
     private void RandomizeRoomsPlacement()
@@ -1394,10 +1415,17 @@ public class GameManager : MonoBehaviour
 
         if (_playerTurn == Player.Player1 && _currentMode == Mode.Draft)
         {
-            StartGame();
-            DraftManagerUI.instance.HideDraftUI();
-            UIManager.instance.ShowGameCanvas();
-            
+            switch (DraftManager.instance.CurrentDraft)
+            {
+                case (1):
+                    StartDraftRooms2();
+                    break;
+                case (2): // start game
+                    StartGame();
+                    DraftManagerUI.instance.HideDraftUI();
+                    UIManager.instance.ShowGameCanvas();
+                    break;
+            }
         }
 
         SwitchCamera();
