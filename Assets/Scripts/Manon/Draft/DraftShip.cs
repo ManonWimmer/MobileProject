@@ -11,6 +11,7 @@ public class DraftShip : MonoBehaviour
     [SerializeField] Image _captainImg;
     [SerializeField] Image _shipImg;
     [SerializeField] TMP_Text _captainName;
+    [SerializeField] Image _selectedBackground;
 
     [SerializeField] int _shipIndex;
 
@@ -33,7 +34,7 @@ public class DraftShip : MonoBehaviour
 
         _captainImg.sprite = _shipData.CaptainImg;
         _shipImg.sprite = _shipData.ShipImg;
-        _captainName.text = _shipData.CaptainName;
+        _captainName.text = _shipData.CaptainName.ToUpper();
     }
 
     public void SelectDraftShip() // on click
@@ -50,12 +51,12 @@ public class DraftShip : MonoBehaviour
     public void SelectShipUI()
     {
         Debug.Log("select ship ui");
-        GetComponent<Image>().color = new Color(0.34f, 0.54f, 0.77f, 1f);
+        _selectedBackground.enabled = true;
     }
 
     public void DeselectShipUI()
     {
         Debug.Log("deselect ship ui");
-        GetComponent<Image>().color = new Color(0.6f, 0.6f, 0.6f, 1f);
+        _selectedBackground.enabled = false;
     }
 }

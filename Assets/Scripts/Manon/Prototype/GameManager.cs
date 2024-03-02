@@ -451,8 +451,9 @@ public class GameManager : MonoBehaviour
     {
         DraftManagerUI.instance.ShowDraftUI();
         DraftManager.instance.StartDraftShips();
-
+        DraftManagerUI.instance.UpdatePlayerChoosing();
         _selectedDraftShips.Clear();
+
         int i = 0;
 
         while (i < 3)
@@ -464,6 +465,30 @@ public class GameManager : MonoBehaviour
                 DraftManagerUI.instance.InitDraftShip(_selectedDraftShips.Count - 1, _draftShipsPlayer1[randomIndex]);
                 i += 1;
             }
+        }
+    }
+
+    public Ship GetPlayerShip()
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            return _gridPlayer1;
+        }
+        else
+        {
+            return _gridPlayer2;
+        }
+    }
+
+    public Room GetChoosenDraftRoom(int index)
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            return _choosenDraftRoomsPlayer1[index];
+        }
+        else
+        {
+            return _choosenDraftRoomsPlayer2[index];
         }
     }
 
@@ -499,6 +524,7 @@ public class GameManager : MonoBehaviour
         }
 
         SwitchPlayer();
+        
     }
 
     private void StartDraftRooms2()
@@ -1518,7 +1544,14 @@ public class GameManager : MonoBehaviour
 
         if (_currentMode == Mode.Draft)
         {
-            DraftManager.instance.SelectRoom(0);
+            if (DraftManager.instance.ShipDraft)
+            {
+                DraftManager.instance.SelectShip(0);
+            }
+            else
+            {
+                DraftManager.instance.SelectRoom(0);
+            }
             DraftManagerUI.instance.UpdatePlayerChoosing();
         }
     }

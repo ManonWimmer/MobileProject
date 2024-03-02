@@ -18,7 +18,7 @@ public class DraftManager : MonoBehaviour
     private int _currentRoomDraft = 0;
     private bool shipDraft;
     public int CurrentDraft { get => _currentRoomDraft; set => _currentRoomDraft = value; }
-
+    public bool ShipDraft { get => shipDraft; set => shipDraft = value; }
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -34,6 +34,19 @@ public class DraftManager : MonoBehaviour
         _currentRoomDraft = number;
         shipDraft = false;
         SelectRoom(0);
+
+        switch (_currentRoomDraft)
+        {
+            case 1:
+                DraftManagerUI.instance.CurrentDraftRoomO1Indicator();
+                break;
+            case 2:
+                DraftManagerUI.instance.CurrentDraftRoomO2Indicator();
+                break;
+            case 3:
+                DraftManagerUI.instance.CurrentDraftRoomO3Indicator();
+                break;
+        }
     }
 
     public void StartDraftShips()

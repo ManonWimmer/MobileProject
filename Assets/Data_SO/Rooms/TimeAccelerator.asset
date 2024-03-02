@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a99debe98348e4ca84da7e5acc4b73, type: 3}
   m_Name: TimeAccelerator
   m_EditorClassIdentifier: 
-  RoomName: Time Accelerator Room
+  RoomName: Time Accelerator
   RoomIcon: {fileID: 21300000, guid: 531fe602f33e8c9469873678210f8577, type: 3}
   RoomPatternImg: {fileID: 21300000, guid: 7de830f2a44d38649a945135ee969fef, type: 3}
   RoomAbility: {fileID: 11400000, guid: 435bb239f3279654a8c6c9ecab1fd3bf, type: 2}
