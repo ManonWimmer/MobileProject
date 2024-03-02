@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Capacitor
   m_EditorClassIdentifier: 
   AbilityName: Capacitor
-  Description: Capacitor description
+  Description: This ability will upgrade your next simple hit shot to a massive cube
+    shot of 2 by 2 for the next turn only.
   Icon: {fileID: 0}
   ActionPointsNeeded: 1
   Cooldown: 1

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: AlternateShot
   m_EditorClassIdentifier: 
   AbilityName: Alternate Shot
-  Description: Alternate Shot description
+  Description: Shoots in a row of 3 tiles then changes for its next use this ability
+    to shoot in a column of 3 tiles.
   Icon: {fileID: 0}
   ActionPointsNeeded: 1
   Cooldown: 2

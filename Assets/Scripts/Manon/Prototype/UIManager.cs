@@ -317,7 +317,7 @@ public class UIManager : MonoBehaviour
         _actionPointsTxt.gameObject.SetActive(true);
         _currentModeTxt.gameObject.SetActive(true);
 
-        _actionPointsTxt.text = "Action points : " + ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer());
+        _actionPointsTxt.text = ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()).ToString();
         _currentRoundTxt.text = "Current round : " + GameManager.instance.GetCurrentRound().ToString();
     }
     #endregion
