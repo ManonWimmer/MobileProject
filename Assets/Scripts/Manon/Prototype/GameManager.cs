@@ -30,15 +30,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] List<scriptablePower> _abilitiesSO = new List<scriptablePower>();
     private List<GameObject> _abilityButtons = new List<GameObject>();
 
-
-
     [Header("Ships")]
     [SerializeField] List<Ship> _draftShipsPlayer1;
     [SerializeField] List<Ship> _draftShipsPlayer2;
     private List<Ship> _selectedDraftShips = new List<Ship>();
 
-    [SerializeField] Ship _gridPlayer1;
-    [SerializeField] Ship _gridPlayer2;
+    private Ship _gridPlayer1;
+    private Ship _gridPlayer2;
 
     [Header("Rooms")]
     [SerializeField] List<Room> _startVitalRooms = new List<Room>();
