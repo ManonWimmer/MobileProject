@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEditor.Playables;
@@ -29,9 +30,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] List<scriptablePower> _abilitiesSO = new List<scriptablePower>();
     private List<GameObject> _abilityButtons = new List<GameObject>();
 
-    [Header("Grids")]
-    [SerializeField] CustomGrid _gridPlayer1;
-    [SerializeField] CustomGrid _gridPlayer2;
+
+
+    [Header("Ships")]
+    [SerializeField] List<Ship> _draftShipsPlayer1;
+    [SerializeField] List<Ship> _draftShipsPlayer2;
+    private List<Ship> _selectedDraftShips = new List<Ship>();
+
+    [SerializeField] Ship _gridPlayer1;
+    [SerializeField] Ship _gridPlayer2;
 
     [Header("Rooms")]
     [SerializeField] List<Room> _startVitalRooms = new List<Room>();
@@ -102,7 +109,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _abilityButtons = AbilityButtonsManager.instance.GetAbilityButtonsList();
-        StartDraftRooms1();
+        StartDraftShips();
     }
 
     private void Update()
@@ -402,10 +409,70 @@ public class GameManager : MonoBehaviour
         #endregion
     }
 
+    public void SelectDraftShip(Ship ship)
+    {
+        Debug.Log("select draft ship " + ship.ShipData.name);
+        if (_playerTurn == Player.Player1)
+        {
+            foreach(Ship shipP1 in _draftShipsPlayer1)
+            {
+                Debug.Log(shipP1.name);
+                if (shipP1.ShipData == ship.ShipData)
+                {
+                    Debug.Log("active " + shipP1.name);
+                    shipP1.gameObject.SetActive(true);
+                    _gridPlayer1 = shipP1;
+                }
+                else
+                {
+                    Debug.Log("inactive " + shipP1.name);
+                    shipP1.gameObject.SetActive(false);
+                } 
+            }   
+        }
+        else
+        {
+            foreach (Ship shipP2 in _draftShipsPlayer2)
+            {
+                if (shipP2.ShipData == ship.ShipData)
+                {
+                    shipP2.gameObject.SetActive(true);
+                    _gridPlayer2 = shipP2;
+                }
+                else
+                {
+                    shipP2.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        SwitchPlayer();
+    }
+
+    private void StartDraftShips()
+    {
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraftShips();
+
+        _selectedDraftShips.Clear();
+        int i = 0;
+
+        while (i < 3)
+        {
+            int randomIndex = Random.Range(0, _draftShipsPlayer1.Count);
+            if (!_selectedDraftShips.Contains(_draftShipsPlayer1[randomIndex]))
+            {
+                _selectedDraftShips.Add(_draftShipsPlayer1[randomIndex]);
+                DraftManagerUI.instance.InitDraftShip(_selectedDraftShips.Count - 1, _draftShipsPlayer1[randomIndex]);
+                i += 1;
+            }
+        }
+    }
+
     private void StartDraftRooms1()
     {
         DraftManagerUI.instance.ShowDraftUI();
-        DraftManager.instance.StartDraft(1);
+        DraftManager.instance.StartDraftRooms(1);
 
         _selectedDraftRooms.Clear();
         int i = 0;
@@ -439,7 +506,7 @@ public class GameManager : MonoBehaviour
     private void StartDraftRooms2()
     {
         DraftManagerUI.instance.ShowDraftUI();
-        DraftManager.instance.StartDraft(2);
+        DraftManager.instance.StartDraftRooms(2);
 
         int i = 0;
 
@@ -1417,6 +1484,9 @@ public class GameManager : MonoBehaviour
         {
             switch (DraftManager.instance.CurrentDraft)
             {
+                case (0):
+                    StartDraftRooms1();
+                    break;
                 case (1):
                     StartDraftRooms2();
                     break;
@@ -1432,6 +1502,7 @@ public class GameManager : MonoBehaviour
 
         // update ui
         UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
+
 
         UIManager.instance.ShowChangerPlayerCanvas(_playerTurn);
 
@@ -1450,6 +1521,7 @@ public class GameManager : MonoBehaviour
         if (_currentMode == Mode.Draft)
         {
             DraftManager.instance.SelectRoom(0);
+            DraftManagerUI.instance.UpdatePlayerChoosing();
         }
     }
 
