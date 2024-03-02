@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckTileClickedInCombat(Tile nearestTile)
     {
-        Debug.Log("combat");
+        Debug.Log("check tile combat");
         TargetController.instance.ChangeTargetPosition(nearestTile.transform.position);
         _targetOnTile = nearestTile;
 
@@ -1511,7 +1511,7 @@ public class GameManager : MonoBehaviour
         {
             CheckPlayerAbilityButtonsEnabled();
             AbilityButtonsManager.instance.ResetRoundAbilityButtons();
-            SetRoundTargetPos();
+            //SetRoundTargetPos();
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
             UIManager.instance.CheckSimpleHitX2Img();
         }
@@ -1523,7 +1523,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SetRoundTargetPos()
+    public void SetRoundTargetPos()
     {
         Debug.Log("set round target pos");
         if (_playerTurn == Player.Player1)
@@ -1581,7 +1581,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.HideRandomizeRoomsButton();
             UIManager.instance.ShowShitchShipButton();
-            SetRoundTargetPos();
+            //SetRoundTargetPos();
             UIManager.instance.CheckSimpleHitX2Img();
         }
         else if (_currentMode == Mode.Draft)
@@ -1620,38 +1620,27 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("can use ability ?");
 
-        if (_targetOnTile != null)
+        if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
         {
-            //if (!_targetOnTile.IsDestroyed && !_targetOnTile.IsMissed) // tile jamais hit
-            //{
-                if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
-                {
-                    if (!IsAbilityInCooldown(ability))
-                    {
-                        Debug.Log("current ability cooldown 0");
-                        //ActionPointsManager.instance.UseActionPoint(_playerTurn);
-                        //SetAbilityCooldown(ability);
-                        Debug.Log("can use ability");
-                        return true;
-                    }
-                    else
-                    {
-                        Debug.Log("ability en cooldown");
-                    }
-                }
-                else
-                {
-                    Debug.Log("no action points and / or no room ability on target");
-                }
-            //}
-            /*
+            if (!IsAbilityInCooldown(ability))
+            {
+                Debug.Log("current ability cooldown 0");
+                //ActionPointsManager.instance.UseActionPoint(_playerTurn);
+                //SetAbilityCooldown(ability);
+                Debug.Log("can use ability");
+                return true;
+            }
             else
             {
-                // already hit that tile
-                TargetController.instance.ChangeTargetColorToRed();
+                Debug.Log("ability en cooldown");
             }
-            */
         }
+        else
+        {
+            Debug.Log("no action points and / or no room ability on target");
+        }
+            
+        
         Debug.Log("can't use ability");
         return false;
     }

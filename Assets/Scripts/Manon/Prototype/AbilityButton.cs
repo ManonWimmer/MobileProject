@@ -124,12 +124,13 @@ public class AbilityButton : MonoBehaviour
     public void SelectOrDeselectAbility()
     {
         Debug.Log("select / deselect ability");
-        _target = GameManager.instance.TargetOnTile;
-
-        if (_target == null)
+        
+        if (GameManager.instance.TargetOnTile == null)
         {
-            return;
+            GameManager.instance.SetRoundTargetPos();
         }
+
+        _target = GameManager.instance.TargetOnTile;
 
         if (!IsSelected)
         {
