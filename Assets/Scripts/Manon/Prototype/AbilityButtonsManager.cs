@@ -10,6 +10,14 @@ public enum AlternateShotDirection
     Vertical
 }
 
+public enum UpgradeShotStep
+{
+    RevealOneTile,
+    DestroyOneTile,
+    DestroyThreeTilesInDiagonal,
+    DestroyFiveTilesInCross
+}
+
 public class AbilityButtonsManager : MonoBehaviour
 {
     // ----- FIELDS ----- //
@@ -23,18 +31,28 @@ public class AbilityButtonsManager : MonoBehaviour
     private AbilityButton _selectedButton = null;
     private List<Tile> _selectedTiles = new List<Tile>();
 
+    // ----- Alternate Shot ----- //
     private AlternateShotDirection _currentAlternateShotDirectionPlayer1 = AlternateShotDirection.Horizontal;
     private AlternateShotDirection _currentAlternateShotDirectionPlayer2 = AlternateShotDirection.Horizontal;
 
     private AlternateShotDirection _currentAlternateShotDirection;
+    // ----- Alternate Shot ----- //
 
-    public AlternateShotDirection CurrentAlternateShotDirectionPlayer1 { get => _currentAlternateShotDirectionPlayer1; set => _currentAlternateShotDirectionPlayer1 = value; }
-    public AlternateShotDirection CurrentAlternateShotDirectionPlayer2 { get => _currentAlternateShotDirectionPlayer2; set => _currentAlternateShotDirectionPlayer2 = value; }
-
+    // ----- Capacitor ----- //
     private bool _simpleHitX2Player1;
     private bool _simpleHitX2Player2;
     public bool SimpleHitX2Player1 { get => _simpleHitX2Player1; set => _simpleHitX2Player1 = value; }
     public bool SimpleHitX2Player2 { get => _simpleHitX2Player2; set => _simpleHitX2Player2 = value; }
+    // ----- Capacitor ----- //
+
+    // ----- Upgrade Shot ----- //
+    private UpgradeShotStep _currentUpgradeShotStepPlayer1 = UpgradeShotStep.RevealOneTile;
+    private UpgradeShotStep _currentUpgradeShotStepPlayer2 = UpgradeShotStep.RevealOneTile;
+
+    private UpgradeShotStep _currentUpgradeShotStep = UpgradeShotStep.RevealOneTile;
+    // ----- Upgrade Shot ----- //
+
+    private int _currentProbeCount = 0;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -52,6 +70,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
     public void UpdateAllAbilityButtonsCooldown()
     {
+        Debug.Log("update all ability buttons cooldown");
         foreach(AbilityButton button in _abilitiesButtons)
         {
             button.UpdateCooldown();
@@ -138,6 +157,12 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("Scanner"):
                 Scanner_SelectAbilityTiles();
                 break;
+            case ("UpgradeShot"):
+                UpgradeShot_SelectAbilityTiles();
+                break;
+            case ("Probe"):
+                Probe_SelectAbilityTiles();
+                break;
             case ("TimeAccelerator"):
             case ("Capacitor"):
                 break; // Pas de tile à sélectionner lol
@@ -162,6 +187,8 @@ public class AbilityButtonsManager : MonoBehaviour
     }
 
     #region Selections
+
+    #region Scanner Selection
     private void Scanner_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles scanner");
@@ -215,7 +242,9 @@ public class AbilityButtonsManager : MonoBehaviour
         }
         #endregion
     }
+    #endregion
 
+    #region EMP Selection
     private void EMP_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles emp");
@@ -289,6 +318,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
         #endregion
     }
+    #endregion
 
     #region Alternate Shot Selection
     private void AlternateShot_SelectAbilityTiles()
@@ -300,78 +330,40 @@ public class AbilityButtonsManager : MonoBehaviour
             _selectedTiles.Clear();
         }
 
-        #region Player 1
-        if (GameManager.instance.PlayerTurn == Player.Player1)
+        _currentAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
+
+        if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
         {
-            if (_currentAlternateShotDirectionPlayer1 == AlternateShotDirection.Horizontal)
+            if (_target.LeftTile != null)
             {
-                if (_target.LeftTile != null)
-                {
-                    _target.LeftTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.LeftTile);
-                }
-
-                if (_target.RightTile != null)
-                {
-                    _target.RightTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.RightTile);
-                }
+                _target.LeftTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.LeftTile);
             }
-            else
-            {
-                if (_target.TopTile != null)
-                {
-                    _target.TopTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.TopTile);
-                }
 
-                if (_target.BottomTile != null)
-                {
-                    _target.BottomTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.BottomTile);
-                }
+            if (_target.RightTile != null)
+            {
+                _target.RightTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.RightTile);
             }
         }
-        #endregion
-
-        #region Player 2
-        if (GameManager.instance.PlayerTurn == Player.Player2)
+        else
         {
-            if (_currentAlternateShotDirectionPlayer2 == AlternateShotDirection.Horizontal)
+            if (_target.TopTile != null)
             {
-                if (_target.LeftTile != null)
-                {
-                    _target.LeftTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.LeftTile);
-                }
-
-                if (_target.RightTile != null)
-                {
-                    _target.RightTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.RightTile);
-                }
+                _target.TopTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.TopTile);
             }
-            else
-            {
-                if (_target.TopTile != null)
-                {
-                    _target.TopTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.TopTile);
-                }
 
-                if (_target.BottomTile != null)
-                {
-                    _target.BottomTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.BottomTile);
-                }
+            if (_target.BottomTile != null)
+            {
+                _target.BottomTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.BottomTile);
             }
         }
-        #endregion
-
     }
     #endregion
 
-    #region Simple Hit & Reveal
+    #region Simple Hit & Reveal + Probe selection
     private void SimpleHit_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles simple hit");
@@ -422,6 +414,12 @@ public class AbilityButtonsManager : MonoBehaviour
         SelectOnlyTargetTile();
     }
 
+    private void Probe_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles probe");
+        SelectOnlyTargetTile();
+    }
+
     private void SelectOnlyTargetTile()
     {
         if (_selectedTiles != null)
@@ -432,6 +430,78 @@ public class AbilityButtonsManager : MonoBehaviour
 
         _target.IsAbilitySelected = true;
         _selectedTiles.Add(_target);
+    }
+    #endregion
+
+    #region Upgrade Shot
+    private void UpgradeShot_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles upgrade shot");
+        if (_selectedTiles != null)
+        {
+            DeselectAbilityTiles();
+            _selectedTiles.Clear();
+        }
+
+        _currentUpgradeShotStep = GetCurrentPlayerUpgradeShotStep();
+
+        switch (_currentUpgradeShotStep)
+        {
+            case (UpgradeShotStep.RevealOneTile):
+                _target.IsAbilitySelected = true;
+                _selectedTiles.Add(_target);
+                break;
+            case (UpgradeShotStep.DestroyOneTile):
+                _target.IsAbilitySelected = true;
+                _selectedTiles.Add(_target);
+                break;
+            case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
+
+                if (_target.DiagTopLeftTile != null)
+                {
+                    _target.DiagTopLeftTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.DiagTopLeftTile);
+                }
+
+                if (_target.DiagBottomRightTile != null)
+                {
+                    _target.DiagBottomRightTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.DiagBottomRightTile);
+                }
+
+                _target.IsAbilitySelected = true;
+                _selectedTiles.Add(_target);
+                break;
+            case (UpgradeShotStep.DestroyFiveTilesInCross):
+
+                if (_target.LeftTile != null)
+                {
+                    _target.LeftTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.LeftTile);
+                }
+
+                if (_target.RightTile != null)
+                {
+                    _target.RightTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.RightTile);
+                }
+
+                if (_target.TopTile != null)
+                {
+                    _target.TopTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.TopTile);
+                }
+
+                if (_target.BottomTile != null)
+                {
+                    _target.BottomTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.BottomTile);
+                }
+
+                _target.IsAbilitySelected = true;
+                _selectedTiles.Add(_target);
+                break;
+        }
     }
     #endregion
 
@@ -449,6 +519,7 @@ public class AbilityButtonsManager : MonoBehaviour
         return _selectedButton;
     }
 
+    #region Simple Hit X2
     public void ActivateSimpleHitX2()
     {
         Debug.Log("activate simplte hit x2");
@@ -495,6 +566,7 @@ public class AbilityButtonsManager : MonoBehaviour
             return _simpleHitX2Player2;
         }
     }
+    #endregion
 
     public void UseSelectedAbility()
     {
@@ -520,10 +592,17 @@ public class AbilityButtonsManager : MonoBehaviour
                 break;
             case ("Capacitor"):
                 UseCapacitor();
-                break; 
+                break;
+            case ("UpgradeShot"):
+                UseUpgradeShot();
+                break;
+            case ("Probe"):
+                UseProbe();
+                break;
         }
 
-        DeselectAbilityButton(_selectedButton);
+        if (_selectedButton.GetAbility().name != "Probe")
+            DeselectAbilityButton(_selectedButton);
     }
 
     private void UseExample()
@@ -639,27 +718,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
         DesactivateSimpleHitX2IfActivated();
 
-        #region Hit on target
-        if (_target.IsOccupied)
-        {
-            Debug.Log("hit room " + _target.Room.name);
-            _target.RoomTileSpriteRenderer.color = Color.black;
-            _target.IsDestroyed = true;
-
-            GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
-
-            UIManager.instance.ShowFicheRoom(_target.Room.RoomData);
-        }
-        else
-        {
-            _target.IsMissed = true;
-            Debug.Log("no room on hit");
-
-            UIManager.instance.HideFicheRoom();
-        }
-        #endregion
-
-        TargetController.instance.ChangeTargetColorToRed();
+        DestroyRoom(_target);
 
         // Desactivate for one turn room's abilities around the target (+1 cooldown)
         List<Room> roomsToDesactivate = new List<Room>();
@@ -790,21 +849,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
         DesactivateSimpleHitX2IfActivated();
 
-        if (GameManager.instance.TargetOnTile.IsOccupied)
-        {
-            Debug.Log("hit room " + GameManager.instance.TargetOnTile.Room.name);
-
-            GameManager.instance.TargetOnTile.RoomTileSpriteRenderer.color = Color.black;
-            GameManager.instance.TargetOnTile.IsDestroyed = true;
-            UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
-        }
-        else
-        {
-            GameManager.instance.TargetOnTile.IsMissed = true;
-            Debug.Log("no room on hit");
-
-            UIManager.instance.HideFicheRoom();
-        }
+        DestroyRoom(_target);
 
         TargetController.instance.ChangeTargetColorToRed();
 
@@ -815,49 +860,25 @@ public class AbilityButtonsManager : MonoBehaviour
             // Try destroy right
             if (_target.RightTile != null)
             {
-                if (_target.RightTile.IsOccupied)
-                {
-                    _target.RightTile.RoomTileSpriteRenderer.color = Color.black;
-                    _target.RightTile.IsDestroyed = true;
-                }
-                else
-                {
-                    _target.RightTile.IsMissed = true;
-                }
+                DestroyRoom(_target.RightTile);
             }
 
             // Try destroy bottom
             if (_target.BottomTile != null)
             {
-                if (_target.BottomTile.IsOccupied)
-                {
-                    _target.BottomTile.RoomTileSpriteRenderer.color = Color.black;
-                    _target.BottomTile.IsDestroyed = true;
-                }
-                else
-                {
-                    _target.BottomTile.IsMissed = true;
-                }
+                DestroyRoom(_target.BottomTile);
             }
 
             // Try destroy diag bottom right
             if (_target.DiagBottomRightTile != null)
             {
-                if (_target.DiagBottomRightTile.IsOccupied)
-                {
-                    _target.DiagBottomRightTile.RoomTileSpriteRenderer.color = Color.black;
-                    _target.DiagBottomRightTile.IsDestroyed = true;
-                }
-                else
-                {
-                    _target.DiagBottomRightTile.IsMissed = true;
-                }
+                DestroyRoom(_target.DiagBottomRightTile);
             }
 
             DesactivateSimpleHitX2IfActivated();
         }
 
-        UpdateHiddenRooms(); // si destroy ou reveal 
+        UpdateHiddenRooms(); 
         UIManager.instance.CheckAbilityButtonsColor();
     }
     #endregion
@@ -870,22 +891,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
         DesactivateSimpleHitX2IfActivated();
 
-        if (_target.IsOccupied)
-        {
-            Debug.Log("reveal room " + _target.Room.name);
-            _target.IsReavealed = true;
-
-            GameManager.instance.CheckIfTargetRoomIsCompletelyDestroyed();
-
-            UIManager.instance.ShowFicheRoom(_target.Room.RoomData);
-        }
-        else
-        {
-            _target.IsMissed = true;
-            Debug.Log("no room on hit");
-
-            UIManager.instance.HideFicheRoom();
-        }
+        RevealRoom(_target);
 
         UpdateHiddenRooms(); // si destroy ou reveal 
         UIManager.instance.CheckAbilityButtonsColor();
@@ -900,34 +906,34 @@ public class AbilityButtonsManager : MonoBehaviour
 
         DesactivateSimpleHitX2IfActivated();
 
-        GetCurrentPlayerAlternateShotDirection();
+        _currentAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
 
         if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
         {
             if (_target.LeftTile != null)
             {
-                TryDestroyRoom(_target.LeftTile);
+                DestroyRoom(_target.LeftTile);
             }
 
             if (_target.RightTile != null)
             {
-                TryDestroyRoom(_target.RightTile);
+                DestroyRoom(_target.RightTile);
             }
         }
         else
         {
             if (_target.TopTile != null)
             {
-                TryDestroyRoom(_target.TopTile);
+                DestroyRoom(_target.TopTile);
             }
 
             if (_target.BottomTile != null)
             {
-                TryDestroyRoom(_target.BottomTile);
+                DestroyRoom(_target.BottomTile);
             }
         }
 
-        TryDestroyRoom(_target);
+        DestroyRoom(_target);
 
         ChangeAlternateShotDirection();
 
@@ -935,45 +941,21 @@ public class AbilityButtonsManager : MonoBehaviour
         UIManager.instance.CheckAbilityButtonsColor();
     }
 
-    private void GetCurrentPlayerAlternateShotDirection()
+    public AlternateShotDirection GetCurrentPlayerAlternateShotDirection()
     {
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
-            _currentAlternateShotDirection = CurrentAlternateShotDirectionPlayer1;
+            return _currentAlternateShotDirectionPlayer1;
         }
         else
         {
-            _currentAlternateShotDirection = CurrentAlternateShotDirectionPlayer2;
+            return _currentAlternateShotDirectionPlayer2;
         }
-    }
-
-    private void TryDestroyRoom(Tile tile)
-    {
-        Debug.Log("destroy room " + tile.name);
-        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
-        {
-            Debug.Log("hit room " + tile.Room.name);
-            tile.RoomTileSpriteRenderer.color = Color.black;
-            tile.IsDestroyed = true;
-
-            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
-
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
-        }
-        else
-        {
-            tile.IsMissed = true;
-            Debug.Log("no room on hit " + tile.name);
-
-            UIManager.instance.HideFicheRoom();
-        }
-
-        //GameManager.instance.CheckTileClickedInCombat(tile);
     }
 
     private void ChangeAlternateShotDirection()
     {
-        GetCurrentPlayerAlternateShotDirection();
+        _currentAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
 
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
@@ -986,7 +968,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 _currentAlternateShotDirection = AlternateShotDirection.Horizontal;
             }
 
-            CurrentAlternateShotDirectionPlayer1 = _currentAlternateShotDirection;
+            _currentAlternateShotDirectionPlayer1 = _currentAlternateShotDirection;
         }
         else
         {
@@ -999,7 +981,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 _currentAlternateShotDirection = AlternateShotDirection.Horizontal;
             }
 
-            CurrentAlternateShotDirectionPlayer2 = _currentAlternateShotDirection;
+            _currentAlternateShotDirectionPlayer2 = _currentAlternateShotDirection;
         }
 
         UIManager.instance.CheckAlternateShotDirectionImgRotation();
@@ -1021,6 +1003,162 @@ public class AbilityButtonsManager : MonoBehaviour
     }
     #endregion
 
+    #region Upgrade Shot
+    private void UseUpgradeShot()
+    {
+        _selectedButton.SetCooldown();
+        ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
+
+        DesactivateSimpleHitX2IfActivated();
+
+        _currentUpgradeShotStep = GetCurrentPlayerUpgradeShotStep();
+
+        switch (_currentUpgradeShotStep)
+        {
+            case (UpgradeShotStep.RevealOneTile):
+                RevealRoom(_target);
+                break;
+            case (UpgradeShotStep.DestroyOneTile):
+                DestroyRoom(_target);
+                break;
+            case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
+
+                if (_target.DiagTopLeftTile != null)
+                {
+                    DestroyRoom(_target.DiagTopLeftTile);
+                }
+
+                if (_target.DiagBottomRightTile != null)
+                {
+                    DestroyRoom(_target.DiagBottomRightTile);
+                }
+
+                DestroyRoom(_target);
+                break;
+            case (UpgradeShotStep.DestroyFiveTilesInCross):
+
+                if (_target.LeftTile != null)
+                {
+                    DestroyRoom(_target.LeftTile);
+                }
+
+                if (_target.RightTile != null)
+                {
+                    DestroyRoom(_target.RightTile);
+                }
+
+                if (_target.TopTile != null)
+                {
+                    DestroyRoom(_target.TopTile);
+                }
+
+                if (_target.BottomTile != null)
+                {
+                    DestroyRoom(_target.BottomTile);
+                }
+
+                DestroyRoom(_target);
+                break;
+        }
+
+        ChangeUpgradeShotStep();
+
+        UpdateHiddenRooms(); 
+        UIManager.instance.CheckAbilityButtonsColor();
+    }
+
+    private UpgradeShotStep GetCurrentPlayerUpgradeShotStep()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            return _currentUpgradeShotStepPlayer1;
+        }
+        else
+        {
+            return _currentUpgradeShotStepPlayer2;
+        }
+    }
+
+    private void ChangeUpgradeShotStep()
+    {
+        _currentUpgradeShotStep = GetCurrentPlayerUpgradeShotStep();
+
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            if (_currentUpgradeShotStep == UpgradeShotStep.RevealOneTile)
+            {
+                _currentUpgradeShotStep = UpgradeShotStep.DestroyOneTile;
+            }
+            else if (_currentUpgradeShotStep == UpgradeShotStep.DestroyOneTile)
+            {
+                _currentUpgradeShotStep = UpgradeShotStep.DestroyThreeTilesInDiagonal;
+            }
+            else if (_currentUpgradeShotStep == UpgradeShotStep.DestroyThreeTilesInDiagonal)
+            {
+                _currentUpgradeShotStep = UpgradeShotStep.DestroyFiveTilesInCross;
+            }
+            // Else reste en destroy five tiles in cross
+
+            _currentUpgradeShotStepPlayer1 = _currentUpgradeShotStep;
+        }
+        else
+        {
+            if (_currentUpgradeShotStep == UpgradeShotStep.RevealOneTile)
+            {
+                _currentUpgradeShotStep = UpgradeShotStep.DestroyOneTile;
+            }
+            else if (_currentUpgradeShotStep == UpgradeShotStep.DestroyOneTile)
+            {
+                _currentUpgradeShotStep = UpgradeShotStep.DestroyThreeTilesInDiagonal;
+            }
+            else if (_currentUpgradeShotStep == UpgradeShotStep.DestroyThreeTilesInDiagonal)
+            {
+                _currentUpgradeShotStep = UpgradeShotStep.DestroyFiveTilesInCross;
+            }
+            // Else reste en destroy five tiles in cross
+
+            _currentUpgradeShotStepPlayer2 = _currentUpgradeShotStep;
+        }
+
+        //UIManager.instance.CheckAlternateShotDirectionImgRotation();
+    }
+    #endregion
+
+    private void UseProbe()
+    {
+        _currentProbeCount++;
+        UIManager.instance.ShowProbeCount(_currentProbeCount);
+
+        RevealRoom(_target);
+
+        if (_currentProbeCount == 3)
+        {
+            _selectedButton.SetCooldown();
+            ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
+
+            DesactivateSimpleHitX2IfActivated();
+            UIManager.instance.CheckAbilityButtonsColor();
+            DeselectAbilityButton(_selectedButton);
+            UIManager.instance.HideProbeCount();
+        }
+
+        UpdateHiddenRooms(); 
+    }
+
+    public bool IsProbeStarted()
+    {
+        if (_selectedButton != null)
+        {
+            return _selectedButton.GetAbility().AbilityName == "Probe" && _currentProbeCount > 0;
+        }
+        return false;
+    }
+
+    public void ResetCurrentProbeCount()
+    {
+        _currentProbeCount = 0;
+    }
+
     private void UpdateHiddenRooms()
     {
         if (GameManager.instance.PlayerTurn == Player.Player1)
@@ -1030,6 +1168,49 @@ public class AbilityButtonsManager : MonoBehaviour
         else
         {
             GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
+        }
+    }
+
+    private void DestroyRoom(Tile tile)
+    {
+        Debug.Log("destroy room " + tile.name);
+        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        {
+            Debug.Log("hit room " + tile.Room.name);
+            tile.RoomTileSpriteRenderer.color = Color.black;
+            tile.IsDestroyed = true;
+
+            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+
+            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+        }
+        else
+        {
+            tile.IsMissed = true;
+            Debug.Log("no room on hit " + tile.name);
+
+            UIManager.instance.HideFicheRoom();
+        }
+    }
+
+    private void RevealRoom(Tile tile)
+    {
+        Debug.Log("reveal room " + tile.name);
+        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        {
+            Debug.Log("hit room " + tile.Room.name);
+            tile.IsReavealed = true;
+
+            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+
+            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+        }
+        else
+        {
+            tile.IsMissed = true;
+            Debug.Log("no room on hit " + tile.name);
+
+            UIManager.instance.HideFicheRoom();
         }
     }
     #endregion

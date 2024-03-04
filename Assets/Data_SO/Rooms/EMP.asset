@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoomName: EMP Room
   RoomIcon: {fileID: 21300000, guid: a1184c0ef8bfd044d8e4ef369aaa8e27, type: 3}
-  RoomPatternImg: {fileID: 21300000, guid: 308e94ce1c3c2e04fb61de21343fe34a, type: 3}
+  RoomPatternImg: {fileID: 21300000, guid: 90a16fdca328fdf44a7ec40f3b0c8663, type: 3}
   RoomAbility: {fileID: 11400000, guid: 14cd06d598982034983d7e59607c8230, type: 2}
   IsVital: 0

@@ -73,6 +73,12 @@ public class AbilityButton : MonoBehaviour
         }
         else
         {
+            if (GetComponent<Button>() == null)
+            {
+                _button = gameObject.AddComponent<Button>();
+                _button.onClick = _onClickOnline;
+            }
+
             _cooldownTxt.gameObject.SetActive(false);
         }
     }
@@ -124,6 +130,10 @@ public class AbilityButton : MonoBehaviour
     public void SelectOrDeselectAbility()
     {
         Debug.Log("select / deselect ability");
+        if (AbilityButtonsManager.instance.IsProbeStarted())
+        {
+            return;
+        }
         
         if (GameManager.instance.TargetOnTile == null)
         {
