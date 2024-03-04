@@ -97,6 +97,9 @@ public class GameManager : MonoBehaviour
     private int _upgradeShotCooldownPlayer1;
     private int _upgradeShotCooldownPlayer2;
 
+    private int _probeCooldownPlayer1;
+    private int _probeCooldownPlayer2;
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
 
@@ -1292,6 +1295,20 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
+                case ("Probe"):
+                    _probeCooldownPlayer1 = 0;
+                    _probeCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "Probe")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found probe button");
+                            break;
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -1558,6 +1575,7 @@ public class GameManager : MonoBehaviour
             //SetRoundTargetPos();
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
             UIManager.instance.CheckSimpleHitX2Img();
+            AbilityButtonsManager.instance.ResetCurrentProbeCount();
         }
 
         if (_currentMode == Mode.Draft)
@@ -1634,6 +1652,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.ShowShitchShipButton();
             //SetRoundTargetPos();
             UIManager.instance.CheckSimpleHitX2Img();
+            AbilityButtonsManager.instance.ResetCurrentProbeCount();
         }
         else if (_currentMode == Mode.Draft)
         {
@@ -1773,6 +1792,16 @@ public class GameManager : MonoBehaviour
                     _upgradeShotCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _probeCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _probeCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
         }
     }
 
@@ -1850,6 +1879,16 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     _upgradeShotCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _probeCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _probeCooldownPlayer1 += 2;
                 }
                 break;
         }
@@ -1975,7 +2014,22 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
-
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_probeCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_probeCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
         }
 
         return true;
@@ -2083,6 +2137,15 @@ public class GameManager : MonoBehaviour
                 {
                     return _upgradeShotCooldownPlayer2;
                 }
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _probeCooldownPlayer1;
+                }
+                else
+                {
+                    return _probeCooldownPlayer2;
+                }
         }
 
         return 0;
@@ -2154,6 +2217,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _upgradeShotCooldownPlayer1;
+                }
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _probeCooldownPlayer2;
+                }
+                else
+                {
+                    return _probeCooldownPlayer1;
                 }
         }
 

@@ -56,9 +56,10 @@ public class UIManager : MonoBehaviour
     [Header("Switch Ship")]
     [SerializeField] GameObject _switchShipButton;
 
-    [Header("Ability Bonus Images")]
+    [Header("Ability Bonus")]
     [SerializeField] Image _alternateShotDirectionImg;
     [SerializeField] Image _simpleHitX2Img;
+    [SerializeField] TMP_Text _probeCount;
 
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
@@ -83,6 +84,18 @@ public class UIManager : MonoBehaviour
         HideVictoryCanvas();
         HideSwitchShipButton();
         HideFireButton();
+        HideProbeCount();
+    }
+
+    public void HideProbeCount()
+    {
+        _probeCount.gameObject.SetActive(false);
+    }
+
+    public void ShowProbeCount(int count)
+    {
+        _probeCount.gameObject.SetActive(true);
+        _probeCount.text = count.ToString() + "/3";
     }
 
     public void CheckAlternateShotDirectionImgRotation()

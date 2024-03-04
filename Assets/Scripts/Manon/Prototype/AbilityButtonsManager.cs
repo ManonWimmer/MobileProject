@@ -51,6 +51,8 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private UpgradeShotStep _currentUpgradeShotStep = UpgradeShotStep.RevealOneTile;
     // ----- Upgrade Shot ----- //
+
+    private int _currentProbeCount = 0;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -158,6 +160,9 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("UpgradeShot"):
                 UpgradeShot_SelectAbilityTiles();
                 break;
+            case ("Probe"):
+                Probe_SelectAbilityTiles();
+                break;
             case ("TimeAccelerator"):
             case ("Capacitor"):
                 break; // Pas de tile à sélectionner lol
@@ -182,6 +187,8 @@ public class AbilityButtonsManager : MonoBehaviour
     }
 
     #region Selections
+
+    #region Scanner Selection
     private void Scanner_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles scanner");
@@ -235,7 +242,9 @@ public class AbilityButtonsManager : MonoBehaviour
         }
         #endregion
     }
+    #endregion
 
+    #region EMP Selection
     private void EMP_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles emp");
@@ -309,6 +318,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
         #endregion
     }
+    #endregion
 
     #region Alternate Shot Selection
     private void AlternateShot_SelectAbilityTiles()
@@ -353,7 +363,7 @@ public class AbilityButtonsManager : MonoBehaviour
     }
     #endregion
 
-    #region Simple Hit & Reveal
+    #region Simple Hit & Reveal + Probe selection
     private void SimpleHit_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles simple hit");
@@ -401,6 +411,12 @@ public class AbilityButtonsManager : MonoBehaviour
     private void SimpleReveal_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles simple reveal");
+        SelectOnlyTargetTile();
+    }
+
+    private void Probe_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles probe");
         SelectOnlyTargetTile();
     }
 
@@ -580,9 +596,13 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("UpgradeShot"):
                 UseUpgradeShot();
                 break;
+            case ("Probe"):
+                UseProbe();
+                break;
         }
 
-        DeselectAbilityButton(_selectedButton);
+        if (_selectedButton.GetAbility().name != "Probe")
+            DeselectAbilityButton(_selectedButton);
     }
 
     private void UseExample()
@@ -931,8 +951,6 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             return _currentAlternateShotDirectionPlayer2;
         }
-
-
     }
 
     private void ChangeAlternateShotDirection()
@@ -1105,6 +1123,41 @@ public class AbilityButtonsManager : MonoBehaviour
         //UIManager.instance.CheckAlternateShotDirectionImgRotation();
     }
     #endregion
+
+    private void UseProbe()
+    {
+        _currentProbeCount++;
+        UIManager.instance.ShowProbeCount(_currentProbeCount);
+
+        RevealRoom(_target);
+
+        if (_currentProbeCount == 3)
+        {
+            _selectedButton.SetCooldown();
+            ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
+
+            DesactivateSimpleHitX2IfActivated();
+            UIManager.instance.CheckAbilityButtonsColor();
+            DeselectAbilityButton(_selectedButton);
+            UIManager.instance.HideProbeCount();
+        }
+
+        UpdateHiddenRooms(); 
+    }
+
+    public bool IsProbeStarted()
+    {
+        if (_selectedButton != null)
+        {
+            return _selectedButton.GetAbility().AbilityName == "Probe" && _currentProbeCount > 0;
+        }
+        return false;
+    }
+
+    public void ResetCurrentProbeCount()
+    {
+        _currentProbeCount = 0;
+    }
 
     private void UpdateHiddenRooms()
     {

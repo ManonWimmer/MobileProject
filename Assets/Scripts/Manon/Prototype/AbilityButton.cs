@@ -130,6 +130,10 @@ public class AbilityButton : MonoBehaviour
     public void SelectOrDeselectAbility()
     {
         Debug.Log("select / deselect ability");
+        if (AbilityButtonsManager.instance.IsProbeStarted())
+        {
+            return;
+        }
         
         if (GameManager.instance.TargetOnTile == null)
         {
