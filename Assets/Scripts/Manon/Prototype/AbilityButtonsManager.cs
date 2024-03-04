@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public enum AlternateShotDirection
 {
@@ -53,6 +53,10 @@ public class AbilityButtonsManager : MonoBehaviour
     // ----- Upgrade Shot ----- //
 
     private int _currentProbeCount = 0;
+
+    private List<Tuple<String, List<Tile>>> _lastRoundActionsPlayer1 = new List<Tuple<String, List<Tile>>>();
+    private List<Tuple<String, List<Tile>>> _lastRoundActionsPlayer2 = new List<Tuple<String, List<Tile>>>();
+    private List<Tile> _currentActionTargetTiles = new List<Tile>();
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -65,6 +69,30 @@ public class AbilityButtonsManager : MonoBehaviour
         foreach (GameObject button in _abilitiesButtonsGameObjects)
         {
             _abilitiesButtons.Add(button.GetComponentInChildren<AbilityButton>());
+        }
+    }
+
+    public void Rewind()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            if (_lastRoundActionsPlayer2 != null)
+            {
+                foreach (var action in _lastRoundActionsPlayer2)
+                {
+                    Debug.Log("Last round action " + action.Item1);
+                }
+            }
+        }
+        else
+        {
+            if (_lastRoundActionsPlayer1 != null)
+            {
+                foreach (var action in _lastRoundActionsPlayer1)
+                {
+                    Debug.Log("Last round action " + action.Item1);
+                }
+            }
         }
     }
 
@@ -607,6 +635,11 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void UseExample()
     {
+        // ----- REWIND ----- //
+        _currentActionTargetTiles.Clear();
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("Example");
+        // ----- REWIND ----- //
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
@@ -621,6 +654,13 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Scanner
     private void UseScanner()
     {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles != null)
+            _currentActionTargetTiles.Clear(); ;
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("Scanner");
+        // ----- REWIND ----- //
+
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
@@ -700,6 +740,13 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Capacitor
     private void UseCapacitor()
     {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles != null)
+            _currentActionTargetTiles.Clear();
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("Capacitor");
+        // ----- REWIND ----- //
+
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
@@ -711,10 +758,15 @@ public class AbilityButtonsManager : MonoBehaviour
     #region EMP
     private void UseEMP()
     {
-        _selectedButton.SetCooldown();
-        ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles != null)
+            _currentActionTargetTiles.Clear();
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("EMP");
+        // ----- REWIND ----- //
 
         _selectedButton.SetCooldown();
+        ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
         DesactivateSimpleHitX2IfActivated();
 
@@ -844,6 +896,12 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Simple Hit
     private void UseSimpleHit()
     {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles != null)
+            _currentActionTargetTiles.Clear();
+        _currentActionTargetTiles.Add(_target);
+        // ----- REWIND ----- //
+
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
@@ -856,6 +914,7 @@ public class AbilityButtonsManager : MonoBehaviour
         if (GetIfSimpleHitXS())
         {
             Debug.Log("simple hit x2");
+            AddActionToCurrentPlayerRound("SimpleHitX2");
 
             // Try destroy right
             if (_target.RightTile != null)
@@ -877,6 +936,10 @@ public class AbilityButtonsManager : MonoBehaviour
 
             DesactivateSimpleHitX2IfActivated();
         }
+        else
+        {
+            AddActionToCurrentPlayerRound("SimpleHit");
+        }
 
         UpdateHiddenRooms(); 
         UIManager.instance.CheckAbilityButtonsColor();
@@ -886,6 +949,13 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Simple Reveal
     private void UseSimpleReveal()
     {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles != null)
+            _currentActionTargetTiles.Clear();
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("SimpleReveal");
+        // ----- REWIND ----- //
+
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
@@ -901,6 +971,14 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Alternate Shot
     private void UseAlternateShot()
     {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles != null)
+            _currentActionTargetTiles.Clear();
+        Debug.Log(_target.name);
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("AlternateShot");
+        // ----- REWIND ----- //
+
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
@@ -939,6 +1017,18 @@ public class AbilityButtonsManager : MonoBehaviour
 
         UpdateHiddenRooms(); // si destroy ou reveal 
         UIManager.instance.CheckAbilityButtonsColor();
+    }
+
+    private void AddActionToCurrentPlayerRound(string actionName)
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            _lastRoundActionsPlayer1.Add(Tuple.Create(actionName, _currentActionTargetTiles));
+        }
+        else
+        {
+            _lastRoundActionsPlayer2.Add(Tuple.Create(actionName, _currentActionTargetTiles));
+        }
     }
 
     public AlternateShotDirection GetCurrentPlayerAlternateShotDirection()
@@ -991,6 +1081,13 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Time Accelerator
     private void UseTimeAccelerator()
     {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles != null)
+            _currentActionTargetTiles.Clear();
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("TimeAccelerator");
+        // ----- REWIND ----- //
+
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
@@ -1126,6 +1223,12 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void UseProbe()
     {
+        // ----- REWIND ----- //
+        _currentActionTargetTiles.Clear();
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("Probe");
+        // ----- REWIND ----- //
+
         _currentProbeCount++;
         UIManager.instance.ShowProbeCount(_currentProbeCount);
 

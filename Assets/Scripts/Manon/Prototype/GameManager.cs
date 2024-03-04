@@ -1576,6 +1576,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
+            AbilityButtonsManager.instance.Rewind();
         }
 
         if (_currentMode == Mode.Draft)
