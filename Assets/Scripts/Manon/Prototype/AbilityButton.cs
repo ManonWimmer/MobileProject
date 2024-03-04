@@ -73,6 +73,12 @@ public class AbilityButton : MonoBehaviour
         }
         else
         {
+            if (GetComponent<Button>() == null)
+            {
+                _button = gameObject.AddComponent<Button>();
+                _button.onClick = _onClickOnline;
+            }
+
             _cooldownTxt.gameObject.SetActive(false);
         }
     }

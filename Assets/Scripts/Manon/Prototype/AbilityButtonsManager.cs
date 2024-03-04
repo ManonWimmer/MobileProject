@@ -68,6 +68,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
     public void UpdateAllAbilityButtonsCooldown()
     {
+        Debug.Log("update all ability buttons cooldown");
         foreach(AbilityButton button in _abilitiesButtons)
         {
             button.UpdateCooldown();
@@ -1078,10 +1079,7 @@ public class AbilityButtonsManager : MonoBehaviour
             {
                 _currentUpgradeShotStep = UpgradeShotStep.DestroyFiveTilesInCross;
             }
-            else
-            {
-                _currentUpgradeShotStep = UpgradeShotStep.RevealOneTile;
-            }
+            // Else reste en destroy five tiles in cross
 
             _currentUpgradeShotStepPlayer1 = _currentUpgradeShotStep;
         }
@@ -1099,10 +1097,7 @@ public class AbilityButtonsManager : MonoBehaviour
             {
                 _currentUpgradeShotStep = UpgradeShotStep.DestroyFiveTilesInCross;
             }
-            else
-            {
-                _currentUpgradeShotStep = UpgradeShotStep.RevealOneTile;
-            }
+            // Else reste en destroy five tiles in cross
 
             _currentUpgradeShotStepPlayer2 = _currentUpgradeShotStep;
         }

@@ -1284,7 +1284,7 @@ public class GameManager : MonoBehaviour
 
                     for(int i = 0; i < _abilityButtons.Count; i++)
                     {
-                        if (_abilityButtons[i].name == "Capacitor")
+                        if (_abilityButtons[i].name == "UpgradeShot")
                         {
                             ability.AbilityButton = _abilityButtons[i];
                             Debug.Log("found upgrade shot button");
@@ -1313,7 +1313,7 @@ public class GameManager : MonoBehaviour
                     {
                         if (room.RoomData.name != "SimpleHit")
                         {
-                            Debug.Log("room inactive");
+                            Debug.Log("room inactive" + room.RoomData.RoomAbility.name);
                             room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
                         }
                     }
@@ -1322,6 +1322,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (room.RoomData.RoomAbility != null)
                     {
+                        Debug.Log("room active" + room.RoomData.RoomAbility.name);
                         room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
                     }
                 }
