@@ -94,6 +94,9 @@ public class GameManager : MonoBehaviour
     private int _capacitorCooldownPlayer1;
     private int _capacitorCooldownPlayer2;
 
+    private int _upgradeShotCooldownPlayer1;
+    private int _upgradeShotCooldownPlayer2;
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
 
@@ -1275,6 +1278,20 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
+                case ("Upgrade Shot"):
+                    _upgradeShotCooldownPlayer1 = 0;
+                    _upgradeShotCooldownPlayer2 = 0;
+
+                    for(int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "Capacitor")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found upgrade shot button");
+                            break;
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -1745,7 +1762,16 @@ public class GameManager : MonoBehaviour
                     _capacitorCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
-
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _upgradeShotCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _upgradeShotCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
         }
     }
 
@@ -1813,6 +1839,16 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     _capacitorCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _upgradeShotCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _upgradeShotCooldownPlayer1 += 2;
                 }
                 break;
         }
@@ -1922,6 +1958,23 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_upgradeShotCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_upgradeShotCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
+
         }
 
         return true;
@@ -1945,6 +1998,7 @@ public class GameManager : MonoBehaviour
             _alternateShotCooldownPlayer1 = (int)Mathf.Clamp(_alternateShotCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _scannerCooldownPlayer1 = (int)Mathf.Clamp(_scannerCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _capacitorCooldownPlayer1 = (int)Mathf.Clamp(_capacitorCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _upgradeShotCooldownPlayer1 = (int)Mathf.Clamp(_upgradeShotCooldownPlayer1 - amount, 0, Mathf.Infinity);
         }
         else
         {
@@ -1954,6 +2008,7 @@ public class GameManager : MonoBehaviour
             _alternateShotCooldownPlayer2 = (int)Mathf.Clamp(_alternateShotCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _scannerCooldownPlayer2 = (int)Mathf.Clamp(_scannerCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _capacitorCooldownPlayer2 = (int)Mathf.Clamp(_capacitorCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _upgradeShotCooldownPlayer2 = (int)Mathf.Clamp(_upgradeShotCooldownPlayer2 - amount, 0, Mathf.Infinity);
         }
 
         AbilityButtonsManager.instance.UpdateAllAbilityButtonsCooldown();
@@ -2018,6 +2073,15 @@ public class GameManager : MonoBehaviour
                 {
                     return _capacitorCooldownPlayer2;
                 }
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _upgradeShotCooldownPlayer1;
+                }
+                else
+                {
+                    return _upgradeShotCooldownPlayer2;
+                }
         }
 
         return 0;
@@ -2080,6 +2144,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _capacitorCooldownPlayer1;
+                }
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _upgradeShotCooldownPlayer2;
+                }
+                else
+                {
+                    return _upgradeShotCooldownPlayer1;
                 }
         }
 

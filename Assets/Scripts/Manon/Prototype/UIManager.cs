@@ -87,15 +87,7 @@ public class UIManager : MonoBehaviour
 
     public void CheckAlternateShotDirectionImgRotation()
     {
-        AlternateShotDirection _currentAlternateShotDirection;
-        if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
-            _currentAlternateShotDirection = AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer1;
-        }
-        else
-        {
-            _currentAlternateShotDirection = AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer2;
-        }
+        AlternateShotDirection _currentAlternateShotDirection = AbilityButtonsManager.instance.GetCurrentPlayerAlternateShotDirection();
 
         if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
         {
