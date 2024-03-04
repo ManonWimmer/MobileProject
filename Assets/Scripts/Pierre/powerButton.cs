@@ -10,6 +10,10 @@ public class powerButton : MonoBehaviour
     [SerializeField] private scriptablePower _scriptable;
     [SerializeField] private TextMeshProUGUI _powerNeed;
     [SerializeField] private Image _icon;
+    [SerializeField] private GameObject _cooldownGameobject;
+    [SerializeField] private GameObject _energyGameobject;
+
+    [SerializeField] bool _haveCooldown;
     private GameObject _description;
 
     //Cooldown
@@ -18,11 +22,11 @@ public class powerButton : MonoBehaviour
     private int _turnCooldown;
     private int _cooldown;
 
-    private Animator _animator;
     private bool _selected;
     private List<powerButton> _abilitys = new List<powerButton>();
     private List<debuffButton> _debuffs = new List<debuffButton>();
 
+    private Animator _animator;
 
     public void GetEndTrun() => EndTrun();
     public bool GetSelected() => _selected;
@@ -41,6 +45,16 @@ public class powerButton : MonoBehaviour
         _powerNeed.text = _scriptable.ActionPointsNeeded.ToString();
 
         _turnCooldown = _scriptable.Cooldown;
+
+        if (_haveCooldown)
+        {
+            _cooldownGameobject.SetActive(true);
+            _energyGameobject.SetActive(false);
+        }else
+        {
+            _cooldownGameobject.SetActive(false);
+            _energyGameobject.SetActive(true);
+        }
     }
 
     #region ListButtons
