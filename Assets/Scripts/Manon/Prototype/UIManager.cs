@@ -12,6 +12,10 @@ public class UIManager : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] GameObject _gameCanvas;
 
+    [Header("Top & Bottom Game UI")]
+    [SerializeField] GameObject _enemyTop;
+    [SerializeField] GameObject _playerBottom;
+
     [Header("Debug Text")]
     [SerializeField] TMP_Text _currentPlayerTxt;
     [SerializeField] TMP_Text _currentModeTxt;
@@ -157,11 +161,19 @@ public class UIManager : MonoBehaviour
     public void HideGameCanvas()
     {
         _gameCanvas.SetActive(false);
+        _playerBottom.SetActive(false);
+        _enemyTop.SetActive(false);
     }
 
     public void ShowGameCanvas()
     {
         _gameCanvas.SetActive(true);
+    }
+
+    public void StartGameCanvas()
+    {
+        _playerBottom.SetActive(true);
+        _enemyTop.SetActive(true);
     }
     #endregion
 
@@ -257,20 +269,20 @@ public class UIManager : MonoBehaviour
             {
                 if (button.IsSelected)
                 {
-                    button.GetComponent<Image>().color = new Color(0.34f, 0.54f, 77f);
+                    button.SelectedButtonUI();
                 }
                 else
                 {
-                    button.GetComponent<Image>().color = Color.white;
+                    button.OnlineAndCanBeUsedButtonUI();
                 }
             }
             else if (button.IsOffline)
             {
-                button.GetComponent<Image>().color = Color.red;
+                button.OfflineButtonUI();
             }
             else
             {
-                button.GetComponent<Image>().color = Color.gray;
+                button.OnlineAndCantBeUsedButtonUI();
             }
         }
     }
