@@ -97,3 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a72bceeb6fe99ae4b8dc744b9f624cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _StarSpawnPoint: {x: 0, y: 10}

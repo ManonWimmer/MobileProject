@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class StarVFXhandler : MonoBehaviour
 {
-    bool _isActive = false;
     [SerializeField] int _howManyStarsTotal = 20;
     [SerializeField] GameObject _star;
     [SerializeField] int _howManyStarsCycle = 5;
@@ -16,22 +15,31 @@ public class StarVFXhandler : MonoBehaviour
     [SerializeField] Transform _botRightPosAnchor;
     [SerializeField] Transform _StarSpawnPoint;
 
-    private GameObject[] StarArray = null;
+    private List<StarInstance> StarArray = new List<StarInstance>();
     private IEnumerator coroutine;
+    GameObject tempVal;
+    StarInstance bruh;
 
-    private void Awake()
+    private void Start()
     {
+        if (_howManyStarsCycle > _howManyStarsTotal)
+            _howManyStarsCycle = _howManyStarsTotal;
+
         for (int i = 0; i < _howManyStarsTotal; i++)
         {
-            StarArray[i] = Instantiate(_star, _StarSpawnPoint, _StarSpawnPoint);
+            // make an array of stars at the start to load them and save memory space later
+            tempVal = Instantiate(_star, _StarSpawnPoint.position, _StarSpawnPoint.rotation, _StarSpawnPoint);
+            bruh = tempVal.GetComponent<StarInstance>();
+            StarArray.Add(bruh);
+            StarArray[i].StarSpawnPoint = _StarSpawnPoint.transform.position;
         }
+
+        StartVFX();
     }
 
-    // make an array of stars at the start to load them and save memory space later
     // their position is set outside the screen boundaries (might not have to set them here, could do it from the star itself)
     // function that selects _howManyStarsCycle number of stars that arent active
     // give them random positions
-    // activate them (and they do their own silly things)
     // when they're not active anymore, they'll set themselves down
 
 
@@ -39,28 +47,32 @@ public class StarVFXhandler : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(delayBetweenCycles);
-            for (int i = 0; i < _howManyStarsCycle; i++)
+            for (int i = 0; i < _howManyStarsCycle ; i++)
             {
-                // define random pos for object
-                Vector2 randomPos = new Vector2(UnityEngine.Random.Range(_topLeftPosAnchor.position.x, _botRightPosAnchor.position.x), UnityEngine.Random.Range(_botRightPosAnchor.position.y, _topLeftPosAnchor.position.y));
-                
-                //Instantiate(_star, randomPos, Quaternion.identity);            
+                if(!StarArray[i].IsActive)
+                {
+                    // define random pos for object
+                    Vector2 randomPos = new Vector2(UnityEngine.Random.Range(_topLeftPosAnchor.position.x, _botRightPosAnchor.position.x), 
+                        UnityEngine.Random.Range(_botRightPosAnchor.position.y, _topLeftPosAnchor.position.y));
+                    StarArray[i].Activate(randomPos);
+                }
             }
+            yield return new WaitForSeconds(delayBetweenCycles);
         }
         
     }
 
-    private void Start()
+/*    private void Start()
     {
         coroutine = VFXCycle();
         StartVFX();
-    }
+    }*/
 
     public void StartVFX()
     {
         // bouton ammène ici
         // lance la loop après setup
+        coroutine = VFXCycle();
         StartCoroutine(coroutine);
     }
 
