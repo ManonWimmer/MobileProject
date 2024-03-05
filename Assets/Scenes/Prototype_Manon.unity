@@ -153,7 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraPosShipPlayer1: {fileID: 1631064133}
+  _cameraRewindPosShipPlayer1: {fileID: 73504663}
   _cameraPosShipPlayer2: {fileID: 577938040}
+  _cameraRewindPosShipPlayer2: {fileID: 221259753}
   _mainCamera: {fileID: 701273501}
   _lerpDuration: 1
 --- !u!4 &8882636
