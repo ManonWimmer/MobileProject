@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class AbilityRevealExample : AbilityGeneric
+public class AbilityRevealExample : AAbility
 {
     private void Awake()
     {
