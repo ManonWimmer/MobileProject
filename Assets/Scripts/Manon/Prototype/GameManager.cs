@@ -44,7 +44,8 @@ public class GameManager : MonoBehaviour
     [Header("Rooms")]
     [SerializeField] List<Room> _startVitalRooms = new List<Room>();
     [SerializeField] List<Room> _draftRooms = new List<Room>();
-    private List<Room> _selectedDraftRooms = new List<Room>();
+    private List<Room> _selectedDraftRooms1 = new List<Room>();
+    private List<Room> _selectedDraftRooms2 = new List<Room>();
 
     private List<Room> _choosenDraftRoomsPlayer1 = new List<Room>();
     private List<Room> _choosenDraftRoomsPlayer2 = new List<Room>();
@@ -116,6 +117,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _abilityButtons = AbilityButtonsManager.instance.GetAbilityButtonsList();
+        InitDrafts();
         StartDraftShips();
     }
 
@@ -274,7 +276,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Construction
+    
     private void InitGridDicts()
     {
         #region Player1Dict
@@ -416,13 +418,113 @@ public class GameManager : MonoBehaviour
         #endregion
     }
 
+    #region Draft
+
+    #region Init Drafts
+    private void InitDrafts()
+    {
+        InitDraftShips();
+        InitDraftRooms1();
+        InitDraftRooms2();
+    }
+
+    private void InitDraftShips()
+    {
+        _selectedDraftShips.Clear();
+
+        int i = 0;
+
+        while (i < 3)
+        {
+            int randomIndex = Random.Range(0, _draftShipsPlayer1.Count);
+            if (!_selectedDraftShips.Contains(_draftShipsPlayer1[randomIndex]))
+            {
+                _selectedDraftShips.Add(_draftShipsPlayer1[randomIndex]);
+                i += 1;
+            }
+        }
+    }
+
+    private void InitDraftRooms1()
+    {
+        _selectedDraftRooms1.Clear();
+        int i = 0;
+
+        while (i < 3)
+        {
+            int randomIndex = Random.Range(0, _draftRooms.Count);
+            if (!_selectedDraftRooms1.Contains(_draftRooms[randomIndex]))
+            {
+                _selectedDraftRooms1.Add(_draftRooms[randomIndex]);
+                i += 1;
+            }
+        }
+    }
+
+    private void InitDraftRooms2()
+    {
+        _selectedDraftRooms2.Clear();
+        int i = 0;
+
+        while (i < 3)
+        {
+            int randomIndex = Random.Range(0, _draftRooms.Count);
+            if (!_selectedDraftRooms2.Contains(_draftRooms[randomIndex]) && !_selectedDraftRooms1.Contains(_draftRooms[randomIndex]))
+            {
+                _selectedDraftRooms2.Add(_draftRooms[randomIndex]);
+                i += 1;
+            }
+        }
+    }
+    #endregion
+
+    #region Start Drafts
+    private void StartDraftShips()
+    {
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraftShips();
+        DraftManagerUI.instance.UpdatePlayerChoosing();
+
+        for (int i = 0; i < _selectedDraftShips.Count; i++)
+        {
+            DraftManagerUI.instance.InitDraftShip(i, _selectedDraftShips[i]);
+        }
+    }
+
+    private void StartDraftRooms1()
+    {
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraftRooms(1);
+        DraftManagerUI.instance.UpdateSpaceshipDraftRoom();
+
+        for (int i = 0; i < _selectedDraftRooms1.Count; i++)
+        {
+            DraftManagerUI.instance.InitDraftRoom(i, _selectedDraftRooms1[i]);
+        }
+    }
+
+    private void StartDraftRooms2()
+    {
+        Debug.Log("start draft rooms 2");
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraftRooms(2);
+        DraftManagerUI.instance.UpdateSpaceshipDraftRoom();
+
+        for (int i = 0; i < _selectedDraftRooms2.Count; i++)
+        {
+            DraftManagerUI.instance.InitDraftRoom(i, _selectedDraftRooms2[i]);
+        }
+    }
+    #endregion
+
+    #region Select Draft
     public void SelectDraftShip(Ship ship)
     {
         Debug.Log("select draft ship " + ship.ShipData.name);
         if (_playerTurn == Player.Player1)
         {
             // Player Ship
-            foreach(Ship shipP1 in _draftShipsPlayer1)
+            foreach (Ship shipP1 in _draftShipsPlayer1)
             {
                 Debug.Log(shipP1.name);
                 if (shipP1.ShipData == ship.ShipData)
@@ -435,8 +537,8 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("inactive " + shipP1.name);
                     shipP1.gameObject.SetActive(false);
-                } 
-            }   
+                }
+            }
 
             // Player Ship Rewind
             foreach (Ship shipP1 in _rewindShipsPlayer1)
@@ -491,30 +593,38 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        SwitchPlayer();
+        //SwitchPlayer();
+        StartDraftRooms1();
     }
 
-    private void StartDraftShips()
+    public void SelectDraftRoom(Room room)
     {
         DraftManagerUI.instance.ShowDraftUI();
-        DraftManager.instance.StartDraftShips();
-        DraftManagerUI.instance.UpdatePlayerChoosing();
-        _selectedDraftShips.Clear();
 
-        int i = 0;
-
-        while (i < 3)
+        Debug.Log("select draft room");
+        if (_playerTurn == Player.Player1)
         {
-            int randomIndex = Random.Range(0, _draftShipsPlayer1.Count);
-            if (!_selectedDraftShips.Contains(_draftShipsPlayer1[randomIndex]))
-            {
-                _selectedDraftShips.Add(_draftShipsPlayer1[randomIndex]);
-                DraftManagerUI.instance.InitDraftShip(_selectedDraftShips.Count - 1, _draftShipsPlayer1[randomIndex]);
-                i += 1;
-            }
+            _choosenDraftRoomsPlayer1.Add(room);
+        }
+        else
+        {
+            _choosenDraftRoomsPlayer2.Add(room);
+        }
+
+        Debug.Log(DraftManager.instance.CurrentDraft);
+        if (DraftManager.instance.CurrentDraft == 1)
+        {
+           
+            StartDraftRooms2();
+        }
+        else if (DraftManager.instance.CurrentDraft == 2)
+        {
+            SwitchPlayer();
         }
     }
+    #endregion
 
+    #region Get Ship & Room
     public Ship GetPlayerShip()
     {
         if (_playerTurn == Player.Player1)
@@ -538,61 +648,13 @@ public class GameManager : MonoBehaviour
             return _choosenDraftRoomsPlayer2[index];
         }
     }
+    #endregion
 
-    private void StartDraftRooms1()
-    {
-        DraftManagerUI.instance.ShowDraftUI();
-        DraftManager.instance.StartDraftRooms(1);
+    #endregion
 
-        _selectedDraftRooms.Clear();
-        int i = 0;
+    #region Construction
 
-        while (i < 3)
-        {
-            int randomIndex = Random.Range(0, _draftRooms.Count);
-            if (!_selectedDraftRooms.Contains(_draftRooms[randomIndex]))
-            {
-                _selectedDraftRooms.Add(_draftRooms[randomIndex]);
-                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 1, _draftRooms[randomIndex]);
-                i += 1;
-            }
-        }
-    }
-
-    public void SelectDraftRoom(Room room)
-    {
-        if (_playerTurn == Player.Player1)
-        {
-            _choosenDraftRoomsPlayer1.Add(room);
-        }
-        else
-        {
-            _choosenDraftRoomsPlayer2.Add(room);
-        }
-
-        SwitchPlayer();
-        
-    }
-
-    private void StartDraftRooms2()
-    {
-        DraftManagerUI.instance.ShowDraftUI();
-        DraftManager.instance.StartDraftRooms(2);
-
-        int i = 0;
-
-        while (i < 3)
-        {
-            int randomIndex = Random.Range(0, _draftRooms.Count);
-            if (!_selectedDraftRooms.Contains(_draftRooms[randomIndex]))
-            {
-                _selectedDraftRooms.Add(_draftRooms[randomIndex]);
-                DraftManagerUI.instance.InitDraftRoom(_selectedDraftRooms.Count - 4, _draftRooms[randomIndex]);
-                i += 1;
-            }
-        }
-    }
-
+    #region Randomize Rooms
     private void RandomizeRoomsPlacement()
     {
         RandomizeRoomsPlayer1();
@@ -696,6 +758,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    #endregion
 
     public void TakeBuilding(Room building)
     {
@@ -1580,8 +1643,20 @@ public class GameManager : MonoBehaviour
             _playerTurn = Player.Player1;
         }
 
-        if (_playerTurn == Player.Player1 && _currentMode == Mode.Draft)
+        if (_currentMode == Mode.Draft)
         {
+            if (_playerTurn == Player.Player1)
+            {
+                StartGame();
+                DraftManagerUI.instance.HideDraftUI();
+                UIManager.instance.ShowGameCanvas();
+            }
+            else
+            {
+                DraftManagerUI.instance.UpdatePlayerChoosing();
+                StartDraftShips();
+            }
+            /*
             switch (DraftManager.instance.CurrentDraft)
             {
                 case (0):
@@ -1591,11 +1666,17 @@ public class GameManager : MonoBehaviour
                     StartDraftRooms2();
                     break;
                 case (2): // start game
-                    StartGame();
-                    DraftManagerUI.instance.HideDraftUI();
-                    UIManager.instance.ShowGameCanvas();
+                    
+                    DraftManager.instance.CurrentDraft = 0;
+                    if (_playerTurn == Player.Player1)
+                    {
+                        StartGame();
+                        DraftManagerUI.instance.HideDraftUI();
+                        UIManager.instance.ShowGameCanvas();
+                    }
                     break;
             }
+            */
         }
 
         SwitchCamera();

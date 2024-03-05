@@ -43,10 +43,6 @@ public class DraftManagerUI : MonoBehaviour
     public void UpdatePlayerChoosing()
     {
         _playerChoosing.text = "PLAYER : " + GameManager.instance.PlayerTurn.ToString().ToUpper();
-        if (!DraftManager.instance.ShipDraft) // Draft Room
-        {
-            DraftManagerUI.instance.UpdateSpaceshipDraftRoom();
-        }
     }
 
     public void UpdateSpaceshipDraftRoom()
