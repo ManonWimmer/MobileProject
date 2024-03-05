@@ -1274,34 +1274,49 @@ public class GameManager : MonoBehaviour
     public void CheckVictory()
     {
         Debug.Log("check victory");
-        bool player1Dead = true;
-        foreach (Room room in _placedRoomsPlayer1)
-        {
-            Debug.Log(room.name);
-            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
-            {
-                player1Dead = false;
-            }
-        }
 
-        bool player2Dead = true;
-        foreach (Room room in _placedRoomsPlayer2)
-        {
-            Debug.Log(room.name);
-            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
-            {
-                player2Dead = false;
-            }
-        }
-
-        if (player1Dead)
+        if (GetPlayerLife(Player.Player2) == 0)
         {
             UIManager.instance.ShowVictoryCanvas(Player.Player2);
         }
-        else if (player2Dead)
+        else if (GetPlayerLife(Player.Player1) == 0)
         {
             UIManager.instance.ShowVictoryCanvas(Player.Player1);
         }
+    }
+
+    public int GetPlayerLife(Player player)
+    {
+        int life = 0;
+
+        if (player == Player.Player1)
+        {
+            foreach (Tile tile in _tilesPlayer1)
+            {
+                if (tile.Room != null)
+                {
+                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
+                    {
+                        life++;
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (Tile tile in _tilesPlayer2)
+            {
+                if (tile.Room != null)
+                {
+                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
+                    {
+                        life++;
+                    }
+                }
+            }
+        }
+
+        return life;
     }
 
     private void InitAbilitesSOButtons()
@@ -1750,6 +1765,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
             AbilityButtonsManager.instance.Rewind();
+            UIManager.instance.UpdateEnemyLife();
         }
 
         if (_currentMode == Mode.Draft)
@@ -1828,6 +1844,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
             UIManager.instance.StartGameCanvas();
+            UIManager.instance.UpdateEnemyLife();
         }
         else if (_currentMode == Mode.Draft)
         {
