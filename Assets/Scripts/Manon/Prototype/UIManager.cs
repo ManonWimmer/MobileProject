@@ -264,24 +264,30 @@ public class UIManager : MonoBehaviour
         Debug.Log("check ability buttons color");
         foreach (GameObject abilityButton in _abilityButtons)
         {
+
             AbilityButton button = abilityButton.GetComponentInChildren<AbilityButton>();
+            Debug.Log(button.name);
             if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()) > 0 && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline && GameManager.instance.GetCurrentCooldown(button.GetAbility()) == 0)
             {
                 if (button.IsSelected)
                 {
+                    Debug.Log("a");
                     button.SelectedButtonUI();
                 }
                 else
                 {
+                    Debug.Log("b");
                     button.OnlineAndCanBeUsedButtonUI();
                 }
             }
             else if (button.IsOffline)
             {
+                Debug.Log("c");
                 button.OfflineButtonUI();
             }
             else
             {
+                Debug.Log("d");
                 button.OnlineAndCantBeUsedButtonUI();
             }
         }

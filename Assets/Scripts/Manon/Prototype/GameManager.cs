@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Unity.VisualScripting;
-using UnityEditor.Playables;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -448,7 +446,7 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("active rewind " + shipP1.name);
                     shipP1.gameObject.SetActive(true);
-                    _shipPlayer1 = shipP1;
+                    _rewindShipPlayer1 = shipP1;
                 }
                 else
                 {
@@ -476,19 +474,19 @@ public class GameManager : MonoBehaviour
             }
 
             // Player Ship Rewind
-            foreach (Ship shipP1 in _rewindShipsPlayer2)
+            foreach (Ship shipP2 in _rewindShipsPlayer2)
             {
-                Debug.Log(shipP1.name);
-                if (shipP1.ShipData == ship.ShipData)
+                Debug.Log(shipP2.name);
+                if (shipP2.ShipData == ship.ShipData)
                 {
-                    Debug.Log("active rewind " + shipP1.name);
-                    shipP1.gameObject.SetActive(true);
-                    _shipPlayer1 = shipP1;
+                    Debug.Log("active rewind " + shipP2.name);
+                    shipP2.gameObject.SetActive(true);
+                    _rewindShipPlayer2 = shipP2;
                 }
                 else
                 {
-                    Debug.Log("inactive rewind " + shipP1.name);
-                    shipP1.gameObject.SetActive(false);
+                    Debug.Log("inactive rewind " + shipP2.name);
+                    shipP2.gameObject.SetActive(false);
                 }
             }
         }

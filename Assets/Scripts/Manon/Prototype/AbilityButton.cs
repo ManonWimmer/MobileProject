@@ -56,7 +56,7 @@ public class AbilityButton : MonoBehaviour
     public void SelectedButtonUI()
     {
         _selectedBackground.SetActive(true);
-        _image.color = Color.white;
+        GetComponent<Image>().color = Color.white;
         _cooldownTxt.color = new Color(0.094f, 0.09f, 0.15f, 1f); // Black
         _cooldownIcon.color = new Color(0.094f, 0.09f, 0.15f, 1f); // Black
         _abilityIcon.color = new Color(0.094f, 0.09f, 0.15f, 1f); // Black
@@ -65,7 +65,7 @@ public class AbilityButton : MonoBehaviour
     public void OnlineAndCanBeUsedButtonUI()
     {
         _selectedBackground.SetActive(false);
-        _image.color = Color.white;
+        GetComponent<Image>().color = Color.white;
         _cooldownTxt.color = new Color(0.34f, 0.54f, 0.76f, 1f); // Blue
         _cooldownIcon.color = new Color(0.34f, 0.54f, 0.76f, 1f); // Blue
         _abilityIcon.color = new Color(0.34f, 0.54f, 0.76f, 1f); // Blue
@@ -74,7 +74,7 @@ public class AbilityButton : MonoBehaviour
     public void OnlineAndCantBeUsedButtonUI()
     {
         _selectedBackground.SetActive(false);
-        _image.color = Color.gray;
+        GetComponent<Image>().color = Color.gray;
         _cooldownTxt.color = new Color(0.34f, 0.54f, 0.76f, 1f); // Blue
         _cooldownIcon.color = new Color(0.34f, 0.54f, 0.76f, 1f); // Blue
         _abilityIcon.color = new Color(0.34f, 0.54f, 0.76f, 1f); // Blue
@@ -83,7 +83,7 @@ public class AbilityButton : MonoBehaviour
     public void OfflineButtonUI()
     {
         _selectedBackground.SetActive(false);
-        _image.color = Color.red;
+        GetComponent<Image>().color = Color.red;
         _cooldownTxt.color = new Color(0.094f, 0.09f, 0.15f, 1f); // Black
         _cooldownIcon.color = new Color(0.094f, 0.09f, 0.15f, 1f); // Black
         _abilityIcon.color = new Color(0.094f, 0.09f, 0.15f, 1f); // Black
