@@ -82,8 +82,6 @@ public class GameManager : MonoBehaviour
 
     private int _currentRound;
 
-    // (pas possible de les modifier dans les scriptable objects parce que ça dépend des joueurs)
-
     private int _simpleRevealCooldownPlayer1;
     private int _simpleRevealCooldownPlayer2;
 
@@ -126,7 +124,6 @@ public class GameManager : MonoBehaviour
         InitDrafts();
         StartDraftShips();
     }
-
 
     private void Update()
     {
@@ -188,7 +185,6 @@ public class GameManager : MonoBehaviour
     {  
         // Start Construction
         InitGridDicts();
-        //InitRewindGridDicts();
         RandomizeRoomsPlacement();
 
         // Update UI
@@ -208,48 +204,10 @@ public class GameManager : MonoBehaviour
         if (!nearestTile.IsOccupied) // no building
         {
             UIManager.instance.HideFicheRoom();
-
-            /*
-            if (_roomToPlace != null)
-            {
-                if (CheckCanBuild(_roomToPlace, nearestTile))
-                {
-                    CreateNewBuilding(_roomToPlace, nearestTile, _playerTurn);
-                }
-            }
-            */
-            /*
-            else if (_roomToMove != null)
-            {
-                if (CheckCanBuild(_roomToMove, nearestTile))
-                {
-                    CreateNewBuilding(_roomToMove, nearestTile, _playerTurn);
-                }
-            }
-            */
-
         }
         else // already a building
         {
             UIManager.instance.ShowFicheRoom(nearestTile.Room.RoomData);
-            /*
-            Debug.Log("occupied");
-            if (_roomToMove == null)
-            {
-                Debug.Log("new building to move");
-                // select move building
-                _roomToMove = nearestTile.Room;
-                nearestTile.IsOccupied = false;
-
-                SetBuildingTilesNotOccupied(_roomToMove, nearestTile);
-
-                // building to mouse
-                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                _roomOnMouse = _roomToMove;
-
-                UIManager.instance.ShowFicheRoom(_roomOnMouse.RoomData);
-            }
-            */
         }
     }
 
@@ -287,148 +245,6 @@ public class GameManager : MonoBehaviour
         return _targetOnTile;
     }
     #endregion
-
-    
-    private void InitGridDicts()
-    {
-        #region Player1Dict
-        foreach (Tile tile in _shipPlayer1.gameObject.GetComponentsInChildren<Tile>())
-        {
-            _tilesPlayer1.Add(tile);
-            int row = tile.Row;
-            int column = tile.Column;
-            _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column)] = tile;
-        }
-
-        // search adjacent tiles for each tile
-        foreach (Tile tile in _tilesPlayer1)
-        {
-            int row = tile.Row;
-            int column = tile.Column;
-
-            #region Top, Bottom, Left & Right
-            // top
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column)))
-            {
-                tile.TopTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column)];
-            }
-
-            // bottom
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column)))
-            {
-                tile.BottomTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column)];
-            }
-
-            // right
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column + 1)))
-            {
-                tile.RightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column + 1)];
-            }
-
-            // left
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column - 1)))
-            {
-                tile.LeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column - 1)];
-            }
-            #endregion
-
-            #region Diag Top Left & Right, Bottom Left & Right
-            // diag top left
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column - 1)))
-            {
-                tile.DiagTopLeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column - 1)];
-            }
-
-            // diag top right
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column + 1)))
-            {
-                tile.DiagTopRightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column + 1)];
-            }
-
-            // diag bottom left
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column - 1)))
-            {
-                tile.DiagBottomLeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column - 1)];
-            }
-
-            // diag bottom right
-            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column + 1)))
-            {
-                tile.DiagBottomRightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column + 1)];
-            }
-            #endregion
-        }
-        #endregion
-
-        #region Player2Dict
-        foreach (Tile tile in _shipPlayer2.GetComponentsInChildren<Tile>())
-        {
-            _tilesPlayer2.Add(tile);
-            int row = tile.Row;
-            int column = tile.Column;
-            _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column)] = tile;
-        }
-
-        // search adjacent tiles for each tile
-        foreach (Tile tile in _tilesPlayer2)
-        {
-            int row = tile.Row;
-            int column = tile.Column;
-
-            #region Top, Bottom, Left & Right
-            // top
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column)))
-            {
-                tile.TopTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column)];
-            }
-
-            // bottom
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column)))
-            {
-                tile.BottomTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column)];
-            }
-
-            // right
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column + 1)))
-            {
-                tile.RightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column + 1)];
-            }
-
-            // left
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column - 1)))
-            {
-                tile.LeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column - 1)];
-            }
-            #endregion
-
-            #region Diag Top Left & Right, Bottom Left & Right
-            // diag top left
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column - 1)))
-            {
-                tile.DiagTopLeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column - 1)];
-            }
-
-            // diag top right
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column + 1)))
-            {
-                tile.DiagTopRightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column + 1)];
-            }
-
-            // diag bottom left
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column - 1)))
-            {
-                tile.DiagBottomLeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column - 1)];
-            }
-
-            // diag bottom right
-            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column + 1)))
-            {
-                tile.DiagBottomRightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column + 1)];
-            }
-            #endregion
-        }
-        #endregion
-    }
 
     #region Draft
 
@@ -667,6 +483,146 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Construction
+    private void InitGridDicts()
+    {
+        #region Player1Dict
+        foreach (Tile tile in _shipPlayer1.gameObject.GetComponentsInChildren<Tile>())
+        {
+            _tilesPlayer1.Add(tile);
+            int row = tile.Row;
+            int column = tile.Column;
+            _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column)] = tile;
+        }
+
+        // search adjacent tiles for each tile
+        foreach (Tile tile in _tilesPlayer1)
+        {
+            int row = tile.Row;
+            int column = tile.Column;
+
+            #region Top, Bottom, Left & Right
+            // top
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column)))
+            {
+                tile.TopTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column)];
+            }
+
+            // bottom
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column)))
+            {
+                tile.BottomTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column)];
+            }
+
+            // right
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column + 1)))
+            {
+                tile.RightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column + 1)];
+            }
+
+            // left
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row, column - 1)))
+            {
+                tile.LeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row, column - 1)];
+            }
+            #endregion
+
+            #region Diag Top Left & Right, Bottom Left & Right
+            // diag top left
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column - 1)))
+            {
+                tile.DiagTopLeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column - 1)];
+            }
+
+            // diag top right
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - 1, column + 1)))
+            {
+                tile.DiagTopRightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row - 1, column + 1)];
+            }
+
+            // diag bottom left
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column - 1)))
+            {
+                tile.DiagBottomLeftTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column - 1)];
+            }
+
+            // diag bottom right
+            if (_dictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + 1, column + 1)))
+            {
+                tile.DiagBottomRightTile = _dictTilesRowColumnPlayer1[new Tuple<int, int>(row + 1, column + 1)];
+            }
+            #endregion
+        }
+        #endregion
+
+        #region Player2Dict
+        foreach (Tile tile in _shipPlayer2.GetComponentsInChildren<Tile>())
+        {
+            _tilesPlayer2.Add(tile);
+            int row = tile.Row;
+            int column = tile.Column;
+            _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column)] = tile;
+        }
+
+        // search adjacent tiles for each tile
+        foreach (Tile tile in _tilesPlayer2)
+        {
+            int row = tile.Row;
+            int column = tile.Column;
+
+            #region Top, Bottom, Left & Right
+            // top
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column)))
+            {
+                tile.TopTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column)];
+            }
+
+            // bottom
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column)))
+            {
+                tile.BottomTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column)];
+            }
+
+            // right
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column + 1)))
+            {
+                tile.RightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column + 1)];
+            }
+
+            // left
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row, column - 1)))
+            {
+                tile.LeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row, column - 1)];
+            }
+            #endregion
+
+            #region Diag Top Left & Right, Bottom Left & Right
+            // diag top left
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column - 1)))
+            {
+                tile.DiagTopLeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column - 1)];
+            }
+
+            // diag top right
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - 1, column + 1)))
+            {
+                tile.DiagTopRightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row - 1, column + 1)];
+            }
+
+            // diag bottom left
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column - 1)))
+            {
+                tile.DiagBottomLeftTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column - 1)];
+            }
+
+            // diag bottom right
+            if (_dictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + 1, column + 1)))
+            {
+                tile.DiagBottomRightTile = _dictTilesRowColumnPlayer2[new Tuple<int, int>(row + 1, column + 1)];
+            }
+            #endregion
+        }
+        #endregion
+    }
 
     #region Randomize Rooms
     private void RandomizeRoomsPlacement()
@@ -773,14 +729,6 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
-
-    public void TakeBuilding(Room building)
-    {
-        _roomToPlace = building;
-
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        _roomOnMouse = Instantiate(_roomToPlace, new Vector3(mousePosition.x, mousePosition.y, -5), Quaternion.identity);
-    }
 
     public bool CheckCanBuild(Room building, Tile tile)
     {
@@ -989,7 +937,6 @@ public class GameManager : MonoBehaviour
     private void CreateNewBuilding(Room building, Tile tile, Player player)
     {
         // place new building
-        //Prototype_Building newBuilding = _buildingOnMouse;
         Debug.Log("instantiate new building");
         Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -0.5f), Quaternion.identity);
 
@@ -1001,8 +948,6 @@ public class GameManager : MonoBehaviour
         {
             newBuilding.transform.parent = _shipPlayer2.gameObject.transform;
         }
-
-        //newBuilding.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -5); // adjust to tile position
 
         if (player == Player.Player1)
         {
@@ -1030,7 +975,6 @@ public class GameManager : MonoBehaviour
 
     private void ClearPlacedRoomsLists()
     {
-        //Debug.Log("clear room lists");
         _placedRoomsPlayer1.RemoveAll(s => s == null);
         _placedRoomsPlayer2.RemoveAll(s => s == null);
     }
@@ -1309,6 +1253,35 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Combat
+    public bool CanUseAbility(scriptablePower ability)
+    {
+        Debug.Log("can use ability ?");
+
+        if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
+        {
+            if (!IsAbilityInCooldown(ability))
+            {
+                Debug.Log("current ability cooldown 0");
+                //ActionPointsManager.instance.UseActionPoint(_playerTurn);
+                //SetAbilityCooldown(ability);
+                Debug.Log("can use ability");
+                return true;
+            }
+            else
+            {
+                Debug.Log("ability en cooldown");
+            }
+        }
+        else
+        {
+            Debug.Log("no action points and / or no room ability on target");
+        }
+
+
+        Debug.Log("can't use ability");
+        return false;
+    }
+
     public void CheckVictory()
     {
         Debug.Log("check victory");
@@ -1915,35 +1888,6 @@ public class GameManager : MonoBehaviour
         return _playerTurn;
     }
     #endregion
-
-    public bool CanUseAbility(scriptablePower ability)
-    {
-        Debug.Log("can use ability ?");
-
-        if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
-        {
-            if (!IsAbilityInCooldown(ability))
-            {
-                Debug.Log("current ability cooldown 0");
-                //ActionPointsManager.instance.UseActionPoint(_playerTurn);
-                //SetAbilityCooldown(ability);
-                Debug.Log("can use ability");
-                return true;
-            }
-            else
-            {
-                Debug.Log("ability en cooldown");
-            }
-        }
-        else
-        {
-            Debug.Log("no action points and / or no room ability on target");
-        }
-            
-        
-        Debug.Log("can't use ability");
-        return false;
-    }
 
     #region Cooldown 
     public void SetAbilityCooldown(scriptablePower ability)
