@@ -19,7 +19,7 @@ public class ActionPointsManager : MonoBehaviour
 
     public void InitRoundActionPoints(int round) 
     {
-        int actionPoints = (1 + round / 3);
+        int actionPoints = (1 + (round - 1) / 3 );
         actionPoints = Mathf.Clamp(actionPoints, 0, 3);
 
         _player1ActionPoints = actionPoints;

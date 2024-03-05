@@ -12,6 +12,10 @@ public class UIManager : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] GameObject _gameCanvas;
 
+    [Header("Top & Bottom Game UI")]
+    [SerializeField] GameObject _enemyTop;
+    [SerializeField] GameObject _playerBottom;
+
     [Header("Debug Text")]
     [SerializeField] TMP_Text _currentPlayerTxt;
     [SerializeField] TMP_Text _currentModeTxt;
@@ -56,9 +60,10 @@ public class UIManager : MonoBehaviour
     [Header("Switch Ship")]
     [SerializeField] GameObject _switchShipButton;
 
-    [Header("Ability Bonus Images")]
+    [Header("Ability Bonus")]
     [SerializeField] Image _alternateShotDirectionImg;
     [SerializeField] Image _simpleHitX2Img;
+    [SerializeField] TMP_Text _probeCount;
 
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
@@ -83,19 +88,23 @@ public class UIManager : MonoBehaviour
         HideVictoryCanvas();
         HideSwitchShipButton();
         HideFireButton();
+        HideProbeCount();
+    }
+
+    public void HideProbeCount()
+    {
+        _probeCount.gameObject.SetActive(false);
+    }
+
+    public void ShowProbeCount(int count)
+    {
+        _probeCount.gameObject.SetActive(true);
+        _probeCount.text = count.ToString() + "/3";
     }
 
     public void CheckAlternateShotDirectionImgRotation()
     {
-        AlternateShotDirection _currentAlternateShotDirection;
-        if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
-            _currentAlternateShotDirection = AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer1;
-        }
-        else
-        {
-            _currentAlternateShotDirection = AbilityButtonsManager.instance.CurrentAlternateShotDirectionPlayer2;
-        }
+        AlternateShotDirection _currentAlternateShotDirection = AbilityButtonsManager.instance.GetCurrentPlayerAlternateShotDirection();
 
         if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
         {
@@ -152,11 +161,19 @@ public class UIManager : MonoBehaviour
     public void HideGameCanvas()
     {
         _gameCanvas.SetActive(false);
+        _playerBottom.SetActive(false);
+        _enemyTop.SetActive(false);
     }
 
     public void ShowGameCanvas()
     {
         _gameCanvas.SetActive(true);
+    }
+
+    public void StartGameCanvas()
+    {
+        _playerBottom.SetActive(true);
+        _enemyTop.SetActive(true);
     }
     #endregion
 
@@ -252,20 +269,20 @@ public class UIManager : MonoBehaviour
             {
                 if (button.IsSelected)
                 {
-                    button.GetComponent<Image>().color = new Color(0.34f, 0.54f, 77f);
+                    button.SelectedButtonUI();
                 }
                 else
                 {
-                    button.GetComponent<Image>().color = Color.white;
+                    button.OnlineAndCanBeUsedButtonUI();
                 }
             }
             else if (button.IsOffline)
             {
-                button.GetComponent<Image>().color = Color.red;
+                button.OfflineButtonUI();
             }
             else
             {
-                button.GetComponent<Image>().color = Color.gray;
+                button.OnlineAndCantBeUsedButtonUI();
             }
         }
     }

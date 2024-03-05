@@ -33,10 +33,15 @@ public class GameManager : MonoBehaviour
     [Header("Ships")]
     [SerializeField] List<Ship> _draftShipsPlayer1;
     [SerializeField] List<Ship> _draftShipsPlayer2;
+    [SerializeField] List<Ship> _rewindShipsPlayer1;
+    [SerializeField] List<Ship> _rewindShipsPlayer2;
     private List<Ship> _selectedDraftShips = new List<Ship>();
 
-    private Ship _gridPlayer1;
-    private Ship _gridPlayer2;
+    private Ship _shipPlayer1;
+    private Ship _shipPlayer2;
+
+    private Ship _rewindShipPlayer1;
+    private Ship _rewindShipPlayer2;
 
     [Header("Rooms")]
     [SerializeField] List<Room> _startVitalRooms = new List<Room>();
@@ -93,6 +98,12 @@ public class GameManager : MonoBehaviour
 
     private int _capacitorCooldownPlayer1;
     private int _capacitorCooldownPlayer2;
+
+    private int _upgradeShotCooldownPlayer1;
+    private int _upgradeShotCooldownPlayer2;
+
+    private int _probeCooldownPlayer1;
+    private int _probeCooldownPlayer2;
 
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
@@ -269,7 +280,7 @@ public class GameManager : MonoBehaviour
     private void InitGridDicts()
     {
         #region Player1Dict
-        foreach (Tile tile in _gridPlayer1.gameObject.GetComponentsInChildren<Tile>())
+        foreach (Tile tile in _shipPlayer1.gameObject.GetComponentsInChildren<Tile>())
         {
             _tilesPlayer1.Add(tile);
             int row = tile.Row;
@@ -338,7 +349,7 @@ public class GameManager : MonoBehaviour
         #endregion
 
         #region Player2Dict
-        foreach (Tile tile in _gridPlayer2.GetComponentsInChildren<Tile>())
+        foreach (Tile tile in _shipPlayer2.GetComponentsInChildren<Tile>())
         {
             _tilesPlayer2.Add(tile);
             int row = tile.Row;
@@ -412,6 +423,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("select draft ship " + ship.ShipData.name);
         if (_playerTurn == Player.Player1)
         {
+            // Player Ship
             foreach(Ship shipP1 in _draftShipsPlayer1)
             {
                 Debug.Log(shipP1.name);
@@ -419,7 +431,7 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("active " + shipP1.name);
                     shipP1.gameObject.SetActive(true);
-                    _gridPlayer1 = shipP1;
+                    _shipPlayer1 = shipP1;
                 }
                 else
                 {
@@ -427,19 +439,56 @@ public class GameManager : MonoBehaviour
                     shipP1.gameObject.SetActive(false);
                 } 
             }   
+
+            // Player Ship Rewind
+            foreach (Ship shipP1 in _rewindShipsPlayer1)
+            {
+                Debug.Log(shipP1.name);
+                if (shipP1.ShipData == ship.ShipData)
+                {
+                    Debug.Log("active rewind " + shipP1.name);
+                    shipP1.gameObject.SetActive(true);
+                    _shipPlayer1 = shipP1;
+                }
+                else
+                {
+                    Debug.Log("inactive rewind" + shipP1.name);
+                    shipP1.gameObject.SetActive(false);
+                }
+            }
         }
         else
         {
+            // Player Ship
             foreach (Ship shipP2 in _draftShipsPlayer2)
             {
                 if (shipP2.ShipData == ship.ShipData)
                 {
+                    Debug.Log("active " + shipP2.name);
                     shipP2.gameObject.SetActive(true);
-                    _gridPlayer2 = shipP2;
+                    _shipPlayer2 = shipP2;
                 }
                 else
                 {
+                    Debug.Log("inactive " + shipP2.name);
                     shipP2.gameObject.SetActive(false);
+                }
+            }
+
+            // Player Ship Rewind
+            foreach (Ship shipP1 in _rewindShipsPlayer2)
+            {
+                Debug.Log(shipP1.name);
+                if (shipP1.ShipData == ship.ShipData)
+                {
+                    Debug.Log("active rewind " + shipP1.name);
+                    shipP1.gameObject.SetActive(true);
+                    _shipPlayer1 = shipP1;
+                }
+                else
+                {
+                    Debug.Log("inactive rewind " + shipP1.name);
+                    shipP1.gameObject.SetActive(false);
                 }
             }
         }
@@ -472,11 +521,11 @@ public class GameManager : MonoBehaviour
     {
         if (_playerTurn == Player.Player1)
         {
-            return _gridPlayer1;
+            return _shipPlayer1;
         }
         else
         {
-            return _gridPlayer2;
+            return _shipPlayer2;
         }
     }
 
@@ -1275,6 +1324,34 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
+                case ("Upgrade Shot"):
+                    _upgradeShotCooldownPlayer1 = 0;
+                    _upgradeShotCooldownPlayer2 = 0;
+
+                    for(int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "UpgradeShot")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found upgrade shot button");
+                            break;
+                        }
+                    }
+                    break;
+                case ("Probe"):
+                    _probeCooldownPlayer1 = 0;
+                    _probeCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "Probe")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found probe button");
+                            break;
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -1296,7 +1373,7 @@ public class GameManager : MonoBehaviour
                     {
                         if (room.RoomData.name != "SimpleHit")
                         {
-                            Debug.Log("room inactive");
+                            Debug.Log("room inactive" + room.RoomData.RoomAbility.name);
                             room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOffline();
                         }
                     }
@@ -1305,6 +1382,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (room.RoomData.RoomAbility != null)
                     {
+                        Debug.Log("room active" + room.RoomData.RoomAbility.name);
                         room.RoomData.RoomAbility.AbilityButton.GetComponentInChildren<AbilityButton>().SetOnline();
                     }
                 }
@@ -1540,6 +1618,8 @@ public class GameManager : MonoBehaviour
             //SetRoundTargetPos();
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
             UIManager.instance.CheckSimpleHitX2Img();
+            AbilityButtonsManager.instance.ResetCurrentProbeCount();
+            AbilityButtonsManager.instance.Rewind();
         }
 
         if (_currentMode == Mode.Draft)
@@ -1561,11 +1641,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("set round target pos");
         if (_playerTurn == Player.Player1)
         {
-            CheckTileClickedInCombat(_gridPlayer2.StartRoundTargetTile);
+            CheckTileClickedInCombat(_shipPlayer2.StartRoundTargetTile);
         }
         else
         {
-            CheckTileClickedInCombat(_gridPlayer1.StartRoundTargetTile);
+            CheckTileClickedInCombat(_shipPlayer1.StartRoundTargetTile);
         }
 
     }
@@ -1616,6 +1696,8 @@ public class GameManager : MonoBehaviour
             UIManager.instance.ShowShitchShipButton();
             //SetRoundTargetPos();
             UIManager.instance.CheckSimpleHitX2Img();
+            AbilityButtonsManager.instance.ResetCurrentProbeCount();
+            UIManager.instance.StartGameCanvas();
         }
         else if (_currentMode == Mode.Draft)
         {
@@ -1745,7 +1827,26 @@ public class GameManager : MonoBehaviour
                     _capacitorCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
-
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _upgradeShotCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _upgradeShotCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _probeCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _probeCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
         }
     }
 
@@ -1813,6 +1914,26 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     _capacitorCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _upgradeShotCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _upgradeShotCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _probeCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _probeCooldownPlayer1 += 2;
                 }
                 break;
         }
@@ -1922,6 +2043,38 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_upgradeShotCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_upgradeShotCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_probeCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_probeCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
         }
 
         return true;
@@ -1945,6 +2098,7 @@ public class GameManager : MonoBehaviour
             _alternateShotCooldownPlayer1 = (int)Mathf.Clamp(_alternateShotCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _scannerCooldownPlayer1 = (int)Mathf.Clamp(_scannerCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _capacitorCooldownPlayer1 = (int)Mathf.Clamp(_capacitorCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _upgradeShotCooldownPlayer1 = (int)Mathf.Clamp(_upgradeShotCooldownPlayer1 - amount, 0, Mathf.Infinity);
         }
         else
         {
@@ -1954,6 +2108,7 @@ public class GameManager : MonoBehaviour
             _alternateShotCooldownPlayer2 = (int)Mathf.Clamp(_alternateShotCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _scannerCooldownPlayer2 = (int)Mathf.Clamp(_scannerCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _capacitorCooldownPlayer2 = (int)Mathf.Clamp(_capacitorCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _upgradeShotCooldownPlayer2 = (int)Mathf.Clamp(_upgradeShotCooldownPlayer2 - amount, 0, Mathf.Infinity);
         }
 
         AbilityButtonsManager.instance.UpdateAllAbilityButtonsCooldown();
@@ -2018,6 +2173,24 @@ public class GameManager : MonoBehaviour
                 {
                     return _capacitorCooldownPlayer2;
                 }
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _upgradeShotCooldownPlayer1;
+                }
+                else
+                {
+                    return _upgradeShotCooldownPlayer2;
+                }
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _probeCooldownPlayer1;
+                }
+                else
+                {
+                    return _probeCooldownPlayer2;
+                }
         }
 
         return 0;
@@ -2080,6 +2253,24 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _capacitorCooldownPlayer1;
+                }
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _upgradeShotCooldownPlayer2;
+                }
+                else
+                {
+                    return _upgradeShotCooldownPlayer1;
+                }
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _probeCooldownPlayer2;
+                }
+                else
+                {
+                    return _probeCooldownPlayer1;
                 }
         }
 

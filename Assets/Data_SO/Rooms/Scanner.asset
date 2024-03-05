@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoomName: Scanner Room
   RoomIcon: {fileID: 21300000, guid: 2fdd370faa937d040a48afb171d69950, type: 3}
-  RoomPatternImg: {fileID: 21300000, guid: eaeac806aa0c9fc4d97eee237c2c2536, type: 3}
+  RoomPatternImg: {fileID: 21300000, guid: 7c46f2531180f08469f33348b65d13de, type: 3}
   RoomAbility: {fileID: 11400000, guid: 993472abdb09cc74f9e20c5c45af4fa5, type: 2}
   IsVital: 0
