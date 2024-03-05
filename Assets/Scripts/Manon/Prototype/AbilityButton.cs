@@ -146,7 +146,7 @@ public class AbilityButton : MonoBehaviour
 
         if (cooldown > 0)
         {
-            _image.color = Color.gray;
+            //_image.color = Color.gray;
 
             if (_button != null)
             {
@@ -159,7 +159,7 @@ public class AbilityButton : MonoBehaviour
         }
         else
         {
-            _image.color = Color.white;
+            //_image.color = Color.white;
             if (GetComponent<Button>() == null)
             {
                 _button = gameObject.AddComponent<Button>();
