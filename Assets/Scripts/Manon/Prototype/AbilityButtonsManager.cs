@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public enum AlternateShotDirection
 {
@@ -71,7 +72,8 @@ public class AbilityButtonsManager : MonoBehaviour
             _abilitiesButtons.Add(button.GetComponentInChildren<AbilityButton>());
         }
     }
-    
+
+    #region Rewind
     public void Rewind()
     {
         UpdateRoomsRewind();
@@ -162,38 +164,49 @@ public class AbilityButtonsManager : MonoBehaviour
         switch (actionName)
         {
             case ("AlternateShot"):
-                UseAlternateShot();
+                AlternateShot_Action();
                 break;
             case ("SimpleHit"):
-                DestroyRoom(_target);
-                
+                SimpleHit_Action();
                 break;
             case ("SimpleReveal"):
-                RevealRoom(_target);
+                SimpleReveal_Action();
                 break;
             case ("EMP"):
-                UseEMP();
+                EMP_Action();
                 break;
             case ("Scanner"):
-                UseScanner();
+                Scanner_Action();
                 break;
             case ("TimeAccelerator"):
-                UseTimeAccelerator();
+                //UseTimeAccelerator();
                 break;
             case ("Capacitor"):
-                UseCapacitor();
+                //UseCapacitor();
                 break;
             case ("UpgradeShot"):
-                UseUpgradeShot();
+                UpgradeShot_Action();
                 break;
             case ("Probe"):
-                UseProbe();
+                StartCoroutine(ProbeRewind(targetsOnRewind));
                 break;
         }
 
         UpdateRoomsRewind();
     }
 
+    private IEnumerator ProbeRewind(List<Tile> targets)
+    {
+        foreach (Tile target in targets) // 3 Clicks pour reveal
+        {
+            _target = target;
+            Probe_Action();
+            yield return new WaitForSeconds(0.4f);
+        }
+    }
+    #endregion
+
+    #region Update & Reset
     public void UpdateAllAbilityButtonsCooldown()
     {
         Debug.Log("update all ability buttons cooldown");
@@ -224,7 +237,9 @@ public class AbilityButtonsManager : MonoBehaviour
                 _lastRoundActionsPlayer2.Clear();
         }
     }
+    #endregion
 
+    #region Select / Deselect
     public void SelectAbilityButton(AbilityButton button)
     {
         Debug.Log("select ability button");
@@ -323,9 +338,72 @@ public class AbilityButtonsManager : MonoBehaviour
         _selectedTiles.Clear();
     }
 
-    #region Selections
+    private void SelectOnlyTargetTile()
+    {
+        if (_selectedTiles != null)
+        {
+            DeselectAbilityTiles();
+            _selectedTiles.Clear();
+        }
 
-    #region Scanner Selection
+        _target.IsAbilitySelected = true;
+        _selectedTiles.Add(_target);
+    }
+    #endregion
+
+    #region Get Ability Buttons or Selected Button
+    public List<GameObject> GetAbilityButtonsList()
+    {
+        return _abilitiesButtonsGameObjects;
+    }
+
+    public AbilityButton GetCurrentlySelectedAbilityButton()
+    {
+        return _selectedButton;
+    }
+    #endregion
+
+    #region Use Ability
+    public void UseSelectedAbility()
+    {
+        switch (_selectedButton.GetAbility().name)
+        {
+            case ("AlternateShot"):
+                UseAlternateShot();
+                break;
+            case ("SimpleHit"):
+                UseSimpleHit();
+                break;
+            case ("SimpleReveal"):
+                UseSimpleReveal();
+                break;
+            case ("EMP"):
+                UseEMP();
+                break;
+            case ("Scanner"):
+                UseScanner();
+                break;
+            case ("TimeAccelerator"):
+                UseTimeAccelerator();
+                break;
+            case ("Capacitor"):
+                UseCapacitor();
+                break;
+            case ("UpgradeShot"):
+                UseUpgradeShot();
+                break;
+            case ("Probe"):
+                UseProbe();
+                break;
+        }
+
+        if (_selectedButton.GetAbility().name != "Probe")
+            DeselectAbilityButton(_selectedButton);
+    }
+    #endregion
+
+    #region Scanner
+    // Selection
     private void Scanner_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles scanner");
@@ -379,9 +457,104 @@ public class AbilityButtonsManager : MonoBehaviour
         }
         #endregion
     }
+
+    // Use
+    private void UseScanner()
+    {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles.Count > 0)
+            _currentActionTargetTiles.Clear(); ;
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("Scanner");
+        // ----- REWIND ----- //
+
+        _selectedButton.SetCooldown();
+        ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
+
+        DesactivateSimpleHitX2IfActivated();
+
+        Scanner_Action();
+
+        if (_target.IsOccupied)
+        {
+            UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
+        }
+        else
+        {
+            GameManager.instance.TargetOnTile.IsMissed = true;
+
+            UIManager.instance.HideFicheRoom();
+        }
+
+        UpdateHiddenRooms();
+        UIManager.instance.CheckAbilityButtonsColor();
+    }
+
+    private void Scanner_Action()
+    {
+        #region Top
+        // Top
+        bool canGoTop = true;
+        Tile currentTile = _target;
+        while (canGoTop)
+        {
+            if (currentTile.TopTile != null)
+            {
+                RevealRoom(currentTile.TopTile);
+
+                currentTile = currentTile.TopTile;
+            }
+            else
+            {
+                canGoTop = false;
+            }
+        }
+        #endregion 
+
+        #region Bottom
+        // Bottom
+        bool canGoBottom = true;
+        currentTile = _target;
+        while (canGoBottom)
+        {
+            if (currentTile.BottomTile != null)
+            {
+                RevealRoom(currentTile.BottomTile);
+
+                currentTile = currentTile.BottomTile;
+            }
+            else
+            {
+                canGoBottom = false;
+            }
+        }
+        #endregion
+
+        // Center
+        RevealRoom(_target);
+    }
     #endregion
 
-    #region EMP Selection
+    #region Capacitor
+    private void UseCapacitor()
+    {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles.Count > 0)
+            _currentActionTargetTiles.Clear();
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("Capacitor");
+        // ----- REWIND ----- //
+
+        _selectedButton.SetCooldown();
+        ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
+
+        ActivateSimpleHitX2();
+        UIManager.instance.CheckAbilityButtonsColor();
+    }
+    #endregion
+
+    #region EMP
+    // Selection
     private void EMP_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles emp");
@@ -455,416 +628,8 @@ public class AbilityButtonsManager : MonoBehaviour
         }
         #endregion
     }
-    #endregion
 
-    #region Alternate Shot Selection
-    private void AlternateShot_SelectAbilityTiles()
-    {
-        Debug.Log("select ability tiles alternate shot");
-        if (_selectedTiles != null)
-        {
-            DeselectAbilityTiles();
-            _selectedTiles.Clear();
-        }
-
-        _currentAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
-
-        if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
-        {
-            if (_target.LeftTile != null)
-            {
-                _target.LeftTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.LeftTile);
-            }
-
-            if (_target.RightTile != null)
-            {
-                _target.RightTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.RightTile);
-            }
-        }
-        else
-        {
-            if (_target.TopTile != null)
-            {
-                _target.TopTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.TopTile);
-            }
-
-            if (_target.BottomTile != null)
-            {
-                _target.BottomTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.BottomTile);
-            }
-        }
-    }
-    #endregion
-
-    #region Simple Hit & Reveal + Probe selection
-    private void SimpleHit_SelectAbilityTiles()
-    {
-        Debug.Log("select ability tiles simple hit");
-
-        if (GetIfSimpleHitXS())
-        {
-            Debug.Log("simple hit x2 selection");
-
-            if (_selectedTiles != null)
-            {
-                DeselectAbilityTiles();
-                _selectedTiles.Clear();
-            }
-
-            _target.IsAbilitySelected = true;
-            _selectedTiles.Add(_target);
-
-            // right
-            if (_target.RightTile != null)
-            {
-                _target.RightTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.RightTile);
-            }
-
-            // bottom
-            if (_target.BottomTile != null)
-            {
-                _target.BottomTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.BottomTile);
-            }
-
-            // diag bottom right
-            if (_target.DiagBottomRightTile != null)
-            {
-                _target.DiagBottomRightTile.IsAbilitySelected = true;
-                _selectedTiles.Add(_target.DiagBottomRightTile);
-            }
-        }
-        else
-        {
-            SelectOnlyTargetTile();
-        }
-    }
-
-    private void SimpleReveal_SelectAbilityTiles()
-    {
-        Debug.Log("select ability tiles simple reveal");
-        SelectOnlyTargetTile();
-    }
-
-    private void Probe_SelectAbilityTiles()
-    {
-        Debug.Log("select ability tiles probe");
-        SelectOnlyTargetTile();
-    }
-
-    private void SelectOnlyTargetTile()
-    {
-        if (_selectedTiles != null)
-        {
-            DeselectAbilityTiles();
-            _selectedTiles.Clear();
-        }
-
-        _target.IsAbilitySelected = true;
-        _selectedTiles.Add(_target);
-    }
-    #endregion
-
-    #region Upgrade Shot
-    private void UpgradeShot_SelectAbilityTiles()
-    {
-        Debug.Log("select ability tiles upgrade shot");
-        if (_selectedTiles != null)
-        {
-            DeselectAbilityTiles();
-            _selectedTiles.Clear();
-        }
-
-        _currentUpgradeShotStep = GetCurrentPlayerUpgradeShotStep();
-
-        switch (_currentUpgradeShotStep)
-        {
-            case (UpgradeShotStep.RevealOneTile):
-                _target.IsAbilitySelected = true;
-                _selectedTiles.Add(_target);
-                break;
-            case (UpgradeShotStep.DestroyOneTile):
-                _target.IsAbilitySelected = true;
-                _selectedTiles.Add(_target);
-                break;
-            case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
-
-                if (_target.DiagTopLeftTile != null)
-                {
-                    _target.DiagTopLeftTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.DiagTopLeftTile);
-                }
-
-                if (_target.DiagBottomRightTile != null)
-                {
-                    _target.DiagBottomRightTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.DiagBottomRightTile);
-                }
-
-                _target.IsAbilitySelected = true;
-                _selectedTiles.Add(_target);
-                break;
-            case (UpgradeShotStep.DestroyFiveTilesInCross):
-
-                if (_target.LeftTile != null)
-                {
-                    _target.LeftTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.LeftTile);
-                }
-
-                if (_target.RightTile != null)
-                {
-                    _target.RightTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.RightTile);
-                }
-
-                if (_target.TopTile != null)
-                {
-                    _target.TopTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.TopTile);
-                }
-
-                if (_target.BottomTile != null)
-                {
-                    _target.BottomTile.IsAbilitySelected = true;
-                    _selectedTiles.Add(_target.BottomTile);
-                }
-
-                _target.IsAbilitySelected = true;
-                _selectedTiles.Add(_target);
-                break;
-        }
-    }
-    #endregion
-
-    #endregion
-
-    #region Use Abilities
-
-    public List<GameObject> GetAbilityButtonsList()
-    {
-        return _abilitiesButtonsGameObjects;
-    }
-
-    public AbilityButton GetCurrentlySelectedAbilityButton()
-    {
-        return _selectedButton;
-    }
-
-    #region Simple Hit X2
-    public void ActivateSimpleHitX2()
-    {
-        Debug.Log("activate simplte hit x2");
-        if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
-            _simpleHitX2Player1 = true;
-        }
-        else 
-        {
-            _simpleHitX2Player2 = true;
-        }
-
-        UIManager.instance.CheckSimpleHitX2Img();
-    }
-
-    public void DesactivateSimpleHitX2IfActivated()
-    {
-        if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
-            if (_simpleHitX2Player1)
-            {
-                _simpleHitX2Player1 = false;
-            }
-        }
-        else
-        {
-            if (_simpleHitX2Player2)
-            {
-                _simpleHitX2Player2 = false;
-            }
-        }
-
-        UIManager.instance.CheckSimpleHitX2Img();
-    }
-
-    public bool GetIfSimpleHitXS()
-    {
-        if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
-            return _simpleHitX2Player1;
-        }
-        else
-        {
-            return _simpleHitX2Player2;
-        }
-    }
-    #endregion
-
-    public void UseSelectedAbility()
-    {
-        switch (_selectedButton.GetAbility().name)
-        {
-            case ("AlternateShot"):
-                UseAlternateShot();
-                break;
-            case ("SimpleHit"):
-                UseSimpleHit();
-                break;
-            case ("SimpleReveal"):
-                UseSimpleReveal();
-                break;
-            case ("EMP"):
-                UseEMP();
-                break;
-            case ("Scanner"):
-                UseScanner();
-                break;
-            case ("TimeAccelerator"):
-                UseTimeAccelerator();
-                break;
-            case ("Capacitor"):
-                UseCapacitor();
-                break;
-            case ("UpgradeShot"):
-                UseUpgradeShot();
-                break;
-            case ("Probe"):
-                UseProbe();
-                break;
-        }
-
-        if (_selectedButton.GetAbility().name != "Probe")
-            DeselectAbilityButton(_selectedButton);
-    }
-
-    private void UseExample()
-    {
-        // ----- REWIND ----- //
-        _currentActionTargetTiles.Clear();
-        _currentActionTargetTiles.Add(_target);
-        AddActionToCurrentPlayerRound("Example");
-        // ----- REWIND ----- //
-        _selectedButton.SetCooldown();
-        ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
-
-        DesactivateSimpleHitX2IfActivated();
-
-        // code
-
-        UpdateHiddenRooms(); // si destroy ou reveal 
-        UIManager.instance.CheckAbilityButtonsColor();
-    }
-
-    #region Scanner
-    private void UseScanner()
-    {
-        // ----- REWIND ----- //
-        if (_currentActionTargetTiles.Count > 0)
-            _currentActionTargetTiles.Clear(); ;
-        _currentActionTargetTiles.Add(_target);
-        AddActionToCurrentPlayerRound("Scanner");
-        // ----- REWIND ----- //
-
-        _selectedButton.SetCooldown();
-        ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
-
-        DesactivateSimpleHitX2IfActivated();
-
-        #region Top
-        // Top
-        bool canGoTop = true;
-        Tile currentTile = _target;
-        while (canGoTop)
-        {
-            if (currentTile.TopTile != null)
-            {
-                if (currentTile.TopTile.IsOccupied)
-                {
-                    currentTile.TopTile.IsReavealed = true;
-                }
-                else
-                {
-                    currentTile.TopTile.IsMissed = true;
-                }
-
-                currentTile = currentTile.TopTile;
-            }
-            else
-            {
-                canGoTop = false;
-            }
-        }
-        #endregion 
-
-        #region Bottom
-        // Bottom
-        bool canGoBottom = true;
-        currentTile = _target;
-        while (canGoBottom)
-        {
-            if (currentTile.BottomTile != null)
-            {
-                if (currentTile.BottomTile.IsOccupied)
-                {
-                    currentTile.BottomTile.IsReavealed = true;
-                }
-                else
-                {
-                    currentTile.BottomTile.IsMissed = true;
-                }
-
-                currentTile = currentTile.BottomTile;
-            }
-            else
-            {
-                canGoBottom = false;
-            }
-        }
-        #endregion
-
-        // Center
-        _target.IsReavealed = true;
-
-        if (_target.IsOccupied)
-        {
-            UIManager.instance.ShowFicheRoom(GameManager.instance.TargetOnTile.Room.RoomData);
-        }
-        else
-        {
-            GameManager.instance.TargetOnTile.IsMissed = true;
-
-            UIManager.instance.HideFicheRoom();
-        }
-
-        UpdateHiddenRooms();
-        UIManager.instance.CheckAbilityButtonsColor();
-    }
-    #endregion
-
-    #region Capacitor
-    private void UseCapacitor()
-    {
-        // ----- REWIND ----- //
-        if (_currentActionTargetTiles.Count > 0)
-            _currentActionTargetTiles.Clear();
-        _currentActionTargetTiles.Add(_target);
-        AddActionToCurrentPlayerRound("Capacitor");
-        // ----- REWIND ----- //
-
-        _selectedButton.SetCooldown();
-        ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
-
-        ActivateSimpleHitX2();
-        UIManager.instance.CheckAbilityButtonsColor();
-    }
-    #endregion
-
-    #region EMP
+    // Use
     private void UseEMP()
     {
         // ----- REWIND ----- //
@@ -879,6 +644,14 @@ public class AbilityButtonsManager : MonoBehaviour
 
         DesactivateSimpleHitX2IfActivated();
 
+        EMP_Action();
+
+        UpdateHiddenRooms();
+        UIManager.instance.CheckAbilityButtonsColor();
+    }
+
+    private void EMP_Action()
+    {
         DestroyRoom(_target);
 
         // Desactivate for one turn room's abilities around the target (+1 cooldown)
@@ -996,13 +769,56 @@ public class AbilityButtonsManager : MonoBehaviour
                 }
             }
         }
-
-        UpdateHiddenRooms();
-        UIManager.instance.CheckAbilityButtonsColor();
     }
     #endregion
 
     #region Simple Hit
+    // Selection
+    private void SimpleHit_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles simple hit");
+
+        if (GetIfSimpleHitXS())
+        {
+            Debug.Log("simple hit x2 selection");
+
+            if (_selectedTiles != null)
+            {
+                DeselectAbilityTiles();
+                _selectedTiles.Clear();
+            }
+
+            _target.IsAbilitySelected = true;
+            _selectedTiles.Add(_target);
+
+            // right
+            if (_target.RightTile != null)
+            {
+                _target.RightTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.RightTile);
+            }
+
+            // bottom
+            if (_target.BottomTile != null)
+            {
+                _target.BottomTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.BottomTile);
+            }
+
+            // diag bottom right
+            if (_target.DiagBottomRightTile != null)
+            {
+                _target.DiagBottomRightTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.DiagBottomRightTile);
+            }
+        }
+        else
+        {
+            SelectOnlyTargetTile();
+        }
+    }
+
+    // Use
     private void UseSimpleHit()
     {
         // ----- REWIND ----- //
@@ -1016,8 +832,6 @@ public class AbilityButtonsManager : MonoBehaviour
 
         DesactivateSimpleHitX2IfActivated();
 
-        DestroyRoom(_target);
-
         TargetController.instance.ChangeTargetColorToRed();
 
         if (GetIfSimpleHitXS())
@@ -1025,37 +839,105 @@ public class AbilityButtonsManager : MonoBehaviour
             Debug.Log("simple hit x2");
             AddActionToCurrentPlayerRound("SimpleHitX2");
 
-            // Try destroy right
-            if (_target.RightTile != null)
-            {
-                DestroyRoom(_target.RightTile);
-            }
-
-            // Try destroy bottom
-            if (_target.BottomTile != null)
-            {
-                DestroyRoom(_target.BottomTile);
-            }
-
-            // Try destroy diag bottom right
-            if (_target.DiagBottomRightTile != null)
-            {
-                DestroyRoom(_target.DiagBottomRightTile);
-            }
+            SimpleHitX2_Action();
 
             DesactivateSimpleHitX2IfActivated();
         }
         else
         {
             AddActionToCurrentPlayerRound("SimpleHit");
+            SimpleHit_Action();
         }
 
         UpdateHiddenRooms(); 
         UIManager.instance.CheckAbilityButtonsColor();
     }
+
+    private void SimpleHit_Action()
+    {
+        DestroyRoom(_target);
+    }
+
+    private void SimpleHitX2_Action()
+    {
+        DestroyRoom(_target);
+
+        // Try destroy right
+        if (_target.RightTile != null)
+        {
+            DestroyRoom(_target.RightTile);
+        }
+
+        // Try destroy bottom
+        if (_target.BottomTile != null)
+        {
+            DestroyRoom(_target.BottomTile);
+        }
+
+        // Try destroy diag bottom right
+        if (_target.DiagBottomRightTile != null)
+        {
+            DestroyRoom(_target.DiagBottomRightTile);
+        }
+    }
+
+    public void ActivateSimpleHitX2()
+    {
+        Debug.Log("activate simplte hit x2");
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            _simpleHitX2Player1 = true;
+        }
+        else
+        {
+            _simpleHitX2Player2 = true;
+        }
+
+        UIManager.instance.CheckSimpleHitX2Img();
+    }
+
+    public void DesactivateSimpleHitX2IfActivated()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            if (_simpleHitX2Player1)
+            {
+                _simpleHitX2Player1 = false;
+            }
+        }
+        else
+        {
+            if (_simpleHitX2Player2)
+            {
+                _simpleHitX2Player2 = false;
+            }
+        }
+
+        UIManager.instance.CheckSimpleHitX2Img();
+    }
+
+    public bool GetIfSimpleHitXS()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            return _simpleHitX2Player1;
+        }
+        else
+        {
+            return _simpleHitX2Player2;
+        }
+    }
     #endregion
 
     #region Simple Reveal
+    // Selection
+    private void SimpleReveal_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles simple reveal");
+        SelectOnlyTargetTile();
+    }
+
+    // Use
     private void UseSimpleReveal()
     {
         // ----- REWIND ----- //
@@ -1070,14 +952,62 @@ public class AbilityButtonsManager : MonoBehaviour
 
         DesactivateSimpleHitX2IfActivated();
 
-        RevealRoom(_target);
+        SimpleReveal_Action();
 
         UpdateHiddenRooms(); // si destroy ou reveal 
         UIManager.instance.CheckAbilityButtonsColor();
     }
+
+    private void SimpleReveal_Action()
+    {
+        RevealRoom(_target);
+    }
     #endregion
 
     #region Alternate Shot
+    // Selection
+    private void AlternateShot_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles alternate shot");
+        if (_selectedTiles != null)
+        {
+            DeselectAbilityTiles();
+            _selectedTiles.Clear();
+        }
+
+        _currentAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
+
+        if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
+        {
+            if (_target.LeftTile != null)
+            {
+                _target.LeftTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.LeftTile);
+            }
+
+            if (_target.RightTile != null)
+            {
+                _target.RightTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.RightTile);
+            }
+        }
+        else
+        {
+            if (_target.TopTile != null)
+            {
+                _target.TopTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.TopTile);
+            }
+
+            if (_target.BottomTile != null)
+            {
+                _target.BottomTile.IsAbilitySelected = true;
+                _selectedTiles.Add(_target.BottomTile);
+            }
+        }
+    }
+
+    // Use
     private void UseAlternateShot()
     {
         // ----- REWIND ----- //
@@ -1095,30 +1025,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
         _currentAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
 
-        if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
-        {
-            if (_target.LeftTile != null)
-            {
-                DestroyRoom(_target.LeftTile);
-            }
-
-            if (_target.RightTile != null)
-            {
-                DestroyRoom(_target.RightTile);
-            }
-        }
-        else
-        {
-            if (_target.TopTile != null)
-            {
-                DestroyRoom(_target.TopTile);
-            }
-
-            if (_target.BottomTile != null)
-            {
-                DestroyRoom(_target.BottomTile);
-            }
-        }
+        AlternateShot_Action();
 
         DestroyRoom(_target);
 
@@ -1126,6 +1033,29 @@ public class AbilityButtonsManager : MonoBehaviour
 
         UpdateHiddenRooms(); // si destroy ou reveal 
         UIManager.instance.CheckAbilityButtonsColor();
+    }
+
+    private void AlternateShot_Action()
+    {
+        // current pas changé après utilisation -> donc ancien
+        if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
+        {
+            if (_target.LeftTile != null)
+                DestroyRoom(_target.LeftTile);
+
+            if (_target.RightTile != null)
+                DestroyRoom(_target.RightTile);
+        }
+        else
+        {
+            if (_target.TopTile != null)
+                DestroyRoom(_target.TopTile);
+
+            if (_target.BottomTile != null)
+                DestroyRoom(_target.BottomTile);
+        }
+
+        DestroyRoom(_target);
     }
 
     private void AddActionToCurrentPlayerRound(string actionName)
@@ -1157,33 +1087,25 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void ChangeAlternateShotDirection()
     {
-        _currentAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
+        AlternateShotDirection _tempAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
 
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
-            if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
-            {
-                _currentAlternateShotDirection = AlternateShotDirection.Vertical;
-            }
+            if (_tempAlternateShotDirection == AlternateShotDirection.Horizontal)
+                _tempAlternateShotDirection = AlternateShotDirection.Vertical;
             else
-            {
-                _currentAlternateShotDirection = AlternateShotDirection.Horizontal;
-            }
+                _tempAlternateShotDirection = AlternateShotDirection.Horizontal;
 
-            _currentAlternateShotDirectionPlayer1 = _currentAlternateShotDirection;
+            _currentAlternateShotDirectionPlayer1 = _tempAlternateShotDirection;
         }
         else
         {
-            if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
-            {
-                _currentAlternateShotDirection = AlternateShotDirection.Vertical;
-            }
+            if (_tempAlternateShotDirection == AlternateShotDirection.Horizontal)
+                _tempAlternateShotDirection = AlternateShotDirection.Vertical;
             else
-            {
-                _currentAlternateShotDirection = AlternateShotDirection.Horizontal;
-            }
+                _tempAlternateShotDirection = AlternateShotDirection.Horizontal;
 
-            _currentAlternateShotDirectionPlayer2 = _currentAlternateShotDirection;
+            _currentAlternateShotDirectionPlayer2 = _tempAlternateShotDirection;
         }
 
         UIManager.instance.CheckAlternateShotDirectionImgRotation();
@@ -1213,6 +1135,78 @@ public class AbilityButtonsManager : MonoBehaviour
     #endregion
 
     #region Upgrade Shot
+    // Selection
+    private void UpgradeShot_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles upgrade shot");
+        if (_selectedTiles != null)
+        {
+            DeselectAbilityTiles();
+            _selectedTiles.Clear();
+        }
+
+        _currentUpgradeShotStep = GetCurrentPlayerUpgradeShotStep();
+
+        switch (_currentUpgradeShotStep)
+        {
+            case (UpgradeShotStep.RevealOneTile):
+                _target.IsAbilitySelected = true;
+                _selectedTiles.Add(_target);
+                break;
+            case (UpgradeShotStep.DestroyOneTile):
+                _target.IsAbilitySelected = true;
+                _selectedTiles.Add(_target);
+                break;
+            case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
+
+                if (_target.DiagTopLeftTile != null)
+                {
+                    _target.DiagTopLeftTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.DiagTopLeftTile);
+                }
+
+                if (_target.DiagBottomRightTile != null)
+                {
+                    _target.DiagBottomRightTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.DiagBottomRightTile);
+                }
+
+                _target.IsAbilitySelected = true;
+                _selectedTiles.Add(_target);
+                break;
+            case (UpgradeShotStep.DestroyFiveTilesInCross):
+
+                if (_target.LeftTile != null)
+                {
+                    _target.LeftTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.LeftTile);
+                }
+
+                if (_target.RightTile != null)
+                {
+                    _target.RightTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.RightTile);
+                }
+
+                if (_target.TopTile != null)
+                {
+                    _target.TopTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.TopTile);
+                }
+
+                if (_target.BottomTile != null)
+                {
+                    _target.BottomTile.IsAbilitySelected = true;
+                    _selectedTiles.Add(_target.BottomTile);
+                }
+
+                _target.IsAbilitySelected = true;
+                _selectedTiles.Add(_target);
+                break;
+        }
+    }
+
+    // Use
     private void UseUpgradeShot()
     {
         // ----- REWIND ----- //
@@ -1229,6 +1223,16 @@ public class AbilityButtonsManager : MonoBehaviour
 
         _currentUpgradeShotStep = GetCurrentPlayerUpgradeShotStep();
 
+        UpgradeShot_Action();
+
+        ChangeUpgradeShotStep();
+
+        UpdateHiddenRooms(); 
+        UIManager.instance.CheckAbilityButtonsColor();
+    }
+
+    private void UpgradeShot_Action()
+    {
         switch (_currentUpgradeShotStep)
         {
             case (UpgradeShotStep.RevealOneTile):
@@ -1276,11 +1280,6 @@ public class AbilityButtonsManager : MonoBehaviour
                 DestroyRoom(_target);
                 break;
         }
-
-        ChangeUpgradeShotStep();
-
-        UpdateHiddenRooms(); 
-        UIManager.instance.CheckAbilityButtonsColor();
     }
 
     private UpgradeShotStep GetCurrentPlayerUpgradeShotStep()
@@ -1297,43 +1296,43 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void ChangeUpgradeShotStep()
     {
-        _currentUpgradeShotStep = GetCurrentPlayerUpgradeShotStep();
+        UpgradeShotStep _tempUpgradeShotStep = GetCurrentPlayerUpgradeShotStep();
 
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
-            if (_currentUpgradeShotStep == UpgradeShotStep.RevealOneTile)
+            if (_tempUpgradeShotStep == UpgradeShotStep.RevealOneTile)
             {
-                _currentUpgradeShotStep = UpgradeShotStep.DestroyOneTile;
+                _tempUpgradeShotStep = UpgradeShotStep.DestroyOneTile;
             }
-            else if (_currentUpgradeShotStep == UpgradeShotStep.DestroyOneTile)
+            else if (_tempUpgradeShotStep == UpgradeShotStep.DestroyOneTile)
             {
-                _currentUpgradeShotStep = UpgradeShotStep.DestroyThreeTilesInDiagonal;
+                _tempUpgradeShotStep = UpgradeShotStep.DestroyThreeTilesInDiagonal;
             }
-            else if (_currentUpgradeShotStep == UpgradeShotStep.DestroyThreeTilesInDiagonal)
+            else if (_tempUpgradeShotStep == UpgradeShotStep.DestroyThreeTilesInDiagonal)
             {
-                _currentUpgradeShotStep = UpgradeShotStep.DestroyFiveTilesInCross;
+                _tempUpgradeShotStep = UpgradeShotStep.DestroyFiveTilesInCross;
             }
             // Else reste en destroy five tiles in cross
 
-            _currentUpgradeShotStepPlayer1 = _currentUpgradeShotStep;
+            _currentUpgradeShotStepPlayer1 = _tempUpgradeShotStep;
         }
         else
         {
-            if (_currentUpgradeShotStep == UpgradeShotStep.RevealOneTile)
+            if (_tempUpgradeShotStep == UpgradeShotStep.RevealOneTile)
             {
-                _currentUpgradeShotStep = UpgradeShotStep.DestroyOneTile;
+                _tempUpgradeShotStep = UpgradeShotStep.DestroyOneTile;
             }
-            else if (_currentUpgradeShotStep == UpgradeShotStep.DestroyOneTile)
+            else if (_tempUpgradeShotStep == UpgradeShotStep.DestroyOneTile)
             {
-                _currentUpgradeShotStep = UpgradeShotStep.DestroyThreeTilesInDiagonal;
+                _tempUpgradeShotStep = UpgradeShotStep.DestroyThreeTilesInDiagonal;
             }
-            else if (_currentUpgradeShotStep == UpgradeShotStep.DestroyThreeTilesInDiagonal)
+            else if (_tempUpgradeShotStep == UpgradeShotStep.DestroyThreeTilesInDiagonal)
             {
-                _currentUpgradeShotStep = UpgradeShotStep.DestroyFiveTilesInCross;
+                _tempUpgradeShotStep = UpgradeShotStep.DestroyFiveTilesInCross;
             }
             // Else reste en destroy five tiles in cross
 
-            _currentUpgradeShotStepPlayer2 = _currentUpgradeShotStep;
+            _currentUpgradeShotStepPlayer2 = _tempUpgradeShotStep;
         }
 
         //UIManager.instance.CheckAlternateShotDirectionImgRotation();
@@ -1341,19 +1340,28 @@ public class AbilityButtonsManager : MonoBehaviour
     #endregion
 
     #region Probe
+    // Select
+    private void Probe_SelectAbilityTiles()
+    {
+        Debug.Log("select ability tiles probe");
+        SelectOnlyTargetTile();
+    }
+
+    // Use
     private void UseProbe()
     {
         // ----- REWIND ----- //
-        if (_currentActionTargetTiles.Count > 0)
+        if (_currentActionTargetTiles.Count > 0 && _currentProbeCount == 0)
             _currentActionTargetTiles.Clear();
         _currentActionTargetTiles.Add(_target);
-        AddActionToCurrentPlayerRound("Probe");
+        if (_currentProbeCount == 2) // ++ -> 3
+            AddActionToCurrentPlayerRound("Probe");
         // ----- REWIND ----- //
 
         _currentProbeCount++;
         UIManager.instance.ShowProbeCount(_currentProbeCount);
 
-        RevealRoom(_target);
+        Probe_Action();
 
         if (_currentProbeCount == 3)
         {
@@ -1367,6 +1375,11 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         UpdateHiddenRooms(); 
+    }
+
+    private void Probe_Action()
+    {
+        RevealRoom(_target);
     }
 
     public bool IsProbeStarted()
@@ -1384,6 +1397,7 @@ public class AbilityButtonsManager : MonoBehaviour
     }
     #endregion
 
+    #region Update Rooms
     private void UpdateHiddenRooms()
     {
         if (GameManager.instance.PlayerTurn == Player.Player1)
@@ -1401,7 +1415,9 @@ public class AbilityButtonsManager : MonoBehaviour
         GameManager.instance.ShowAllRewindRooms(Player.Player1);
         GameManager.instance.ShowAllRewindRooms(Player.Player2);
     }
+    #endregion
 
+    #region Destroy / Reveal Rooms
     private void DestroyRoom(Tile tile)
     {
         Debug.Log("destroy room " + tile.name);
@@ -1430,6 +1446,7 @@ public class AbilityButtonsManager : MonoBehaviour
         if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
         {
             Debug.Log("hit room " + tile.Room.name);
+            tile.RoomTileSpriteRenderer.color = Color.blue;
             tile.IsReavealed = true;
 
             GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
