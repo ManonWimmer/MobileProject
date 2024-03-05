@@ -1656,27 +1656,6 @@ public class GameManager : MonoBehaviour
                 DraftManagerUI.instance.UpdatePlayerChoosing();
                 StartDraftShips();
             }
-            /*
-            switch (DraftManager.instance.CurrentDraft)
-            {
-                case (0):
-                    StartDraftRooms1();
-                    break;
-                case (1):
-                    StartDraftRooms2();
-                    break;
-                case (2): // start game
-                    
-                    DraftManager.instance.CurrentDraft = 0;
-                    if (_playerTurn == Player.Player1)
-                    {
-                        StartGame();
-                        DraftManagerUI.instance.HideDraftUI();
-                        UIManager.instance.ShowGameCanvas();
-                    }
-                    break;
-            }
-            */
         }
 
         SwitchCamera();
@@ -1698,7 +1677,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
-            AbilityButtonsManager.instance.Rewind();
+            StartCoroutine(AbilityButtonsManager.instance.Rewind());
         }
 
         if (_currentMode == Mode.Draft)

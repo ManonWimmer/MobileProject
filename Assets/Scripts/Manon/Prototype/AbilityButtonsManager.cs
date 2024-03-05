@@ -72,20 +72,26 @@ public class AbilityButtonsManager : MonoBehaviour
         }
     }
 
-    public void Rewind()
+    public IEnumerator Rewind()
     {
+        // hide ui
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
+            CameraController.instance.SwitchRewindPlayerShipCameraDirectly(Player.Player1);
+
             if (_lastRoundActionsPlayer2 != null)
             {
                 foreach (var action in _lastRoundActionsPlayer2)
                 {
                     Debug.Log("Last round action " + action.Item1);
+
                 }
             }
         }
         else
         {
+            CameraController.instance.SwitchRewindPlayerShipCameraDirectly(Player.Player2);
+
             if (_lastRoundActionsPlayer1 != null)
             {
                 foreach (var action in _lastRoundActionsPlayer1)
@@ -94,6 +100,14 @@ public class AbilityButtonsManager : MonoBehaviour
                 }
             }
         }
+
+        // show ui
+        yield return null;
+    }
+
+    private void RewindAction(string actionName, List<Tile> targets)
+    {
+        // important -> target sur le ship normal à convertir en target sur le ship rewind
     }
 
     public void UpdateAllAbilityButtonsCooldown()
