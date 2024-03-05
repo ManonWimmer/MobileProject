@@ -9,7 +9,9 @@ public class CameraController : MonoBehaviour
     // ----- FIELDS ----- //
     public static CameraController instance;
     [SerializeField] Transform _cameraPosShipPlayer1;
+    [SerializeField] Transform _cameraRewindPosShipPlayer1;
     [SerializeField] Transform _cameraPosShipPlayer2;
+    [SerializeField] Transform _cameraRewindPosShipPlayer2;
 
     [SerializeField] Camera _mainCamera;
     [SerializeField] float _lerpDuration = 1f;
@@ -44,6 +46,22 @@ public class CameraController : MonoBehaviour
             _currentPos = _cameraPosShipPlayer2;
         }
     }
+
+    public void SwitchRewindPlayerShipCameraDirectly(Player player)
+    {
+        Debug.Log("switch player rewind ship camera " + player.ToString());
+        if (player == Player.Player1)
+        {
+            _mainCamera.transform.position = _cameraRewindPosShipPlayer1.position;
+            _currentPos = _cameraRewindPosShipPlayer1;
+        }
+        else
+        {
+            _mainCamera.transform.position = _cameraRewindPosShipPlayer2.position;
+            _currentPos = _cameraRewindPosShipPlayer2;
+        }
+    }
+
     public void SwitchPlayerShipCameraWithLerp()
     {
         Debug.Log("a");
