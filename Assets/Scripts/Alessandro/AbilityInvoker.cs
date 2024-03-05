@@ -16,11 +16,13 @@ public class AbilityInvoker : MonoBehaviour
     //[SerializeField] ShipManager senderTESTManager;
     //[SerializeField] ShipManager receiverTESTManager;
 
-    [SerializeField] AbilityGeneric[] abilities;
+    [SerializeField] AAbility[] abilities;
 
-    // in order, ability used, the aimed location it was shot at, the sender, the receiver, the delay between the last action and this one (?)
+    // in order, ability used, the aimed location it was shot at, the sender, the receiver and the order
     //List<(AbilityType abilityUsed, Vector2 locationShot, ShipManager sender, ShipManager receiver, float delay)> savedMoves;
-    List<(AbilityGeneric abilityUsed, Tile tilenShot, Player sender, Player receiver, float delay)> savedMoves;
+    List<(AAbility abilityUsed, Tile tilenShot, Player sender, Player receiver, int order)> savedMoves;
+
+    private int order = 0;
 
     private void Awake()
     {
@@ -42,25 +44,29 @@ public class AbilityInvoker : MonoBehaviour
                 // Add to the rewind
                 if(GameManager.instance.PlayerTurn == Player.Player1)
                 {
-                    (AbilityGeneric abilityUsed, Tile tilenShot, Player sender, Player receiver, float delay) values = (foundItem, GameManager.instance.TargetOnTile, Player.Player1, Player.Player2,  0.5f);
+                    (AAbility abilityUsed, Tile tilenShot, Player sender, Player receiver, int order) values = (foundItem, GameManager.instance.TargetOnTile, Player.Player1, Player.Player2, order);
                     savedMoves.Add(values);
                 } else
                 {
-                    (AbilityGeneric abilityUsed, Tile tilenShot, Player sender, Player receiver, float delay) values = (foundItem, GameManager.instance.TargetOnTile, Player.Player2, Player.Player1, 0.5f);
+                    (AAbility abilityUsed, Tile tilenShot, Player sender, Player receiver, int order) values = (foundItem, GameManager.instance.TargetOnTile, Player.Player2, Player.Player1, order);
                     savedMoves.Add(values);
                 }
+                order++;
             }
         }
     }
     IEnumerator RewindTime()
     {
+        // save the state of the game (?)
         foreach (var item in savedMoves)
         {
-            // Mid, need another version of the command with the data as the functions only work with what is currently being selected (or i could setup forcefully the tile aimed and turn here)
+            // force the tile to be aimed at
+            // change who the player is
             ExecuteCommand(item.abilityUsed.AbilityID);
-            yield return new WaitForSeconds(item.delay);
+            yield return new WaitForSeconds(0.5f);
         }
         savedMoves.Clear();
+        // restore the state of the game
     }
 
     /*    private void launchAbility(ACommand<AbilityType> command, CommandContext args)

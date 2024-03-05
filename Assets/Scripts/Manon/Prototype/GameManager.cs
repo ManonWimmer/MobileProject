@@ -33,10 +33,15 @@ public class GameManager : MonoBehaviour
     [Header("Ships")]
     [SerializeField] List<Ship> _draftShipsPlayer1;
     [SerializeField] List<Ship> _draftShipsPlayer2;
+    [SerializeField] List<Ship> _rewindShipsPlayer1;
+    [SerializeField] List<Ship> _rewindShipsPlayer2;
     private List<Ship> _selectedDraftShips = new List<Ship>();
 
-    private Ship _gridPlayer1;
-    private Ship _gridPlayer2;
+    private Ship _shipPlayer1;
+    private Ship _shipPlayer2;
+
+    private Ship _rewindShipPlayer1;
+    private Ship _rewindShipPlayer2;
 
     [Header("Rooms")]
     [SerializeField] List<Room> _startVitalRooms = new List<Room>();
@@ -275,7 +280,7 @@ public class GameManager : MonoBehaviour
     private void InitGridDicts()
     {
         #region Player1Dict
-        foreach (Tile tile in _gridPlayer1.gameObject.GetComponentsInChildren<Tile>())
+        foreach (Tile tile in _shipPlayer1.gameObject.GetComponentsInChildren<Tile>())
         {
             _tilesPlayer1.Add(tile);
             int row = tile.Row;
@@ -344,7 +349,7 @@ public class GameManager : MonoBehaviour
         #endregion
 
         #region Player2Dict
-        foreach (Tile tile in _gridPlayer2.GetComponentsInChildren<Tile>())
+        foreach (Tile tile in _shipPlayer2.GetComponentsInChildren<Tile>())
         {
             _tilesPlayer2.Add(tile);
             int row = tile.Row;
@@ -418,6 +423,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("select draft ship " + ship.ShipData.name);
         if (_playerTurn == Player.Player1)
         {
+            // Player Ship
             foreach(Ship shipP1 in _draftShipsPlayer1)
             {
                 Debug.Log(shipP1.name);
@@ -425,7 +431,7 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("active " + shipP1.name);
                     shipP1.gameObject.SetActive(true);
-                    _gridPlayer1 = shipP1;
+                    _shipPlayer1 = shipP1;
                 }
                 else
                 {
@@ -433,19 +439,56 @@ public class GameManager : MonoBehaviour
                     shipP1.gameObject.SetActive(false);
                 } 
             }   
+
+            // Player Ship Rewind
+            foreach (Ship shipP1 in _rewindShipsPlayer1)
+            {
+                Debug.Log(shipP1.name);
+                if (shipP1.ShipData == ship.ShipData)
+                {
+                    Debug.Log("active rewind " + shipP1.name);
+                    shipP1.gameObject.SetActive(true);
+                    _shipPlayer1 = shipP1;
+                }
+                else
+                {
+                    Debug.Log("inactive rewind" + shipP1.name);
+                    shipP1.gameObject.SetActive(false);
+                }
+            }
         }
         else
         {
+            // Player Ship
             foreach (Ship shipP2 in _draftShipsPlayer2)
             {
                 if (shipP2.ShipData == ship.ShipData)
                 {
+                    Debug.Log("active " + shipP2.name);
                     shipP2.gameObject.SetActive(true);
-                    _gridPlayer2 = shipP2;
+                    _shipPlayer2 = shipP2;
                 }
                 else
                 {
+                    Debug.Log("inactive " + shipP2.name);
                     shipP2.gameObject.SetActive(false);
+                }
+            }
+
+            // Player Ship Rewind
+            foreach (Ship shipP1 in _rewindShipsPlayer2)
+            {
+                Debug.Log(shipP1.name);
+                if (shipP1.ShipData == ship.ShipData)
+                {
+                    Debug.Log("active rewind " + shipP1.name);
+                    shipP1.gameObject.SetActive(true);
+                    _shipPlayer1 = shipP1;
+                }
+                else
+                {
+                    Debug.Log("inactive rewind " + shipP1.name);
+                    shipP1.gameObject.SetActive(false);
                 }
             }
         }
@@ -478,11 +521,11 @@ public class GameManager : MonoBehaviour
     {
         if (_playerTurn == Player.Player1)
         {
-            return _gridPlayer1;
+            return _shipPlayer1;
         }
         else
         {
-            return _gridPlayer2;
+            return _shipPlayer2;
         }
     }
 
@@ -1576,6 +1619,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
+            AbilityButtonsManager.instance.Rewind();
         }
 
         if (_currentMode == Mode.Draft)
@@ -1597,11 +1641,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("set round target pos");
         if (_playerTurn == Player.Player1)
         {
-            CheckTileClickedInCombat(_gridPlayer2.StartRoundTargetTile);
+            CheckTileClickedInCombat(_shipPlayer2.StartRoundTargetTile);
         }
         else
         {
-            CheckTileClickedInCombat(_gridPlayer1.StartRoundTargetTile);
+            CheckTileClickedInCombat(_shipPlayer1.StartRoundTargetTile);
         }
 
     }
@@ -1653,6 +1697,7 @@ public class GameManager : MonoBehaviour
             //SetRoundTargetPos();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
+            UIManager.instance.StartGameCanvas();
         }
         else if (_currentMode == Mode.Draft)
         {

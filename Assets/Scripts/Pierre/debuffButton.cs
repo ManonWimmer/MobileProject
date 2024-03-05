@@ -95,10 +95,10 @@ public class debuffButton : MonoBehaviour
     {
         if (!_enabled) 
         {
+            OpenDescription();
             CheckSelected();
             _enabled = true;
             _animator.enabled = true;
-            OpenDescription();
 
             _animator.SetBool("unselected", false);
             _animator.SetTrigger("selected");

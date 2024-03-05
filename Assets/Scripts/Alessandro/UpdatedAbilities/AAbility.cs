@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbilityGeneric : MonoBehaviour
+public abstract class AAbility : MonoBehaviour
 {
     // ----- FIELDs ----- //
     protected scriptablePower _ability;
