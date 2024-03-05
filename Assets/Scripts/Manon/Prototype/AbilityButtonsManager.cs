@@ -90,7 +90,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
             if (_lastRoundActionsPlayer2.Count > 0)
             {
-                Debug.Log("last round actions player 2 != null");
+                Debug.Log("last round actions player 2 count > 0");
                 foreach (var action in _lastRoundActionsPlayer2)
                 {
                     Debug.Log("Last round action " + action.Item1);
@@ -109,7 +109,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
             if (_lastRoundActionsPlayer1 != null)
             {
-                Debug.Log("last round actions player 1 != null");
+                Debug.Log("last round actions player 1 count > 0");
                 foreach (var action in _lastRoundActionsPlayer1)
                 {
                     Debug.Log("Last round action " + action.Item1);
