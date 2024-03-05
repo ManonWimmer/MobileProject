@@ -155,18 +155,18 @@ public class GameManager : MonoBehaviour
             // Select tile in specific grid
             if (_currentMode == Mode.Construction)
             {
-                nearestTileGridPlayer = FindNearestTileInGrid(_playerTurn);
+                nearestTileGridPlayer = FindNearestTileInGridFromInputPosition(_playerTurn);
             }
             else
             {
                 // combat -> tile dans la grid du vaisseau ennemi
                 if (_playerTurn == Player.Player1)
                 {
-                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player2);
+                    nearestTileGridPlayer = FindNearestTileInGridFromInputPosition(Player.Player2);
                 }
                 else
                 {
-                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player1);
+                    nearestTileGridPlayer = FindNearestTileInGridFromInputPosition(Player.Player1);
                 }
             }
 
@@ -208,6 +208,8 @@ public class GameManager : MonoBehaviour
         if (!nearestTile.IsOccupied) // no building
         {
             UIManager.instance.HideFicheRoom();
+
+            /*
             if (_roomToPlace != null)
             {
                 if (CheckCanBuild(_roomToPlace, nearestTile))
@@ -215,6 +217,8 @@ public class GameManager : MonoBehaviour
                     CreateNewBuilding(_roomToPlace, nearestTile, _playerTurn);
                 }
             }
+            */
+            /*
             else if (_roomToMove != null)
             {
                 if (CheckCanBuild(_roomToMove, nearestTile))
@@ -222,14 +226,13 @@ public class GameManager : MonoBehaviour
                     CreateNewBuilding(_roomToMove, nearestTile, _playerTurn);
                 }
             }
-            else
-            {
-                // a voir lequel des deux on mets hide fiche (quand on relache la room ou quand on clique sur une case vide)
-                //UIManager.instance.HideFicheRoom();
-            }
+            */
+
         }
         else // already a building
         {
+            UIManager.instance.ShowFicheRoom(nearestTile.Room.RoomData);
+            /*
             Debug.Log("occupied");
             if (_roomToMove == null)
             {
@@ -246,6 +249,7 @@ public class GameManager : MonoBehaviour
 
                 UIManager.instance.ShowFicheRoom(_roomOnMouse.RoomData);
             }
+            */
         }
     }
 
@@ -778,7 +782,7 @@ public class GameManager : MonoBehaviour
         _roomOnMouse = Instantiate(_roomToPlace, new Vector3(mousePosition.x, mousePosition.y, -5), Quaternion.identity);
     }
 
-    private bool CheckCanBuild(Room building, Tile tile)
+    public bool CheckCanBuild(Room building, Tile tile)
     {
         // center
         if (tile.IsOccupied) 
@@ -1007,7 +1011,6 @@ public class GameManager : MonoBehaviour
         else
         {
             _placedRoomsPlayer2.Add(newBuilding);
-
         }
 
         tile.Room = newBuilding;
@@ -1032,7 +1035,7 @@ public class GameManager : MonoBehaviour
         _placedRoomsPlayer2.RemoveAll(s => s == null);
     }
 
-    private void SetBuildingTilesOccupied(Room building, Tile tile)
+    public void SetBuildingTilesOccupied(Room building, Tile tile)
     {
         List<Tile> tiles = new List<Tile>();
         tiles.Add(tile); // center
@@ -1168,7 +1171,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SetBuildingTilesNotOccupied(Room building, Tile tile)
+    public void SetBuildingTilesNotOccupied(Room building, Tile tile)
     {
         List<Tile> tiles = new List<Tile>();
         tiles.Add(tile); // center
@@ -1186,7 +1189,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private Tile FindNearestTileInGrid(Player player)
+    public Tile FindNearestTileInGridFromInputPosition(Player player)
     {
         Tile nearestTile = null;
         float shortestDistance = float.MaxValue;
@@ -1196,6 +1199,41 @@ public class GameManager : MonoBehaviour
             foreach (Tile tile in _tilesPlayer1)
             {
                 float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+                if (distance < shortestDistance && distance < 1)
+                {
+                    shortestDistance = distance;
+                    nearestTile = tile;
+                }
+            }
+        }
+        else
+        {
+            foreach (Tile tile in _tilesPlayer2)
+            {
+                float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+                if (distance < shortestDistance && distance < 1)
+                {
+                    shortestDistance = distance;
+                    nearestTile = tile;
+                }
+            }
+        }
+
+        return nearestTile;
+    }
+
+    public Tile FindNearestTileInGridFromRoom(Player player, Room roomClicked)
+    {
+        Tile nearestTile = null;
+        float shortestDistance = float.MaxValue;
+
+        if (player == Player.Player1)
+        {
+            foreach (Tile tile in _tilesPlayer1)
+            {
+                float distance = Vector2.Distance(tile.transform.position, roomClicked.transform.position);
 
                 if (distance < shortestDistance && distance < 1)
                 {

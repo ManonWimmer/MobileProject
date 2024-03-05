@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5931677473772765761}
   - component: {fileID: 4986230272970159334}
   - component: {fileID: 200755579937151920}
+  - component: {fileID: 5726673147951834256}
   m_Layer: 0
   m_Name: Scanner
   m_TagString: Untagged
@@ -114,6 +115,55 @@ MonoBehaviour:
   DiagTopRightTilesSR: []
   RoomData: {fileID: 11400000, guid: 78654e1675c2c0e46b414d18e6185986, type: 2}
   IsRoomDestroyed: 0
+--- !u!60 &5726673147951834256
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656616361563272861}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.5, y: 1.5}
+      - {x: -0.5, y: -2.5}
+      - {x: 0.5, y: -2.5}
+      - {x: 0.5, y: 1.5}
+  m_UseDelaunayMesh: 0
 --- !u!1 &3000760316585264015
 GameObject:
   m_ObjectHideFlags: 0
