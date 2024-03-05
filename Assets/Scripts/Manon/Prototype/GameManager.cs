@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -65,6 +66,9 @@ public class GameManager : MonoBehaviour
     private List<Tile> _tilesPlayer1 = new List<Tile>();
     private List<Tile> _tilesPlayer2 = new List<Tile>();
 
+    private List<Tile> _tilesRewindPlayer1 = new List<Tile>();
+    private List<Tile> _tilesRewindPlayer2 = new List<Tile>();
+
     private Room _roomToPlace;
     private Room _roomToMove;
     private Room _roomOnMouse;
@@ -106,6 +110,8 @@ public class GameManager : MonoBehaviour
 
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
+    public List<Tile> TilesRewindPlayer1 { get => _tilesRewindPlayer1; set => _tilesRewindPlayer1 = value; }
+    public List<Tile> TilesRewindPlayer2 { get => _tilesRewindPlayer2; set => _tilesRewindPlayer2 = value; }
 
     // ----- FIELDS ----- //
 
@@ -120,6 +126,7 @@ public class GameManager : MonoBehaviour
         InitDrafts();
         StartDraftShips();
     }
+
 
     private void Update()
     {
@@ -181,6 +188,7 @@ public class GameManager : MonoBehaviour
     {  
         // Start Construction
         InitGridDicts();
+        //InitRewindGridDicts();
         RandomizeRoomsPlacement();
 
         // Update UI
@@ -539,23 +547,6 @@ public class GameManager : MonoBehaviour
                     shipP1.gameObject.SetActive(false);
                 }
             }
-
-            // Player Ship Rewind
-            foreach (Ship shipP1 in _rewindShipsPlayer1)
-            {
-                Debug.Log(shipP1.name);
-                if (shipP1.ShipData == ship.ShipData)
-                {
-                    Debug.Log("active rewind " + shipP1.name);
-                    shipP1.gameObject.SetActive(true);
-                    _rewindShipPlayer1 = shipP1;
-                }
-                else
-                {
-                    Debug.Log("inactive rewind" + shipP1.name);
-                    shipP1.gameObject.SetActive(false);
-                }
-            }
         }
         else
         {
@@ -574,26 +565,8 @@ public class GameManager : MonoBehaviour
                     shipP2.gameObject.SetActive(false);
                 }
             }
-
-            // Player Ship Rewind
-            foreach (Ship shipP2 in _rewindShipsPlayer2)
-            {
-                Debug.Log(shipP2.name);
-                if (shipP2.ShipData == ship.ShipData)
-                {
-                    Debug.Log("active rewind " + shipP2.name);
-                    shipP2.gameObject.SetActive(true);
-                    _rewindShipPlayer2 = shipP2;
-                }
-                else
-                {
-                    Debug.Log("inactive rewind " + shipP2.name);
-                    shipP2.gameObject.SetActive(false);
-                }
-            }
         }
 
-        //SwitchPlayer();
         StartDraftRooms1();
     }
 
@@ -624,6 +597,31 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    private void CreateRewindShips()
+    {
+        Debug.Log("create rewind ships");
+
+        GameObject rewindShip1 = Instantiate(_shipPlayer1.gameObject);
+        _rewindShipPlayer1 = rewindShip1.GetComponent<Ship>();
+
+        rewindShip1.transform.position += new Vector3(CameraController.instance.GetDistanceShipToRewind(), 0f, 0f);
+
+        foreach(Tile tile in rewindShip1.GetComponentsInChildren<Tile>())
+        {
+            _tilesRewindPlayer1.Add(tile);
+        }
+
+        GameObject rewindShip2 = Instantiate(_shipPlayer2.gameObject);
+        _rewindShipPlayer2 = rewindShip2.GetComponent<Ship>();
+
+        rewindShip2.transform.position += new Vector3(CameraController.instance.GetDistanceShipToRewind(), 0f, 0f);
+
+        foreach (Tile tile in rewindShip2.GetComponentsInChildren<Tile>())
+        {
+            _tilesRewindPlayer2.Add(tile);
+        }
+    }
+
     #region Get Ship & Room
     public Ship GetPlayerShip()
     {
@@ -634,6 +632,18 @@ public class GameManager : MonoBehaviour
         else
         {
             return _shipPlayer2;
+        }
+    }
+
+    public Ship GetPlayerRewindShip()
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            return _rewindShipPlayer1;
+        }
+        else
+        {
+            return _rewindShipPlayer2;
         }
     }
 
@@ -978,6 +988,16 @@ public class GameManager : MonoBehaviour
         //Prototype_Building newBuilding = _buildingOnMouse;
         Debug.Log("instantiate new building");
         Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -0.5f), Quaternion.identity);
+
+        if (player == Player.Player1)
+        {
+            newBuilding.transform.parent = _shipPlayer1.gameObject.transform;
+        }
+        else
+        {
+            newBuilding.transform.parent = _shipPlayer2.gameObject.transform;
+        }
+
         //newBuilding.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -5); // adjust to tile position
 
         if (player == Player.Player1)
@@ -1215,6 +1235,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideButtonValidateConstruction();
             UIManager.instance.ShowButtonsCombat();
             CheckPlayerAbilityButtonsEnabled();
+            CreateRewindShips();
         }
     }
 
@@ -1542,6 +1563,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ShowOnlyRewindDestroyedAndReavealedRooms(Player playerShip)
+    {
+        Debug.Log("show only destroyed and revealed rooms");
+        List<Tile> tiles = new List<Tile>();
+
+        if (playerShip == Player.Player1)
+        {
+            tiles = _tilesRewindPlayer1;
+        }
+        else
+        {
+            tiles = _tilesRewindPlayer2;
+        }
+
+        foreach (Tile tile in tiles)
+        {
+            if (tile.IsOccupied)
+            {
+                if (!tile.IsDestroyed && !tile.IsReavealed)
+                {
+                    tile.RoomTileSpriteRenderer.enabled = false;
+                }
+                else
+                {
+                    tile.RoomTileSpriteRenderer.enabled = true;
+                }
+            }
+        }
+    }
+
     public void CheckIfTargetRoomIsCompletelyDestroyed()
     {
         if (_targetOnTile.Room != null)
@@ -1625,7 +1676,28 @@ public class GameManager : MonoBehaviour
             {
                 tile.RoomTileSpriteRenderer.enabled = true;
             }
+        }
+    }
 
+    public void ShowAllRewindRooms(Player playerShip)
+    {
+        List<Tile> tiles = new List<Tile>();
+
+        if (playerShip == Player.Player1)
+        {
+            tiles = _tilesRewindPlayer1;
+        }
+        else
+        {
+            tiles = _tilesRewindPlayer2;
+        }
+
+        foreach (Tile tile in tiles)
+        {
+            if (tile.IsOccupied)
+            {
+                tile.RoomTileSpriteRenderer.enabled = true;
+            }
         }
     }
 
@@ -1677,7 +1749,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
-            StartCoroutine(AbilityButtonsManager.instance.Rewind());
+            AbilityButtonsManager.instance.Rewind();
         }
 
         if (_currentMode == Mode.Draft)

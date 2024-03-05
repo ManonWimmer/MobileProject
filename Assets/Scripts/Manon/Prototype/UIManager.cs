@@ -271,23 +271,19 @@ public class UIManager : MonoBehaviour
             {
                 if (button.IsSelected)
                 {
-                    Debug.Log("a");
                     button.SelectedButtonUI();
                 }
                 else
                 {
-                    Debug.Log("b");
                     button.OnlineAndCanBeUsedButtonUI();
                 }
             }
             else if (button.IsOffline)
             {
-                Debug.Log("c");
                 button.OfflineButtonUI();
             }
             else
             {
-                Debug.Log("d");
                 button.OnlineAndCantBeUsedButtonUI();
             }
         }

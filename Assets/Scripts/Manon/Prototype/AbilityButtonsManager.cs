@@ -71,43 +71,127 @@ public class AbilityButtonsManager : MonoBehaviour
             _abilitiesButtons.Add(button.GetComponentInChildren<AbilityButton>());
         }
     }
+    
+    public void Rewind()
+    {
+        UpdateRoomsRewind();
+        StartCoroutine(RewindCoroutine());
+    }
 
-    public IEnumerator Rewind()
+    public IEnumerator RewindCoroutine()
     {
         // hide ui
+
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
             CameraController.instance.SwitchRewindPlayerShipCameraDirectly(Player.Player1);
 
-            if (_lastRoundActionsPlayer2 != null)
+            yield return new WaitForSeconds(2f);
+
+            if (_lastRoundActionsPlayer2.Count > 0)
             {
+                Debug.Log("last round actions player 2 != null");
                 foreach (var action in _lastRoundActionsPlayer2)
                 {
                     Debug.Log("Last round action " + action.Item1);
-
+                    RewindAction(action.Item1, action.Item2, Player.Player1);
+                    yield return new WaitForSeconds(2f);
                 }
             }
+
+            CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
         }
         else
         {
             CameraController.instance.SwitchRewindPlayerShipCameraDirectly(Player.Player2);
 
+            yield return new WaitForSeconds(2f);
+
             if (_lastRoundActionsPlayer1 != null)
             {
+                Debug.Log("last round actions player 1 != null");
                 foreach (var action in _lastRoundActionsPlayer1)
                 {
                     Debug.Log("Last round action " + action.Item1);
+                    RewindAction(action.Item1, action.Item2, Player.Player2);
+                    yield return new WaitForSeconds(2f);
                 }
             }
+
+            CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
         }
 
         // show ui
         yield return null;
     }
 
-    private void RewindAction(string actionName, List<Tile> targets)
+    private void RewindAction(string actionName, List<Tile> targets, Player player)
     {
+        Debug.Log("rewind action");
         // important -> target sur le ship normal à convertir en target sur le ship rewind
+        List<Tile> targetsOnRewind = new List<Tile>();
+ 
+        foreach(Tile target in targets)
+        {
+            if (player == Player.Player1)
+            {
+                foreach(Tile rewindTile in GameManager.instance.TilesRewindPlayer1)
+                {
+                    if (rewindTile.name == target.name)
+                    {
+                        Debug.Log("found rewind tile " + rewindTile.name);
+                        targetsOnRewind.Add(rewindTile);
+                    }
+                }
+            }
+            else
+            {
+                foreach (Tile rewindTile in GameManager.instance.TilesRewindPlayer2)
+                {
+                    if (rewindTile.name == target.name)
+                    {
+                        Debug.Log("found rewind tile " + rewindTile.name);
+                        targetsOnRewind.Add(rewindTile);
+                    }
+                }
+            }
+        }
+
+        _target = targetsOnRewind[0];
+
+        switch (actionName)
+        {
+            case ("AlternateShot"):
+                UseAlternateShot();
+                break;
+            case ("SimpleHit"):
+                DestroyRoom(_target);
+                
+                break;
+            case ("SimpleReveal"):
+                RevealRoom(_target);
+                break;
+            case ("EMP"):
+                UseEMP();
+                break;
+            case ("Scanner"):
+                UseScanner();
+                break;
+            case ("TimeAccelerator"):
+                UseTimeAccelerator();
+                break;
+            case ("Capacitor"):
+                UseCapacitor();
+                break;
+            case ("UpgradeShot"):
+                UseUpgradeShot();
+                break;
+            case ("Probe"):
+                UseProbe();
+                break;
+        }
+
+        UpdateRoomsRewind();
     }
 
     public void UpdateAllAbilityButtonsCooldown()
@@ -128,6 +212,17 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         DeselectAbilityTiles();
+
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            if (_lastRoundActionsPlayer1.Count > 0)
+                _lastRoundActionsPlayer1.Clear();
+        }
+        else
+        {
+            if (_lastRoundActionsPlayer2.Count > 0)
+                _lastRoundActionsPlayer2.Clear();
+        }
     }
 
     public void SelectAbilityButton(AbilityButton button)
@@ -669,7 +764,7 @@ public class AbilityButtonsManager : MonoBehaviour
     private void UseScanner()
     {
         // ----- REWIND ----- //
-        if (_currentActionTargetTiles != null)
+        if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear(); ;
         _currentActionTargetTiles.Add(_target);
         AddActionToCurrentPlayerRound("Scanner");
@@ -755,7 +850,7 @@ public class AbilityButtonsManager : MonoBehaviour
     private void UseCapacitor()
     {
         // ----- REWIND ----- //
-        if (_currentActionTargetTiles != null)
+        if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
         _currentActionTargetTiles.Add(_target);
         AddActionToCurrentPlayerRound("Capacitor");
@@ -773,7 +868,7 @@ public class AbilityButtonsManager : MonoBehaviour
     private void UseEMP()
     {
         // ----- REWIND ----- //
-        if (_currentActionTargetTiles != null)
+        if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
         _currentActionTargetTiles.Add(_target);
         AddActionToCurrentPlayerRound("EMP");
@@ -911,7 +1006,7 @@ public class AbilityButtonsManager : MonoBehaviour
     private void UseSimpleHit()
     {
         // ----- REWIND ----- //
-        if (_currentActionTargetTiles != null)
+        if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
         _currentActionTargetTiles.Add(_target);
         // ----- REWIND ----- //
@@ -964,7 +1059,7 @@ public class AbilityButtonsManager : MonoBehaviour
     private void UseSimpleReveal()
     {
         // ----- REWIND ----- //
-        if (_currentActionTargetTiles != null)
+        if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
         _currentActionTargetTiles.Add(_target);
         AddActionToCurrentPlayerRound("SimpleReveal");
@@ -986,7 +1081,7 @@ public class AbilityButtonsManager : MonoBehaviour
     private void UseAlternateShot()
     {
         // ----- REWIND ----- //
-        if (_currentActionTargetTiles != null)
+        if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
         Debug.Log(_target.name);
         _currentActionTargetTiles.Add(_target);
@@ -1035,12 +1130,15 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void AddActionToCurrentPlayerRound(string actionName)
     {
+        Debug.Log("action " + actionName);
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
+            Debug.Log("add action to player 1");
             _lastRoundActionsPlayer1.Add(Tuple.Create(actionName, _currentActionTargetTiles));
         }
         else
         {
+            Debug.Log("add action to player 2");
             _lastRoundActionsPlayer2.Add(Tuple.Create(actionName, _currentActionTargetTiles));
         }
     }
@@ -1096,7 +1194,7 @@ public class AbilityButtonsManager : MonoBehaviour
     private void UseTimeAccelerator()
     {
         // ----- REWIND ----- //
-        if (_currentActionTargetTiles != null)
+        if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
         _currentActionTargetTiles.Add(_target);
         AddActionToCurrentPlayerRound("TimeAccelerator");
@@ -1117,6 +1215,13 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Upgrade Shot
     private void UseUpgradeShot()
     {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles.Count > 0)
+            _currentActionTargetTiles.Clear();
+        _currentActionTargetTiles.Add(_target);
+        AddActionToCurrentPlayerRound("UpgradeShot");
+        // ----- REWIND ----- //
+
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
@@ -1235,10 +1340,12 @@ public class AbilityButtonsManager : MonoBehaviour
     }
     #endregion
 
+    #region Probe
     private void UseProbe()
     {
         // ----- REWIND ----- //
-        _currentActionTargetTiles.Clear();
+        if (_currentActionTargetTiles.Count > 0)
+            _currentActionTargetTiles.Clear();
         _currentActionTargetTiles.Add(_target);
         AddActionToCurrentPlayerRound("Probe");
         // ----- REWIND ----- //
@@ -1275,6 +1382,7 @@ public class AbilityButtonsManager : MonoBehaviour
     {
         _currentProbeCount = 0;
     }
+    #endregion
 
     private void UpdateHiddenRooms()
     {
@@ -1286,6 +1394,12 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
         }
+    }
+
+    private void UpdateRoomsRewind()
+    {
+        GameManager.instance.ShowAllRewindRooms(Player.Player1);
+        GameManager.instance.ShowAllRewindRooms(Player.Player2);
     }
 
     private void DestroyRoom(Tile tile)
