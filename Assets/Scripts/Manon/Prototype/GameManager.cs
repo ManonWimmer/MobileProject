@@ -110,6 +110,8 @@ public class GameManager : MonoBehaviour
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
     public List<Tile> TilesRewindPlayer1 { get => _tilesRewindPlayer1; set => _tilesRewindPlayer1 = value; }
     public List<Tile> TilesRewindPlayer2 { get => _tilesRewindPlayer2; set => _tilesRewindPlayer2 = value; }
+    public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer1 { get => _dictTilesRowColumnPlayer1; set => _dictTilesRowColumnPlayer1 = value; }
+    public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer2 { get => _dictTilesRowColumnPlayer2; set => _dictTilesRowColumnPlayer2 = value; }
 
     // ----- FIELDS ----- //
 
@@ -1308,6 +1310,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
                     {
+                        Debug.Log("life++ " + tile.Room.name);
                         life++;
                     }
                 }
@@ -1321,6 +1324,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
                     {
+                        Debug.Log("life++ " + tile.Room.name);
                         life++;
                     }
                 }
