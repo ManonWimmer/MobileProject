@@ -122,15 +122,21 @@ public class DraftManagerUI : MonoBehaviour
     public void CurrentDraftRoomO1Indicator()
     {
         _draftRoom01Indicator.color = new Color(0.34f, 0.54f, 0.76f, 1f);
+        _draftRoom02Indicator.color = new Color(0.26f, 0.40f, 0.57f, 0.5f); 
+        _draftRoom03Indicator.color = new Color(0.26f, 0.40f, 0.57f, 0.5f);
     }
 
     public void CurrentDraftRoomO2Indicator()
     {
+        _draftRoom01Indicator.color = new Color(0.34f, 0.54f, 0.76f, 1f);
         _draftRoom02Indicator.color = new Color(0.34f, 0.54f, 0.76f, 1f);
+        _draftRoom03Indicator.color = new Color(0.26f, 0.40f, 0.57f, 0.5f);
     }
 
     public void CurrentDraftRoomO3Indicator()
     {
+        _draftRoom01Indicator.color = new Color(0.34f, 0.54f, 0.76f, 1f);
+        _draftRoom02Indicator.color = new Color(0.34f, 0.54f, 0.76f, 1f);
         _draftRoom03Indicator.color = new Color(0.34f, 0.54f, 0.76f, 1f);
     }
 }

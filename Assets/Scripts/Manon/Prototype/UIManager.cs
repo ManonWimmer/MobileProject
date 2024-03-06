@@ -65,6 +65,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image _simpleHitX2Img;
     [SerializeField] TMP_Text _probeCount;
 
+    [Header("Life")]
+    [SerializeField] TMP_Text _enemyLife;
+
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
 
@@ -145,6 +148,18 @@ public class UIManager : MonoBehaviour
         _switchShipButton.SetActive(true);
     }
     #endregion
+
+    public void UpdateEnemyLife()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            _enemyLife.text = "ENEMY LIFE : " + GameManager.instance.GetPlayerLife(Player.Player2) + "/6";
+        }
+        else
+        {
+            _enemyLife.text = "ENEMY LIFE : " + GameManager.instance.GetPlayerLife(Player.Player1) + "/6";
+        }
+    }
 
     #region Victory / Game Canvas
     public void HideVictoryCanvas()
@@ -271,23 +286,19 @@ public class UIManager : MonoBehaviour
             {
                 if (button.IsSelected)
                 {
-                    Debug.Log("a");
                     button.SelectedButtonUI();
                 }
                 else
                 {
-                    Debug.Log("b");
                     button.OnlineAndCanBeUsedButtonUI();
                 }
             }
             else if (button.IsOffline)
             {
-                Debug.Log("c");
                 button.OfflineButtonUI();
             }
             else
             {
-                Debug.Log("d");
                 button.OnlineAndCantBeUsedButtonUI();
             }
         }

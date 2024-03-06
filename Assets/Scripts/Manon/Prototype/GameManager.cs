@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -65,6 +66,9 @@ public class GameManager : MonoBehaviour
     private List<Tile> _tilesPlayer1 = new List<Tile>();
     private List<Tile> _tilesPlayer2 = new List<Tile>();
 
+    private List<Tile> _tilesRewindPlayer1 = new List<Tile>();
+    private List<Tile> _tilesRewindPlayer2 = new List<Tile>();
+
     private Room _roomToPlace;
     private Room _roomToMove;
     private Room _roomOnMouse;
@@ -77,8 +81,6 @@ public class GameManager : MonoBehaviour
     private bool _gameStarted;
 
     private int _currentRound;
-
-    // (pas possible de les modifier dans les scriptable objects parce que ça dépend des joueurs)
 
     private int _simpleRevealCooldownPlayer1;
     private int _simpleRevealCooldownPlayer2;
@@ -106,6 +108,10 @@ public class GameManager : MonoBehaviour
 
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
+    public List<Tile> TilesRewindPlayer1 { get => _tilesRewindPlayer1; set => _tilesRewindPlayer1 = value; }
+    public List<Tile> TilesRewindPlayer2 { get => _tilesRewindPlayer2; set => _tilesRewindPlayer2 = value; }
+    public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer1 { get => _dictTilesRowColumnPlayer1; set => _dictTilesRowColumnPlayer1 = value; }
+    public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer2 { get => _dictTilesRowColumnPlayer2; set => _dictTilesRowColumnPlayer2 = value; }
 
     // ----- FIELDS ----- //
 
@@ -148,25 +154,19 @@ public class GameManager : MonoBehaviour
             // Select tile in specific grid
             if (_currentMode == Mode.Construction)
             {
-                nearestTileGridPlayer = FindNearestTileInGrid(_playerTurn);
+                nearestTileGridPlayer = FindNearestTileInGridFromInputPosition(_playerTurn);
             }
             else
             {
                 // combat -> tile dans la grid du vaisseau ennemi
                 if (_playerTurn == Player.Player1)
                 {
-                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player2);
+                    nearestTileGridPlayer = FindNearestTileInGridFromInputPosition(Player.Player2);
                 }
                 else
                 {
-                    nearestTileGridPlayer = FindNearestTileInGrid(Player.Player1);
+                    nearestTileGridPlayer = FindNearestTileInGridFromInputPosition(Player.Player1);
                 }
-            }
-
-            // construction
-            if (_currentMode == Mode.Construction && nearestTileGridPlayer != null)
-            {
-                CheckTileClickedInConstruction(nearestTileGridPlayer);
             }
 
             //combat
@@ -195,52 +195,6 @@ public class GameManager : MonoBehaviour
     }
 
     #region CheckClickOnTile
-    private void CheckTileClickedInConstruction(Tile nearestTile)
-    {
-        if (!nearestTile.IsOccupied) // no building
-        {
-            UIManager.instance.HideFicheRoom();
-            if (_roomToPlace != null)
-            {
-                if (CheckCanBuild(_roomToPlace, nearestTile))
-                {
-                    CreateNewBuilding(_roomToPlace, nearestTile, _playerTurn);
-                }
-            }
-            else if (_roomToMove != null)
-            {
-                if (CheckCanBuild(_roomToMove, nearestTile))
-                {
-                    CreateNewBuilding(_roomToMove, nearestTile, _playerTurn);
-                }
-            }
-            else
-            {
-                // a voir lequel des deux on mets hide fiche (quand on relache la room ou quand on clique sur une case vide)
-                //UIManager.instance.HideFicheRoom();
-            }
-        }
-        else // already a building
-        {
-            Debug.Log("occupied");
-            if (_roomToMove == null)
-            {
-                Debug.Log("new building to move");
-                // select move building
-                _roomToMove = nearestTile.Room;
-                nearestTile.IsOccupied = false;
-
-                SetBuildingTilesNotOccupied(_roomToMove, nearestTile);
-
-                // building to mouse
-                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                _roomOnMouse = _roomToMove;
-
-                UIManager.instance.ShowFicheRoom(_roomOnMouse.RoomData);
-            }
-        }
-    }
-
     public void CheckTileClickedInCombat(Tile nearestTile)
     {
         Debug.Log("check tile combat");
@@ -276,7 +230,243 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    
+    #region Draft
+
+    #region Init Drafts
+    private void InitDrafts()
+    {
+        InitDraftShips();
+        InitDraftRooms1();
+        InitDraftRooms2();
+    }
+
+    private void InitDraftShips()
+    {
+        _selectedDraftShips.Clear();
+
+        int i = 0;
+
+        while (i < 3)
+        {
+            int randomIndex = Random.Range(0, _draftShipsPlayer1.Count);
+            if (!_selectedDraftShips.Contains(_draftShipsPlayer1[randomIndex]))
+            {
+                _selectedDraftShips.Add(_draftShipsPlayer1[randomIndex]);
+                i += 1;
+            }
+        }
+    }
+
+    private void InitDraftRooms1()
+    {
+        _selectedDraftRooms1.Clear();
+        int i = 0;
+
+        while (i < 3)
+        {
+            int randomIndex = Random.Range(0, _draftRooms.Count);
+            if (!_selectedDraftRooms1.Contains(_draftRooms[randomIndex]))
+            {
+                _selectedDraftRooms1.Add(_draftRooms[randomIndex]);
+                i += 1;
+            }
+        }
+    }
+
+    private void InitDraftRooms2()
+    {
+        _selectedDraftRooms2.Clear();
+        int i = 0;
+
+        while (i < 3)
+        {
+            int randomIndex = Random.Range(0, _draftRooms.Count);
+            if (!_selectedDraftRooms2.Contains(_draftRooms[randomIndex]) && !_selectedDraftRooms1.Contains(_draftRooms[randomIndex]))
+            {
+                _selectedDraftRooms2.Add(_draftRooms[randomIndex]);
+                i += 1;
+            }
+        }
+    }
+    #endregion
+
+    #region Start Drafts
+    private void StartDraftShips()
+    {
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraftShips();
+        DraftManagerUI.instance.UpdatePlayerChoosing();
+
+        for (int i = 0; i < _selectedDraftShips.Count; i++)
+        {
+            DraftManagerUI.instance.InitDraftShip(i, _selectedDraftShips[i]);
+        }
+    }
+
+    private void StartDraftRooms1()
+    {
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraftRooms(1);
+        DraftManagerUI.instance.UpdateSpaceshipDraftRoom();
+
+        for (int i = 0; i < _selectedDraftRooms1.Count; i++)
+        {
+            DraftManagerUI.instance.InitDraftRoom(i, _selectedDraftRooms1[i]);
+        }
+    }
+
+    private void StartDraftRooms2()
+    {
+        Debug.Log("start draft rooms 2");
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraftRooms(2);
+        DraftManagerUI.instance.UpdateSpaceshipDraftRoom();
+
+        for (int i = 0; i < _selectedDraftRooms2.Count; i++)
+        {
+            DraftManagerUI.instance.InitDraftRoom(i, _selectedDraftRooms2[i]);
+        }
+    }
+    #endregion
+
+    #region Select Draft
+    public void SelectDraftShip(Ship ship)
+    {
+        Debug.Log("select draft ship " + ship.ShipData.name);
+        if (_playerTurn == Player.Player1)
+        {
+            // Player Ship
+            foreach (Ship shipP1 in _draftShipsPlayer1)
+            {
+                Debug.Log(shipP1.name);
+                if (shipP1.ShipData == ship.ShipData)
+                {
+                    Debug.Log("active " + shipP1.name);
+                    shipP1.gameObject.SetActive(true);
+                    _shipPlayer1 = shipP1;
+                }
+                else
+                {
+                    Debug.Log("inactive " + shipP1.name);
+                    shipP1.gameObject.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            // Player Ship
+            foreach (Ship shipP2 in _draftShipsPlayer2)
+            {
+                if (shipP2.ShipData == ship.ShipData)
+                {
+                    Debug.Log("active " + shipP2.name);
+                    shipP2.gameObject.SetActive(true);
+                    _shipPlayer2 = shipP2;
+                }
+                else
+                {
+                    Debug.Log("inactive " + shipP2.name);
+                    shipP2.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        StartDraftRooms1();
+    }
+
+    public void SelectDraftRoom(Room room)
+    {
+        DraftManagerUI.instance.ShowDraftUI();
+
+        Debug.Log("select draft room");
+        if (_playerTurn == Player.Player1)
+        {
+            _choosenDraftRoomsPlayer1.Add(room);
+        }
+        else
+        {
+            _choosenDraftRoomsPlayer2.Add(room);
+        }
+
+        Debug.Log(DraftManager.instance.CurrentDraft);
+        if (DraftManager.instance.CurrentDraft == 1)
+        {
+           
+            StartDraftRooms2();
+        }
+        else if (DraftManager.instance.CurrentDraft == 2)
+        {
+            SwitchPlayer();
+        }
+    }
+    #endregion
+
+    private void CreateRewindShips()
+    {
+        Debug.Log("create rewind ships");
+
+        GameObject rewindShip1 = Instantiate(_shipPlayer1.gameObject);
+        _rewindShipPlayer1 = rewindShip1.GetComponent<Ship>();
+
+        rewindShip1.transform.position += new Vector3(CameraController.instance.GetDistanceShipToRewind(), 0f, 0f);
+
+        foreach(Tile tile in rewindShip1.GetComponentsInChildren<Tile>())
+        {
+            _tilesRewindPlayer1.Add(tile);
+        }
+
+        GameObject rewindShip2 = Instantiate(_shipPlayer2.gameObject);
+        _rewindShipPlayer2 = rewindShip2.GetComponent<Ship>();
+
+        rewindShip2.transform.position += new Vector3(CameraController.instance.GetDistanceShipToRewind(), 0f, 0f);
+
+        foreach (Tile tile in rewindShip2.GetComponentsInChildren<Tile>())
+        {
+            _tilesRewindPlayer2.Add(tile);
+        }
+    }
+
+    #region Get Ship & Room
+    public Ship GetPlayerShip()
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            return _shipPlayer1;
+        }
+        else
+        {
+            return _shipPlayer2;
+        }
+    }
+
+    public Ship GetPlayerRewindShip()
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            return _rewindShipPlayer1;
+        }
+        else
+        {
+            return _rewindShipPlayer2;
+        }
+    }
+
+    public Room GetChoosenDraftRoom(int index)
+    {
+        if (_playerTurn == Player.Player1)
+        {
+            return _choosenDraftRoomsPlayer1[index];
+        }
+        else
+        {
+            return _choosenDraftRoomsPlayer2[index];
+        }
+    }
+    #endregion
+
+    #endregion
+
+    #region Construction
     private void InitGridDicts()
     {
         #region Player1Dict
@@ -418,242 +608,6 @@ public class GameManager : MonoBehaviour
         #endregion
     }
 
-    #region Draft
-
-    #region Init Drafts
-    private void InitDrafts()
-    {
-        InitDraftShips();
-        InitDraftRooms1();
-        InitDraftRooms2();
-    }
-
-    private void InitDraftShips()
-    {
-        _selectedDraftShips.Clear();
-
-        int i = 0;
-
-        while (i < 3)
-        {
-            int randomIndex = Random.Range(0, _draftShipsPlayer1.Count);
-            if (!_selectedDraftShips.Contains(_draftShipsPlayer1[randomIndex]))
-            {
-                _selectedDraftShips.Add(_draftShipsPlayer1[randomIndex]);
-                i += 1;
-            }
-        }
-    }
-
-    private void InitDraftRooms1()
-    {
-        _selectedDraftRooms1.Clear();
-        int i = 0;
-
-        while (i < 3)
-        {
-            int randomIndex = Random.Range(0, _draftRooms.Count);
-            if (!_selectedDraftRooms1.Contains(_draftRooms[randomIndex]))
-            {
-                _selectedDraftRooms1.Add(_draftRooms[randomIndex]);
-                i += 1;
-            }
-        }
-    }
-
-    private void InitDraftRooms2()
-    {
-        _selectedDraftRooms2.Clear();
-        int i = 0;
-
-        while (i < 3)
-        {
-            int randomIndex = Random.Range(0, _draftRooms.Count);
-            if (!_selectedDraftRooms2.Contains(_draftRooms[randomIndex]) && !_selectedDraftRooms1.Contains(_draftRooms[randomIndex]))
-            {
-                _selectedDraftRooms2.Add(_draftRooms[randomIndex]);
-                i += 1;
-            }
-        }
-    }
-    #endregion
-
-    #region Start Drafts
-    private void StartDraftShips()
-    {
-        DraftManagerUI.instance.ShowDraftUI();
-        DraftManager.instance.StartDraftShips();
-        DraftManagerUI.instance.UpdatePlayerChoosing();
-
-        for (int i = 0; i < _selectedDraftShips.Count; i++)
-        {
-            DraftManagerUI.instance.InitDraftShip(i, _selectedDraftShips[i]);
-        }
-    }
-
-    private void StartDraftRooms1()
-    {
-        DraftManagerUI.instance.ShowDraftUI();
-        DraftManager.instance.StartDraftRooms(1);
-        DraftManagerUI.instance.UpdateSpaceshipDraftRoom();
-
-        for (int i = 0; i < _selectedDraftRooms1.Count; i++)
-        {
-            DraftManagerUI.instance.InitDraftRoom(i, _selectedDraftRooms1[i]);
-        }
-    }
-
-    private void StartDraftRooms2()
-    {
-        Debug.Log("start draft rooms 2");
-        DraftManagerUI.instance.ShowDraftUI();
-        DraftManager.instance.StartDraftRooms(2);
-        DraftManagerUI.instance.UpdateSpaceshipDraftRoom();
-
-        for (int i = 0; i < _selectedDraftRooms2.Count; i++)
-        {
-            DraftManagerUI.instance.InitDraftRoom(i, _selectedDraftRooms2[i]);
-        }
-    }
-    #endregion
-
-    #region Select Draft
-    public void SelectDraftShip(Ship ship)
-    {
-        Debug.Log("select draft ship " + ship.ShipData.name);
-        if (_playerTurn == Player.Player1)
-        {
-            // Player Ship
-            foreach (Ship shipP1 in _draftShipsPlayer1)
-            {
-                Debug.Log(shipP1.name);
-                if (shipP1.ShipData == ship.ShipData)
-                {
-                    Debug.Log("active " + shipP1.name);
-                    shipP1.gameObject.SetActive(true);
-                    _shipPlayer1 = shipP1;
-                }
-                else
-                {
-                    Debug.Log("inactive " + shipP1.name);
-                    shipP1.gameObject.SetActive(false);
-                }
-            }
-
-            // Player Ship Rewind
-            foreach (Ship shipP1 in _rewindShipsPlayer1)
-            {
-                Debug.Log(shipP1.name);
-                if (shipP1.ShipData == ship.ShipData)
-                {
-                    Debug.Log("active rewind " + shipP1.name);
-                    shipP1.gameObject.SetActive(true);
-                    _rewindShipPlayer1 = shipP1;
-                }
-                else
-                {
-                    Debug.Log("inactive rewind" + shipP1.name);
-                    shipP1.gameObject.SetActive(false);
-                }
-            }
-        }
-        else
-        {
-            // Player Ship
-            foreach (Ship shipP2 in _draftShipsPlayer2)
-            {
-                if (shipP2.ShipData == ship.ShipData)
-                {
-                    Debug.Log("active " + shipP2.name);
-                    shipP2.gameObject.SetActive(true);
-                    _shipPlayer2 = shipP2;
-                }
-                else
-                {
-                    Debug.Log("inactive " + shipP2.name);
-                    shipP2.gameObject.SetActive(false);
-                }
-            }
-
-            // Player Ship Rewind
-            foreach (Ship shipP2 in _rewindShipsPlayer2)
-            {
-                Debug.Log(shipP2.name);
-                if (shipP2.ShipData == ship.ShipData)
-                {
-                    Debug.Log("active rewind " + shipP2.name);
-                    shipP2.gameObject.SetActive(true);
-                    _rewindShipPlayer2 = shipP2;
-                }
-                else
-                {
-                    Debug.Log("inactive rewind " + shipP2.name);
-                    shipP2.gameObject.SetActive(false);
-                }
-            }
-        }
-
-        //SwitchPlayer();
-        StartDraftRooms1();
-    }
-
-    public void SelectDraftRoom(Room room)
-    {
-        DraftManagerUI.instance.ShowDraftUI();
-
-        Debug.Log("select draft room");
-        if (_playerTurn == Player.Player1)
-        {
-            _choosenDraftRoomsPlayer1.Add(room);
-        }
-        else
-        {
-            _choosenDraftRoomsPlayer2.Add(room);
-        }
-
-        Debug.Log(DraftManager.instance.CurrentDraft);
-        if (DraftManager.instance.CurrentDraft == 1)
-        {
-           
-            StartDraftRooms2();
-        }
-        else if (DraftManager.instance.CurrentDraft == 2)
-        {
-            SwitchPlayer();
-        }
-    }
-    #endregion
-
-    #region Get Ship & Room
-    public Ship GetPlayerShip()
-    {
-        if (_playerTurn == Player.Player1)
-        {
-            return _shipPlayer1;
-        }
-        else
-        {
-            return _shipPlayer2;
-        }
-    }
-
-    public Room GetChoosenDraftRoom(int index)
-    {
-        if (_playerTurn == Player.Player1)
-        {
-            return _choosenDraftRoomsPlayer1[index];
-        }
-        else
-        {
-            return _choosenDraftRoomsPlayer2[index];
-        }
-    }
-    #endregion
-
-    #endregion
-
-    #region Construction
-
     #region Randomize Rooms
     private void RandomizeRoomsPlacement()
     {
@@ -760,15 +714,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public void TakeBuilding(Room building)
-    {
-        _roomToPlace = building;
-
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        _roomOnMouse = Instantiate(_roomToPlace, new Vector3(mousePosition.x, mousePosition.y, -5), Quaternion.identity);
-    }
-
-    private bool CheckCanBuild(Room building, Tile tile)
+    public bool CheckCanBuild(Room building, Tile tile)
     {
         // center
         if (tile.IsOccupied) 
@@ -975,10 +921,17 @@ public class GameManager : MonoBehaviour
     private void CreateNewBuilding(Room building, Tile tile, Player player)
     {
         // place new building
-        //Prototype_Building newBuilding = _buildingOnMouse;
         Debug.Log("instantiate new building");
         Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -0.5f), Quaternion.identity);
-        //newBuilding.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -5); // adjust to tile position
+
+        if (player == Player.Player1)
+        {
+            newBuilding.transform.parent = _shipPlayer1.gameObject.transform;
+        }
+        else
+        {
+            newBuilding.transform.parent = _shipPlayer2.gameObject.transform;
+        }
 
         if (player == Player.Player1)
         {
@@ -987,7 +940,6 @@ public class GameManager : MonoBehaviour
         else
         {
             _placedRoomsPlayer2.Add(newBuilding);
-
         }
 
         tile.Room = newBuilding;
@@ -1007,12 +959,11 @@ public class GameManager : MonoBehaviour
 
     private void ClearPlacedRoomsLists()
     {
-        //Debug.Log("clear room lists");
         _placedRoomsPlayer1.RemoveAll(s => s == null);
         _placedRoomsPlayer2.RemoveAll(s => s == null);
     }
 
-    private void SetBuildingTilesOccupied(Room building, Tile tile)
+    public void SetBuildingTilesOccupied(Room building, Tile tile)
     {
         List<Tile> tiles = new List<Tile>();
         tiles.Add(tile); // center
@@ -1148,7 +1099,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SetBuildingTilesNotOccupied(Room building, Tile tile)
+    public void SetBuildingTilesNotOccupied(Room building, Tile tile)
     {
         List<Tile> tiles = new List<Tile>();
         tiles.Add(tile); // center
@@ -1166,7 +1117,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private Tile FindNearestTileInGrid(Player player)
+    public Tile FindNearestTileInGridFromInputPosition(Player player)
     {
         Tile nearestTile = null;
         float shortestDistance = float.MaxValue;
@@ -1176,6 +1127,41 @@ public class GameManager : MonoBehaviour
             foreach (Tile tile in _tilesPlayer1)
             {
                 float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+                if (distance < shortestDistance && distance < 1)
+                {
+                    shortestDistance = distance;
+                    nearestTile = tile;
+                }
+            }
+        }
+        else
+        {
+            foreach (Tile tile in _tilesPlayer2)
+            {
+                float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+                if (distance < shortestDistance && distance < 1)
+                {
+                    shortestDistance = distance;
+                    nearestTile = tile;
+                }
+            }
+        }
+
+        return nearestTile;
+    }
+
+    public Tile FindNearestTileInGridFromRoom(Player player, Room roomClicked)
+    {
+        Tile nearestTile = null;
+        float shortestDistance = float.MaxValue;
+
+        if (player == Player.Player1)
+        {
+            foreach (Tile tile in _tilesPlayer1)
+            {
+                float distance = Vector2.Distance(tile.transform.position, roomClicked.transform.position);
 
                 if (distance < shortestDistance && distance < 1)
                 {
@@ -1215,6 +1201,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideButtonValidateConstruction();
             UIManager.instance.ShowButtonsCombat();
             CheckPlayerAbilityButtonsEnabled();
+            CreateRewindShips();
         }
     }
 
@@ -1250,37 +1237,83 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Combat
+    public bool CanUseAbility(scriptablePower ability)
+    {
+        Debug.Log("can use ability ?");
+
+        if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
+        {
+            if (!IsAbilityInCooldown(ability))
+            {
+                Debug.Log("current ability cooldown 0");
+                //ActionPointsManager.instance.UseActionPoint(_playerTurn);
+                //SetAbilityCooldown(ability);
+                Debug.Log("can use ability");
+                return true;
+            }
+            else
+            {
+                Debug.Log("ability en cooldown");
+            }
+        }
+        else
+        {
+            Debug.Log("no action points and / or no room ability on target");
+        }
+
+
+        Debug.Log("can't use ability");
+        return false;
+    }
+
     public void CheckVictory()
     {
         Debug.Log("check victory");
-        bool player1Dead = true;
-        foreach (Room room in _placedRoomsPlayer1)
-        {
-            Debug.Log(room.name);
-            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
-            {
-                player1Dead = false;
-            }
-        }
 
-        bool player2Dead = true;
-        foreach (Room room in _placedRoomsPlayer2)
-        {
-            Debug.Log(room.name);
-            if (room.RoomData.IsVital && !room.IsRoomDestroyed)
-            {
-                player2Dead = false;
-            }
-        }
-
-        if (player1Dead)
+        if (GetPlayerLife(Player.Player2) == 0)
         {
             UIManager.instance.ShowVictoryCanvas(Player.Player2);
         }
-        else if (player2Dead)
+        else if (GetPlayerLife(Player.Player1) == 0)
         {
             UIManager.instance.ShowVictoryCanvas(Player.Player1);
         }
+    }
+
+    public int GetPlayerLife(Player player)
+    {
+        int life = 0;
+
+        if (player == Player.Player1)
+        {
+            foreach (Tile tile in _tilesPlayer1)
+            {
+                if (tile.Room != null)
+                {
+                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
+                    {
+                        Debug.Log("life++ " + tile.Room.name);
+                        life++;
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (Tile tile in _tilesPlayer2)
+            {
+                if (tile.Room != null)
+                {
+                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
+                    {
+                        Debug.Log("life++ " + tile.Room.name);
+                        life++;
+                    }
+                }
+            }
+        }
+
+        return life;
     }
 
     private void InitAbilitesSOButtons()
@@ -1542,6 +1575,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ShowOnlyRewindDestroyedAndReavealedRooms(Player playerShip)
+    {
+        Debug.Log("show only destroyed and revealed rooms");
+        List<Tile> tiles = new List<Tile>();
+
+        if (playerShip == Player.Player1)
+        {
+            tiles = _tilesRewindPlayer1;
+        }
+        else
+        {
+            tiles = _tilesRewindPlayer2;
+        }
+
+        foreach (Tile tile in tiles)
+        {
+            if (tile.IsOccupied)
+            {
+                if (!tile.IsDestroyed && !tile.IsReavealed)
+                {
+                    tile.RoomTileSpriteRenderer.enabled = false;
+                }
+                else
+                {
+                    tile.RoomTileSpriteRenderer.enabled = true;
+                }
+            }
+        }
+    }
+
     public void CheckIfTargetRoomIsCompletelyDestroyed()
     {
         if (_targetOnTile.Room != null)
@@ -1625,7 +1688,28 @@ public class GameManager : MonoBehaviour
             {
                 tile.RoomTileSpriteRenderer.enabled = true;
             }
+        }
+    }
 
+    public void ShowAllRewindRooms(Player playerShip)
+    {
+        List<Tile> tiles = new List<Tile>();
+
+        if (playerShip == Player.Player1)
+        {
+            tiles = _tilesRewindPlayer1;
+        }
+        else
+        {
+            tiles = _tilesRewindPlayer2;
+        }
+
+        foreach (Tile tile in tiles)
+        {
+            if (tile.IsOccupied)
+            {
+                tile.RoomTileSpriteRenderer.enabled = true;
+            }
         }
     }
 
@@ -1677,7 +1761,8 @@ public class GameManager : MonoBehaviour
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
-            StartCoroutine(AbilityButtonsManager.instance.Rewind());
+            AbilityButtonsManager.instance.Rewind();
+            UIManager.instance.UpdateEnemyLife();
         }
 
         if (_currentMode == Mode.Draft)
@@ -1756,6 +1841,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
             UIManager.instance.StartGameCanvas();
+            UIManager.instance.UpdateEnemyLife();
         }
         else if (_currentMode == Mode.Draft)
         {
@@ -1788,35 +1874,6 @@ public class GameManager : MonoBehaviour
         return _playerTurn;
     }
     #endregion
-
-    public bool CanUseAbility(scriptablePower ability)
-    {
-        Debug.Log("can use ability ?");
-
-        if (ActionPointsManager.instance.TryUseActionPoints(_playerTurn))
-        {
-            if (!IsAbilityInCooldown(ability))
-            {
-                Debug.Log("current ability cooldown 0");
-                //ActionPointsManager.instance.UseActionPoint(_playerTurn);
-                //SetAbilityCooldown(ability);
-                Debug.Log("can use ability");
-                return true;
-            }
-            else
-            {
-                Debug.Log("ability en cooldown");
-            }
-        }
-        else
-        {
-            Debug.Log("no action points and / or no room ability on target");
-        }
-            
-        
-        Debug.Log("can't use ability");
-        return false;
-    }
 
     #region Cooldown 
     public void SetAbilityCooldown(scriptablePower ability)

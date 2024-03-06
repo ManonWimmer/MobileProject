@@ -26,6 +26,11 @@ public class CameraController : MonoBehaviour
         instance = this;
     }
 
+    public float GetDistanceShipToRewind()
+    {
+        return Vector3.Distance(_cameraPosShipPlayer1.position, _cameraRewindPosShipPlayer1.position);
+    }
+
     void Start()
     {
         _mainCamera.transform.position = _cameraPosShipPlayer1.position;

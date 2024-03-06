@@ -10716,6 +10716,7 @@ MonoBehaviour:
   _alternateShotDirectionImg: {fileID: 1974290797}
   _simpleHitX2Img: {fileID: 558262120}
   _probeCount: {fileID: 1867265291}
+  _enemyLife: {fileID: 358876580}
 --- !u!4 &1379391156
 Transform:
   m_ObjectHideFlags: 0
@@ -19228,13 +19229,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2535990791076644437, guid: 35644e85f5d4bbe4784a64e6cbb77d29, type: 3}
+      propertyPath: IsNotTop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512303280523846996, guid: 35644e85f5d4bbe4784a64e6cbb77d29, type: 3}
+      propertyPath: IsNotTop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8935535027550057795, guid: 35644e85f5d4bbe4784a64e6cbb77d29, type: 3}
       propertyPath: m_Name
       value: ShipRavioli-Player1
       objectReference: {fileID: 0}
     - target: {fileID: 8935535027550057795, guid: 35644e85f5d4bbe4784a64e6cbb77d29, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

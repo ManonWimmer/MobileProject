@@ -19,5 +19,86 @@ public class Room : MonoBehaviour
     public RoomSO RoomData;
 
     public bool IsRoomDestroyed;
+
+    Tile endDragTile;
+    Tile firstTile;
+
+    private bool isDragging;
+    private Vector3 offset;
     // ----- FIELDS ----- //
+
+    void OnMouseDown()
+    {
+        if (GameManager.instance.GetCurrentMode() != Mode.Construction)
+            return;
+
+        if (isDragging)
+            return;
+
+
+        // Store offset between touch position and object center
+        offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        isDragging = true;
+
+        Tile tile = GameManager.instance.FindNearestTileInGridFromInputPosition(GameManager.instance.PlayerTurn);
+        GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
+
+        UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+
+        firstTile = tile;
+    }
+
+    void OnMouseDrag()
+    {
+        if (GameManager.instance.GetCurrentMode() != Mode.Construction)
+            return;
+
+        if (Input.GetMouseButtonDown(0) || !isDragging)
+            return;
+
+        Tile tile = GameManager.instance.FindNearestTileInGridFromRoom(GameManager.instance.PlayerTurn, this);
+        if (tile != null)
+        {
+            if (GameManager.instance.CheckCanBuild(this, tile))
+            {
+                Debug.Log("set end drag tile " + tile.name);
+                endDragTile = tile;
+            }
+        }
+        
+        // Move room with mouse / finger
+        Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
+        transform.position = new Vector3(newPosition.x, newPosition.y, transform.position.z);
+    }
+
+    void OnMouseUp()
+    {
+        if (GameManager.instance.GetCurrentMode() != Mode.Construction)
+            return;
+
+        //Debug.Log("end drag tile " + endDragTile.name);
+
+        if (endDragTile == null)
+        {
+            firstTile.Room = this;
+            firstTile.IsOccupied = true;
+
+            transform.position = new Vector3(firstTile.transform.position.x, firstTile.transform.position.y, transform.position.z);
+            isDragging = false;
+            GameManager.instance.SetBuildingTilesOccupied(this, firstTile);
+        }
+        else
+        {
+            endDragTile.Room = this;
+            endDragTile.IsOccupied = true;
+
+            transform.position = new Vector3(endDragTile.transform.position.x, endDragTile.transform.position.y, transform.position.z);
+            isDragging = false;
+            GameManager.instance.SetBuildingTilesOccupied(this, endDragTile);
+        }
+       
+        endDragTile = null;
+
+        UIManager.instance.HideFicheRoom();
+    }
 }

@@ -14,6 +14,7 @@ public class popUp : MonoBehaviour
 
     [SerializeField] private popUp _popup;
     [SerializeField] private bool _popupVisible;
+    [SerializeField] private Animator _animator;
 
     public void CheckPopupIsOpen() => CheckOpen();
 
@@ -52,6 +53,8 @@ public class popUp : MonoBehaviour
     {
         _popup.CheckOpen();
         _popupVisible = true;
+        _animator.SetTrigger("selected");
+        _animator.SetBool("disabled", false);
 
         _description.text = scriptable.Description;
         _name.text = scriptable.AbilityName;
@@ -63,6 +66,8 @@ public class popUp : MonoBehaviour
     {
         _popup.CheckOpen();
         _popupVisible = true;
+        _animator.SetTrigger("selected");
+        _animator.SetBool("disabled", false);
 
         _description.text = scriptable.Description;
         _name.text = scriptable.DebuffName;
@@ -72,7 +77,10 @@ public class popUp : MonoBehaviour
 
     public void Close()
     {
-        _popupVisible = false;
-        gameObject.SetActive(false);
+        _animator.SetBool("disabled", true);
+        if(!_popupVisible)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
