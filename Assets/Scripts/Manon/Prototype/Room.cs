@@ -35,12 +35,15 @@ public class Room : MonoBehaviour
         if (isDragging)
             return;
 
+
         // Store offset between touch position and object center
         offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         isDragging = true;
 
         Tile tile = GameManager.instance.FindNearestTileInGridFromInputPosition(GameManager.instance.PlayerTurn);
         GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
+
+        UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
 
         firstTile = tile;
     }
@@ -95,5 +98,7 @@ public class Room : MonoBehaviour
         }
        
         endDragTile = null;
+
+        UIManager.instance.HideFicheRoom();
     }
 }
