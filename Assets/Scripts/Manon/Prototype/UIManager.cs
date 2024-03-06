@@ -318,6 +318,11 @@ public class UIManager : MonoBehaviour
     {
         _changePlayerCanvas.SetActive(false);
         ChangingPlayer = false;
+
+        if (GameManager.instance.GetCurrentMode() == Mode.Combat && !(GameManager.instance.PlayerTurn == Player.Player1 && GameManager.instance.GetCurrentRound() == 1))
+        {
+            AbilityButtonsManager.instance.Rewind();
+        }
         
         GameManager.instance.CheckIfStartConstructionTimer();
     }

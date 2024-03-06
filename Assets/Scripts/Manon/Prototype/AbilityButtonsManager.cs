@@ -88,7 +88,9 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             CameraController.instance.SwitchRewindPlayerShipCameraDirectly(Player.Player1);
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
+
+            List<string> lastRoundActionNames = new List<string>();
 
             if (_lastRoundActionsPlayer2.Count > 0)
             {
@@ -97,17 +99,22 @@ public class AbilityButtonsManager : MonoBehaviour
                 {
                     Debug.Log("Last round action " + action.Item1);
                     RewindAction(action.Item1, action.Item2, Player.Player1);
+
+                    lastRoundActionNames.Add(action.Item1);
+                    EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
+
                     yield return new WaitForSeconds(2f);
                 }
             }
-
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
         }
         else
         {
             CameraController.instance.SwitchRewindPlayerShipCameraDirectly(Player.Player2);
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
+
+            List<string> lastRoundActionNames = new List<string>();
 
             if (_lastRoundActionsPlayer1 != null)
             {
@@ -116,10 +123,13 @@ public class AbilityButtonsManager : MonoBehaviour
                 {
                     Debug.Log("Last round action " + action.Item1);
                     RewindAction(action.Item1, action.Item2, Player.Player2);
-                    yield return new WaitForSeconds(2f);
+
+                    lastRoundActionNames.Add(action.Item1);
+                    EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
+
+                    yield return new WaitForSeconds(2f); 
                 }
             }
-
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
         }
 
@@ -432,7 +442,46 @@ public class AbilityButtonsManager : MonoBehaviour
             }
             else
             {
-                canGoTop = false;
+                int row = currentTile.Row;
+                int column = currentTile.Column;
+
+                bool foundTop = false;
+
+                if (GameManager.instance.PlayerTurn == Player.Player1)
+                {
+                    for (int i = 1; (row - i) > 0; i++)
+                    {
+                        if (GameManager.instance.DictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - i, column)))
+                        {
+                            currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row - i, column)];
+                            Debug.Log("current tile " + currentTile.name);
+                            currentTile.TopTile.IsAbilitySelected = true;
+                            _selectedTiles.Add(currentTile.TopTile);
+                            foundTop = true;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 1; (row - i) > 0; i++)
+                    {
+                        if (GameManager.instance.DictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - i, column)))
+                        {
+                            currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row - i, column)];
+                            foundTop = true;
+                            currentTile.TopTile.IsAbilitySelected = true;
+                            _selectedTiles.Add(currentTile.TopTile);
+                            Debug.Log("current tile " + currentTile.name);
+                            break;
+                        }
+                    }
+                }
+
+                if (!foundTop)
+                {
+                    canGoTop = false;
+                }
             }
         }
         #endregion
@@ -452,7 +501,46 @@ public class AbilityButtonsManager : MonoBehaviour
             }
             else
             {
-                canGoBottom = false;
+                int row = currentTile.Row;
+                int column = currentTile.Column;
+
+                bool foundBottom = false;
+
+                if (GameManager.instance.PlayerTurn == Player.Player1)
+                {
+                    for (int i = 1; (row - i) > 0; i++)
+                    {
+                        if (GameManager.instance.DictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + i, column)))
+                        {
+                            currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row + i, column)];
+                            Debug.Log("current tile " + currentTile.name);
+                            currentTile.BottomTile.IsAbilitySelected = true;
+                            _selectedTiles.Add(currentTile.BottomTile);
+                            foundBottom = true;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 1; (row - i) > 0; i++)
+                    {
+                        if (GameManager.instance.DictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + i, column)))
+                        {
+                            currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row + i, column)];
+                            foundBottom = true;
+                            Debug.Log("current tile " + currentTile.name);
+                            currentTile.BottomTile.IsAbilitySelected = true;
+                            _selectedTiles.Add(currentTile.BottomTile);
+                            break;
+                        }
+                    }
+                }
+
+                if (!foundBottom)
+                {
+                    canGoBottom = false;
+                }
             }
         }
         #endregion
@@ -506,7 +594,42 @@ public class AbilityButtonsManager : MonoBehaviour
             }
             else
             {
-                canGoTop = false;
+                int row = currentTile.Row;
+                int column = currentTile.Column;
+
+                bool foundTop = false;
+
+                if (GameManager.instance.PlayerTurn == Player.Player1)
+                {
+                    for (int i = 1; (row - i) > 0; i++)
+                    {
+                        if (GameManager.instance.DictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - i, column)))
+                        {
+                            currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row - i, column)];
+                            Debug.Log("current tile " + currentTile.name);
+                            foundTop = true;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 1; (row - i) > 0; i++)
+                    {
+                        if (GameManager.instance.DictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - i, column)))
+                        {
+                            currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row - i, column)];
+                            foundTop = true;
+                            Debug.Log("current tile " + currentTile.name);
+                            break;
+                        }
+                    }
+                }
+                
+                if (!foundTop)
+                {
+                    canGoTop = false;
+                }
             }
         }
         #endregion 
@@ -525,7 +648,42 @@ public class AbilityButtonsManager : MonoBehaviour
             }
             else
             {
-                canGoBottom = false;
+                int row = currentTile.Row;
+                int column = currentTile.Column;
+
+                bool foundBottom = false;
+
+                if (GameManager.instance.PlayerTurn == Player.Player1)
+                {
+                    for (int i = 1; (row - i) > 0; i++)
+                    {
+                        if (GameManager.instance.DictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + i, column)))
+                        {
+                            currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row + i, column)];
+                            Debug.Log("current tile " + currentTile.name);
+                            foundBottom = true;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 1; (row - i) > 0; i++)
+                    {
+                        if (GameManager.instance.DictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + i, column)))
+                        {
+                            currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row + i, column)];
+                            foundBottom = true;
+                            Debug.Log("current tile " + currentTile.name);
+                            break;
+                        }
+                    }
+                }
+
+                if (!foundBottom)
+                {
+                    canGoBottom = false;
+                }
             }
         }
         #endregion
@@ -1438,6 +1596,8 @@ public class AbilityButtonsManager : MonoBehaviour
 
             UIManager.instance.HideFicheRoom();
         }
+
+        UIManager.instance.UpdateEnemyLife();
     }
 
     private void RevealRoom(Tile tile)

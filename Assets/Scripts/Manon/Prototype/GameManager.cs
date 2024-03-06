@@ -69,10 +69,6 @@ public class GameManager : MonoBehaviour
     private List<Tile> _tilesRewindPlayer1 = new List<Tile>();
     private List<Tile> _tilesRewindPlayer2 = new List<Tile>();
 
-    private Room _roomToPlace;
-    private Room _roomToMove;
-    private Room _roomOnMouse;
-
     private Tile _targetOnTile;
 
     private Player _playerTurn;
@@ -110,6 +106,8 @@ public class GameManager : MonoBehaviour
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
     public List<Tile> TilesRewindPlayer1 { get => _tilesRewindPlayer1; set => _tilesRewindPlayer1 = value; }
     public List<Tile> TilesRewindPlayer2 { get => _tilesRewindPlayer2; set => _tilesRewindPlayer2 = value; }
+    public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer1 { get => _dictTilesRowColumnPlayer1; set => _dictTilesRowColumnPlayer1 = value; }
+    public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer2 { get => _dictTilesRowColumnPlayer2; set => _dictTilesRowColumnPlayer2 = value; }
 
     // ----- FIELDS ----- //
 
@@ -129,14 +127,7 @@ public class GameManager : MonoBehaviour
     {
         if (UIManager.instance.ChangingPlayer || !_gameStarted)
         {
-            _roomOnMouse = null;
             return;
-        }
-
-        if (_roomOnMouse != null) // update room on mouse pos
-        {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            _roomOnMouse.transform.position = new Vector3(mousePosition.x, mousePosition.y, -5);
         }
 
         if (_currentMode == Mode.Construction)
@@ -167,12 +158,6 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            // construction
-            if (_currentMode == Mode.Construction && nearestTileGridPlayer != null)
-            {
-                CheckTileClickedInConstruction(nearestTileGridPlayer);
-            }
-
             //combat
             if (_currentMode == Mode.Combat && nearestTileGridPlayer != null)
             {
@@ -199,18 +184,6 @@ public class GameManager : MonoBehaviour
     }
 
     #region CheckClickOnTile
-    private void CheckTileClickedInConstruction(Tile nearestTile)
-    {
-        if (!nearestTile.IsOccupied) // no building
-        {
-            UIManager.instance.HideFicheRoom();
-        }
-        else // already a building
-        {
-            UIManager.instance.ShowFicheRoom(nearestTile.Room.RoomData);
-        }
-    }
-
     public void CheckTileClickedInCombat(Tile nearestTile)
     {
         Debug.Log("check tile combat");
@@ -962,15 +935,6 @@ public class GameManager : MonoBehaviour
         tile.IsOccupied = true;
 
         SetBuildingTilesOccupied(newBuilding, tile);
-
-        _roomToPlace = null;
-
-        // no building on mouse
-        Debug.Log("destroy on mouse");
-        if (_roomOnMouse != null)
-        {
-            Destroy(_roomOnMouse.gameObject);
-        }
     }
 
     private void ClearPlacedRoomsLists()
@@ -1253,6 +1217,17 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Combat
+    public scriptablePower GetAbilityFromName(string name)
+    {
+        foreach(scriptablePower ability in _abilitiesSO)
+        {
+            if (ability.name == name) 
+               return ability;
+        }
+
+        return null;
+    }
+
     public bool CanUseAbility(scriptablePower ability)
     {
         Debug.Log("can use ability ?");
@@ -1306,9 +1281,10 @@ public class GameManager : MonoBehaviour
             {
                 if (tile.Room != null)
                 {
-                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
+                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed && !tile.Room.IsRoomDestroyed)
                     {
                         life++;
+                        Debug.Log("life++ " + tile.Room.name + " ; " + life);
                     }
                 }
             }
@@ -1319,9 +1295,10 @@ public class GameManager : MonoBehaviour
             {
                 if (tile.Room != null)
                 {
-                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
+                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed && !tile.Room.IsRoomDestroyed)
                     {
                         life++;
+                        Debug.Log("life++ " + tile.Room.name + " ; " + life);
                     }
                 }
             }
@@ -1775,8 +1752,8 @@ public class GameManager : MonoBehaviour
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
-            AbilityButtonsManager.instance.Rewind();
             UIManager.instance.UpdateEnemyLife();
+            EnemyActionsManager.instance.HideAllEnemyActions();
         }
 
         if (_currentMode == Mode.Draft)

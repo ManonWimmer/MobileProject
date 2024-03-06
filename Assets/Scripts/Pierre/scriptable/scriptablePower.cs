@@ -14,4 +14,6 @@ public class scriptablePower : ScriptableObject
     public int Cooldown;
 
     public GameObject AbilityButton;
+
+    public bool CanBeDefused;
 }

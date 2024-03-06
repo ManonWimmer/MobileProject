@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityName: Simple Reveal
   Description: Simple reveal description
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: af94b41a1f38197418d696a18397c5dd, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 2
-  CurrentCooldown: 0
   AbilityButton: {fileID: 0}
