@@ -12,7 +12,7 @@ public class debuffButton : MonoBehaviour
     [SerializeField] private scriptableDebuff _scriptable;
     [SerializeField] private Image _icon;
 
-    private bool _enabled;
+    [SerializeField] private bool _enabled;
     private List<debuffButton> _debuffs = new List<debuffButton>();
     private List<powerButton> _abilitys = new List<powerButton>();
 
@@ -83,7 +83,6 @@ public class debuffButton : MonoBehaviour
     {
         if (_enabled)
         {
-            CloseDescription();
             _enabled = false;
             _animator.SetBool("unselected", true);
         }
