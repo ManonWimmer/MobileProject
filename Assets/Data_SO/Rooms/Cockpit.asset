@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoomName: Cockpit
   RoomIcon: {fileID: 21300000, guid: de4582e1590410b4c8fe706acd7b46da, type: 3}
-  RoomPatternImg: {fileID: 21300000, guid: 099d8011c084a2d4c84d5757b3e9e078, type: 3}
+  RoomPatternImg: {fileID: 21300000, guid: 7791391b0efb0b749ac5cce7478346ae, type: 3}
   RoomAbility: {fileID: 11400000, guid: 0496029f2df908c4cbe22288cf3ced03, type: 2}
   IsVital: 1
