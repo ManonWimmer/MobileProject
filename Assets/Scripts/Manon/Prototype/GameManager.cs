@@ -1092,7 +1092,6 @@ public class GameManager : MonoBehaviour
         foreach (Tile tile3 in tiles)
         {
             tile3.IsOccupied = false;
-            tile3.Room = null;
             tile3.RoomOnOtherTiles.Clear();
             tile3.RoomTileSpriteRenderer = null;
         }
@@ -1282,9 +1281,8 @@ public class GameManager : MonoBehaviour
             {
                 if (tile.Room != null)
                 {
-                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
+                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed && !tile.Room.IsRoomDestroyed)
                     {
-                        Debug.Log(tile.name);
                         life++;
                         Debug.Log("life++ " + tile.Room.name + " ; " + life);
                     }
@@ -1297,9 +1295,8 @@ public class GameManager : MonoBehaviour
             {
                 if (tile.Room != null)
                 {
-                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
+                    if (tile.Room.RoomData.IsVital && !tile.IsDestroyed && !tile.Room.IsRoomDestroyed)
                     {
-                        Debug.Log(tile.name);
                         life++;
                         Debug.Log("life++ " + tile.Room.name + " ; " + life);
                     }
@@ -1757,12 +1754,6 @@ public class GameManager : MonoBehaviour
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
             UIManager.instance.UpdateEnemyLife();
             EnemyActionsManager.instance.HideAllEnemyActions();
-            UIManager.instance.UpdateCurrentPlayer();
-        }
-
-        if (_currentMode == Mode.Construction)
-        {
-            UIManager.instance.UpdateCurrentPlayer();
         }
 
         if (_currentMode == Mode.Draft)
@@ -1842,7 +1833,6 @@ public class GameManager : MonoBehaviour
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
             UIManager.instance.StartGameCanvas();
             UIManager.instance.UpdateEnemyLife();
-            UIManager.instance.UpdateCurrentPlayer();
         }
         else if (_currentMode == Mode.Draft)
         {
@@ -1852,7 +1842,6 @@ public class GameManager : MonoBehaviour
         else
         {
             _currentMode = Mode.Construction;
-            UIManager.instance.UpdateCurrentPlayer();
         }
 
         SwitchCamera();

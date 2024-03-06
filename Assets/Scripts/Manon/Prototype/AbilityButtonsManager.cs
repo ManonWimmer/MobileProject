@@ -380,40 +380,35 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             case ("AlternateShot"):
                 UseAlternateShot();
-                DeselectAbilityButton(_selectedButton);
                 break;
             case ("SimpleHit"):
                 UseSimpleHit();
-                DeselectAbilityButton(_selectedButton);
                 break;
             case ("SimpleReveal"):
                 UseSimpleReveal();
-                DeselectAbilityButton(_selectedButton);
                 break;
             case ("EMP"):
                 UseEMP();
-                DeselectAbilityButton(_selectedButton);
                 break;
             case ("Scanner"):
                 UseScanner();
-                DeselectAbilityButton(_selectedButton);
                 break;
             case ("TimeAccelerator"):
                 UseTimeAccelerator();
-                DeselectAbilityButton(_selectedButton);
                 break;
             case ("Capacitor"):
                 UseCapacitor();
-                DeselectAbilityButton(_selectedButton);
                 break;
             case ("UpgradeShot"):
                 UseUpgradeShot();
-                DeselectAbilityButton(_selectedButton);
                 break;
             case ("Probe"):
                 UseProbe();
                 break;
         }
+
+        if (_selectedButton.GetAbility().name != "Probe")
+            DeselectAbilityButton(_selectedButton);
     }
     #endregion
 

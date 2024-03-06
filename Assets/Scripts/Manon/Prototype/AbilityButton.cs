@@ -127,23 +127,16 @@ public class AbilityButton : MonoBehaviour
 
     public void SetOffline()
     {
-        if (_ability.name != "SimpleHit")
-        {
-            _image.color = Color.red;
+        _image.color = Color.red;
 
-            if (_button != null)
-            {
-                Destroy(_button);
-            }
-            IsOffline = true;
-
-            _cooldownTxt.enabled = false;
-            _cooldownIcon.enabled = false;
-        }
-        else
+        if (_button != null)
         {
-            SetOnline();
+            Destroy(_button);
         }
+        IsOffline = true;
+
+        _cooldownTxt.enabled = false;
+        _cooldownIcon.enabled = false;
     }
 
     public void SetOnline()
