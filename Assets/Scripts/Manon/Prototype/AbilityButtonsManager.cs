@@ -88,7 +88,9 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             CameraController.instance.SwitchRewindPlayerShipCameraDirectly(Player.Player1);
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
+
+            List<string> lastRoundActionNames = new List<string>();
 
             if (_lastRoundActionsPlayer2.Count > 0)
             {
@@ -97,17 +99,22 @@ public class AbilityButtonsManager : MonoBehaviour
                 {
                     Debug.Log("Last round action " + action.Item1);
                     RewindAction(action.Item1, action.Item2, Player.Player1);
+
+                    lastRoundActionNames.Add(action.Item1);
+                    EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
+
                     yield return new WaitForSeconds(2f);
                 }
             }
-
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
         }
         else
         {
             CameraController.instance.SwitchRewindPlayerShipCameraDirectly(Player.Player2);
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
+
+            List<string> lastRoundActionNames = new List<string>();
 
             if (_lastRoundActionsPlayer1 != null)
             {
@@ -116,10 +123,13 @@ public class AbilityButtonsManager : MonoBehaviour
                 {
                     Debug.Log("Last round action " + action.Item1);
                     RewindAction(action.Item1, action.Item2, Player.Player2);
-                    yield return new WaitForSeconds(2f);
+
+                    lastRoundActionNames.Add(action.Item1);
+                    EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
+
+                    yield return new WaitForSeconds(2f); 
                 }
             }
-
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
         }
 
@@ -1586,6 +1596,8 @@ public class AbilityButtonsManager : MonoBehaviour
 
             UIManager.instance.HideFicheRoom();
         }
+
+        UIManager.instance.UpdateEnemyLife();
     }
 
     private void RevealRoom(Tile tile)
