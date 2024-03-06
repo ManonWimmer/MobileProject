@@ -169,12 +169,6 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            // construction
-            if (_currentMode == Mode.Construction && nearestTileGridPlayer != null)
-            {
-                CheckTileClickedInConstruction(nearestTileGridPlayer);
-            }
-
             //combat
             if (_currentMode == Mode.Combat && nearestTileGridPlayer != null)
             {
@@ -201,18 +195,6 @@ public class GameManager : MonoBehaviour
     }
 
     #region CheckClickOnTile
-    private void CheckTileClickedInConstruction(Tile nearestTile)
-    {
-        if (!nearestTile.IsOccupied) // no building
-        {
-            UIManager.instance.HideFicheRoom();
-        }
-        else // already a building
-        {
-            UIManager.instance.ShowFicheRoom(nearestTile.Room.RoomData);
-        }
-    }
-
     public void CheckTileClickedInCombat(Tile nearestTile)
     {
         Debug.Log("check tile combat");
