@@ -1150,9 +1150,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 112476902443346506, guid: 8201d7c688581c248bea2816a900c2aa, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f6b876062984d846b5fbd1a7903062f, type: 2}
     - target: {fileID: 834847053830911739, guid: 8201d7c688581c248bea2816a900c2aa, type: 3}
       propertyPath: m_Name
       value: ScanLinesParticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 834847053830911739, guid: 8201d7c688581c248bea2816a900c2aa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069964067235579942, guid: 8201d7c688581c248bea2816a900c2aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1193,6 +1201,14 @@ PrefabInstance:
     - target: {fileID: 3069964067235579942, guid: 8201d7c688581c248bea2816a900c2aa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934481845506175021, guid: 8201d7c688581c248bea2816a900c2aa, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934481845506175021, guid: 8201d7c688581c248bea2816a900c2aa, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
