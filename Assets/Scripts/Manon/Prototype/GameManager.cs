@@ -171,6 +171,7 @@ public class GameManager : MonoBehaviour
         // Start Construction
         InitGridDicts();
         RandomizeRoomsPlacement();
+        InitRoomsIcons();
 
         // Update UI
         UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
@@ -181,6 +182,25 @@ public class GameManager : MonoBehaviour
         _gameStarted = true;
         UIManager.instance.ShowOrUpdateActionPoints();
         InitAbilitesSOButtons();
+    }
+
+    private void InitRoomsIcons()
+    {
+        foreach(Tile tile in _tilesPlayer1)
+        {
+            if (tile.Room != null)
+            {
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false);
+            }
+        }
+
+        foreach (Tile tile in _tilesPlayer2)
+        {
+            if (tile.Room != null)
+            {
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false);
+            }
+        }
     }
 
     #region CheckClickOnTile

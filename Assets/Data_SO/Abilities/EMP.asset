@@ -15,7 +15,8 @@ MonoBehaviour:
   AbilityName: EMP
   Description: Shoots a beam that will destroy the target and make the surrounding
     rooms inactive for 1 turn.
-  Icon: {fileID: 21300000, guid: af94b41a1f38197418d696a18397c5dd, type: 3}
+  Icon: {fileID: 21300000, guid: 02252cef2ada13045aae08cf635309d1, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 2
   AbilityButton: {fileID: 0}
+  CanBeDefused: 0

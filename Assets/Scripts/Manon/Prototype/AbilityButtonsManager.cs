@@ -1587,7 +1587,7 @@ public class AbilityButtonsManager : MonoBehaviour
         if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
         {
             Debug.Log("hit room " + tile.Room.name);
-            tile.RoomTileSpriteRenderer.color = Color.black;
+            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true);
             tile.IsDestroyed = true;
 
             GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
