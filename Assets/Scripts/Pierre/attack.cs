@@ -31,4 +31,24 @@ public class attack : MonoBehaviour
         buttonGO.transform.SetParent(_abilityContent);
     }
 
+    public void LauchConffeti()
+    {
+        List<ParticleSystem> conffeti = new List<ParticleSystem>();
+        GameObject[] conffetis = GameObject.FindGameObjectsWithTag("conffeti");
+
+        foreach (GameObject conff in conffetis)
+        {
+            if (conff != gameObject)
+            {
+                ParticleSystem particleSystem = conff.GetComponent<ParticleSystem>();
+                conffeti.Add(particleSystem);
+            }
+        }
+
+        foreach (ParticleSystem conff in conffeti)
+        {
+            conff.Play();
+        }
+    }
+
 }

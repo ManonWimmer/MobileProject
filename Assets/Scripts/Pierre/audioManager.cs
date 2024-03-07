@@ -9,6 +9,7 @@ public class audioManager : MonoBehaviour
     [SerializeField] private AudioClip[] _playlistFight;
     [SerializeField] private AudioClip[] _playlistMenu;
     [SerializeField] public AudioClip[] _playlistFX;
+    [SerializeField] public AudioClip[] _playlistWin;
     [SerializeField] private AudioMixer _mixer;
 
     private GameManager _gameManager;
@@ -19,6 +20,7 @@ public class audioManager : MonoBehaviour
     private AudioClip[] _actualClip;
 
     public void PlayMusic() => PlayNextSound();
+    public AudioClip[] GetPlaylistFX() => _playlistFX;
 
     void Start()
     {
