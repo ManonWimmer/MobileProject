@@ -66,6 +66,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image _alternateShotIcon;
     [SerializeField] Image _simpleHitX2Img;
     [SerializeField] TMP_Text _probeCount;
+    [SerializeField] Image _upgradeShotIcon;
+    [SerializeField] Sprite _upgradeShotLvl1;
+    [SerializeField] Sprite _upgradeShotLvl2;
+    [SerializeField] Sprite _upgradeShotLvl3;
+    [SerializeField] Sprite _upgradeShotLvl4;
 
     [Header("Life")]
     [SerializeField] TMP_Text _enemyLife;
@@ -143,6 +148,31 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("vertical");
             _alternateShotIcon.rectTransform.eulerAngles = new Vector3(0, 0, 90);
+        }
+    }
+
+    public void CheckUpgradeShotLvlImg()
+    {
+        UpgradeShotStep _currentUpgradeShotStep = AbilityButtonsManager.instance.GetCurrentPlayerUpgradeShotStep();
+
+        switch (_currentUpgradeShotStep)
+        {
+            case (UpgradeShotStep.RevealOneTile):
+                Debug.Log("upgrade shot lvl 1");
+                _upgradeShotIcon.sprite = _upgradeShotLvl1;
+                break;
+            case (UpgradeShotStep.DestroyOneTile):
+                Debug.Log("upgrade shot lvl 2");
+                _upgradeShotIcon.sprite = _upgradeShotLvl2;
+                break;
+            case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
+                Debug.Log("upgrade shot lvl 3");
+                _upgradeShotIcon.sprite = _upgradeShotLvl3;
+                break;
+            case (UpgradeShotStep.DestroyFiveTilesInCross):
+                Debug.Log("upgrade shot lvl 4");
+                _upgradeShotIcon.sprite = _upgradeShotLvl4;
+                break;
         }
     }
 

@@ -1771,6 +1771,7 @@ public class GameManager : MonoBehaviour
             CheckPlayerAbilityButtonsEnabled();
             AbilityButtonsManager.instance.ResetRoundAbilityButtons();
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
+            UIManager.instance.CheckUpgradeShotLvlImg();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
             UIManager.instance.UpdateEnemyLife();

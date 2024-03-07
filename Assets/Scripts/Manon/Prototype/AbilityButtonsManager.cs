@@ -1445,7 +1445,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
     }
 
-    private UpgradeShotStep GetCurrentPlayerUpgradeShotStep()
+    public UpgradeShotStep GetCurrentPlayerUpgradeShotStep()
     {
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
@@ -1498,7 +1498,7 @@ public class AbilityButtonsManager : MonoBehaviour
             _currentUpgradeShotStepPlayer2 = _tempUpgradeShotStep;
         }
 
-        //UIManager.instance.CheckAlternateShotDirectionImgRotation();
+        UIManager.instance.CheckUpgradeShotLvlImg();
     }
     #endregion
 
@@ -1611,7 +1611,6 @@ public class AbilityButtonsManager : MonoBehaviour
         if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
         {
             Debug.Log("hit room " + tile.Room.name);
-            tile.RoomTileSpriteRenderer.color = Color.blue;
             tile.IsReavealed = true;
 
             GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
