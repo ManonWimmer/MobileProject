@@ -171,7 +171,6 @@ public class GameManager : MonoBehaviour
         // Start Construction
         InitGridDicts();
         RandomizeRoomsPlacement();
-        InitRoomsIcons();
 
         // Update UI
         UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
@@ -622,6 +621,8 @@ public class GameManager : MonoBehaviour
     {
         RandomizeRoomsPlayer1();
         RandomizeRoomsPlayer2();
+
+        InitRoomsIcons();
     }
 
     public void RandomizeRooms()
@@ -635,6 +636,8 @@ public class GameManager : MonoBehaviour
         {
             RandomizeRoomsPlayer2();
         }
+
+        InitRoomsIcons();
     }
 
     private void RandomizeRoomsPlayer1()
@@ -679,6 +682,8 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+
     }
 
     private void RandomizeRoomsPlayer2()
