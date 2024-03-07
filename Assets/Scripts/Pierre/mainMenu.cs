@@ -67,6 +67,8 @@ public class mainMenu : MonoBehaviour
         if(_easterEggPlay)
         {
             _easterEggPlay = false;
+            _audioManager.PlayMusic();
+            _music.Play();
         }
 
         _audioOpenClose.clip = _playlistFXUI[1];
