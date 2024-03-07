@@ -67,6 +67,13 @@ public class UIManager : MonoBehaviour
 
     [Header("Life")]
     [SerializeField] TMP_Text _enemyLife;
+    [SerializeField] TMP_Text _playerLife;
+
+    [Header("Current Player Informations")]
+    [SerializeField] GameObject _currentPlayerCorner;
+    [SerializeField] Image _currentCaptainImg;
+    [SerializeField] TMP_Text _currentCaptainName;
+    [SerializeField] List<RawImage> _playerLifeImagesFrom1To6;
 
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
@@ -92,6 +99,22 @@ public class UIManager : MonoBehaviour
         HideSwitchShipButton();
         HideFireButton();
         HideProbeCount();
+        HidePlayerCorner();
+    }
+
+    public void HidePlayerCorner()
+    {
+        _currentPlayerCorner.SetActive(false);
+    }
+
+    public void UpdateCurrentPlayer()
+    {
+        _currentPlayerCorner.SetActive(true);
+
+        _currentCaptainImg.sprite = GameManager.instance.GetPlayerShip().ShipData.CaptainImg;
+        _currentCaptainName.text = GameManager.instance.GetPlayerShip().ShipData.CaptainName.ToUpper();
+
+        UpdatePlayerLife();
     }
 
     public void HideProbeCount()
@@ -158,6 +181,30 @@ public class UIManager : MonoBehaviour
         else
         {
             _enemyLife.text = "ENEMY LIFE : " + GameManager.instance.GetPlayerLife(Player.Player1) + "/6";
+        }
+    }
+
+    public void UpdatePlayerLife()
+    {
+        int playerLife = GameManager.instance.GetPlayerLife(GameManager.instance.PlayerTurn);
+        _playerLife.text = playerLife + "/6";
+
+        int i = 1;
+        bool stopEnabling = false;
+
+        foreach(RawImage lifeImg in _playerLifeImagesFrom1To6)
+        {
+            if (!stopEnabling)
+                lifeImg.enabled = true;
+            else
+                lifeImg.enabled = false;
+
+            if (playerLife == i)
+            {
+                stopEnabling = true;
+            }
+
+            i++;
         }
     }
 

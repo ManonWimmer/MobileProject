@@ -8,7 +8,7 @@ public class audioManager : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip[] _playlistFight;
     [SerializeField] private AudioClip[] _playlistMenu;
-    [SerializeField] private AudioClip[] _playlistFX;
+    [SerializeField] public AudioClip[] _playlistFX;
     [SerializeField] private AudioMixer _mixer;
 
     private GameManager _gameManager;
@@ -17,6 +17,8 @@ public class audioManager : MonoBehaviour
     private int _index = 0;
     private int _lastIndex = 0;
     private AudioClip[] _actualClip;
+
+    public void PlayMusic() => PlayNextSound();
 
     void Start()
     {

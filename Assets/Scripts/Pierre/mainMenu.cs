@@ -10,10 +10,25 @@ public class mainMenu : MonoBehaviour
 
     [SerializeField] private AudioClip[] _playlistFXUI;
     [SerializeField] private AudioSource _audioOpenClose;
+    [SerializeField] private AudioSource _music;
+    [SerializeField] private audioManager _audioManager;
+
+    private bool _easterEggPlay;
 
     private void Start()
     {
         _menu = GetComponent<GameObject>();
+        _easterEggPlay = false;
+    }
+
+    private void Update()
+    {
+
+        if (!_music.isPlaying )
+        {
+            _audioManager.PlayMusic();
+            _easterEggPlay = false;
+        }
     }
 
     public void StartDuel()
@@ -28,38 +43,51 @@ public class mainMenu : MonoBehaviour
 
     public void OpenSettings()
     {
-        _settings.SetActive(true);
-
         _audioOpenClose.clip = _playlistFXUI[0];
         _audioOpenClose.Play();
+
+        _settings.SetActive(true);
     }
 
     public void CloseSettings()
     {
-        _settings.SetActive(false);
-
         _audioOpenClose.clip = _playlistFXUI[1];
         _audioOpenClose.Play();
+
+        _settings.SetActive(false);
     }
 
     public void CloseCredits()
     {
-        _credits.SetActive(false);
+        if(_easterEggPlay)
+        {
+            _audioManager.PlayMusic();
+            _easterEggPlay = false;
+        }
 
         _audioOpenClose.clip = _playlistFXUI[1];
         _audioOpenClose.Play();
+
+        _credits.SetActive(false);
     }
 
     public void OpenCredits()
     {
-        _credits.SetActive(true);
-
         _audioOpenClose.clip = _playlistFXUI[0];
         _audioOpenClose.Play();
+
+        _credits.SetActive(true);
     }
 
     public void Leave()
     {
         Application.Quit();
+    }
+
+    public void EasterEgg()
+    {
+        _easterEggPlay = true;
+        _music.clip = _playlistFXUI[2];
+        _music.Play();
     }
 }

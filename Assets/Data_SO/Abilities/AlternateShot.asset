@@ -15,7 +15,8 @@ MonoBehaviour:
   AbilityName: Alternate Shot
   Description: Shoots in a row of 3 tiles then changes for its next use this ability
     to shoot in a column of 3 tiles.
-  Icon: {fileID: 21300000, guid: af94b41a1f38197418d696a18397c5dd, type: 3}
+  Icon: {fileID: 21300000, guid: 5523ef3903299c849b01ccfeba851a7c, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 2
   AbilityButton: {fileID: 0}
+  CanBeDefused: 0
