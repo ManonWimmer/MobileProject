@@ -171,7 +171,6 @@ public class GameManager : MonoBehaviour
         // Start Construction
         InitGridDicts();
         RandomizeRoomsPlacement();
-        InitRoomsIcons();
 
         // Update UI
         UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
@@ -180,7 +179,7 @@ public class GameManager : MonoBehaviour
         SwitchMode();
 
         _gameStarted = true;
-        UIManager.instance.ShowOrUpdateActionPoints();
+        //UIManager.instance.ShowOrUpdateActionPoints();
         InitAbilitesSOButtons();
     }
 
@@ -622,6 +621,8 @@ public class GameManager : MonoBehaviour
     {
         RandomizeRoomsPlayer1();
         RandomizeRoomsPlayer2();
+
+        InitRoomsIcons();
     }
 
     public void RandomizeRooms()
@@ -635,6 +636,8 @@ public class GameManager : MonoBehaviour
         {
             RandomizeRoomsPlayer2();
         }
+
+        InitRoomsIcons();
     }
 
     private void RandomizeRoomsPlayer1()
@@ -679,6 +682,8 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+
     }
 
     private void RandomizeRoomsPlayer2()
@@ -1764,20 +1769,21 @@ public class GameManager : MonoBehaviour
 
         UIManager.instance.ShowChangerPlayerCanvas(_playerTurn);
 
-        //TargetController.instance.HideTarget();
         _targetOnTile = null;
 
         if (_currentMode == Mode.Combat)
         {
             CheckPlayerAbilityButtonsEnabled();
             AbilityButtonsManager.instance.ResetRoundAbilityButtons();
-            //SetRoundTargetPos();
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
+            UIManager.instance.CheckUpgradeShotLvlImg();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
             UIManager.instance.UpdateEnemyLife();
             EnemyActionsManager.instance.HideAllEnemyActions();
             UIManager.instance.UpdateCurrentPlayer();
+            UIManager.instance.HideFicheRoom();
+            UIManager.instance.HideFicheAbility();
         }
 
         if (_currentMode == Mode.Construction)

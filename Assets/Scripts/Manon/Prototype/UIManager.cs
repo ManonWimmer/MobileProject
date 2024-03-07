@@ -32,22 +32,24 @@ public class UIManager : MonoBehaviour
     public bool ChangingPlayer;
 
     [Header("Action Points")]
+    [SerializeField] GameObject _actionPoints;
     [SerializeField] TMP_Text _actionPointsTxt;
     [SerializeField] TMP_Text _currentRoundTxt;
 
     [Header("Infos Ability")]
     [SerializeField] GameObject _infosAbility;
+    [SerializeField] Image _infosAbilityIcon;
     [SerializeField] TMP_Text _infosNameAbility;
     [SerializeField] TMP_Text _infosDescriptionAbility;
-    [SerializeField] TMP_Text _infosEnergy;
+    [SerializeField] TMP_Text _infosCooldown;
 
     [Header("Infos Room")]
     [SerializeField] GameObject _infosRoom;
-    [SerializeField] Image _infosRoomIcon;
     [SerializeField] Image _infosRoomPattern;
     [SerializeField] TMP_Text _infosNameRoom;
     [SerializeField] TMP_Text _infosNameRoomAbility;
     [SerializeField] TMP_Text _infosDescriptionRoomAbility;
+    [SerializeField] TMP_Text _infosCooldownRoomAbility;
 
     [Header("Ability Buttons")]
     [SerializeField] GameObject _randomizeRoomsButton;
@@ -64,6 +66,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image _alternateShotIcon;
     [SerializeField] Image _simpleHitX2Img;
     [SerializeField] TMP_Text _probeCount;
+    [SerializeField] Image _upgradeShotIcon;
+    [SerializeField] Sprite _upgradeShotLvl1;
+    [SerializeField] Sprite _upgradeShotLvl2;
+    [SerializeField] Sprite _upgradeShotLvl3;
+    [SerializeField] Sprite _upgradeShotLvl4;
 
     [Header("Life")]
     [SerializeField] TMP_Text _enemyLife;
@@ -74,6 +81,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image _currentCaptainImg;
     [SerializeField] TMP_Text _currentCaptainName;
     [SerializeField] List<RawImage> _playerLifeImagesFrom1To6;
+
+    [Header("Rewind")]
+    [SerializeField] TMP_Text _rewindTxt;
 
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
@@ -100,6 +110,35 @@ public class UIManager : MonoBehaviour
         HideFireButton();
         HideProbeCount();
         HidePlayerCorner();
+        HideRewindTxt();
+    }
+
+    public void HideRewindTxt()
+    {
+        _rewindTxt.gameObject.SetActive(false);
+    }
+
+    public void ShowRewindTxt()
+    {
+        _rewindTxt.gameObject.SetActive(true);
+    }
+
+    public void ShowRewindUI()
+    {
+        ShowRewindTxt();
+        HideActionPoints();
+        _playerBottom.SetActive(false);
+        HideValidateCombat();
+    }
+
+    public void BackToCombatUI()
+    {
+        HideRewindTxt();
+        ShowOrUpdateActionPoints();
+        _playerBottom.SetActive(true);
+        ShowValidateCombat();
+        HideFicheAbility();
+        HideFicheRoom();
     }
 
     public void HidePlayerCorner()
@@ -141,6 +180,31 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("vertical");
             _alternateShotIcon.rectTransform.eulerAngles = new Vector3(0, 0, 90);
+        }
+    }
+
+    public void CheckUpgradeShotLvlImg()
+    {
+        UpgradeShotStep _currentUpgradeShotStep = AbilityButtonsManager.instance.GetCurrentPlayerUpgradeShotStep();
+
+        switch (_currentUpgradeShotStep)
+        {
+            case (UpgradeShotStep.RevealOneTile):
+                Debug.Log("upgrade shot lvl 1");
+                _upgradeShotIcon.sprite = _upgradeShotLvl1;
+                break;
+            case (UpgradeShotStep.DestroyOneTile):
+                Debug.Log("upgrade shot lvl 2");
+                _upgradeShotIcon.sprite = _upgradeShotLvl2;
+                break;
+            case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
+                Debug.Log("upgrade shot lvl 3");
+                _upgradeShotIcon.sprite = _upgradeShotLvl3;
+                break;
+            case (UpgradeShotStep.DestroyFiveTilesInCross):
+                Debug.Log("upgrade shot lvl 4");
+                _upgradeShotIcon.sprite = _upgradeShotLvl4;
+                break;
         }
     }
 
@@ -254,12 +318,12 @@ public class UIManager : MonoBehaviour
     #region CurrentPlayer
     public void UpdateCurrentPlayerTxt(Player playerTurn)
     {
-        _currentPlayerTxt.text = "Current Player : " + playerTurn.ToString();
+        _currentPlayerTxt.text = playerTurn.ToString().ToUpper();
     }
 
     public void UpdateCurrentModeTxt(Mode currentMode)
     {
-        _currentModeTxt.text = "Current Mode : " + currentMode.ToString();
+        _currentModeTxt.text = currentMode.ToString().ToUpper();
     }
     #endregion
 
@@ -393,15 +457,13 @@ public class UIManager : MonoBehaviour
     #region Action Points
     public void HideActionPoints()
     {
-        _actionPointsTxt.gameObject.SetActive(false);
-        _currentModeTxt.gameObject.SetActive(false);
+        _actionPoints.SetActive(false);
     }
 
     public void ShowOrUpdateActionPoints()
     {
         Debug.Log("show or update action points");
-        _actionPointsTxt.gameObject.SetActive(true);
-        _currentModeTxt.gameObject.SetActive(true);
+        _actionPoints.SetActive(true);
 
         _actionPointsTxt.text = ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()).ToString();
         _currentRoundTxt.text = "Current round : " + GameManager.instance.GetCurrentRound().ToString();
@@ -428,31 +490,33 @@ public class UIManager : MonoBehaviour
 
     public void UpdateFicheAbility(scriptablePower abilityData)
     {
-        _infosNameAbility.text = "Name : " + abilityData.AbilityName;
-        _infosDescriptionAbility.text = "Description : \n\n" + abilityData.Description;
-        _infosEnergy.text = "Power needed : " + abilityData.ActionPointsNeeded.ToString();
+        _infosNameAbility.text = abilityData.AbilityName.ToUpper();
+        _infosDescriptionAbility.text = "Description : \n\n" + abilityData.Description.ToUpper();
+        _infosCooldown.text = abilityData.ActionPointsNeeded.ToString();
+        _infosAbilityIcon.sprite = abilityData.Icon;
     }
 
     public bool IsFicheAbilityWithSameAbility(scriptablePower abilityData)
     {
-        return _infosNameAbility.text == "Name : " + abilityData.AbilityName;
+        return _infosNameAbility.text == abilityData.AbilityName.ToUpper();
     }
 
     public void ShowFicheRoom(RoomSO roomData)
     {
         _infosRoom.SetActive(true);
 
-        _infosRoomIcon.sprite = roomData.RoomIcon;
         _infosRoomPattern.sprite = roomData.RoomPatternImg;
-        _infosNameRoom.text = roomData.RoomName;
+        _infosNameRoom.text = roomData.RoomName.ToUpper();
 
         if (roomData.RoomAbility != null)
         {
             _infosNameRoomAbility.gameObject.SetActive(true);
             _infosDescriptionRoomAbility.gameObject.SetActive(true);
+            _infosCooldownRoomAbility.gameObject.SetActive(true);
 
-            _infosNameRoomAbility.text = roomData.RoomAbility.AbilityName;
-            _infosDescriptionRoomAbility.text = roomData.RoomAbility.Description;
+            _infosNameRoomAbility.text = roomData.RoomAbility.AbilityName.ToUpper();
+            _infosDescriptionRoomAbility.text = roomData.RoomAbility.Description.ToUpper();
+            _infosCooldownRoomAbility.text = roomData.RoomAbility.Cooldown.ToString();
         }
         else
         {

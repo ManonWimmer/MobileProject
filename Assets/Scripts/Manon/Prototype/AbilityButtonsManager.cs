@@ -77,6 +77,7 @@ public class AbilityButtonsManager : MonoBehaviour
     public void Rewind()
     {
         UpdateRoomsRewind();
+        UIManager.instance.ShowRewindUI();
         StartCoroutine(RewindCoroutine());
     }
 
@@ -133,7 +134,7 @@ public class AbilityButtonsManager : MonoBehaviour
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
         }
 
-        // show ui
+        UIManager.instance.BackToCombatUI();
         yield return null;
     }
 
@@ -1445,7 +1446,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
     }
 
-    private UpgradeShotStep GetCurrentPlayerUpgradeShotStep()
+    public UpgradeShotStep GetCurrentPlayerUpgradeShotStep()
     {
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
@@ -1498,7 +1499,7 @@ public class AbilityButtonsManager : MonoBehaviour
             _currentUpgradeShotStepPlayer2 = _tempUpgradeShotStep;
         }
 
-        //UIManager.instance.CheckAlternateShotDirectionImgRotation();
+        UIManager.instance.CheckUpgradeShotLvlImg();
     }
     #endregion
 
@@ -1611,7 +1612,6 @@ public class AbilityButtonsManager : MonoBehaviour
         if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
         {
             Debug.Log("hit room " + tile.Room.name);
-            tile.RoomTileSpriteRenderer.color = Color.blue;
             tile.IsReavealed = true;
 
             GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
