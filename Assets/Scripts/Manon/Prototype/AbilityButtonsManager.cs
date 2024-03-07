@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using Random = UnityEngine.Random;
 
 public enum AlternateShotDirection
 {
@@ -180,9 +181,6 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("SimpleHit"):
                 SimpleHit_Action();
                 break;
-            case ("SimpleReveal"):
-                SimpleReveal_Action();
-                break;
             case ("EMP"):
                 EMP_Action();
                 break;
@@ -201,6 +199,9 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("Probe"):
                 StartCoroutine(ProbeRewind(targetsOnRewind));
                 break;
+            case ("RandomReveal"):
+                StartCoroutine(RandomRevealRewind(targetsOnRewind));
+                break;
         }
 
         UpdateRoomsRewind();
@@ -213,6 +214,16 @@ public class AbilityButtonsManager : MonoBehaviour
             _target = target;
             Probe_Action();
             yield return new WaitForSeconds(0.4f);
+        }
+    }
+
+    private IEnumerator RandomRevealRewind(List<Tile> targets)
+    {
+        foreach (Tile target in targets) // 5 reveals
+        {
+            _target = target;
+            RevealRoom(_target);
+            yield return new WaitForSeconds(0.25f);
         }
     }
     #endregion
@@ -311,9 +322,6 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("SimpleHit"):
                 SimpleHit_SelectAbilityTiles();
                 break;
-            case ("SimpleReveal"):
-                SimpleReveal_SelectAbilityTiles();
-                break;
             case ("EMP"):
                 EMP_SelectAbilityTiles();
                 break;
@@ -326,6 +334,7 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("Probe"):
                 Probe_SelectAbilityTiles();
                 break;
+            case ("RandomReveal"):
             case ("TimeAccelerator"):
             case ("Capacitor"):
                 break; // Pas de tile à sélectionner lol
@@ -387,8 +396,8 @@ public class AbilityButtonsManager : MonoBehaviour
                 UseSimpleHit();
                 DeselectAbilityButton(_selectedButton);
                 break;
-            case ("SimpleReveal"):
-                UseSimpleReveal();
+            case ("RandomReveal"):
+                UseRandomReveal();
                 DeselectAbilityButton(_selectedButton);
                 break;
             case ("EMP"):
@@ -1093,22 +1102,20 @@ public class AbilityButtonsManager : MonoBehaviour
     }
     #endregion
 
-    #region Simple Reveal
+    #region Random Reveal
     // Selection
-    private void SimpleReveal_SelectAbilityTiles()
+    private void RandomReveal_SelectAbilityTiles()
     {
         Debug.Log("select ability tiles simple reveal");
-        SelectOnlyTargetTile();
+        
     }
 
     // Use
-    private void UseSimpleReveal()
+    private void UseRandomReveal()
     {
         // ----- REWIND ----- //
         if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
-        _currentActionTargetTiles.Add(_target);
-        AddActionToCurrentPlayerRound("SimpleReveal");
         // ----- REWIND ----- //
 
         _selectedButton.SetCooldown();
@@ -1116,13 +1123,38 @@ public class AbilityButtonsManager : MonoBehaviour
 
         DesactivateSimpleHitX2IfActivated();
 
-        SimpleReveal_Action();
+        // Get Player Tiles
+        List<Tile> playerTiles = new List<Tile>();
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            playerTiles = GameManager.instance.TilesPlayer2;
+        }
+        else
+        {
+            playerTiles = GameManager.instance.TilesPlayer1;
+        }
+
+        // Get random reveal tiles
+
+        while(_currentActionTargetTiles.Count < 5)
+        {
+            int randomIndex = Random.Range(0, playerTiles.Count);
+            Tile randomTile = playerTiles[randomIndex];
+
+            if (!_currentActionTargetTiles.Contains(randomTile) && !randomTile.IsDestroyed && !randomTile.IsReavealed && !randomTile.IsOccupied)
+            {
+                _currentActionTargetTiles.Add(randomTile);
+                RevealRoom(randomTile);
+            } 
+        }
+
+        AddActionToCurrentPlayerRound("RandomReveal");
 
         UpdateHiddenRooms(); // si destroy ou reveal 
         UIManager.instance.CheckAbilityButtonsColor();
     }
 
-    private void SimpleReveal_Action()
+    private void RandomReveal_Action()
     {
         RevealRoom(_target);
     }
