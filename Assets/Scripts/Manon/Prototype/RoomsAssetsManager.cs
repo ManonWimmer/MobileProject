@@ -59,8 +59,7 @@ public class RoomsAssetsManager : MonoBehaviour
 
         switch (ability.AbilityName)
         {
-            case ("Cockpit"):
-            case ("Generator"):
+            case ("Simple Hit"):
                 if (!isDestroyed)
                     spriteRenderer.sprite = _vitalRevealed;
                 else

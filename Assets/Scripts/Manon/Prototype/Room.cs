@@ -68,7 +68,7 @@ public class Room : MonoBehaviour
         
         // Move room with mouse / finger
         Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
-        transform.position = new Vector3(newPosition.x, newPosition.y, transform.position.z);
+        transform.position = new Vector3(newPosition.x, newPosition.y, -1f);
     }
 
     void OnMouseUp()
@@ -83,7 +83,7 @@ public class Room : MonoBehaviour
             firstTile.Room = this;
             firstTile.IsOccupied = true;
 
-            transform.position = new Vector3(firstTile.transform.position.x, firstTile.transform.position.y, transform.position.z);
+            transform.position = new Vector3(firstTile.transform.position.x, firstTile.transform.position.y, -0.5f);
             isDragging = false;
             //GameManager.instance.SetBuildingTilesOccupied(this, firstTile);
         }
@@ -92,7 +92,7 @@ public class Room : MonoBehaviour
             endDragTile.Room = this;
             endDragTile.IsOccupied = true;
 
-            transform.position = new Vector3(endDragTile.transform.position.x, endDragTile.transform.position.y, transform.position.z);
+            transform.position = new Vector3(endDragTile.transform.position.x, endDragTile.transform.position.y, -0.5f);
             isDragging = false;
             GameManager.instance.SetBuildingTilesOccupied(this, endDragTile);
         }

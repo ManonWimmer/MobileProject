@@ -18301,26 +18301,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4ebb018945414448348b296780f76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vitalRevealed: {fileID: 0}
-  _vitalDestroyed: {fileID: 0}
+  _vitalRevealed: {fileID: 21300000, guid: 8fe871cba1f22d7459a8b1ad0bf55b22, type: 3}
+  _vitalDestroyed: {fileID: 21300000, guid: 9f612920f15b02c48a1062150d2db763, type: 3}
   _alternateShotRevealed: {fileID: 21300000, guid: d61a149f9e6034f4b8f058527c576d3a, type: 3}
-  _alternateShotDestroyed: {fileID: 0}
+  _alternateShotDestroyed: {fileID: 21300000, guid: 0ec5db72c8db2fb438b836d6ee5eb011, type: 3}
   _capacitorRevealed: {fileID: 21300000, guid: ac8d0625eddeb554093fca2f820fcfe0, type: 3}
-  _capacitorDestroyed: {fileID: 0}
+  _capacitorDestroyed: {fileID: 21300000, guid: 522d63e611fcd244a9da5a029749d38a, type: 3}
   _empRevealed: {fileID: 21300000, guid: 65c1e5f2c3314d744942b29a7f1385cd, type: 3}
-  _empDestroyed: {fileID: 0}
+  _empDestroyed: {fileID: 21300000, guid: aec70dba89e178f41a5875f3895bd9f7, type: 3}
   _probeRevealed: {fileID: 21300000, guid: 29b6a0d2b8bfd6841badc5df2ddb40e0, type: 3}
-  _probeDestroyed: {fileID: 0}
+  _probeDestroyed: {fileID: 21300000, guid: fb89c2532b7799f40b682b63cb6fa703, type: 3}
   _scannerRevealed: {fileID: 21300000, guid: fe87dfa450dd0244fbc22d460da526e2, type: 3}
-  _scannerDestroyed: {fileID: 0}
+  _scannerDestroyed: {fileID: 21300000, guid: 14b57339d5933444a8ea3923f2c4ef65, type: 3}
   _timeAcceleratorRevealed: {fileID: 21300000, guid: f672920f2138e744faeb4948866d9897, type: 3}
-  _timeAcceleratorDestroyed: {fileID: 0}
+  _timeAcceleratorDestroyed: {fileID: 21300000, guid: d5be3e39bf1550d48bfe7109a651ca2b, type: 3}
   _upgradeShotRevealed: {fileID: 21300000, guid: f672920f2138e744faeb4948866d9897, type: 3}
-  _upgradeShotDestroyed: {fileID: 0}
+  _upgradeShotDestroyed: {fileID: 21300000, guid: 972b956f2d7ca9243a1d20659461f882, type: 3}
   _bombRevealed: {fileID: 21300000, guid: 3534c6e6df21de942900a47c03eb8217, type: 3}
-  _bombDestroyed: {fileID: 0}
+  _bombDestroyed: {fileID: 21300000, guid: 63d17c46283539d43b446698b9af6ccb, type: 3}
   _shieldRevealed: {fileID: 21300000, guid: 952f7e782cdcde24ab20a33b1a026189, type: 3}
-  _shieldDestroyed: {fileID: 0}
+  _shieldDestroyed: {fileID: 21300000, guid: 86e049de2556e7b4ab30721d2e39145c, type: 3}
 --- !u!1 &2082120430
 GameObject:
   m_ObjectHideFlags: 0
