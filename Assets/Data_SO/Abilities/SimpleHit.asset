@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityName: Simple Hit
   Description: Simple hit description
-  Icon: {fileID: 21300000, guid: 273073e091c8cac48874d7e6879de7d8, type: 3}
+  Icon: {fileID: 21300000, guid: ff141a028fed2d14e85bd6ca3b753a20, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 0
   AbilityButton: {fileID: 0}

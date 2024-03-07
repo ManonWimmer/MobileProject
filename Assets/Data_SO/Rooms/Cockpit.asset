@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cockpit
   m_EditorClassIdentifier: 
   RoomName: Cockpit
-  RoomIcon: {fileID: 21300000, guid: 273073e091c8cac48874d7e6879de7d8, type: 3}
+  RoomIcon: {fileID: 21300000, guid: ff141a028fed2d14e85bd6ca3b753a20, type: 3}
   RoomPatternImg: {fileID: 21300000, guid: 7791391b0efb0b749ac5cce7478346ae, type: 3}
   RoomAbility: {fileID: 11400000, guid: 0496029f2df908c4cbe22288cf3ced03, type: 2}
   IsVital: 1

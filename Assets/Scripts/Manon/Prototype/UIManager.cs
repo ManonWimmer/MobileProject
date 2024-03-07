@@ -32,22 +32,24 @@ public class UIManager : MonoBehaviour
     public bool ChangingPlayer;
 
     [Header("Action Points")]
+    [SerializeField] GameObject _actionPoints;
     [SerializeField] TMP_Text _actionPointsTxt;
     [SerializeField] TMP_Text _currentRoundTxt;
 
     [Header("Infos Ability")]
     [SerializeField] GameObject _infosAbility;
+    [SerializeField] Image _infosAbilityIcon;
     [SerializeField] TMP_Text _infosNameAbility;
     [SerializeField] TMP_Text _infosDescriptionAbility;
-    [SerializeField] TMP_Text _infosEnergy;
+    [SerializeField] TMP_Text _infosCooldown;
 
     [Header("Infos Room")]
     [SerializeField] GameObject _infosRoom;
-    [SerializeField] Image _infosRoomIcon;
     [SerializeField] Image _infosRoomPattern;
     [SerializeField] TMP_Text _infosNameRoom;
     [SerializeField] TMP_Text _infosNameRoomAbility;
     [SerializeField] TMP_Text _infosDescriptionRoomAbility;
+    [SerializeField] TMP_Text _infosCooldownRoomAbility;
 
     [Header("Ability Buttons")]
     [SerializeField] GameObject _randomizeRoomsButton;
@@ -393,15 +395,13 @@ public class UIManager : MonoBehaviour
     #region Action Points
     public void HideActionPoints()
     {
-        _actionPointsTxt.gameObject.SetActive(false);
-        _currentModeTxt.gameObject.SetActive(false);
+        _actionPoints.SetActive(false);
     }
 
     public void ShowOrUpdateActionPoints()
     {
         Debug.Log("show or update action points");
-        _actionPointsTxt.gameObject.SetActive(true);
-        _currentModeTxt.gameObject.SetActive(true);
+        _actionPoints.SetActive(true);
 
         _actionPointsTxt.text = ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()).ToString();
         _currentRoundTxt.text = "Current round : " + GameManager.instance.GetCurrentRound().ToString();
@@ -428,31 +428,33 @@ public class UIManager : MonoBehaviour
 
     public void UpdateFicheAbility(scriptablePower abilityData)
     {
-        _infosNameAbility.text = "Name : " + abilityData.AbilityName;
-        _infosDescriptionAbility.text = "Description : \n\n" + abilityData.Description;
-        _infosEnergy.text = "Power needed : " + abilityData.ActionPointsNeeded.ToString();
+        _infosNameAbility.text = abilityData.AbilityName.ToUpper();
+        _infosDescriptionAbility.text = "Description : \n\n" + abilityData.Description.ToUpper();
+        _infosCooldown.text = abilityData.ActionPointsNeeded.ToString();
+        _infosAbilityIcon.sprite = abilityData.Icon;
     }
 
     public bool IsFicheAbilityWithSameAbility(scriptablePower abilityData)
     {
-        return _infosNameAbility.text == "Name : " + abilityData.AbilityName;
+        return _infosNameAbility.text == abilityData.AbilityName.ToUpper();
     }
 
     public void ShowFicheRoom(RoomSO roomData)
     {
         _infosRoom.SetActive(true);
 
-        _infosRoomIcon.sprite = roomData.RoomIcon;
         _infosRoomPattern.sprite = roomData.RoomPatternImg;
-        _infosNameRoom.text = roomData.RoomName;
+        _infosNameRoom.text = roomData.RoomName.ToUpper();
 
         if (roomData.RoomAbility != null)
         {
             _infosNameRoomAbility.gameObject.SetActive(true);
             _infosDescriptionRoomAbility.gameObject.SetActive(true);
+            _infosCooldownRoomAbility.gameObject.SetActive(true);
 
-            _infosNameRoomAbility.text = roomData.RoomAbility.AbilityName;
-            _infosDescriptionRoomAbility.text = roomData.RoomAbility.Description;
+            _infosNameRoomAbility.text = roomData.RoomAbility.AbilityName.ToUpper();
+            _infosDescriptionRoomAbility.text = roomData.RoomAbility.Description.ToUpper();
+            _infosCooldownRoomAbility.text = roomData.RoomAbility.Cooldown.ToString();
         }
         else
         {
