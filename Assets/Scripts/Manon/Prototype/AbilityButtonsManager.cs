@@ -77,6 +77,7 @@ public class AbilityButtonsManager : MonoBehaviour
     public void Rewind()
     {
         UpdateRoomsRewind();
+        UIManager.instance.ShowRewindUI();
         StartCoroutine(RewindCoroutine());
     }
 
@@ -133,7 +134,7 @@ public class AbilityButtonsManager : MonoBehaviour
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
         }
 
-        // show ui
+        UIManager.instance.BackToCombatUI();
         yield return null;
     }
 

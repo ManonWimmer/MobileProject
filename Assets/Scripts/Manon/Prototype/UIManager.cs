@@ -82,6 +82,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text _currentCaptainName;
     [SerializeField] List<RawImage> _playerLifeImagesFrom1To6;
 
+    [Header("Rewind")]
+    [SerializeField] TMP_Text _rewindTxt;
+
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
 
@@ -107,6 +110,35 @@ public class UIManager : MonoBehaviour
         HideFireButton();
         HideProbeCount();
         HidePlayerCorner();
+        HideRewindTxt();
+    }
+
+    public void HideRewindTxt()
+    {
+        _rewindTxt.gameObject.SetActive(false);
+    }
+
+    public void ShowRewindTxt()
+    {
+        _rewindTxt.gameObject.SetActive(true);
+    }
+
+    public void ShowRewindUI()
+    {
+        ShowRewindTxt();
+        HideActionPoints();
+        _playerBottom.SetActive(false);
+        HideValidateCombat();
+    }
+
+    public void BackToCombatUI()
+    {
+        HideRewindTxt();
+        ShowOrUpdateActionPoints();
+        _playerBottom.SetActive(true);
+        ShowValidateCombat();
+        HideFicheAbility();
+        HideFicheRoom();
     }
 
     public void HidePlayerCorner()
@@ -286,12 +318,12 @@ public class UIManager : MonoBehaviour
     #region CurrentPlayer
     public void UpdateCurrentPlayerTxt(Player playerTurn)
     {
-        _currentPlayerTxt.text = "Current Player : " + playerTurn.ToString();
+        _currentPlayerTxt.text = playerTurn.ToString().ToUpper();
     }
 
     public void UpdateCurrentModeTxt(Mode currentMode)
     {
-        _currentModeTxt.text = "Current Mode : " + currentMode.ToString();
+        _currentModeTxt.text = currentMode.ToString().ToUpper();
     }
     #endregion
 
