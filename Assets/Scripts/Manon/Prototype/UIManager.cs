@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject _switchShipButton;
 
     [Header("Ability Bonus")]
-    [SerializeField] Image _alternateShotDirectionImg;
+    [SerializeField] Image _alternateShotIcon;
     [SerializeField] Image _simpleHitX2Img;
     [SerializeField] TMP_Text _probeCount;
 
@@ -135,12 +135,12 @@ public class UIManager : MonoBehaviour
         if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
         {
             Debug.Log("horizontal");
-            _alternateShotDirectionImg.rectTransform.eulerAngles = new Vector3(0, 0, 0);
+            _alternateShotIcon.rectTransform.eulerAngles = new Vector3(0, 0, 0);
         }
         else
         {
             Debug.Log("vertical");
-            _alternateShotDirectionImg.rectTransform.eulerAngles = new Vector3(0, 0, 90);
+            _alternateShotIcon.rectTransform.eulerAngles = new Vector3(0, 0, 90);
         }
     }
 

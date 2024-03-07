@@ -99,7 +99,11 @@ PrefabInstance:
     - target: {fileID: 3932830384959576772, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 62bec72bd7b44824da1dc735e8244de9, type: 3}
+      objectReference: {fileID: 21300000, guid: abdc0920e40bc2048ae644d1bd6c2800, type: 3}
+    - target: {fileID: 4046503059675432424, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
+      propertyPath: m_Name
+      value: CapacitorIcon
+      objectReference: {fileID: 0}
     - target: {fileID: 4129928616791618933, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

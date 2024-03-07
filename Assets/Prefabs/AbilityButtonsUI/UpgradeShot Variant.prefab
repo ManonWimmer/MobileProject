@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 338668236844065274, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2708d15279c9bac44a6fc09bc72a9d39, type: 3}
+      objectReference: {fileID: 21300000, guid: 00152770f8730b345837952528b88fa0, type: 3}
     - target: {fileID: 724826126581563094, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
       propertyPath: m_Name
       value: UpgradeShotIcon

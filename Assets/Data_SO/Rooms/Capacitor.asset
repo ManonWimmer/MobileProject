@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Capacitor
   m_EditorClassIdentifier: 
   RoomName: Capacitor Room
-  RoomIcon: {fileID: 21300000, guid: 9c0e057a23e32be4fb265c27885036e2, type: 3}
+  RoomIcon: {fileID: 21300000, guid: abdc0920e40bc2048ae644d1bd6c2800, type: 3}
   RoomPatternImg: {fileID: 21300000, guid: 3d5d0d1da5b757f45be46916f968a8cd, type: 3}
   RoomAbility: {fileID: 11400000, guid: f601d8fdaa2200d4eb4607db2cebbf66, type: 2}
   IsVital: 0
