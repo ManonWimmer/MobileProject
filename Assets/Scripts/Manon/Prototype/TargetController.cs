@@ -6,7 +6,7 @@ public class TargetController : MonoBehaviour
 {
     // ----- FIELDS ----- //
     public static TargetController instance;
-
+    private bool _canShoot;
     private SpriteRenderer _spriteRenderer;
     // ----- FIELDS ----- //
 
@@ -17,7 +17,7 @@ public class TargetController : MonoBehaviour
 
     private void Start()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        //_spriteRenderer = GetComponent<SpriteRenderer>();
 
         HideTarget();
     }
@@ -25,12 +25,18 @@ public class TargetController : MonoBehaviour
     #region Show / Hide
     public void ShowTarget()
     {
-        _spriteRenderer.enabled = true;
+        foreach(SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
+        {
+            sr.enabled = true;
+        }
     }
 
     public void HideTarget()
     {
-        _spriteRenderer.enabled = false;
+        foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
+        {
+            sr.enabled = false;
+        }
     }
     #endregion
 
@@ -45,24 +51,19 @@ public class TargetController : MonoBehaviour
     public void ChangeTargetColorToRed()
     {
         Debug.Log("target red (desactivated)");
-        _spriteRenderer.color = Color.magenta;
+        //_spriteRenderer.color = Color.magenta;
         UIManager.instance.CheckAbilityButtonsColor();
     }
 
     public void ChangeTargetColorToWhite()
     {
         Debug.Log("target white");
-        _spriteRenderer.color = Color.magenta; // white on voit pas avec les sprite blanches temp, a changer plus tard avec les assets
+        //_spriteRenderer.color = Color.magenta; // white on voit pas avec les sprite blanches temp, a changer plus tard avec les assets
     }
     #endregion
 
     public bool CanShootOnThisTile()
     {
-        if (_spriteRenderer.color == Color.magenta)
-        {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 }
