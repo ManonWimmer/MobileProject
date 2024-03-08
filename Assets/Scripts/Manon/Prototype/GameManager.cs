@@ -102,6 +102,12 @@ public class GameManager : MonoBehaviour
     private int _probeCooldownPlayer1;
     private int _probeCooldownPlayer2;
 
+    private int _energyDecoyCooldownPlayer1;
+    private int _energyDecoyCooldownPlayer2;
+
+    private bool _energyDecoyTriggeredPlayer1;
+    private bool _energyDecoyTriggeredPlayer2;
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
     public List<Tile> TilesRewindPlayer1 { get => _tilesRewindPlayer1; set => _tilesRewindPlayer1 = value; }
@@ -110,6 +116,8 @@ public class GameManager : MonoBehaviour
     public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer2 { get => _dictTilesRowColumnPlayer2; set => _dictTilesRowColumnPlayer2 = value; }
     public List<Tile> TilesPlayer1 { get => _tilesPlayer1; set => _tilesPlayer1 = value; }
     public List<Tile> TilesPlayer2 { get => _tilesPlayer2; set => _tilesPlayer2 = value; }
+    public bool EnergyDecoyTriggeredPlayer1 { get => _energyDecoyTriggeredPlayer1; set => _energyDecoyTriggeredPlayer1 = value; }
+    public bool EnergyDecoyTriggeredPlayer2 { get => _energyDecoyTriggeredPlayer2; set => _energyDecoyTriggeredPlayer2 = value; }
 
     // ----- FIELDS ----- //
 
@@ -934,7 +942,7 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private void CreateNewBuilding(Room building, Tile tile, Player player)
+    public void CreateNewBuilding(Room building, Tile tile, Player player)
     {
         // place new building
         Debug.Log("instantiate new building");
@@ -960,6 +968,42 @@ public class GameManager : MonoBehaviour
 
         tile.Room = newBuilding;
         tile.IsOccupied = true;
+        tile.IsReavealed = false;
+        tile.IsDestroyed = false;
+
+        SetBuildingTilesOccupied(newBuilding, tile);
+    }
+
+    public void CreateNewBuildingRewind(Room building, Tile tile, Player player)
+    {
+        // place new building
+        Debug.Log("instantiate new building rewind");
+        Room newBuilding = Instantiate(building, new Vector3(tile.transform.position.x, tile.transform.position.y, -0.5f), Quaternion.identity);
+
+        if (player == Player.Player1)
+        {
+            newBuilding.transform.parent = _rewindShipPlayer2.gameObject.transform;
+        }
+        else
+        {
+            newBuilding.transform.parent = _rewindShipPlayer1.gameObject.transform;
+        }
+
+        /*
+        if (player == Player.Player1)
+        {
+            _placedRoomsPlayer1.Add(newBuilding);
+        }
+        else
+        {
+            _placedRoomsPlayer2.Add(newBuilding);
+        }
+        */
+
+        tile.Room = newBuilding;
+        tile.IsOccupied = true;
+        tile.IsReavealed = false;
+        tile.IsDestroyed = false;
 
         SetBuildingTilesOccupied(newBuilding, tile);
     }
@@ -984,6 +1028,9 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.LeftTilesSR.Count; i++)
             {
                 currentTile.LeftTile.IsOccupied = true;
+                currentTile.LeftTile.IsReavealed = false;
+                currentTile.LeftTile.IsDestroyed = false;
+
                 currentTile.LeftTile.Room = building;
                 currentTile.LeftTile.RoomTileSpriteRenderer = building.LeftTilesSR[i];
 
@@ -998,6 +1045,9 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.RightTilesSR.Count; i++)
             {
                 currentTile.RightTile.IsOccupied = true;
+                currentTile.RightTile.IsReavealed = false;
+                currentTile.RightTile.IsDestroyed = false;
+
                 currentTile.RightTile.Room = building;
                 currentTile.RightTile.RoomTileSpriteRenderer = building.RightTilesSR[i];
 
@@ -1012,6 +1062,9 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.TopTilesSR.Count; i++)
             {
                 currentTile.TopTile.IsOccupied = true;
+                currentTile.TopTile.IsReavealed = false;
+                currentTile.TopTile.IsDestroyed = false;
+
                 currentTile.TopTile.Room = building;
                 currentTile.TopTile.RoomTileSpriteRenderer = building.TopTilesSR[i];
 
@@ -1026,6 +1079,9 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.BottomTilesSR.Count; i++)
             {
                 currentTile.BottomTile.IsOccupied = true;
+                currentTile.BottomTile.IsReavealed = false;
+                currentTile.BottomTile.IsDestroyed = false;
+
                 currentTile.BottomTile.Room = building;
                 currentTile.BottomTile.RoomTileSpriteRenderer = building.BottomTilesSR[i];
 
@@ -1043,6 +1099,9 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.DiagBottomLeftTilesSR.Count; i++)
             {
                 currentTile.DiagBottomLeftTile.IsOccupied = true;
+                currentTile.DiagBottomLeftTile.IsReavealed = false;
+                currentTile.DiagBottomLeftTile.IsDestroyed = false;
+
                 currentTile.DiagBottomLeftTile.Room = building;
                 currentTile.DiagBottomLeftTile.RoomTileSpriteRenderer = building.DiagBottomLeftTilesSR[i];
 
@@ -1057,6 +1116,9 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.DiagBottomRightTilesSR.Count; i++)
             {
                 currentTile.DiagBottomRightTile.IsOccupied = true;
+                currentTile.DiagBottomRightTile.IsReavealed = false;
+                currentTile.DiagBottomRightTile.IsDestroyed = false;
+
                 currentTile.DiagBottomRightTile.Room = building;
                 currentTile.DiagBottomRightTile.RoomTileSpriteRenderer = building.DiagBottomRightTilesSR[i];
 
@@ -1071,6 +1133,9 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.DiagTopLeftTilesSR.Count; i++)
             {
                 currentTile.DiagTopLeftTile.IsOccupied = true;
+                currentTile.DiagTopLeftTile.IsReavealed = false;
+                currentTile.DiagTopLeftTile.IsDestroyed = false;
+
                 currentTile.DiagTopLeftTile.Room = building;
                 currentTile.DiagTopLeftTile.RoomTileSpriteRenderer = building.DiagTopLeftTilesSR[i];
 
@@ -1085,6 +1150,9 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < building.DiagTopRightTilesSR.Count; i++)
             {
                 currentTile.DiagTopRightTile.IsOccupied = true;
+                currentTile.DiagTopRightTile.IsReavealed = false;
+                currentTile.DiagTopRightTile.IsDestroyed = false;
+
                 currentTile.DiagTopRightTile.Room = building;
                 currentTile.DiagTopRightTile.RoomTileSpriteRenderer = building.DiagTopRightTilesSR[i];
 
@@ -1119,11 +1187,14 @@ public class GameManager : MonoBehaviour
         foreach (Tile tile3 in tiles)
         {
             tile3.IsOccupied = false;
+            tile3.IsReavealed = false;
+            tile3.IsDestroyed = false;
             tile3.Room = null;
             tile3.RoomOnOtherTiles.Clear();
             tile3.RoomTileSpriteRenderer = null;
         }
     }
+
 
     public Tile FindNearestTileInGridFromInputPosition(Player player)
     {
@@ -1197,6 +1268,7 @@ public class GameManager : MonoBehaviour
 
     public void ValidateConstruction()
     {
+        Debug.Log("a");
         if (_constructionTimerCoroutine != null)
         {
             StopCoroutine(_constructionTimerCoroutine);
@@ -1205,6 +1277,7 @@ public class GameManager : MonoBehaviour
 
         if (_playerTurn == Player.Player1)
         {
+            Debug.Log("aaa");
             SwitchMode(); // -> Combat
             UIManager.instance.HideButtonValidateConstruction();
             UIManager.instance.ShowButtonsCombat();
@@ -1311,9 +1384,9 @@ public class GameManager : MonoBehaviour
                 {
                     if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
                     {
-                        Debug.Log(tile.name);
+                        //Debug.Log(tile.name);
                         life++;
-                        Debug.Log("life++ " + tile.Room.name + " ; " + life);
+                        //Debug.Log("life++ " + tile.Room.name + " ; " + life);
                     }
                 }
             }
@@ -1326,9 +1399,9 @@ public class GameManager : MonoBehaviour
                 {
                     if (tile.Room.RoomData.IsVital && !tile.IsDestroyed)
                     {
-                        Debug.Log(tile.name);
+                        //Debug.Log(tile.name);
                         life++;
-                        Debug.Log("life++ " + tile.Room.name + " ; " + life);
+                        //Debug.Log("life++ " + tile.Room.name + " ; " + life);
                     }
                 }
             }
@@ -1467,6 +1540,20 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
+                case ("Energy Decoy"):
+                    _energyDecoyCooldownPlayer1 = 0;
+                    _energyDecoyCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "EnergyDecoy")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found energy decoy button");
+                            break;
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -1584,36 +1671,7 @@ public class GameManager : MonoBehaviour
         {
             if (tile.IsOccupied)
             {
-                if (!tile.IsDestroyed && !tile.IsReavealed)
-                {
-                    tile.RoomTileSpriteRenderer.enabled = false;
-                }
-                else
-                {
-                    tile.RoomTileSpriteRenderer.enabled = true;
-                }
-            }
-        }
-    }
-
-    public void ShowOnlyRewindDestroyedAndReavealedRooms(Player playerShip)
-    {
-        Debug.Log("show only destroyed and revealed rooms");
-        List<Tile> tiles = new List<Tile>();
-
-        if (playerShip == Player.Player1)
-        {
-            tiles = _tilesRewindPlayer1;
-        }
-        else
-        {
-            tiles = _tilesRewindPlayer2;
-        }
-
-        foreach (Tile tile in tiles)
-        {
-            if (tile.IsOccupied)
-            {
+                Debug.Log(tile.name);
                 if (!tile.IsDestroyed && !tile.IsReavealed)
                 {
                     tile.RoomTileSpriteRenderer.enabled = false;
@@ -1645,11 +1703,11 @@ public class GameManager : MonoBehaviour
             if (roomCompletelyDestroyed)
             {
                 Debug.Log("room completely destroyed");
-                _targetOnTile.RoomTileSpriteRenderer.color = Color.red;
+                //_targetOnTile.RoomTileSpriteRenderer.color = Color.red;
 
                 foreach (Tile tile in _targetOnTile.RoomOnOtherTiles)
                 {
-                    tile.RoomTileSpriteRenderer.color = Color.red;
+                    //tile.RoomTileSpriteRenderer.color = Color.red;
                     tile.Room.IsRoomDestroyed = true;
                 }
             }
@@ -1677,11 +1735,11 @@ public class GameManager : MonoBehaviour
             if (roomCompletelyDestroyed)
             {
                 Debug.Log("room completely destroyed");
-                targetTile.RoomTileSpriteRenderer.color = Color.red;
+                //targetTile.RoomTileSpriteRenderer.color = Color.red;
 
                 foreach (Tile tile in targetTile.RoomOnOtherTiles)
                 {
-                    tile.RoomTileSpriteRenderer.color = Color.red;
+                    //tile.RoomTileSpriteRenderer.color = Color.red;
                     tile.Room.IsRoomDestroyed = true;
                 }
             }
@@ -1786,6 +1844,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateCurrentPlayer();
             UIManager.instance.HideFicheRoom();
             UIManager.instance.HideFicheAbility();
+            ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
         }
 
         if (_currentMode == Mode.Construction)
@@ -1831,20 +1890,25 @@ public class GameManager : MonoBehaviour
         {
             if (_playerTurn == Player.Player1)
             {
+                Debug.Log("switch player 1 combat");
                 CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
+                Debug.Log("after camera");
                 ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
+                Debug.Log("after show rooms");
                 ShowAllRooms(Player.Player1);
 
                 // new round
                 _currentRound++;
                 Debug.Log("+1 round : " + _currentRound);
-                ActionPointsManager.instance.InitRoundActionPoints(_currentRound);
+                //UIManager.instance.ShowOrUpdateActionPoints();
             }
             else
             {
+                
                 CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
+                
                 ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
-                UIManager.instance.ShowOrUpdateActionPoints();
+                //UIManager.instance.ShowOrUpdateActionPoints();
                 ShowAllRooms(Player.Player2);
             }
 
@@ -1865,12 +1929,15 @@ public class GameManager : MonoBehaviour
             UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.HideRandomizeRoomsButton();
             UIManager.instance.ShowShitchShipButton();
+            AbilityButtonsManager.instance.ResetRoundAbilityButtons();
             //SetRoundTargetPos();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
             UIManager.instance.StartGameCanvas();
             UIManager.instance.UpdateEnemyLife();
             UIManager.instance.UpdateCurrentPlayer();
+            ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
+            UIManager.instance.ShowOrUpdateActionPoints();
         }
         else if (_currentMode == Mode.Draft)
         {
@@ -1992,6 +2059,16 @@ public class GameManager : MonoBehaviour
                     _probeCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
+            case ("Energy Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _energyDecoyCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _energyDecoyCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
         }
     }
 
@@ -2079,6 +2156,16 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     _probeCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Energy Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _energyDecoyCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _energyDecoyCooldownPlayer1 += 2;
                 }
                 break;
         }
@@ -2220,6 +2307,22 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
+            case ("Energy Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_energyDecoyCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_energyDecoyCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
         }
 
         return true;
@@ -2244,6 +2347,8 @@ public class GameManager : MonoBehaviour
             _scannerCooldownPlayer1 = (int)Mathf.Clamp(_scannerCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _capacitorCooldownPlayer1 = (int)Mathf.Clamp(_capacitorCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _upgradeShotCooldownPlayer1 = (int)Mathf.Clamp(_upgradeShotCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _probeCooldownPlayer1 = (int)Mathf.Clamp(_probeCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _energyDecoyCooldownPlayer1 = (int)Mathf.Clamp(_energyDecoyCooldownPlayer1 - amount, 0, Mathf.Infinity);
         }
         else
         {
@@ -2254,6 +2359,8 @@ public class GameManager : MonoBehaviour
             _scannerCooldownPlayer2 = (int)Mathf.Clamp(_scannerCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _capacitorCooldownPlayer2 = (int)Mathf.Clamp(_capacitorCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _upgradeShotCooldownPlayer2 = (int)Mathf.Clamp(_upgradeShotCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _probeCooldownPlayer2 = (int)Mathf.Clamp(_probeCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _energyDecoyCooldownPlayer2 = (int)Mathf.Clamp(_energyDecoyCooldownPlayer2 - amount, 0, Mathf.Infinity);
         }
 
         AbilityButtonsManager.instance.UpdateAllAbilityButtonsCooldown();
@@ -2336,6 +2443,15 @@ public class GameManager : MonoBehaviour
                 {
                     return _probeCooldownPlayer2;
                 }
+            case ("Energy Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _energyDecoyCooldownPlayer1;
+                }
+                else
+                {
+                    return _energyDecoyCooldownPlayer2;
+                }
         }
 
         return 0;
@@ -2416,6 +2532,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _probeCooldownPlayer1;
+                }
+            case ("Energy Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _energyDecoyCooldownPlayer2;
+                }
+                else
+                {
+                    return _energyDecoyCooldownPlayer1;
                 }
         }
 

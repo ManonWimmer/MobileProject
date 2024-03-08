@@ -44,6 +44,7 @@ public class EnemyActionsManager : MonoBehaviour
             else
             {
                 Debug.Log("ERROR : ABILITY NULL");
+                return;
             }
             i++;
         }

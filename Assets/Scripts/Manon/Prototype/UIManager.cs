@@ -129,6 +129,7 @@ public class UIManager : MonoBehaviour
         HideActionPoints();
         _playerBottom.SetActive(false);
         HideValidateCombat();
+        TargetController.instance.HideTarget();
     }
 
     public void BackToCombatUI()
@@ -392,7 +393,7 @@ public class UIManager : MonoBehaviour
         {
 
             AbilityButton button = abilityButton.GetComponentInChildren<AbilityButton>();
-            Debug.Log(button.name);
+            //Debug.Log(button.name);
             if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()) > 0 && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline && GameManager.instance.GetCurrentCooldown(button.GetAbility()) == 0)
             {
                 if (button.IsSelected)
