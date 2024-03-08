@@ -25,9 +25,12 @@ public class TargetController : MonoBehaviour
     #region Show / Hide
     public void ShowTarget()
     {
-        foreach(SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
+        if (!AbilityButtonsManager.instance.IsInRewind)
         {
-            sr.enabled = true;
+            foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
+            {
+                sr.enabled = true;
+            }
         }
     }
 
