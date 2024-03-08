@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16a99debe98348e4ca84da7e5acc4b73, type: 3}
-  m_Name: Capacitor
+  m_Name: RandomReveal
   m_EditorClassIdentifier: 
-  RoomName: Capacitor Room
-  RoomIcon: {fileID: 21300000, guid: abdc0920e40bc2048ae644d1bd6c2800, type: 3}
-  RoomPatternImg: {fileID: 21300000, guid: 3d5d0d1da5b757f45be46916f968a8cd, type: 3}
-  RoomAbility: {fileID: 11400000, guid: f601d8fdaa2200d4eb4607db2cebbf66, type: 2}
+  RoomName: Random Reveal
+  RoomIcon: {fileID: 21300000, guid: 273073e091c8cac48874d7e6879de7d8, type: 3}
+  RoomPatternImg: {fileID: 21300000, guid: db263039232d8ff4d957a0c86138bd14, type: 3}
+  RoomAbility: {fileID: 11400000, guid: 26c0d40d755705443bc53e84cac6a75c, type: 2}
   IsVital: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Probe
   m_EditorClassIdentifier: 
   RoomName: Probe
-  RoomIcon: {fileID: 21300000, guid: 62de090ce0224af42a9fba5b3e1a9e3f, type: 3}
+  RoomIcon: {fileID: 21300000, guid: de5c4609061a8b7438b7e1c557c3f600, type: 3}
   RoomPatternImg: {fileID: 21300000, guid: 08506a3261692734cb99290dadacb39e, type: 3}
   RoomAbility: {fileID: 11400000, guid: 32d86dd4e591d8b43b19827e5bc2022f, type: 2}
   IsVital: 0

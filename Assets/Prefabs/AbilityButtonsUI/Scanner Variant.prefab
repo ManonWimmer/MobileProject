@@ -104,6 +104,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Scanner
       objectReference: {fileID: 0}
+    - target: {fileID: 8093146997086479257, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_Name
+      value: ScannerIcon
+      objectReference: {fileID: 0}
     - target: {fileID: 8153986432788206340, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -123,7 +127,7 @@ PrefabInstance:
     - target: {fileID: 9145837923630283957, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 94370fa7ad92b4b47860ec99584403b2, type: 3}
+      objectReference: {fileID: 21300000, guid: 39d2b32a8426fb74fa3221c16c41426d, type: 3}
     m_RemovedComponents:
     - {fileID: 3779477264171125507, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
     m_RemovedGameObjects:

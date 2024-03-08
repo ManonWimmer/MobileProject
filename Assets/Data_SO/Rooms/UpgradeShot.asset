@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UpgradeShot
   m_EditorClassIdentifier: 
   RoomName: Upgrade Shot
-  RoomIcon: {fileID: 21300000, guid: 531fe602f33e8c9469873678210f8577, type: 3}
+  RoomIcon: {fileID: 21300000, guid: 17e8c35ffb406a444ae1a7aa2090fb72, type: 3}
   RoomPatternImg: {fileID: 21300000, guid: ecd42301eec0dfb45a15e7d923cf7bd5, type: 3}
   RoomAbility: {fileID: 11400000, guid: 6e06ddcfc825bdf44a299e17ec89d11b, type: 2}
   IsVital: 0

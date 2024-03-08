@@ -46,6 +46,10 @@ public class RoomsAssetsManager : MonoBehaviour
     [Header("Shield")]
     [SerializeField] Sprite _shieldRevealed;
     [SerializeField] Sprite _shieldDestroyed;
+
+    [Header("Random Reveal")]
+    [SerializeField] Sprite _randomRevealRevealed;
+    [SerializeField] Sprite _randomRevealDestroyed;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -119,6 +123,12 @@ public class RoomsAssetsManager : MonoBehaviour
                     spriteRenderer.sprite = _shieldRevealed;
                 else
                     spriteRenderer.sprite = _shieldDestroyed;
+                break;
+            case ("Random Reveal"):
+                if (!isDestroyed)
+                    spriteRenderer.sprite = _randomRevealRevealed;
+                else
+                    spriteRenderer.sprite = _randomRevealDestroyed;
                 break;
         }
     }

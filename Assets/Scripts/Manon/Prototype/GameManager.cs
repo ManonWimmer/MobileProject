@@ -78,8 +78,8 @@ public class GameManager : MonoBehaviour
 
     private int _currentRound;
 
-    private int _simpleRevealCooldownPlayer1;
-    private int _simpleRevealCooldownPlayer2;
+    private int _randomRevealCooldownPlayer1;
+    private int _randomRevealCooldownPlayer2;
 
     private int _empCooldownPlayer1;
     private int _empCooldownPlayer2;
@@ -108,6 +108,8 @@ public class GameManager : MonoBehaviour
     public List<Tile> TilesRewindPlayer2 { get => _tilesRewindPlayer2; set => _tilesRewindPlayer2 = value; }
     public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer1 { get => _dictTilesRowColumnPlayer1; set => _dictTilesRowColumnPlayer1 = value; }
     public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer2 { get => _dictTilesRowColumnPlayer2; set => _dictTilesRowColumnPlayer2 = value; }
+    public List<Tile> TilesPlayer1 { get => _tilesPlayer1; set => _tilesPlayer1 = value; }
+    public List<Tile> TilesPlayer2 { get => _tilesPlayer2; set => _tilesPlayer2 = value; }
 
     // ----- FIELDS ----- //
 
@@ -171,7 +173,6 @@ public class GameManager : MonoBehaviour
         // Start Construction
         InitGridDicts();
         RandomizeRoomsPlacement();
-        InitRoomsIcons();
 
         // Update UI
         UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);
@@ -180,7 +181,7 @@ public class GameManager : MonoBehaviour
         SwitchMode();
 
         _gameStarted = true;
-        UIManager.instance.ShowOrUpdateActionPoints();
+        //UIManager.instance.ShowOrUpdateActionPoints();
         InitAbilitesSOButtons();
     }
 
@@ -622,6 +623,8 @@ public class GameManager : MonoBehaviour
     {
         RandomizeRoomsPlayer1();
         RandomizeRoomsPlayer2();
+
+        InitRoomsIcons();
     }
 
     public void RandomizeRooms()
@@ -635,6 +638,8 @@ public class GameManager : MonoBehaviour
         {
             RandomizeRoomsPlayer2();
         }
+
+        InitRoomsIcons();
     }
 
     private void RandomizeRoomsPlayer1()
@@ -679,6 +684,8 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+
     }
 
     private void RandomizeRoomsPlayer2()
@@ -1376,16 +1383,16 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
-                case ("Simple Reveal"):
-                    _simpleRevealCooldownPlayer1 = 0;
-                    _simpleRevealCooldownPlayer2 = 0;
+                case ("Random Reveal"):
+                    _randomRevealCooldownPlayer1 = 0;
+                    _randomRevealCooldownPlayer2 = 0;
 
                     for (int i = 0; i < _abilityButtons.Count; i++)
                     {
-                        if (_abilityButtons[i].name == "SimpleReveal")
+                        if (_abilityButtons[i].name == "RandomReveal")
                         {
                             ability.AbilityButton = _abilityButtons[i];
-                            Debug.Log("found simple reveal button");
+                            Debug.Log("found random reveal button");
                             break;
                         }
                     }
@@ -1764,20 +1771,21 @@ public class GameManager : MonoBehaviour
 
         UIManager.instance.ShowChangerPlayerCanvas(_playerTurn);
 
-        //TargetController.instance.HideTarget();
         _targetOnTile = null;
 
         if (_currentMode == Mode.Combat)
         {
             CheckPlayerAbilityButtonsEnabled();
             AbilityButtonsManager.instance.ResetRoundAbilityButtons();
-            //SetRoundTargetPos();
             UIManager.instance.CheckAlternateShotDirectionImgRotation();
+            UIManager.instance.CheckUpgradeShotLvlImg();
             UIManager.instance.CheckSimpleHitX2Img();
             AbilityButtonsManager.instance.ResetCurrentProbeCount();
             UIManager.instance.UpdateEnemyLife();
             EnemyActionsManager.instance.HideAllEnemyActions();
             UIManager.instance.UpdateCurrentPlayer();
+            UIManager.instance.HideFicheRoom();
+            UIManager.instance.HideFicheAbility();
         }
 
         if (_currentMode == Mode.Construction)
@@ -1924,14 +1932,14 @@ public class GameManager : MonoBehaviour
                     _timeAcceleratorCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
-            case ("Simple Reveal"):
+            case ("Random Reveal"):
                 if (_playerTurn == Player.Player1)
                 {
-                    _simpleRevealCooldownPlayer1 = ability.Cooldown;
+                    _randomRevealCooldownPlayer1 = ability.Cooldown;
                 }
                 else
                 {
-                    _simpleRevealCooldownPlayer2 = ability.Cooldown;
+                    _randomRevealCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
             case ("Alternate Shot"):
@@ -2013,14 +2021,14 @@ public class GameManager : MonoBehaviour
                     _timeAcceleratorCooldownPlayer1 += 2;
                 }
                 break;
-            case ("Simple Reveal"):
+            case ("Random Reveal"):
                 if (_playerTurn == Player.Player1)
                 {
-                    _simpleRevealCooldownPlayer2 += 2;
+                    _randomRevealCooldownPlayer2 += 2;
                 }
                 else
                 {
-                    _simpleRevealCooldownPlayer1 += 2;
+                    _randomRevealCooldownPlayer1 += 2;
                 }
                 break;
             case ("Alternate Shot"):
@@ -2116,17 +2124,17 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
-            case ("Simple Reveal"):
+            case ("Random Reveal"):
                 if (_playerTurn == Player.Player1)
                 {
-                    if (_simpleRevealCooldownPlayer1 == 0)
+                    if (_randomRevealCooldownPlayer1 == 0)
                     {
                         return false;
                     }
                 }
                 else
                 {
-                    if (_simpleRevealCooldownPlayer2 == 0)
+                    if (_randomRevealCooldownPlayer2 == 0)
                     {
                         return false;
                     }
@@ -2229,7 +2237,7 @@ public class GameManager : MonoBehaviour
 
         if (_playerTurn == Player.Player1)
         {
-            _simpleRevealCooldownPlayer1 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _randomRevealCooldownPlayer1 = (int)Mathf.Clamp(_randomRevealCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _empCooldownPlayer1 = (int)Mathf.Clamp(_empCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _timeAcceleratorCooldownPlayer1 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _alternateShotCooldownPlayer1 = (int)Mathf.Clamp(_alternateShotCooldownPlayer1 - amount, 0, Mathf.Infinity);
@@ -2239,7 +2247,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _simpleRevealCooldownPlayer2 = (int)Mathf.Clamp(_simpleRevealCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _randomRevealCooldownPlayer2 = (int)Mathf.Clamp(_randomRevealCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _empCooldownPlayer2 = (int)Mathf.Clamp(_empCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _timeAcceleratorCooldownPlayer2 = (int)Mathf.Clamp(_timeAcceleratorCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _alternateShotCooldownPlayer2 = (int)Mathf.Clamp(_alternateShotCooldownPlayer2 - amount, 0, Mathf.Infinity);
@@ -2274,14 +2282,14 @@ public class GameManager : MonoBehaviour
                 {
                     return _timeAcceleratorCooldownPlayer2;
                 }
-            case ("Simple Reveal"):
+            case ("Random Reveal"):
                 if (_playerTurn == Player.Player1)
                 {
-                    return _simpleRevealCooldownPlayer1;
+                    return _randomRevealCooldownPlayer1;
                 }
                 else
                 {
-                    return _simpleRevealCooldownPlayer2;
+                    return _randomRevealCooldownPlayer2;
                 }
             case ("Alternate Shot"):
                 if (_playerTurn == Player.Player1)
@@ -2355,14 +2363,14 @@ public class GameManager : MonoBehaviour
                 {
                     return _timeAcceleratorCooldownPlayer1;
                 }
-            case ("Simple Reveal"):
+            case ("Random Reveal"):
                 if (_playerTurn == Player.Player1)
                 {
-                    return _simpleRevealCooldownPlayer2;
+                    return _randomRevealCooldownPlayer2;
                 }
                 else
                 {
-                    return _simpleRevealCooldownPlayer1;
+                    return _randomRevealCooldownPlayer1;
                 }
             case ("Alternate Shot"):
                 if (_playerTurn == Player.Player1)

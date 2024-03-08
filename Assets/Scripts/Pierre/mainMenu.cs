@@ -7,17 +7,22 @@ public class mainMenu : MonoBehaviour
     private GameObject _menu;
     [SerializeField] private GameObject _settings;
     [SerializeField] private GameObject _credits;
+    [SerializeField] private RectTransform _creditsSroll;
 
-    [SerializeField] private AudioClip[] _playlistFXUI;
+    private AudioClip[] _playlistFXUI;
     [SerializeField] private AudioSource _audioOpenClose;
     [SerializeField] private AudioSource _music;
     [SerializeField] private audioManager _audioManager;
+    [SerializeField] private GameObject _conffeti; 
 
     private bool _easterEggPlay;
+    private Vector3 _poseCredits;
 
     private void Start()
     {
         _menu = GetComponent<GameObject>();
+        _playlistFXUI = _audioManager.GetPlaylistFX();
+
         _easterEggPlay = false;
     }
 
@@ -26,7 +31,7 @@ public class mainMenu : MonoBehaviour
 
         if (!_music.isPlaying )
         {
-            _audioManager.PlayMusic();
+            _conffeti.GetComponent<ParticleSystem>().Stop();
             _easterEggPlay = false;
         }
     }
@@ -61,13 +66,15 @@ public class mainMenu : MonoBehaviour
     {
         if(_easterEggPlay)
         {
-            _audioManager.PlayMusic();
             _easterEggPlay = false;
+            _audioManager.PlayMusic();
+            _music.Play();
         }
 
         _audioOpenClose.clip = _playlistFXUI[1];
         _audioOpenClose.Play();
-
+       
+        _creditsSroll.position = _poseCredits;
         _credits.SetActive(false);
     }
 
@@ -75,6 +82,7 @@ public class mainMenu : MonoBehaviour
     {
         _audioOpenClose.clip = _playlistFXUI[0];
         _audioOpenClose.Play();
+        _poseCredits = _creditsSroll.position;
 
         _credits.SetActive(true);
     }
@@ -86,6 +94,8 @@ public class mainMenu : MonoBehaviour
 
     public void EasterEgg()
     {
+        _conffeti.GetComponent<ParticleSystem>().Play();
+
         _easterEggPlay = true;
         _music.clip = _playlistFXUI[2];
         _music.Play();

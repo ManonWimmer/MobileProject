@@ -9,6 +9,7 @@ public class audioManager : MonoBehaviour
     [SerializeField] private AudioClip[] _playlistFight;
     [SerializeField] private AudioClip[] _playlistMenu;
     [SerializeField] public AudioClip[] _playlistFX;
+    [SerializeField] public AudioClip[] _playlistWin;
     [SerializeField] private AudioMixer _mixer;
 
     private GameManager _gameManager;
@@ -19,6 +20,7 @@ public class audioManager : MonoBehaviour
     private AudioClip[] _actualClip;
 
     public void PlayMusic() => PlayNextSound();
+    public AudioClip[] GetPlaylistFX() => _playlistFX;
 
     void Start()
     {
@@ -39,13 +41,13 @@ public class audioManager : MonoBehaviour
         float currentVolumeMusique;
         bool resultMusique = _mixer.GetFloat("musique", out currentVolumeMusique);
 
-        if (result && currentVolume == -5f)
+        if (result && currentVolume == -10f)
         {
-            _mixer.SetFloat("volume", -30f);
+            _mixer.SetFloat("volume", -80f);
         }
-        if (resultMusique && currentVolumeMusique == -5f)
+        if (resultMusique && currentVolumeMusique == -10f)
         {
-            _mixer.SetFloat("musique", -30f);
+            _mixer.SetFloat("musique", -80f);
         }
     }
 
