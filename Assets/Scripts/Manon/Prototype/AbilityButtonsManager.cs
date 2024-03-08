@@ -59,6 +59,13 @@ public class AbilityButtonsManager : MonoBehaviour
     private List<Tuple<String, List<Tile>>> _lastRoundActionsPlayer1 = new List<Tuple<String, List<Tile>>>();
     private List<Tuple<String, List<Tile>>> _lastRoundActionsPlayer2 = new List<Tuple<String, List<Tile>>>();
     private List<Tile> _currentActionTargetTiles = new List<Tile>();
+
+    private Tile _tempNewEnergyDecoyTile;
+    [SerializeField] Room _energyDecoyRoom;
+
+    List<Tile> tempTargets = new List<Tile>();
+
+    public bool IsInRewind;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -84,7 +91,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
     public IEnumerator RewindCoroutine()
     {
-        // hide ui
+        IsInRewind = true;
 
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
@@ -109,6 +116,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 }
             }
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
+            _lastRoundActionsPlayer2.Clear();
         }
         else
         {
@@ -133,10 +141,70 @@ public class AbilityButtonsManager : MonoBehaviour
                 }
             }
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
+            _lastRoundActionsPlayer1.Clear();
         }
 
         UIManager.instance.BackToCombatUI();
+        IsInRewind = false;
         yield return null;
+    }
+
+    private Tile GetRewindTile(Player player, Tile targetTile)
+    {
+        if (player == Player.Player1)
+        {
+            foreach (Tile rewindTile in GameManager.instance.TilesRewindPlayer1)
+            {
+                if (rewindTile.name == targetTile.name)
+                {
+                    Debug.Log("found rewind tile " + rewindTile.name);
+                    return rewindTile;
+                }
+            }
+        }
+        else
+        {
+            foreach (Tile rewindTile in GameManager.instance.TilesRewindPlayer2)
+            {
+                if (rewindTile.name == targetTile.name)
+                {
+                    Debug.Log("found rewind tile " + rewindTile.name);
+                    return rewindTile;
+                    
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private Tile GetShipTile(Player player, Tile targetTile)
+    {
+        if (player == Player.Player1)
+        {
+            foreach (Tile tile in GameManager.instance.TilesPlayer1)
+            {
+                if (tile.name == targetTile.name)
+                {
+                    Debug.Log("found ship tile " + tile.name);
+                    return tile;
+                }
+            }
+        }
+        else
+        {
+            foreach (Tile tile in GameManager.instance.TilesPlayer2)
+            {
+                if (tile.name == targetTile.name)
+                {
+                    Debug.Log("found ship tile " + tile.name);
+                    return tile;
+
+                }
+            }
+        }
+
+        return null;
     }
 
     private void RewindAction(string actionName, List<Tile> targets, Player player)
@@ -147,28 +215,7 @@ public class AbilityButtonsManager : MonoBehaviour
  
         foreach(Tile target in targets)
         {
-            if (player == Player.Player1)
-            {
-                foreach(Tile rewindTile in GameManager.instance.TilesRewindPlayer1)
-                {
-                    if (rewindTile.name == target.name)
-                    {
-                        Debug.Log("found rewind tile " + rewindTile.name);
-                        targetsOnRewind.Add(rewindTile);
-                    }
-                }
-            }
-            else
-            {
-                foreach (Tile rewindTile in GameManager.instance.TilesRewindPlayer2)
-                {
-                    if (rewindTile.name == target.name)
-                    {
-                        Debug.Log("found rewind tile " + rewindTile.name);
-                        targetsOnRewind.Add(rewindTile);
-                    }
-                }
-            }
+            targetsOnRewind.Add(GetRewindTile(player, target));
         }
 
         _target = targetsOnRewind[0];
@@ -202,9 +249,40 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("RandomReveal"):
                 StartCoroutine(RandomRevealRewind(targetsOnRewind));
                 break;
+            case ("EnergyDecoy"):
+                EnergyDecoy_Action();
+                break;
+            case ("EnergyDecoyDestroy"):
+                Debug.Log("a");
+                EnergyDecoyDestroyNewRoom();
+                break;
         }
 
         UpdateRoomsRewind();
+    }
+
+    private void EnergyDecoyDestroyNewRoom()
+    {
+        // Montrer que +1 action points
+        Debug.Log("new room energy decoy " + _target.name);
+        Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
+        Debug.Log("ship tile" + lastTarget.name);
+        // Create new decoy rewind 
+        //Tile rewindTile = GetRewindTile(GameManager.instance.PlayerTurn, _tempNewEnergyDecoyTile);
+        GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
+        RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false);
+    }
+
+    private Player GetEnemyPlayer()
+    {
+        if (GameManager.instance.GetCurrentPlayer() == Player.Player1)
+        {
+            return Player.Player2;
+        }
+        else
+        {
+            return Player.Player1;
+        }
     }
 
     private IEnumerator ProbeRewind(List<Tile> targets)
@@ -423,7 +501,13 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("Probe"):
                 UseProbe();
                 break;
+            case ("EnergyDecoy"):
+                UseEnergyDecoy();
+                DeselectAbilityButton(_selectedButton);
+                break;
         }
+
+        TargetController.instance.HideTarget();
     }
     #endregion
 
@@ -448,6 +532,7 @@ public class AbilityButtonsManager : MonoBehaviour
         Tile currentTile = _target;
         while (canGoTop)
         {
+            Debug.Log("can go top");
             if (currentTile.TopTile != null)
             {
                 currentTile.TopTile.IsAbilitySelected = true;
@@ -507,6 +592,7 @@ public class AbilityButtonsManager : MonoBehaviour
         currentTile = _target;
         while (canGoBottom)
         {
+            Debug.Log("can go bottom");
             if (currentTile.BottomTile != null)
             {
                 currentTile.BottomTile.IsAbilitySelected = true;
@@ -601,6 +687,7 @@ public class AbilityButtonsManager : MonoBehaviour
         Tile currentTile = _target;
         while (canGoTop)
         {
+            Debug.Log("can go top 2");
             if (currentTile.TopTile != null)
             {
                 RevealRoom(currentTile.TopTile);
@@ -655,6 +742,7 @@ public class AbilityButtonsManager : MonoBehaviour
         currentTile = _target;
         while (canGoBottom)
         {
+            Debug.Log("can go bottom 2");
             if (currentTile.BottomTile != null)
             {
                 RevealRoom(currentTile.BottomTile);
@@ -1135,16 +1223,17 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         // Get random reveal tiles
-
         while(_currentActionTargetTiles.Count < 5)
         {
+            Debug.Log("while 1");
             int randomIndex = Random.Range(0, playerTiles.Count);
             Tile randomTile = playerTiles[randomIndex];
 
             if (!_currentActionTargetTiles.Contains(randomTile) && !randomTile.IsDestroyed && !randomTile.IsReavealed && !randomTile.IsOccupied)
             {
                 _currentActionTargetTiles.Add(randomTile);
-                RevealRoom(randomTile);
+                _target = randomTile;
+                RandomReveal_Action();
             } 
         }
 
@@ -1259,13 +1348,28 @@ public class AbilityButtonsManager : MonoBehaviour
         Debug.Log("action " + actionName);
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
-            Debug.Log("add action to player 1");
+            Debug.Log("add action to player 1 " + actionName);
             _lastRoundActionsPlayer1.Add(Tuple.Create(actionName, _currentActionTargetTiles));
         }
         else
         {
-            Debug.Log("add action to player 2");
+            Debug.Log("add action to player 2 " + actionName);
             _lastRoundActionsPlayer2.Add(Tuple.Create(actionName, _currentActionTargetTiles));
+        }
+    }
+
+    private void AddActionToCurrentPlayerRoundWithTempTargets(string actionName)
+    {
+        Debug.Log("action " + actionName);
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            Debug.Log("add action to player 1 " + actionName);
+            _lastRoundActionsPlayer1.Add(Tuple.Create(actionName, tempTargets));
+        }
+        else
+        {
+            Debug.Log("add action to player 2 " + actionName);
+            _lastRoundActionsPlayer2.Add(Tuple.Create(actionName, tempTargets));
         }
     }
 
@@ -1593,6 +1697,117 @@ public class AbilityButtonsManager : MonoBehaviour
     }
     #endregion
 
+    #region Energy Decoy
+    private void UseEnergyDecoy()
+    {
+        // ----- REWIND ----- //
+        if (_currentActionTargetTiles.Count > 0)
+            _currentActionTargetTiles.Clear();  
+        // ----- REWIND ----- //
+
+        DesactivateSimpleHitX2IfActivated();
+        _selectedButton.SetCooldown();
+        ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
+
+        // Get Player Tiles
+        List<Tile> playerTiles = new List<Tile>();
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            playerTiles = GameManager.instance.TilesPlayer2;
+        }
+        else
+        {
+            playerTiles = GameManager.instance.TilesPlayer1;
+        }
+
+        // Get random reveal tiles
+        while (_currentActionTargetTiles.Count <= 0)
+        {
+            Debug.Log("while 2");
+            int randomIndex = Random.Range(0, playerTiles.Count);
+            Tile randomTile = playerTiles[randomIndex];
+
+            if (!_currentActionTargetTiles.Contains(randomTile) && !randomTile.IsDestroyed && !randomTile.IsReavealed && randomTile.IsOccupied)
+            {
+                _currentActionTargetTiles.Add(randomTile);
+                _target = randomTile;
+                Debug.Log("target : " + _target.name);
+                EnergyDecoy_Action();
+            }
+        }
+
+        AddActionToCurrentPlayerRound("EnergyDecoy");
+
+        UpdateHiddenRooms();
+        UIManager.instance.CheckAbilityButtonsColor();
+    }
+
+    private void EnergyDecoy_Action()
+    {
+        Debug.Log("energy decoy action");
+        RevealRoom(_target);
+    }
+
+    private void UseEnergyDecoyAfterDestroy()
+    {
+        // ----- REWIND ----- //
+        if (tempTargets.Count > 0)
+            tempTargets.Clear();
+        // ----- REWIND ----- //
+        Debug.Log("----- use energy decoy after destroy");
+
+        UseEnergyDecoyAfterDestroy_Action();
+
+        AddActionToCurrentPlayerRoundWithTempTargets("EnergyDecoyDestroy");
+    }
+
+    private void UseEnergyDecoyAfterDestroy_Action()
+    {
+        Debug.Log("----- use energy decoy after destroy");
+
+        // +1 Action point next round
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            GameManager.instance.EnergyDecoyTriggeredPlayer2 = true;
+        }
+        else
+        {
+            GameManager.instance.EnergyDecoyTriggeredPlayer1 = true;
+        }
+
+        // Create another decoy to random player ship position (and update to rewind)
+        // Player ship
+        // Get Player Tiles
+        List<Tile> playerTiles = new List<Tile>();
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            playerTiles = GameManager.instance.TilesPlayer2;
+        }
+        else
+        {
+            playerTiles = GameManager.instance.TilesPlayer1;
+        }
+
+        bool roomBuilt = false;
+        while (!roomBuilt)
+        {
+            Debug.Log("while 3");
+            Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
+            if (GameManager.instance.CheckCanBuild(_target.Room, randomTile)) // target on energy decoy room after destroy
+            {
+                // Player Ship
+                Debug.Log("create room ship " + randomTile);
+                GameManager.instance.CreateNewBuilding(_target.Room, randomTile, GameManager.instance.PlayerTurn);
+                RoomsAssetsManager.instance.SetTileRoomAsset(_target.Room.RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false);
+                tempTargets.Add(randomTile);
+                _tempNewEnergyDecoyTile = randomTile;
+
+                roomBuilt = true;
+            }
+        }
+    }
+    #endregion
+
     #region Update Rooms
     private void UpdateHiddenRooms()
     {
@@ -1624,8 +1839,10 @@ public class AbilityButtonsManager : MonoBehaviour
             tile.IsDestroyed = true;
 
             GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
-
             UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+
+            if (!IsInRewind)
+                CheckDecoysAfterDestoy(tile);
         }
         else
         {
@@ -1656,6 +1873,24 @@ public class AbilityButtonsManager : MonoBehaviour
             Debug.Log("no room on hit " + tile.name);
 
             UIManager.instance.HideFicheRoom();
+        }
+    }
+    #endregion
+
+    #region Check Decoys
+    private void CheckDecoysAfterDestoy(Tile tileDestroyed)
+    {
+        Debug.Log("CHECK DECOYRS AFTER DESTROY");
+
+        if (tileDestroyed.Room != null)
+        {
+            Debug.Log(tileDestroyed.Room.RoomData.RoomName);
+            switch (tileDestroyed.Room.RoomData.RoomName)
+            {
+                case ("Energy Decoy"):
+                    UseEnergyDecoyAfterDestroy();
+                    break;
+            }
         }
     }
     #endregion

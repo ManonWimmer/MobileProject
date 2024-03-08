@@ -10,6 +10,8 @@ public class ActionPointsManager : MonoBehaviour
 
     private int _player1ActionPoints;
     private int _player2ActionPoints;
+
+
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -19,23 +21,39 @@ public class ActionPointsManager : MonoBehaviour
 
     public void InitRoundActionPoints(int round) 
     {
+        Debug.Log("init round action points");
         int actionPoints = (1 + (round - 1) / 3 );
         actionPoints = Mathf.Clamp(actionPoints, 0, 3);
 
         _player1ActionPoints = actionPoints;
         _player2ActionPoints = actionPoints;
 
-        UIManager.instance.ShowOrUpdateActionPoints();
+        if (GameManager.instance.EnergyDecoyTriggeredPlayer1)
+        {
+            Debug.Log("+1 p1");
+            _player1ActionPoints += 1;
+            Debug.Log(_player1ActionPoints);
+            GameManager.instance.EnergyDecoyTriggeredPlayer1 = false;
+        }
+        else if (GameManager.instance.EnergyDecoyTriggeredPlayer2)
+        {
+            Debug.Log("+1 p2");
+            _player2ActionPoints += 1;
+            Debug.Log(_player2ActionPoints);
+            GameManager.instance.EnergyDecoyTriggeredPlayer2 = false;
+        }
     }
 
     public int GetPlayerActionPoints(Player player)
     {
         if (player == Player.Player1)
         {
+            Debug.Log(_player1ActionPoints);
             return _player1ActionPoints;
         }
         else
         {
+            Debug.Log(_player2ActionPoints);
             return _player2ActionPoints;
         }
     }
