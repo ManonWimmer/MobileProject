@@ -1671,8 +1671,6 @@ public class GameManager : MonoBehaviour
         {
             if (tile.IsOccupied)
             {
-        {
-            tiles = _tilesRewindPlayer2;
                 Debug.Log(tile.name);
                 if (!tile.IsDestroyed && !tile.IsReavealed)
                 {
