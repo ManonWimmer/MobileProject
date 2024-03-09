@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour
         {
             if (tile.Room != null)
             {
-                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false);
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, false);
             }
         }
 
@@ -208,7 +208,7 @@ public class GameManager : MonoBehaviour
         {
             if (tile.Room != null)
             {
-                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false);
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, false);
             }
         }
     }

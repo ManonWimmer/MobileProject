@@ -6,6 +6,7 @@ using UnityEngine;
 public class ShipSO : ScriptableObject
 {
     public string CaptainName;
+    public Sprite CaptainImgCut;
     public Sprite CaptainImg;
     public Sprite ShipImg;
 }

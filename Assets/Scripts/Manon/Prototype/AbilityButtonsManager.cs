@@ -270,7 +270,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Create new decoy rewind 
         //Tile rewindTile = GetRewindTile(GameManager.instance.PlayerTurn, _tempNewEnergyDecoyTile);
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
-        RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false);
+        RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
     }
 
     private Player GetEnemyPlayer()
@@ -1798,7 +1798,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 // Player Ship
                 Debug.Log("create room ship " + randomTile);
                 GameManager.instance.CreateNewBuilding(_target.Room, randomTile, GameManager.instance.PlayerTurn);
-                RoomsAssetsManager.instance.SetTileRoomAsset(_target.Room.RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false);
+                RoomsAssetsManager.instance.SetTileRoomAsset(_target.Room.RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false, false);
                 tempTargets.Add(randomTile);
                 _tempNewEnergyDecoyTile = randomTile;
 
@@ -1835,7 +1835,7 @@ public class AbilityButtonsManager : MonoBehaviour
         if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
         {
             Debug.Log("hit room " + tile.Room.name);
-            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true);
+            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true, false);
             tile.IsDestroyed = true;
 
             GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
@@ -1861,6 +1861,7 @@ public class AbilityButtonsManager : MonoBehaviour
         if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
         {
             Debug.Log("hit room " + tile.Room.name);
+            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, true);
             tile.IsReavealed = true;
 
             GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);

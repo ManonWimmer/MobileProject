@@ -32,7 +32,7 @@ public class DraftShip : MonoBehaviour
         _ship = ship;
         _shipData = ship.ShipData;
 
-        _captainImg.sprite = _shipData.CaptainImg;
+        _captainImg.sprite = _shipData.CaptainImgCut;
         _shipImg.sprite = _shipData.ShipImg;
         _captainName.text = _shipData.CaptainName.ToUpper();
     }

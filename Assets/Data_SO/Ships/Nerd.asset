@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Nerd
   m_EditorClassIdentifier: 
   CaptainName: CPT. Nerd
-  CaptainImg: {fileID: 21300000, guid: a0fd67c588e36924caad1c9236d5d0bc, type: 3}
+  CaptainImgCut: {fileID: 21300000, guid: 145bbc340e001514fb41a7e304aafcf8, type: 3}
+  CaptainImg: {fileID: 21300000, guid: 41fedb6e9bfb0bf40a0183ffcde7078c, type: 3}
   ShipImg: {fileID: 21300000, guid: 1cf6bfb7277675b4986f72c5000fc967, type: 3}
