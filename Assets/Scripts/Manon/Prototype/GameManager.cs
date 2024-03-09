@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] List<Room> _draftRooms = new List<Room>();
     private List<Room> _selectedDraftRooms1 = new List<Room>();
     private List<Room> _selectedDraftRooms2 = new List<Room>();
+    private List<Room> _selectedDraftRooms3 = new List<Room>();
 
     private List<Room> _choosenDraftRoomsPlayer1 = new List<Room>();
     private List<Room> _choosenDraftRoomsPlayer2 = new List<Room>();
@@ -256,6 +257,7 @@ public class GameManager : MonoBehaviour
         InitDraftShips();
         InitDraftRooms1();
         InitDraftRooms2();
+        InitDraftRooms3();
     }
 
     private void InitDraftShips()
@@ -306,6 +308,22 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    private void InitDraftRooms3()
+    {
+        _selectedDraftRooms3.Clear();
+        int i = 0;
+
+        while (i < 3)
+        {
+            int randomIndex = Random.Range(0, _draftRooms.Count);
+            if (!_selectedDraftRooms3.Contains(_draftRooms[randomIndex]) && !_selectedDraftRooms2.Contains(_draftRooms[randomIndex]) && !_selectedDraftRooms1.Contains(_draftRooms[randomIndex]))
+            {
+                _selectedDraftRooms3.Add(_draftRooms[randomIndex]);
+                i += 1;
+            }
+        }
+    }
     #endregion
 
     #region Start Drafts
@@ -343,6 +361,19 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < _selectedDraftRooms2.Count; i++)
         {
             DraftManagerUI.instance.InitDraftRoom(i, _selectedDraftRooms2[i]);
+        }
+    }
+
+    private void StartDraftRooms3()
+    {
+        Debug.Log("start draft rooms 3");
+        DraftManagerUI.instance.ShowDraftUI();
+        DraftManager.instance.StartDraftRooms(3);
+        DraftManagerUI.instance.UpdateSpaceshipDraftRoom();
+
+        for (int i = 0; i < _selectedDraftRooms3.Count; i++)
+        {
+            DraftManagerUI.instance.InitDraftRoom(i, _selectedDraftRooms3[i]);
         }
     }
     #endregion
@@ -413,6 +444,10 @@ public class GameManager : MonoBehaviour
             StartDraftRooms2();
         }
         else if (DraftManager.instance.CurrentDraft == 2)
+        {
+            StartDraftRooms3();
+        }
+        else if (DraftManager.instance.CurrentDraft == 3)
         {
             SwitchPlayer();
         }
