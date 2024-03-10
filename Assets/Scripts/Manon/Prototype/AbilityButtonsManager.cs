@@ -1847,6 +1847,7 @@ public class AbilityButtonsManager : MonoBehaviour
         else
         {
             tile.IsMissed = true;
+            tile.IsMissedDestroyed = true;
             Debug.Log("no room on hit " + tile.name);
 
             UIManager.instance.HideFicheRoom();
@@ -1871,6 +1872,7 @@ public class AbilityButtonsManager : MonoBehaviour
         else
         {
             tile.IsMissed = true;
+            tile.IsMissedReavealed = true;
             Debug.Log("no room on hit " + tile.name);
 
             UIManager.instance.HideFicheRoom();

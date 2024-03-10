@@ -9,6 +9,8 @@ public class Tile : MonoBehaviour
     public bool IsReavealed;
     public bool IsDestroyed;
     public bool IsMissed;
+    public bool IsMissedReavealed;
+    public bool IsMissedDestroyed;
     public bool IsAbilitySelected;
 
     public Room Room;
@@ -64,13 +66,15 @@ public class Tile : MonoBehaviour
         }
         else
         {
-            if (IsDestroyed || IsMissed)
+            if (IsDestroyed || IsMissedDestroyed)
             {
                 _bordure.color = Color.red;
+                _inside.sprite = _destroyed;
             }
-            else if (IsReavealed)
+            else if (IsReavealed || IsMissedReavealed)
             {
                 _bordure.color = Color.green;
+                _inside.sprite = _revealed;
             }
             else if (IsAbilitySelected && ActionPointsManager.instance.TryUseActionPoints(GameManager.instance.PlayerTurn) && AbilityButtonsManager.instance.GetCurrentlySelectedAbilityButton() != null)
             {
@@ -86,15 +90,6 @@ public class Tile : MonoBehaviour
             else
             {
                 _bordure.color = Color.black;
-            }
-
-            if (IsDestroyed || IsMissed)
-            {
-                _inside.sprite = _destroyed;
-            }
-            else if (IsReavealed)
-            {
-                _inside.sprite = _revealed;
             }
         }
     }
