@@ -19565,12 +19565,12 @@ MonoBehaviour:
   _shield: {fileID: 21300000, guid: 952f7e782cdcde24ab20a33b1a026189, type: 3}
   _shieldRevealed: {fileID: 21300000, guid: 2a50910eaa66b53418820b29298d315c, type: 3}
   _shieldDestroyed: {fileID: 21300000, guid: 86e049de2556e7b4ab30721d2e39145c, type: 3}
-  _randomReveal: {fileID: 21300000, guid: db263039232d8ff4d957a0c86138bd14, type: 3}
-  _randomRevealRevealed: {fileID: 21300000, guid: db263039232d8ff4d957a0c86138bd14, type: 3}
-  _randomRevealDestroyed: {fileID: 21300000, guid: c375d4c352dab3f468518d64ac932a11, type: 3}
-  _energyDecoy: {fileID: 21300000, guid: feade7008a9793a4384fc7761f4de20d, type: 3}
-  _energyDecoyRevealed: {fileID: 21300000, guid: feade7008a9793a4384fc7761f4de20d, type: 3}
-  _energyDecoyDestroyed: {fileID: 21300000, guid: feade7008a9793a4384fc7761f4de20d, type: 3}
+  _randomReveal: {fileID: 21300000, guid: 52fd2a92769609f4196a818cfc21776d, type: 3}
+  _randomRevealRevealed: {fileID: 21300000, guid: 5887fa8661e26e9448047a490883947e, type: 3}
+  _randomRevealDestroyed: {fileID: 21300000, guid: befcc2d24ba57734fa664c3d9ab0aa81, type: 3}
+  _energyDecoy: {fileID: 21300000, guid: 9b0b8e6607ad3c742ae54c258c384c9b, type: 3}
+  _energyDecoyRevealed: {fileID: 21300000, guid: 126a60cf77318f945bbddaa03159dc74, type: 3}
+  _energyDecoyDestroyed: {fileID: 21300000, guid: 67d32cee328651647b8c8e7e38126745, type: 3}
 --- !u!1 &2082120430
 GameObject:
   m_ObjectHideFlags: 0
