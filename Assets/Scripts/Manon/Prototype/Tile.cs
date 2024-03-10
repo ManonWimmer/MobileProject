@@ -55,11 +55,11 @@ public class Tile : MonoBehaviour
         {
             if (IsOccupied)
             {
-                _bordure.color = Color.red;
+                _bordure.color = Color.black;
             }
             else
             {
-                _bordure.color = Color.green;
+                _bordure.color = Color.black;
             }
 
             _inside.sprite = _normal;
