@@ -40,7 +40,7 @@ public class Tile : MonoBehaviour
     private void Start()
     {
         _bordure = transform.GetComponent<SpriteRenderer>();
-        _inside = transform.GetComponentInChildren<SpriteRenderer>();
+        _inside = transform.GetChild(0).GetComponent<SpriteRenderer>();
 
         _normal = RoomsAssetsManager.instance.GetNormalTile();
         _revealed = RoomsAssetsManager.instance.GetReavealedTile();
@@ -60,7 +60,7 @@ public class Tile : MonoBehaviour
                 _bordure.color = Color.green;
             }
 
-            _bordure.sprite = _normal;
+            _inside.sprite = _normal;
         }
         else
         {
@@ -90,11 +90,11 @@ public class Tile : MonoBehaviour
 
             if (IsDestroyed || IsMissed)
             {
-                _bordure.sprite = _destroyed;
+                _inside.sprite = _destroyed;
             }
             else if (IsReavealed)
             {
-                _bordure.sprite = _revealed;
+                _inside.sprite = _revealed;
             }
         }
     }
