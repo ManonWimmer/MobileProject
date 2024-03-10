@@ -7,6 +7,11 @@ public class RoomsAssetsManager : MonoBehaviour
     // ----- FIELDS ----- //
     public static RoomsAssetsManager instance;
 
+    [Header("Tile")]
+    [SerializeField] Sprite _tileNormal;
+    [SerializeField] Sprite _tileReavealed;
+    [SerializeField] Sprite _tileDestroyed;
+
     [Header("Vital Room")]
     [SerializeField] Sprite _vital;
     [SerializeField] Sprite _vitalRevealed;
@@ -71,6 +76,21 @@ public class RoomsAssetsManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    public Sprite GetNormalTile()
+    {
+        return _tileNormal;
+    }
+
+    public Sprite GetReavealedTile()
+    {
+        return _tileReavealed;
+    }
+
+    public Sprite GetDestroyedTile()
+    {
+        return _tileDestroyed;
     }
 
     public void SetTileRoomAsset(scriptablePower ability, SpriteRenderer spriteRenderer, bool isDestroyed, bool isRevealed)

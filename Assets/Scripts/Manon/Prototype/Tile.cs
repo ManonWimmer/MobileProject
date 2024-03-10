@@ -28,13 +28,23 @@ public class Tile : MonoBehaviour
 
     public List<Tile> RoomOnOtherTiles = new List<Tile>();
 
-    private SpriteRenderer _spriteRenderer;
+    private Sprite _normal;
+    private Sprite _revealed;
+    private Sprite _destroyed;
+
+    private SpriteRenderer _bordure;
+    private SpriteRenderer _inside;
     public SpriteRenderer RoomTileSpriteRenderer;
     // ----- FIELDS ----- //
 
     private void Start()
     {
-        _spriteRenderer = transform.GetComponent<SpriteRenderer>();
+        _bordure = transform.GetComponent<SpriteRenderer>();
+        _inside = transform.GetComponentInChildren<SpriteRenderer>();
+
+        _normal = RoomsAssetsManager.instance.GetNormalTile();
+        _revealed = RoomsAssetsManager.instance.GetReavealedTile();
+        _destroyed = RoomsAssetsManager.instance.GetDestroyedTile();
     }
 
     private void Update()
@@ -43,33 +53,48 @@ public class Tile : MonoBehaviour
         {
             if (IsOccupied)
             {
-                _spriteRenderer.color = Color.red;
+                _bordure.color = Color.red;
             }
             else
             {
-                _spriteRenderer.color = Color.green;
+                _bordure.color = Color.green;
             }
+
+            _bordure.sprite = _normal;
         }
         else
         {
-            if (IsDestroyed || IsMissed || IsReavealed)
+            if (IsDestroyed || IsMissed)
             {
-                _spriteRenderer.color = Color.red;
+                _bordure.color = Color.red;
+            }
+            else if (IsReavealed)
+            {
+                _bordure.color = Color.green;
             }
             else if (IsAbilitySelected && ActionPointsManager.instance.TryUseActionPoints(GameManager.instance.PlayerTurn) && AbilityButtonsManager.instance.GetCurrentlySelectedAbilityButton() != null)
             {
                 if (GameManager.instance.IsAbilityInCooldown(AbilityButtonsManager.instance.GetCurrentlySelectedAbilityButton().GetAbility()))
                 {
-                    _spriteRenderer.color = Color.black;
+                    _bordure.color = Color.black;
                 }
                 else
                 {
-                    _spriteRenderer.color = Color.white;
+                    _bordure.color = Color.white;
                 }   
             }
             else
             {
-                _spriteRenderer.color = Color.black;
+                _bordure.color = Color.black;
+            }
+
+            if (IsDestroyed || IsMissed)
+            {
+                _bordure.sprite = _destroyed;
+            }
+            else if (IsReavealed)
+            {
+                _bordure.sprite = _revealed;
             }
         }
     }
