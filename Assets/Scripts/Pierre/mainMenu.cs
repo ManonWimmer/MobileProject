@@ -17,7 +17,7 @@ public class mainMenu : MonoBehaviour
     [SerializeField] private GameObject _conffeti; 
 
     private bool _easterEggPlay;
-    private Vector3 _poseCredits;
+    private Vector2 _poseCredits;
 
     public xmlReader xmlReader;
     public TextMeshProUGUI _text;
@@ -32,6 +32,7 @@ public class mainMenu : MonoBehaviour
         _menu = GetComponent<GameObject>();
         _playlistFXUI = _audioManager.GetPlaylistFX();
 
+        _poseCredits = _creditsSroll.anchoredPosition;
         _easterEggPlay = false;
     }
 
@@ -73,7 +74,9 @@ public class mainMenu : MonoBehaviour
 
     public void CloseCredits()
     {
-        if(_easterEggPlay)
+        _creditsSroll.anchoredPosition = _poseCredits;
+
+        if (_easterEggPlay)
         {
             _easterEggPlay = false;
             _audioManager.PlayMusic();
@@ -82,8 +85,7 @@ public class mainMenu : MonoBehaviour
 
         _audioOpenClose.clip = _playlistFXUI[1];
         _audioOpenClose.Play();
-       
-        _creditsSroll.position = _poseCredits;
+
         _credits.SetActive(false);
     }
 
@@ -91,7 +93,6 @@ public class mainMenu : MonoBehaviour
     {
         _audioOpenClose.clip = _playlistFXUI[0];
         _audioOpenClose.Play();
-        _poseCredits = _creditsSroll.position;
 
         _credits.SetActive(true);
     }
