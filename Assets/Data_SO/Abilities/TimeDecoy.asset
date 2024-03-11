@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 929b3046bf6d3904aa38aefc45dd0216, type: 3}
-  m_Name: EnergyDecoy
+  m_Name: TimeDecoy
   m_EditorClassIdentifier: 
-  AbilityName: Energy Decoy
-  Description: Energy Decoy Description
-  Icon: {fileID: 21300000, guid: 15db0e4ffa62bc441b4427920c106225, type: 3}
+  AbilityName: Time Decoy
+  Description: Time Decoy Description
+  Icon: {fileID: 21300000, guid: 8fe50bcf7de8a844585174ba44300ccf, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 3
   AbilityButton: {fileID: 0}

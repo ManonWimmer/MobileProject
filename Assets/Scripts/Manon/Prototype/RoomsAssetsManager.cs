@@ -71,6 +71,11 @@ public class RoomsAssetsManager : MonoBehaviour
     [SerializeField] Sprite _energyDecoy;
     [SerializeField] Sprite _energyDecoyRevealed;
     [SerializeField] Sprite _energyDecoyDestroyed;
+
+    [Header("Time Decoy")]
+    [SerializeField] Sprite _timeDecoy;
+    [SerializeField] Sprite _timeDecoyRevealed;
+    [SerializeField] Sprite _timeDecoyDestroyed;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -205,6 +210,14 @@ public class RoomsAssetsManager : MonoBehaviour
                     spriteRenderer.sprite = _energyDecoyRevealed;
                 else
                     spriteRenderer.sprite = _energyDecoy;
+                break;
+            case ("Time Decoy"):
+                if (isDestroyed)
+                    spriteRenderer.sprite = _timeDecoyDestroyed;
+                else if (isRevealed)
+                    spriteRenderer.sprite = _timeDecoyRevealed;
+                else
+                    spriteRenderer.sprite = _timeDecoy;
                 break;
         }
     }
