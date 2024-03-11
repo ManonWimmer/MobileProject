@@ -1927,6 +1927,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateCurrentPlayer();
             UIManager.instance.HideFicheRoom();
             UIManager.instance.HideFicheAbility();
+            UIManager.instance.UpdateSwitchShipArrow();
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
         }
 
@@ -2021,6 +2022,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateCurrentPlayer();
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
             UIManager.instance.ShowOrUpdateActionPoints();
+            UIManager.instance.UpdateSwitchShipArrow();
         }
         else if (_currentMode == Mode.Draft)
         {

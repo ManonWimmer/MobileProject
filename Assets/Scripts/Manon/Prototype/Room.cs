@@ -34,7 +34,6 @@ public class Room : MonoBehaviour
             if (isDragging)
                 return;
 
-
             // Store offset between touch position and object center
             offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             isDragging = true;
