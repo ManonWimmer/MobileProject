@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 
 public class audioManager : MonoBehaviour
 {
+    [SerializeField] private float _minVolume;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip[] _playlistFight;
     [SerializeField] private AudioClip[] _playlistMenu;
@@ -41,11 +42,11 @@ public class audioManager : MonoBehaviour
         float currentVolumeMusique;
         bool resultMusique = _mixer.GetFloat("musique", out currentVolumeMusique);
 
-        if (result && currentVolume == -10f)
+        if (result && currentVolume == _minVolume)
         {
             _mixer.SetFloat("volume", -80f);
         }
-        if (resultMusique && currentVolumeMusique == -10f)
+        if (resultMusique && currentVolumeMusique == _minVolume)
         {
             _mixer.SetFloat("musique", -80f);
         }

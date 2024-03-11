@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectSettings>
-  <projectSetting name="com.google.external-dependency-managerAnalyticsEnabled" value="False" />
+  <projectSetting name="com.google.external-dependency-managerAnalyticsCookie" value="cc91937ce69e4a88bd5583e2f7d012f0" />
+  <projectSetting name="com.google.external-dependency-managerAnalyticsEnabled" value="True" />
   <projectSetting name="Google.PackageManagerResolver.VerboseLoggingEnabled" value="False" />
   <projectSetting name="Google.VersionHandler.VerboseLoggingEnabled" value="False" />
   <projectSetting name="GooglePlayServices.AndroidPackageInstallationEnabled" value="True" />

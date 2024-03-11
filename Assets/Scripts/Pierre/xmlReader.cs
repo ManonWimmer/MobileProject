@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 
@@ -16,13 +17,15 @@ public class xmlReader : MonoBehaviour
 {
 
     [SerializeField] private TextAsset _dictionary;
-    [SerializeField] private TMP_Dropdown _dropdown;
+    [SerializeField] private TMP_Dropdown _dropdown1;
+    [SerializeField] private TMP_Dropdown _dropdown2;
     [SerializeField] private List<TextMeshProUGUI> _textFields = new List<TextMeshProUGUI>();
 
     private List<LanguageData> _languages = new List<LanguageData>();
     private int _currentLanguageIndex = 0;
 
     public void ChangeText(TextMeshProUGUI textMesh, string newName) => UpdateTextTranslation(textMesh, newName);
+    public int GetLanguage() => _currentLanguageIndex;
 
     private void Awake()
     {
@@ -66,8 +69,20 @@ public class xmlReader : MonoBehaviour
 
     public void OnLanguageChange()
     {
-        _currentLanguageIndex = _dropdown.value;
-        UpdateTexts();
+        if (_dropdown1.gameObject.activeInHierarchy && _dropdown1.IsActive())
+        {
+            _dropdown2.value = _dropdown1.value;
+            _currentLanguageIndex = _dropdown1.value;
+            UpdateTexts();
+        }
+        else if (_dropdown2.gameObject.activeInHierarchy && _dropdown2.IsActive())
+        {
+            _dropdown1.value = _dropdown2.value;
+            _currentLanguageIndex = _dropdown2.value;
+            UpdateTexts();
+        }
+
+        Debug.Log("Langue sélectionnée : " + name + _currentLanguageIndex);
     }
 
     private void UpdateTextTranslation(TextMeshProUGUI textField, string newValue)
