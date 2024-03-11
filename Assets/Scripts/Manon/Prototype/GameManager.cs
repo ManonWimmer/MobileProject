@@ -1084,17 +1084,6 @@ public class GameManager : MonoBehaviour
             newBuilding.transform.parent = _rewindShipPlayer1.gameObject.transform;
         }
 
-        /*
-        if (player == Player.Player1)
-        {
-            _placedRoomsPlayer1.Add(newBuilding);
-        }
-        else
-        {
-            _placedRoomsPlayer2.Add(newBuilding);
-        }
-        */
-
         tile.Room = newBuilding;
         tile.IsOccupied = true;
         tile.IsReavealed = false;
@@ -1459,13 +1448,17 @@ public class GameManager : MonoBehaviour
 
         if (GetPlayerLife(Player.Player2) == 0)
         {
+            CheckVictoryAchievements(Player.Player2);
             UIManager.instance.ShowVictoryCanvas(Player.Player2);
         }
         else if (GetPlayerLife(Player.Player1) == 0)
         {
+            CheckVictoryAchievements(Player.Player1);
             UIManager.instance.ShowVictoryCanvas(Player.Player1);
         }
     }
+
+    
 
     public int GetPlayerLife(Player player)
     {
@@ -2901,5 +2894,24 @@ public class GameManager : MonoBehaviour
 
         return 0;
     }
+    #endregion
+
+    #region Achievements
+    private void CheckVictoryAchievements(Player winner)
+    {
+        Ship winnerShip;
+        if (winner == Player.Player1)
+            winnerShip = _shipPlayer1;
+        else
+            winnerShip = _shipPlayer2;
+
+        if (winnerShip.ShipData.CaptainName == "CPT. RAVIOLI")
+            Debug.Log("Achievement : Meatballed");
+        else if (winnerShip.ShipData.CaptainName == "CPT. COWBOY")
+            Debug.Log("Achievement : See you space cowboy");
+        else
+            Debug.Log("Achievement : GG EZ");
+    }
+
     #endregion
 }
