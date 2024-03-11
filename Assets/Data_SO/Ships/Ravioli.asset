@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91791b42f79ae7d45b794e11c3afd119, type: 3}
   m_Name: Ravioli
   m_EditorClassIdentifier: 
-  CaptainName: CPT. Ravioli
+  CaptainName: CPT. RAVIOLI
   CaptainImgCut: {fileID: 21300000, guid: 06f3f53937f004b418e35d60d189cb0e, type: 3}
   CaptainImg: {fileID: 21300000, guid: 2dd8ab3700087334794aec5f2483854f, type: 3}
   ShipImg: {fileID: 21300000, guid: a1a06df779902a740bf8e8cd31ff632b, type: 3}
