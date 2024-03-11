@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class mainMenu : MonoBehaviour
 {
@@ -48,7 +49,7 @@ public class mainMenu : MonoBehaviour
 
     public void StartDuel()
     {
-
+        SceneManager.LoadScene("Prototype_Manon");
     }
 
     public void StartTuto()
