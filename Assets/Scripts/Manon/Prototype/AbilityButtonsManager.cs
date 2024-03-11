@@ -257,6 +257,9 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("TimeDecoyDestroy"):
                 TimeDecoyDestroyNewRoom();
                 break;
+            case ("RepairDecoyDestroy"):
+                RepairDecoyDestroyNewRoom();
+                break;
         }
 
         UpdateRoomsRewind();
@@ -482,6 +485,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 break;
             case ("EnergyDecoy"):
             case ("TimeDecoy"):
+            case ("RepairDecoy"):
                 UseDecoy();
                 DeselectAbilityButton(_selectedButton);
                 break;
@@ -1680,6 +1684,39 @@ public class AbilityButtonsManager : MonoBehaviour
     #endregion
 
     #region Decoy
+    private void CreateNewRandomDecoy(string decoyName)
+    {
+        // Create another decoy to random player ship position (and update to rewind)
+        // Player ship
+        // Get Player Tiles
+        List<Tile> playerTiles = new List<Tile>();
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            playerTiles = GameManager.instance.TilesPlayer2;
+        }
+        else
+        {
+            playerTiles = GameManager.instance.TilesPlayer1;
+        }
+
+        bool roomBuilt = false;
+        while (!roomBuilt)
+        {
+            Debug.Log("while 3" + _target.name + _target.Room.name);
+            Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
+            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile)) // target on decoy room after destroy
+            {
+                // Player Ship
+                Debug.Log("create room ship " + randomTile);
+                GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile, GameManager.instance.PlayerTurn);
+                RoomsAssetsManager.instance.SetTileRoomAsset(GetRoomFromTargetWithAbility(decoyName).RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false, false);
+                tempTargets.Add(randomTile);
+
+                roomBuilt = true;
+            }
+        }
+    }
+
     private void UseDecoy()
     {
         // ----- REWIND ----- //
@@ -1770,36 +1807,182 @@ public class AbilityButtonsManager : MonoBehaviour
             GameManager.instance.EnergyDecoyTriggeredPlayer1 = true;
         }
 
-        // Create another decoy to random player ship position (and update to rewind)
-        // Player ship
-        // Get Player Tiles
-        List<Tile> playerTiles = new List<Tile>();
+        CreateNewRandomDecoy("Energy Decoy");
+    }
+    #endregion
+
+    #region Time Decoy
+    private void TimeDecoyDestroyNewRoom()
+    {
+        // Montrer que +1 action points
+        Debug.Log("new room time decoy " + _target.name);
+        Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
+
+        // Create new decoy rewind 
+        GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
+        RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+    }
+
+    private void UseTimeDecoyAfterDestroy()
+    {
+        // ----- REWIND ----- //
+        if (tempTargets.Count > 0)
+            tempTargets.Clear();
+        // ----- REWIND ----- //
+        Debug.Log("----- use time decoy after destroy");
+
+        UseTimeDecoyAfterDestroy_Action();
+
+        AddActionToCurrentPlayerRoundWithTempTargets("TimeDecoyDestroy");
+    }
+
+
+    private void UseTimeDecoyAfterDestroy_Action()
+    {
+        Debug.Log("----- use time decoy after destroy");
+
+        // +1 Action point next round
+        GameManager.instance.AddCurrentPlayerAbilityOneCooldown(GameManager.instance.GetAbilityFromName(_lastAbilityUsed));
+
+        CreateNewRandomDecoy("Time Decoy");
+    }
+    #endregion
+
+    #region Repair Decoy
+    private void RepairDecoyDestroyNewRoom()
+    {
+        // Montrer que +1 action points
+        Debug.Log("new room repair decoy " + _target.name);
+        Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
+
+        // Create new decoy rewind 
+        GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
+        RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+    }
+
+    private void UseRepairDecoyAfterDestroy()
+    {
+        // ----- REWIND ----- //
+        if (tempTargets.Count > 0)
+            tempTargets.Clear();
+        // ----- REWIND ----- //
+        Debug.Log("----- use repair decoy after destroy");
+
+        UseRepairDecoyAfterDestroy_Action();
+
+        AddActionToCurrentPlayerRoundWithTempTargets("RepairDecoyDestroy");
+    }
+
+
+    private void UseRepairDecoyAfterDestroy_Action()
+    {
+        Debug.Log("----- use time decoy after destroy");
+
+        // ----- REPAIR RANDOM ROOM DESTROYED ----- //
+
+        // ----- REPAIR RANDOM ROOM DESTROYED ----- //
+
+        CreateNewRandomDecoy("Repair Decoy");
+    }
+
+    
+    #endregion
+
+    #region Update Rooms
+    private void UpdateHiddenRooms()
+    {
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
-            playerTiles = GameManager.instance.TilesPlayer2;
+            GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
         }
         else
         {
-            playerTiles = GameManager.instance.TilesPlayer1;
+            GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
+        }
+    }
+
+    private void UpdateRoomsRewind()
+    {
+        GameManager.instance.ShowAllRewindRooms(Player.Player1);
+        GameManager.instance.ShowAllRewindRooms(Player.Player2);
+    }
+    #endregion
+
+    #region Destroy / Reveal Rooms
+    private void DestroyRoom(Tile tile)
+    {
+        Debug.Log("destroy room " + tile.name);
+        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        {
+            Debug.Log("hit room " + tile.Room.name);
+            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true, false);
+            tile.IsDestroyed = true;
+
+            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+
+            if (!IsInRewind)
+                CheckDecoysAfterDestoy(tile);
+        }
+        else
+        {
+            tile.IsMissed = true;
+            tile.IsMissedDestroyed = true;
+            Debug.Log("no room on hit " + tile.name);
+
+            UIManager.instance.HideFicheRoom();
         }
 
-        bool roomBuilt = false;
-        while (!roomBuilt)
-        {
-            Debug.Log("while 3");
-            Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
-            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility("Energy Decoy"), randomTile)) // target on energy decoy room after destroy
-            {
-                // Player Ship
-                Debug.Log("create room ship " + randomTile);
-                GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility("Energy Decoy"), randomTile, GameManager.instance.PlayerTurn);
-                RoomsAssetsManager.instance.SetTileRoomAsset(GetRoomFromTargetWithAbility("Energy Decoy").RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false, false);
-                tempTargets.Add(randomTile);
+        UIManager.instance.UpdateEnemyLife();
+    }
 
-                roomBuilt = true;
+    private void RevealRoom(Tile tile)
+    {
+        Debug.Log("reveal room " + tile.name);
+        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        {
+            Debug.Log("hit room " + tile.Room.name);
+            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, true);
+            tile.IsReavealed = true;
+
+            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+
+            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+        }
+        else
+        {
+            tile.IsMissed = true;
+            tile.IsMissedReavealed = true;
+            Debug.Log("no room on hit " + tile.name);
+
+            UIManager.instance.HideFicheRoom();
+        }
+    }
+    #endregion
+
+    #region Check Decoys
+    private void CheckDecoysAfterDestoy(Tile tileDestroyed)
+    {
+        Debug.Log("CHECK DECOYRS AFTER DESTROY");
+
+        if (tileDestroyed.Room != null)
+        {
+            Debug.Log(tileDestroyed.Room.RoomData.RoomName);
+            switch (tileDestroyed.Room.RoomData.RoomName)
+            {
+                case ("Energy Decoy"):
+                    UseEnergyDecoyAfterDestroy();
+                    break;
+                case ("Time Decoy"):
+                    UseTimeDecoyAfterDestroy();
+                    break;
+                case ("Repair Decoy"):
+                    UseRepairDecoyAfterDestroy();
+                    break;
             }
         }
     }
+    #endregion
 
     private Room GetRoomFromTargetWithAbility(string decoyName)
     {
@@ -1895,163 +2078,4 @@ public class AbilityButtonsManager : MonoBehaviour
 
         return null;
     }
-    #endregion
-
-    #region Time Decoy
-    private void TimeDecoyDestroyNewRoom()
-    {
-        // Montrer que +1 action points
-        Debug.Log("new room energy decoy " + _target.name);
-        Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
-
-        // Create new decoy rewind 
-        GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
-        RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
-    }
-
-    private void UseTimeDecoyAfterDestroy()
-    {
-        // ----- REWIND ----- //
-        if (tempTargets.Count > 0)
-            tempTargets.Clear();
-        // ----- REWIND ----- //
-        Debug.Log("----- use time decoy after destroy");
-
-        UseTimeDecoyAfterDestroy_Action();
-
-        AddActionToCurrentPlayerRoundWithTempTargets("TimeDecoyDestroy");
-    }
-
-
-    private void UseTimeDecoyAfterDestroy_Action()
-    {
-        Debug.Log("----- use time decoy after destroy");
-
-        // +1 Action point next round
-        GameManager.instance.AddCurrentPlayerAbilityOneCooldown(GameManager.instance.GetAbilityFromName(_lastAbilityUsed));
-
-        // Create another decoy to random player ship position (and update to rewind)
-        // Player ship
-        // Get Player Tiles
-        List<Tile> playerTiles = new List<Tile>();
-        if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
-            playerTiles = GameManager.instance.TilesPlayer2;
-        }
-        else
-        {
-            playerTiles = GameManager.instance.TilesPlayer1;
-        }
-
-        bool roomBuilt = false;
-        while (!roomBuilt)
-        {
-            Debug.Log("while 3" + _target.name + _target.Room.name);
-            Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
-            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility("Time Decoy"), randomTile)) // target on decoy room after destroy
-            {
-                // Player Ship
-                Debug.Log("create room ship " + randomTile);
-                GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility("Time Decoy"), randomTile, GameManager.instance.PlayerTurn);
-                RoomsAssetsManager.instance.SetTileRoomAsset(GetRoomFromTargetWithAbility("Time Decoy").RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false, false);
-                tempTargets.Add(randomTile);
-
-                roomBuilt = true;
-            }
-        }
-    }
-    #endregion
-
-    #region Update Rooms
-    private void UpdateHiddenRooms()
-    {
-        if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
-            GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player2);
-        }
-        else
-        {
-            GameManager.instance.ShowOnlyDestroyedAndReavealedRooms(Player.Player1);
-        }
-    }
-
-    private void UpdateRoomsRewind()
-    {
-        GameManager.instance.ShowAllRewindRooms(Player.Player1);
-        GameManager.instance.ShowAllRewindRooms(Player.Player2);
-    }
-    #endregion
-
-    #region Destroy / Reveal Rooms
-    private void DestroyRoom(Tile tile)
-    {
-        Debug.Log("destroy room " + tile.name);
-        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
-        {
-            Debug.Log("hit room " + tile.Room.name);
-            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true, false);
-            tile.IsDestroyed = true;
-
-            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
-
-            if (!IsInRewind)
-                CheckDecoysAfterDestoy(tile);
-        }
-        else
-        {
-            tile.IsMissed = true;
-            tile.IsMissedDestroyed = true;
-            Debug.Log("no room on hit " + tile.name);
-
-            UIManager.instance.HideFicheRoom();
-        }
-
-        UIManager.instance.UpdateEnemyLife();
-    }
-
-    private void RevealRoom(Tile tile)
-    {
-        Debug.Log("reveal room " + tile.name);
-        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
-        {
-            Debug.Log("hit room " + tile.Room.name);
-            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, true);
-            tile.IsReavealed = true;
-
-            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
-
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
-        }
-        else
-        {
-            tile.IsMissed = true;
-            tile.IsMissedReavealed = true;
-            Debug.Log("no room on hit " + tile.name);
-
-            UIManager.instance.HideFicheRoom();
-        }
-    }
-    #endregion
-
-    #region Check Decoys
-    private void CheckDecoysAfterDestoy(Tile tileDestroyed)
-    {
-        Debug.Log("CHECK DECOYRS AFTER DESTROY");
-
-        if (tileDestroyed.Room != null)
-        {
-            Debug.Log(tileDestroyed.Room.RoomData.RoomName);
-            switch (tileDestroyed.Room.RoomData.RoomName)
-            {
-                case ("Energy Decoy"):
-                    UseEnergyDecoyAfterDestroy();
-                    break;
-                case ("Time Decoy"):
-                    UseTimeDecoyAfterDestroy();
-                    break;
-            }
-        }
-    }
-    #endregion
 }

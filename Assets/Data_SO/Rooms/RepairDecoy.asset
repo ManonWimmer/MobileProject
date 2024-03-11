@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16a99debe98348e4ca84da7e5acc4b73, type: 3}
+  m_Name: RepairDecoy
+  m_EditorClassIdentifier: 
+  RoomName: Repair Decoy
+  RoomIcon: {fileID: 21300000, guid: ea6877cb1f98bf54cbc7041aee4c83a0, type: 3}
+  RoomPatternImg: {fileID: 21300000, guid: f2cddaa58760b9d4fab21d5ed6662c70, type: 3}
+  RoomAbility: {fileID: 11400000, guid: 097819b7fbde1844aa6568af4aeeb674, type: 2}
+  IsVital: 0
