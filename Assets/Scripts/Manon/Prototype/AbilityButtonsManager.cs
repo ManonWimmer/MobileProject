@@ -482,6 +482,7 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("AlternateShot"):
                 UseAlternateShot();
                 DeselectAbilityButton(_selectedButton);
+                PlayerUsedOtherAbilityThanSimpleHit();
                 break;
             case ("SimpleHit"):
                 UseSimpleHit();
@@ -490,35 +491,43 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("RandomReveal"):
                 UseRandomReveal();
                 DeselectAbilityButton(_selectedButton);
+                PlayerUsedOtherAbilityThanSimpleHit();
                 break;
             case ("EMP"):
                 UseEMP();
                 DeselectAbilityButton(_selectedButton);
+                PlayerUsedOtherAbilityThanSimpleHit();
                 break;
             case ("Scanner"):
                 UseScanner();
                 DeselectAbilityButton(_selectedButton);
+                PlayerUsedOtherAbilityThanSimpleHit();
                 break;
             case ("TimeAccelerator"):
                 UseTimeAccelerator();
                 DeselectAbilityButton(_selectedButton);
+                PlayerUsedOtherAbilityThanSimpleHit();
                 break;
             case ("Capacitor"):
                 UseCapacitor();
                 DeselectAbilityButton(_selectedButton);
+                PlayerUsedOtherAbilityThanSimpleHit();
                 break;
             case ("UpgradeShot"):
                 UseUpgradeShot();
                 DeselectAbilityButton(_selectedButton);
+                PlayerUsedOtherAbilityThanSimpleHit();
                 break;
             case ("Probe"):
                 UseProbe();
+                PlayerUsedOtherAbilityThanSimpleHit();
                 break;
             case ("EnergyDecoy"):
             case ("TimeDecoy"):
             case ("RepairDecoy"):
                 UseDecoy();
-                DeselectAbilityButton(_selectedButton);
+                DeselectAbilityButton(_selectedButton); 
+                PlayerUsedOtherAbilityThanSimpleHit();
                 break;
         }
 
@@ -2146,24 +2155,24 @@ public class AbilityButtonsManager : MonoBehaviour
     private List<Tile> GetPlayerTiles()
     {
         if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
             return  GameManager.instance.TilesPlayer2;
-        }
         else
-        {
             return GameManager.instance.TilesPlayer1;
-        }
     }
 
     private List<Room> GetPlayerRooms()
     {
         if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
             return GameManager.instance.PlacedRoomsPlayer2;
-        }
         else
-        {
             return GameManager.instance.PlacedRoomsPlayer1;
-        }
+    }
+
+    private void PlayerUsedOtherAbilityThanSimpleHit()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+            GameManager.instance.Player1OnlyUsingSimpleHit = false;
+        else
+            GameManager.instance.Player2OnlyUsingSimpleHit = false;
     }
 }

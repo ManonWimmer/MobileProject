@@ -115,6 +115,10 @@ public class GameManager : MonoBehaviour
     private int _repairDecoyCooldownPlayer1;
     private int _repairDecoyCooldownPlayer2;
 
+    // Achievement only use simple hit
+    private bool _player1OnlyUsingSimpleHit = true;
+    private bool _player2OnlyUsingSimpleHit = true;
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
     public List<Tile> TilesRewindPlayer1 { get => _tilesRewindPlayer1; set => _tilesRewindPlayer1 = value; }
@@ -127,6 +131,8 @@ public class GameManager : MonoBehaviour
     public bool EnergyDecoyTriggeredPlayer2 { get => _energyDecoyTriggeredPlayer2; set => _energyDecoyTriggeredPlayer2 = value; }
     public List<Room> PlacedRoomsPlayer1 { get => _placedRoomsPlayer1; set => _placedRoomsPlayer1 = value; }
     public List<Room> PlacedRoomsPlayer2 { get => _placedRoomsPlayer2; set => _placedRoomsPlayer2 = value; }
+    public bool Player1OnlyUsingSimpleHit { get => _player1OnlyUsingSimpleHit; set => _player1OnlyUsingSimpleHit = value; }
+    public bool Player2OnlyUsingSimpleHit { get => _player2OnlyUsingSimpleHit; set => _player2OnlyUsingSimpleHit = value; }
 
     // ----- FIELDS ----- //
 
@@ -2901,9 +2907,19 @@ public class GameManager : MonoBehaviour
     {
         Ship winnerShip;
         if (winner == Player.Player1)
+        {
             winnerShip = _shipPlayer1;
+
+            if (_player1OnlyUsingSimpleHit)
+                Debug.Log("Achievement : BATTLESHIPS");
+        }
         else
+        {
             winnerShip = _shipPlayer2;
+
+            if (_player1OnlyUsingSimpleHit)
+                Debug.Log("Achievement : BATTLESHIPS");
+        }
 
         if (winnerShip.ShipData.CaptainName == "CPT. RAVIOLI")
             Debug.Log("Achievement : Meatballed");
@@ -2911,7 +2927,17 @@ public class GameManager : MonoBehaviour
             Debug.Log("Achievement : See you space cowboy");
         else
             Debug.Log("Achievement : GG EZ");
-    }
 
+        // Pour "All cards on the table" (Win 1 matches with each commander), tu dois surement
+        // pouvoir check si les bools des 3 précédents achievements sont tous true
+
+        if (_currentRound <= 10)
+            Debug.Log("Achievement : Sniper");
+        if (_currentRound <= 15)
+            Debug.Log("Achievement : Space Surgeon");
+
+
+        // Manque easter egg -> script Pierre ou il est activé
+    }
     #endregion
 }
