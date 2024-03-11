@@ -16,6 +16,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] Camera _mainCamera;
     [SerializeField] float _lerpDuration = 1f;
 
+    [SerializeField] Transform _abilityButtons;
+    [SerializeField] Vector3 _abilityButtonsShow;
+    [SerializeField] float _abilityButtonsHideY;
+
     public bool CombatOwnSpaceShip;
 
     private bool _isMoving;
@@ -37,6 +41,7 @@ public class CameraController : MonoBehaviour
     {
         _mainCamera.transform.position = _cameraPosShipPlayer1.position;
         _currentPos = _cameraPosShipPlayer1;
+        _abilityButtonsShow = _abilityButtons.position;
     }
 
     public void SwitchPlayerShipCameraDirectly(Player player)
@@ -76,7 +81,8 @@ public class CameraController : MonoBehaviour
 
     public void SwitchPlayerShipCameraWithLerp()
     {
-        Debug.Log("a");
+        CombatOwnSpaceShip = !CombatOwnSpaceShip;
+
         if (!_isMoving)
         {
             if (_currentPos == _cameraPosShipPlayer1)
@@ -87,9 +93,16 @@ public class CameraController : MonoBehaviour
             {
                 StartCoroutine(LerpPosition(_cameraPosShipPlayer1));
             }
-        }
 
-        CombatOwnSpaceShip = !CombatOwnSpaceShip;
+            if (CombatOwnSpaceShip)
+            {
+                StartCoroutine(LerpAbilityButtonsPosition(true));
+            }
+            else
+            {
+                StartCoroutine(LerpAbilityButtonsPosition(false));
+            }
+        }
     }
 
 
@@ -110,6 +123,29 @@ public class CameraController : MonoBehaviour
 
         _isMoving = false;
         _currentPos = transTarget;
+    }
+
+    IEnumerator LerpAbilityButtonsPosition(bool hide)
+    {
+        float timeElapsed = 0f;
+        Vector3 startingPos = _abilityButtons.position;
+        Vector3 targetPos = Vector3.zero;
+
+        if (hide)
+        {
+            targetPos = new Vector3(_abilityButtonsShow.x, _abilityButtonsHideY, _abilityButtonsShow.z);
+        }
+        else
+        {
+            targetPos = _abilityButtonsShow;
+        }
+
+        while (timeElapsed < _lerpDuration)
+        {
+            _abilityButtons.transform.position = Vector3.Lerp(startingPos, targetPos, timeElapsed / _lerpDuration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
     }
 }
 

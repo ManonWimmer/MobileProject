@@ -262,6 +262,9 @@ MonoBehaviour:
   _cameraRewindPosShipPlayer2: {fileID: 221259753}
   _mainCamera: {fileID: 701273501}
   _lerpDuration: 1
+  _abilityButtons: {fileID: 1529084517}
+  _abilityButtonsShow: {x: 0, y: 0, z: 0}
+  _abilityButtonsHideY: -250
   CombatOwnSpaceShip: 0
 --- !u!4 &8882636
 Transform:
