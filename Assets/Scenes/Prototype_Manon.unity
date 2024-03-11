@@ -6990,7 +6990,7 @@ PrefabInstance:
     - target: {fileID: 3414601186888347677, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8fe50bcf7de8a844585174ba44300ccf, type: 3}
+      objectReference: {fileID: 21300000, guid: ac1603fe7d070f64e90286b2a76cb700, type: 3}
     - target: {fileID: 6335289993623823620, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -19754,9 +19754,9 @@ MonoBehaviour:
   _energyDecoy: {fileID: 21300000, guid: 9b0b8e6607ad3c742ae54c258c384c9b, type: 3}
   _energyDecoyRevealed: {fileID: 21300000, guid: 126a60cf77318f945bbddaa03159dc74, type: 3}
   _energyDecoyDestroyed: {fileID: 21300000, guid: 67d32cee328651647b8c8e7e38126745, type: 3}
-  _timeDecoy: {fileID: 21300000, guid: 8fe50bcf7de8a844585174ba44300ccf, type: 3}
-  _timeDecoyRevealed: {fileID: 21300000, guid: 8fe50bcf7de8a844585174ba44300ccf, type: 3}
-  _timeDecoyDestroyed: {fileID: 21300000, guid: 8fe50bcf7de8a844585174ba44300ccf, type: 3}
+  _timeDecoy: {fileID: 21300000, guid: 51a0e557a6784144fa301d86f6a2b934, type: 3}
+  _timeDecoyRevealed: {fileID: 21300000, guid: 851b326d0440b0244b9ef8b669caee7b, type: 3}
+  _timeDecoyDestroyed: {fileID: 21300000, guid: 4e0db64ef02f09a4b873206f6c59a4a2, type: 3}
 --- !u!1 &2082120430
 GameObject:
   m_ObjectHideFlags: 0

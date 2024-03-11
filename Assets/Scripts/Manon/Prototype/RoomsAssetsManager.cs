@@ -211,6 +211,7 @@ public class RoomsAssetsManager : MonoBehaviour
                 else
                     spriteRenderer.sprite = _energyDecoy;
                 break;
+
             case ("Time Decoy"):
                 if (isDestroyed)
                     spriteRenderer.sprite = _timeDecoyDestroyed;
