@@ -62,6 +62,8 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private string _lastAbilityUsed;
 
+    private Tile _tempTileRepaired;
+
     List<Tile> tempTargets = new List<Tile>();
 
     public bool IsInRewind;
@@ -193,6 +195,35 @@ public class AbilityButtonsManager : MonoBehaviour
         else
         {
             foreach (Tile tile in GameManager.instance.TilesPlayer2)
+            {
+                if (tile.name == targetTile.name)
+                {
+                    Debug.Log("found ship tile " + tile.name);
+                    return tile;
+
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private Tile GetRewindShipTile(Player player, Tile targetTile)
+    {
+        if (player == Player.Player1)
+        {
+            foreach (Tile tile in GameManager.instance.TilesRewindPlayer1)
+            {
+                if (tile.name == targetTile.name)
+                {
+                    Debug.Log("found ship tile " + tile.name);
+                    return tile;
+                }
+            }
+        }
+        else
+        {
+            foreach (Tile tile in GameManager.instance.TilesRewindPlayer2)
             {
                 if (tile.name == targetTile.name)
                 {
@@ -1844,8 +1875,16 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Repair Decoy
     private void RepairDecoyDestroyNewRoom()
     {
-        // Montrer que +1 action points
+        // Repair room
+        Tile rewindTileToRepair = GetRewindShipTile(GameManager.instance.PlayerTurn, _tempTileRepaired);
+        if (rewindTileToRepair.Room.IsRoomDestroyed)
+            rewindTileToRepair.Room.IsRoomDestroyed = false;
+        rewindTileToRepair.IsDestroyed = false;
+        Debug.Log("rewind repair " + rewindTileToRepair.name + rewindTileToRepair.Room.name);
+        RoomsAssetsManager.instance.SetTileRoomAsset(rewindTileToRepair.Room.RoomData.RoomAbility, rewindTileToRepair.RoomTileSpriteRenderer, false, false);
+
         Debug.Log("new room repair decoy " + _target.name);
+
         Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
 
         // Create new decoy rewind 
@@ -1897,7 +1936,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
             tileToRepair.IsDestroyed = false;
             RoomsAssetsManager.instance.SetTileRoomAsset(roomToRepair.RoomData.RoomAbility, tileToRepair.RoomTileSpriteRenderer, false, false);
-            //UpdateHiddenRooms();
+            _tempTileRepaired = tileToRepair;
         }
         else
         {
