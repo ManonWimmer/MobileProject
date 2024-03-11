@@ -2917,7 +2917,7 @@ public class GameManager : MonoBehaviour
         {
             winnerShip = _shipPlayer2;
 
-            if (_player1OnlyUsingSimpleHit)
+            if (_player2OnlyUsingSimpleHit)
                 Debug.Log("Achievement : BATTLESHIPS");
         }
 
