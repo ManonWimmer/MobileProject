@@ -1690,14 +1690,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Player ship
         // Get Player Tiles
         List<Tile> playerTiles = new List<Tile>();
-        if (GameManager.instance.PlayerTurn == Player.Player1)
-        {
-            playerTiles = GameManager.instance.TilesPlayer2;
-        }
-        else
-        {
-            playerTiles = GameManager.instance.TilesPlayer1;
-        }
+        playerTiles = GetPlayerTiles();
 
         bool roomBuilt = false;
         while (!roomBuilt)
@@ -1879,6 +1872,38 @@ public class AbilityButtonsManager : MonoBehaviour
         Debug.Log("----- use time decoy after destroy");
 
         // ----- REPAIR RANDOM ROOM DESTROYED ----- //
+        List<Tile> playerTiles = new List<Tile>();
+        List<Tile> occupiedTiles = new List<Tile>();
+        bool atLeastOneRoomDestroyed = false;
+
+        // check foreach tile si possible d'en trouver une destroyed -> sinon on fait pas le random
+        foreach(Tile tile in playerTiles)
+        {
+            if (tile.IsOccupied && tile.Room != null && tile.IsDestroyed)
+                occupiedTiles.Add(tile);
+                atLeastOneRoomDestroyed = true;
+        }
+
+        // prendre une tile random -> si room dessus destroy, plus destroy (+ check si pas room completely destroyed et mettre à false), update sprites ?
+        if (atLeastOneRoomDestroyed)
+        {
+            int randomIndex = Random.Range(0, occupiedTiles.Count - 1);
+            Tile tileToRepair = occupiedTiles[randomIndex];
+            Room roomToRepair = tileToRepair.Room;
+            Debug.Log("repair tile " + tileToRepair.name + ", room " + roomToRepair.name);
+
+            if (roomToRepair.IsRoomDestroyed)
+                roomToRepair.IsRoomDestroyed = false;
+            // a update si on met les assets rooms completely destroyed
+
+            tileToRepair.IsDestroyed = false;
+            RoomsAssetsManager.instance.SetTileRoomAsset(roomToRepair.RoomData.RoomAbility, tileToRepair.RoomTileSpriteRenderer, false, false);
+        }
+        else
+        {
+            Debug.Log("no room to repair");
+        }
+        // sinon pas de réparation à faire
 
         // ----- REPAIR RANDOM ROOM DESTROYED ----- //
 
@@ -1963,7 +1988,7 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Check Decoys
     private void CheckDecoysAfterDestoy(Tile tileDestroyed)
     {
-        Debug.Log("CHECK DECOYRS AFTER DESTROY");
+        Debug.Log("CHECK DECOYS AFTER DESTROY");
 
         if (tileDestroyed.Room != null)
         {
@@ -2077,5 +2102,29 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private List<Tile> GetPlayerTiles()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            return  GameManager.instance.TilesPlayer2;
+        }
+        else
+        {
+            return GameManager.instance.TilesPlayer1;
+        }
+    }
+
+    private List<Room> GetPlayerRooms()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            return GameManager.instance.PlacedRoomsPlayer2;
+        }
+        else
+        {
+            return GameManager.instance.PlacedRoomsPlayer1;
+        }
     }
 }

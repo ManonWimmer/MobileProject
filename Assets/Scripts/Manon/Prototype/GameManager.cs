@@ -125,6 +125,8 @@ public class GameManager : MonoBehaviour
     public List<Tile> TilesPlayer2 { get => _tilesPlayer2; set => _tilesPlayer2 = value; }
     public bool EnergyDecoyTriggeredPlayer1 { get => _energyDecoyTriggeredPlayer1; set => _energyDecoyTriggeredPlayer1 = value; }
     public bool EnergyDecoyTriggeredPlayer2 { get => _energyDecoyTriggeredPlayer2; set => _energyDecoyTriggeredPlayer2 = value; }
+    public List<Room> PlacedRoomsPlayer1 { get => _placedRoomsPlayer1; set => _placedRoomsPlayer1 = value; }
+    public List<Room> PlacedRoomsPlayer2 { get => _placedRoomsPlayer2; set => _placedRoomsPlayer2 = value; }
 
     // ----- FIELDS ----- //
 

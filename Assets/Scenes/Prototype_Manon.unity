@@ -19933,6 +19933,9 @@ MonoBehaviour:
   _timeDecoy: {fileID: 21300000, guid: 51a0e557a6784144fa301d86f6a2b934, type: 3}
   _timeDecoyRevealed: {fileID: 21300000, guid: 851b326d0440b0244b9ef8b669caee7b, type: 3}
   _timeDecoyDestroyed: {fileID: 21300000, guid: 4e0db64ef02f09a4b873206f6c59a4a2, type: 3}
+  _repairDecoy: {fileID: 21300000, guid: e8d46a99c6f31db449d0250e10d996b8, type: 3}
+  _repairDecoyRevealed: {fileID: 21300000, guid: f000d9b7c6061dc4d827485becb40bad, type: 3}
+  _repairDecoyDestroyed: {fileID: 21300000, guid: 785284fcde82fdb4397c3f227561e9e3, type: 3}
 --- !u!1 &2082120430
 GameObject:
   m_ObjectHideFlags: 0
