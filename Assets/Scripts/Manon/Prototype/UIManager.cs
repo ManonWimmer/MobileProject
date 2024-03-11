@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Switch Ship")]
     [SerializeField] GameObject _switchShipButton;
+    [SerializeField] Image _switchShipArrow;
 
     [Header("Ability Bonus")]
     [SerializeField] Image _alternateShotIcon;
@@ -111,6 +112,18 @@ public class UIManager : MonoBehaviour
         HideProbeCount();
         HidePlayerCorner();
         HideRewindTxt();
+    }
+
+    public void UpdateSwitchShipArrow()
+    {
+        if ((GameManager.instance.PlayerTurn == Player.Player1 && CameraController.instance.CombatOwnSpaceShip) || (GameManager.instance.PlayerTurn == Player.Player2 && !CameraController.instance.CombatOwnSpaceShip))
+        {
+            _switchShipArrow.transform.eulerAngles = new Vector3(0, 0, -90);
+        }
+        else
+        {
+            _switchShipArrow.transform.eulerAngles = new Vector3(0, 0, 90);
+        }
     }
 
     public void HideRewindTxt()

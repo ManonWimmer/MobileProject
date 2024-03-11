@@ -103,6 +103,8 @@ public class CameraController : MonoBehaviour
                 StartCoroutine(LerpAbilityButtonsPosition(false));
             }
         }
+
+        UIManager.instance.UpdateSwitchShipArrow();
     }
 
 

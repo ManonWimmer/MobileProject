@@ -11555,6 +11555,7 @@ MonoBehaviour:
   _victoryCanvas: {fileID: 1543358633}
   _victoryTxt: {fileID: 1306871851}
   _switchShipButton: {fileID: 1152081684}
+  _switchShipArrow: {fileID: 1893683516}
   _alternateShotIcon: {fileID: 2075798330}
   _simpleHitX2Img: {fileID: 558262120}
   _probeCount: {fileID: 1867265291}
