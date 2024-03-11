@@ -1873,19 +1873,18 @@ public class AbilityButtonsManager : MonoBehaviour
 
         // ----- REPAIR RANDOM ROOM DESTROYED ----- //
         List<Tile> playerTiles = new List<Tile>();
+        playerTiles = GetPlayerTiles();
         List<Tile> occupiedTiles = new List<Tile>();
-        bool atLeastOneRoomDestroyed = false;
 
         // check foreach tile si possible d'en trouver une destroyed -> sinon on fait pas le random
         foreach(Tile tile in playerTiles)
         {
             if (tile.IsOccupied && tile.Room != null && tile.IsDestroyed)
                 occupiedTiles.Add(tile);
-                atLeastOneRoomDestroyed = true;
         }
 
         // prendre une tile random -> si room dessus destroy, plus destroy (+ check si pas room completely destroyed et mettre à false), update sprites ?
-        if (atLeastOneRoomDestroyed)
+        if (occupiedTiles.Count > 0)
         {
             int randomIndex = Random.Range(0, occupiedTiles.Count - 1);
             Tile tileToRepair = occupiedTiles[randomIndex];
@@ -1898,6 +1897,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
             tileToRepair.IsDestroyed = false;
             RoomsAssetsManager.instance.SetTileRoomAsset(roomToRepair.RoomData.RoomAbility, tileToRepair.RoomTileSpriteRenderer, false, false);
+            //UpdateHiddenRooms();
         }
         else
         {

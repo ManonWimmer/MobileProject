@@ -78,11 +78,13 @@ public class Tile : MonoBehaviour
                 else
                 {
                     _bordure.color = Color.white;
-                }   
+                }
+                _inside.sprite = _normal;
             }
             else
             {
                 _bordure.color = Color.black;
+                _inside.sprite = _normal;
             }
         }
     }

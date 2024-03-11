@@ -775,11 +775,16 @@ public class GameManager : MonoBehaviour
                 while (!roomBuilt)
                 {
                     Tile tempTile = _tilesPlayer1[Random.Range(0, _tilesPlayer1.Count - 1)];
-                    if (CheckCanBuild(player1Room, tempTile))
+                    if (!tempTile.IsOccupied)
                     {
-                        CreateNewBuilding(player1Room, tempTile, Player.Player1);
-                        roomBuilt = true;
+                        if (CheckCanBuild(player1Room, tempTile))
+                        {
+                            CreateNewBuilding(player1Room, tempTile, Player.Player1);
+                            roomBuilt = true;
+                        }
                     }
+                    
+
                 }
             }
         }
@@ -852,7 +857,6 @@ public class GameManager : MonoBehaviour
                         Debug.Log("left tile occupied " + i);
                         return false;
                     }
-                    
                 }
                 else
                 {
