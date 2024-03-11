@@ -17,6 +17,7 @@
 		<oui>boooooo</oui>
 		
 		<!-- Description carte-->
+		<simpleShot>Détruit une case</simpleShot>
 		<probe>Lance une salve de 3 tirs dans une zone ciblée qui ne vont pas faire de dégâts mais vont révéler des cases</probe>
 		<emp>Tir qui va détruire la salle ciblée et rendre inactive les salles autours pour 1 tour</emp>
 		<timeAccelerator>Un saut dans le temps qui va réduire vos cooldowns de 1</timeAccelerator>
@@ -40,6 +41,7 @@
 		<Player2>Joueur 2</Player2>
 		
 		<!--Card title -->
+		<titleSimpleShot>Tir simple</titleSimpleShot>
 		<titleProbe>Sonde</titleProbe>
 		<titleEmp>IEM</titleEmp>
 		<titleTimeAccelerator>Accélérateur temporel</titleTimeAccelerator>

@@ -60,8 +60,7 @@ public class AbilityButtonsManager : MonoBehaviour
     private List<Tuple<String, List<Tile>>> _lastRoundActionsPlayer2 = new List<Tuple<String, List<Tile>>>();
     private List<Tile> _currentActionTargetTiles = new List<Tile>();
 
-    private Tile _tempNewEnergyDecoyTile;
-    [SerializeField] Room _energyDecoyRoom;
+    private string _lastAbilityUsed;
 
     List<Tile> tempTargets = new List<Tile>();
 
@@ -249,40 +248,18 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("RandomReveal"):
                 StartCoroutine(RandomRevealRewind(targetsOnRewind));
                 break;
-            case ("EnergyDecoy"):
-                EnergyDecoy_Action();
+            case ("Decoy"):
+                Decoy_Action();
                 break;
             case ("EnergyDecoyDestroy"):
-                Debug.Log("a");
                 EnergyDecoyDestroyNewRoom();
+                break;
+            case ("TimeDecoyDestroy"):
+                TimeDecoyDestroyNewRoom();
                 break;
         }
 
         UpdateRoomsRewind();
-    }
-
-    private void EnergyDecoyDestroyNewRoom()
-    {
-        // Montrer que +1 action points
-        Debug.Log("new room energy decoy " + _target.name);
-        Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
-        Debug.Log("ship tile" + lastTarget.name);
-        // Create new decoy rewind 
-        //Tile rewindTile = GetRewindTile(GameManager.instance.PlayerTurn, _tempNewEnergyDecoyTile);
-        GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
-        RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
-    }
-
-    private Player GetEnemyPlayer()
-    {
-        if (GameManager.instance.GetCurrentPlayer() == Player.Player1)
-        {
-            return Player.Player2;
-        }
-        else
-        {
-            return Player.Player1;
-        }
     }
 
     private IEnumerator ProbeRewind(List<Tile> targets)
@@ -464,6 +441,8 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Use Ability
     public void UseSelectedAbility()
     {
+        _lastAbilityUsed = _selectedButton.GetAbility().name;
+
         switch (_selectedButton.GetAbility().name)
         {
             case ("AlternateShot"):
@@ -502,10 +481,13 @@ public class AbilityButtonsManager : MonoBehaviour
                 UseProbe();
                 break;
             case ("EnergyDecoy"):
-                UseEnergyDecoy();
+            case ("TimeDecoy"):
+                UseDecoy();
                 DeselectAbilityButton(_selectedButton);
                 break;
         }
+
+        
 
         TargetController.instance.HideTarget();
     }
@@ -1697,12 +1679,12 @@ public class AbilityButtonsManager : MonoBehaviour
     }
     #endregion
 
-    #region Energy Decoy
-    private void UseEnergyDecoy()
+    #region Decoy
+    private void UseDecoy()
     {
         // ----- REWIND ----- //
         if (_currentActionTargetTiles.Count > 0)
-            _currentActionTargetTiles.Clear();  
+            _currentActionTargetTiles.Clear();
         // ----- REWIND ----- //
 
         DesactivateSimpleHitX2IfActivated();
@@ -1732,22 +1714,35 @@ public class AbilityButtonsManager : MonoBehaviour
                 _currentActionTargetTiles.Add(randomTile);
                 _target = randomTile;
                 Debug.Log("target : " + _target.name);
-                EnergyDecoy_Action();
+                Decoy_Action();
             }
         }
 
-        AddActionToCurrentPlayerRound("EnergyDecoy");
+        AddActionToCurrentPlayerRound("Decoy");
 
         UpdateHiddenRooms();
         UIManager.instance.CheckAbilityButtonsColor();
     }
 
-    private void EnergyDecoy_Action()
+    private void Decoy_Action()
     {
         Debug.Log("energy decoy action");
         RevealRoom(_target);
     }
+    #endregion
 
+    #region Energy Decoy
+    private void EnergyDecoyDestroyNewRoom()
+    {
+        // Montrer que +1 action points
+        Debug.Log("new room energy decoy " + _target.name);
+        Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
+
+        // Create new decoy rewind 
+        GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
+        RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+    }
+    
     private void UseEnergyDecoyAfterDestroy()
     {
         // ----- REWIND ----- //
@@ -1793,14 +1788,173 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             Debug.Log("while 3");
             Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
-            if (GameManager.instance.CheckCanBuild(_target.Room, randomTile)) // target on energy decoy room after destroy
+            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility("Energy Decoy"), randomTile)) // target on energy decoy room after destroy
             {
                 // Player Ship
                 Debug.Log("create room ship " + randomTile);
-                GameManager.instance.CreateNewBuilding(_target.Room, randomTile, GameManager.instance.PlayerTurn);
-                RoomsAssetsManager.instance.SetTileRoomAsset(_target.Room.RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false, false);
+                GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility("Energy Decoy"), randomTile, GameManager.instance.PlayerTurn);
+                RoomsAssetsManager.instance.SetTileRoomAsset(GetRoomFromTargetWithAbility("Energy Decoy").RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false, false);
                 tempTargets.Add(randomTile);
-                _tempNewEnergyDecoyTile = randomTile;
+
+                roomBuilt = true;
+            }
+        }
+    }
+
+    private Room GetRoomFromTargetWithAbility(string decoyName)
+    {
+        switch (_lastAbilityUsed)
+        {
+            case ("SimpleHit"):
+            case ("EMP"):
+                return _target.Room;
+            case ("AlternateShot"):
+                if (_target != null)
+                    if (_target.Room != null)
+                        if (_target.Room.RoomData.RoomName == decoyName)
+                            return _target.Room;
+                if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
+                {
+                    if (_target.LeftTile != null)
+                        if (_target.LeftTile.Room != null)
+                            if (_target.LeftTile.Room.RoomData.RoomName == decoyName)
+                                return _target.LeftTile.Room;
+
+                    if (_target.RightTile != null)
+                        if (_target.RightTile.Room != null)
+                            if (_target.RightTile.Room.RoomData.RoomName == decoyName)
+                                return _target.RightTile.Room;
+                }
+                else
+                {
+                    if (_target.TopTile != null)
+                        if (_target.TopTile.Room != null)
+                            if (_target.TopTile.Room.RoomData.RoomName == decoyName)
+                                return _target.TopTile.Room;
+
+                    if (_target.BottomTile != null)
+                        if (_target.BottomTile.Room != null)
+                            if (_target.BottomTile.Room.RoomData.RoomName == decoyName)
+                                return _target.BottomTile.Room;
+                }
+                break;
+            case ("UpgradeShot"):
+                switch (_currentUpgradeShotStep)
+                {
+                    case (UpgradeShotStep.DestroyOneTile):
+                        if (_target != null)
+                            if (_target.Room != null)
+                                if (_target.Room.RoomData.RoomName == decoyName)
+                                    return _target.Room;
+                        break;
+                    case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
+                        if (_target != null)
+                            if (_target.Room != null)
+                                if (_target.Room.RoomData.RoomName == decoyName)
+                                    return _target.Room;
+
+                        if (_target.DiagTopLeftTile != null)
+                            if (_target.DiagTopLeftTile.Room != null)
+                                if (_target.DiagTopLeftTile.Room.RoomData.RoomName == decoyName)
+                                    return _target.DiagTopLeftTile.Room;
+
+                        if (_target.DiagBottomRightTile != null)
+                            if (_target.DiagBottomRightTile.Room != null)
+                                if (_target.DiagBottomRightTile.Room.RoomData.RoomName == decoyName)
+                                    return _target.DiagBottomRightTile.Room;
+                        break;
+                    case (UpgradeShotStep.DestroyFiveTilesInCross):
+                        if (_target != null)
+                            if (_target.Room != null)
+                                if (_target.Room.RoomData.RoomName == decoyName)
+                                    return _target.Room;
+
+                        if (_target.LeftTile != null)
+                            if (_target.LeftTile.Room != null)
+                                if (_target.LeftTile.Room.RoomData.RoomName == decoyName)
+                                    return _target.LeftTile.Room;
+
+                        if (_target.RightTile != null)
+                            if (_target.RightTile.Room != null)
+                                if (_target.RightTile.Room.RoomData.RoomName == decoyName)
+                                    return _target.RightTile.Room;
+
+                        if (_target.TopTile != null)
+                            if (_target.TopTile.Room != null)
+                                if (_target.TopTile.Room.RoomData.RoomName == decoyName)
+                                    return _target.TopTile.Room;
+
+                        if (_target.BottomTile != null)
+                            if (_target.BottomTile.Room != null)
+                                if (_target.BottomTile.Room.RoomData.RoomName == decoyName)
+                                    return _target.BottomTile.Room;
+                        break;
+                }
+                break;
+        }
+
+        return null;
+    }
+    #endregion
+
+    #region Time Decoy
+    private void TimeDecoyDestroyNewRoom()
+    {
+        // Montrer que +1 action points
+        Debug.Log("new room energy decoy " + _target.name);
+        Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
+
+        // Create new decoy rewind 
+        GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
+        RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+    }
+
+    private void UseTimeDecoyAfterDestroy()
+    {
+        // ----- REWIND ----- //
+        if (tempTargets.Count > 0)
+            tempTargets.Clear();
+        // ----- REWIND ----- //
+        Debug.Log("----- use time decoy after destroy");
+
+        UseTimeDecoyAfterDestroy_Action();
+
+        AddActionToCurrentPlayerRoundWithTempTargets("TimeDecoyDestroy");
+    }
+
+
+    private void UseTimeDecoyAfterDestroy_Action()
+    {
+        Debug.Log("----- use time decoy after destroy");
+
+        // +1 Action point next round
+        GameManager.instance.AddCurrentPlayerAbilityOneCooldown(GameManager.instance.GetAbilityFromName(_lastAbilityUsed));
+
+        // Create another decoy to random player ship position (and update to rewind)
+        // Player ship
+        // Get Player Tiles
+        List<Tile> playerTiles = new List<Tile>();
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            playerTiles = GameManager.instance.TilesPlayer2;
+        }
+        else
+        {
+            playerTiles = GameManager.instance.TilesPlayer1;
+        }
+
+        bool roomBuilt = false;
+        while (!roomBuilt)
+        {
+            Debug.Log("while 3" + _target.name + _target.Room.name);
+            Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
+            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility("Time Decoy"), randomTile)) // target on decoy room after destroy
+            {
+                // Player Ship
+                Debug.Log("create room ship " + randomTile);
+                GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility("Time Decoy"), randomTile, GameManager.instance.PlayerTurn);
+                RoomsAssetsManager.instance.SetTileRoomAsset(GetRoomFromTargetWithAbility("Time Decoy").RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false, false);
+                tempTargets.Add(randomTile);
 
                 roomBuilt = true;
             }
@@ -1892,6 +2046,9 @@ public class AbilityButtonsManager : MonoBehaviour
             {
                 case ("Energy Decoy"):
                     UseEnergyDecoyAfterDestroy();
+                    break;
+                case ("Time Decoy"):
+                    UseTimeDecoyAfterDestroy();
                     break;
             }
         }

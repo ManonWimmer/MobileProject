@@ -109,6 +109,9 @@ public class GameManager : MonoBehaviour
     private bool _energyDecoyTriggeredPlayer1;
     private bool _energyDecoyTriggeredPlayer2;
 
+    private int _timeDecoyCooldownPlayer1;
+    private int _timeDecoyCooldownPlayer2;
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
     public List<Tile> TilesRewindPlayer1 { get => _tilesRewindPlayer1; set => _tilesRewindPlayer1 = value; }
@@ -1637,6 +1640,20 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     break;
+                case ("Time Decoy"):
+                    _timeDecoyCooldownPlayer1 = 0;
+                    _timeDecoyCooldownPlayer2 = 0;
+
+                    for (int i = 0; i < _abilityButtons.Count; i++)
+                    {
+                        if (_abilityButtons[i].name == "TimeDecoy")
+                        {
+                            ability.AbilityButton = _abilityButtons[i];
+                            Debug.Log("found time decoy button");
+                            break;
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -2027,7 +2044,6 @@ public class GameManager : MonoBehaviour
         else if (_currentMode == Mode.Draft)
         {
             _currentMode = Mode.Construction;
-            
         }
         else
         {
@@ -2154,6 +2170,16 @@ public class GameManager : MonoBehaviour
                     _energyDecoyCooldownPlayer2 = ability.Cooldown;
                 }
                 break;
+            case ("Time Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _timeDecoyCooldownPlayer1 = ability.Cooldown;
+                }
+                else
+                {
+                    _timeDecoyCooldownPlayer2 = ability.Cooldown;
+                }
+                break;
         }
     }
 
@@ -2251,6 +2277,125 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     _energyDecoyCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Time Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _timeDecoyCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _timeDecoyCooldownPlayer1 += 2;
+                }
+                break;
+        }
+    }
+
+    public void AddCurrentPlayerAbilityOneCooldown(scriptablePower ability)
+    {
+        Debug.Log("set ability cooldown " + ability.name + " " + _playerTurn);
+
+        switch (ability.AbilityName)
+        {
+            case ("EMP"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _empCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _empCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _timeAcceleratorCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _timeAcceleratorCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Random Reveal"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _randomRevealCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _randomRevealCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _alternateShotCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _alternateShotCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Scanner"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _scannerCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _scannerCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Capacitor"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _capacitorCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _capacitorCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _upgradeShotCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _upgradeShotCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Probe"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _probeCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _probeCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Energy Decoy"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _energyDecoyCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _energyDecoyCooldownPlayer1 += 2;
+                }
+                break;
+            case ("Time Decoy"):
+                if (_playerTurn == Player.Player2)
+                {
+                    _timeDecoyCooldownPlayer2 += 2;
+                }
+                else
+                {
+                    _timeDecoyCooldownPlayer1 += 2;
                 }
                 break;
         }
@@ -2408,6 +2553,22 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
+            case ("Time Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    if (_timeDecoyCooldownPlayer1 == 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_timeDecoyCooldownPlayer2 == 0)
+                    {
+                        return false;
+                    }
+                }
+                break;
         }
 
         return true;
@@ -2434,6 +2595,7 @@ public class GameManager : MonoBehaviour
             _upgradeShotCooldownPlayer1 = (int)Mathf.Clamp(_upgradeShotCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _probeCooldownPlayer1 = (int)Mathf.Clamp(_probeCooldownPlayer1 - amount, 0, Mathf.Infinity);
             _energyDecoyCooldownPlayer1 = (int)Mathf.Clamp(_energyDecoyCooldownPlayer1 - amount, 0, Mathf.Infinity);
+            _timeDecoyCooldownPlayer1 = (int)Mathf.Clamp(_timeDecoyCooldownPlayer1 - amount, 0, Mathf.Infinity);
         }
         else
         {
@@ -2446,6 +2608,7 @@ public class GameManager : MonoBehaviour
             _upgradeShotCooldownPlayer2 = (int)Mathf.Clamp(_upgradeShotCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _probeCooldownPlayer2 = (int)Mathf.Clamp(_probeCooldownPlayer2 - amount, 0, Mathf.Infinity);
             _energyDecoyCooldownPlayer2 = (int)Mathf.Clamp(_energyDecoyCooldownPlayer2 - amount, 0, Mathf.Infinity);
+            _timeDecoyCooldownPlayer2 = (int)Mathf.Clamp(_timeDecoyCooldownPlayer2 - amount, 0, Mathf.Infinity);
         }
 
         AbilityButtonsManager.instance.UpdateAllAbilityButtonsCooldown();
@@ -2537,6 +2700,15 @@ public class GameManager : MonoBehaviour
                 {
                     return _energyDecoyCooldownPlayer2;
                 }
+            case ("Time Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _timeDecoyCooldownPlayer1;
+                }
+                else
+                {
+                    return _timeDecoyCooldownPlayer2;
+                }
         }
 
         return 0;
@@ -2626,6 +2798,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     return _energyDecoyCooldownPlayer1;
+                }
+            case ("Time Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    return _timeDecoyCooldownPlayer2;
+                }
+                else
+                {
+                    return _timeDecoyCooldownPlayer1;
                 }
         }
 
