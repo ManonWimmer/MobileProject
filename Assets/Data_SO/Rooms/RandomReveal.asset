@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RandomReveal
   m_EditorClassIdentifier: 
   RoomName: Random Reveal
-  RoomIcon: {fileID: 21300000, guid: 273073e091c8cac48874d7e6879de7d8, type: 3}
-  RoomPatternImg: {fileID: 21300000, guid: db263039232d8ff4d957a0c86138bd14, type: 3}
+  RoomIcon: {fileID: 21300000, guid: 84a008cd97643864d92ed0d269998db5, type: 3}
+  RoomPatternImg: {fileID: 21300000, guid: ef52b86d1108c344cbf880358d4d3551, type: 3}
   RoomAbility: {fileID: 11400000, guid: 26c0d40d755705443bc53e84cac6a75c, type: 2}
   IsVital: 0
