@@ -70,7 +70,7 @@ public class StarInstance : MonoBehaviour
         randomFactor = UnityEngine.Random.Range(0.7f, 2f);
         duration *= randomFactor;
         _speed *= randomFactor;
-        Debug.Log("ACTIVATE NEWPOS");
+        //Debug.Log("ACTIVATE NEWPOS");
         visuals.color = transparent;
         this.transform.position = newPos;
         iterationOrigin = newPos;
@@ -84,7 +84,7 @@ public class StarInstance : MonoBehaviour
 
     IEnumerator BirthStar()
     {
-        Debug.Log("Birth");
+        //Debug.Log("Birth");
         yield return StartCoroutine(FadeInAndOutLoop());
         //Reset();
     }

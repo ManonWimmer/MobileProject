@@ -16,6 +16,6 @@ MonoBehaviour:
   Description: Energy Decoy Description
   Icon: {fileID: 21300000, guid: 15db0e4ffa62bc441b4427920c106225, type: 3}
   ActionPointsNeeded: 1
-  Cooldown: 2
+  Cooldown: 4
   AbilityButton: {fileID: 0}
   CanBeDefused: 0

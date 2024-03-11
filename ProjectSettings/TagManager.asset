@@ -8,6 +8,7 @@ TagManager:
   - Cards
   - Button
   - conffeti
+  - text
   layers:
   - Default
   - TransparentFX
