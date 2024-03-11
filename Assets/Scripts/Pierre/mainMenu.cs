@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class mainMenu : MonoBehaviour
@@ -17,6 +18,14 @@ public class mainMenu : MonoBehaviour
 
     private bool _easterEggPlay;
     private Vector3 _poseCredits;
+
+    public xmlReader xmlReader;
+    public TextMeshProUGUI _text;
+    public void ChangeText()
+    {
+        _text.text = "oui";
+        xmlReader.ChangeText(_text, "oui");
+    }
 
     private void Start()
     {

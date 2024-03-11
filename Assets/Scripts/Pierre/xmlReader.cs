@@ -4,74 +4,76 @@ using System.Xml;
 using TMPro;
 using UnityEngine;
 
+[System.Serializable]
+
+public class LanguageData
+{
+    public string name;
+    public Dictionary<string, string> texts = new Dictionary<string, string>();
+}
+
 public class xmlReader : MonoBehaviour
 {
 
     [SerializeField] private TextAsset _dictionary;
-
-    [SerializeField] private string _languageName;
-    [SerializeField] private int _currentLanguage;
-
-    private string _bonjour;
-    private string _aurevoir;
-
-    [SerializeField] private TextMeshProUGUI _textBonjour;
-    [SerializeField] private TextMeshProUGUI _textAurevoir;
     [SerializeField] private TMP_Dropdown _dropdown;
+    [SerializeField] private List<TextMeshProUGUI> _textFields = new List<TextMeshProUGUI>();
 
-    private List<Dictionary<string, string>> _languages = new List<Dictionary<string, string>>();
-    private Dictionary<string, string> _obj;
+    private List<LanguageData> _languages = new List<LanguageData>();
+    private int _currentLanguageIndex = 0;
+
+    public void ChangeText(TextMeshProUGUI textMesh, string newName) => UpdateTextTranslation(textMesh, newName);
 
     private void Awake()
     {
-        Reader();
+        LoadLanguages();
+        UpdateTexts();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        _languages[_currentLanguage].TryGetValue("Name", out _languageName);
-        _languages[_currentLanguage].TryGetValue("Bonjour", out _bonjour);
-        _languages[_currentLanguage].TryGetValue("Aurevoir", out _aurevoir);
-
-        _textBonjour.text = _bonjour;
-        _textAurevoir.text = _aurevoir;
-
-    }
-
-    private void Reader()
+    private void LoadLanguages()
     {
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(_dictionary.text);
         XmlNodeList languageList = xmlDoc.GetElementsByTagName("language");
 
-        foreach (XmlNode languageValue in languageList)
+        foreach (XmlNode languageNode in languageList)
         {
-            XmlNodeList languageContent = languageValue.ChildNodes;
-            _obj = new Dictionary<string, string>();
+            LanguageData language = new LanguageData();
+            language.name = languageNode.SelectSingleNode("Name").InnerText;
 
-            foreach (XmlNode value in languageContent)
+            foreach (XmlNode textFieldNode in languageNode.ChildNodes)
             {
-                if (value.Name == "Name")
+                if (textFieldNode.Name != "Name")
                 {
-                    _obj.Add(value.Name, value.InnerText);
-                }
-
-                if (value.Name == "Bonjour")
-                {
-                    _obj.Add(value.Name, value.InnerText);
-                }
-                if (value.Name == "Aurevoir")
-                {
-                    _obj.Add(value.Name, value.InnerText);
+                    string fieldName = textFieldNode.Name;
+                    string fieldValue = textFieldNode.InnerText;
+                    language.texts.Add(fieldName, fieldValue);
                 }
             }
-            _languages.Add(_obj);
+
+            _languages.Add(language);
         }
     }
 
-    public void ValueChangeCheck()
+    private void UpdateTexts()
     {
-        _currentLanguage = _dropdown.value;
+        foreach (var textField in _textFields)
+        {
+            string fieldName = textField.name;
+            textField.text = _languages[_currentLanguageIndex].texts[fieldName];
+        }
+    }
+
+    public void OnLanguageChange()
+    {
+        _currentLanguageIndex = _dropdown.value;
+        UpdateTexts();
+    }
+
+    private void UpdateTextTranslation(TextMeshProUGUI textField, string newValue)
+    {
+        string fieldName = textField.name;
+        textField.name = newValue;
+        UpdateTexts();
     }
 }

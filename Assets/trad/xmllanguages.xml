@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<languages>
+	<language>
+		<Name>Français</Name>
+		<Bonjour>Bonjour</Bonjour>
+		<Aurevoir>Aurevoir</Aurevoir>
+		
+		<textSounds>Sons</textSounds>
+		<textMusic>Musique</textMusic>
+		<textLanguage>Langages</textLanguage>
+		<textBack>Retour</textBack>
+	
+		<textTuto>Tutoriel</textTuto>
+		<textSettings>Paramettre</textSettings>
+		<textLeave>Quitter</textLeave>
+		<oui>boooooo</oui>
+	</language>
+
+	<language>
+		<Name>English</Name>
+		<Bonjour>Hello</Bonjour>
+		<Aurevoir>bye</Aurevoir>
+		
+		<textSounds>Sounds</textSounds>
+		<textMusic>Music</textMusic>
+		<textLanguage>Languages</textLanguage>
+		<textBack>Back</textBack>
+	
+		<textTuto>Tutorial</textTuto>
+		<textSettings>Settings</textSettings>
+		<textLeave>Quit</textLeave>
+		<oui>brrrrrrrrr</oui>
+	</language>
+</languages>
