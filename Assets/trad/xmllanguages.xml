@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <languages>
+	<!--FRENCH-->
 	<language>
 		<Name>Français</Name>
 		<Bonjour>Bonjour</Bonjour>
@@ -14,7 +15,11 @@
 		<textTuto>Tutoriel</textTuto>
 		<textSettings>Paramètres</textSettings>
 		<textLeave>Quitter</textLeave>
+		<textForfeit>FORFAIT</textForfeit>
+		<textContinue>CONTINUER</textContinue>
 		<oui>boooooo</oui>
+
+		<textTitle>NOM :</textTitle>
 		
 		<!-- Description carte-->
 		<simpleShot>Détruit une case</simpleShot>
@@ -61,9 +66,11 @@
 		<randomizeRooms>Aléatoirisé les salles</randomizeRooms>
 		<timeRemaning>restant</timeRemaning>
 		
-		<Win>Gagner</Win>
+		<textWin>Gagner</textWin>
 	</language>
 
+	
+	<!--ENGLISH-->
 	<language>
 		<Name>English</Name>
 		<Bonjour>Hello</Bonjour>
@@ -77,6 +84,57 @@
 		<textTuto>Tutorial</textTuto>
 		<textSettings>Settings</textSettings>
 		<textLeave>Quit</textLeave>
+		<textForfeit>FORFAIT</textForfeit>
+		<textContinue>CONTINUE</textContinue>
 		<oui>brrrrrrrrr</oui>
+
+		<textTitle>NAME :</textTitle>
+
+		<!-- Description carte-->
+		<simpleShot>Détruit une case</simpleShot>
+		<probe>Lance une salve de 3 tirs dans une zone ciblée qui ne vont pas faire de dégâts mais vont révéler des cases</probe>
+		<emp>Tir qui va détruire la salle ciblée et rendre inactive les salles autours pour 1 tour</emp>
+		<timeAccelerator>Un saut dans le temps qui va réduire vos cooldowns de 1</timeAccelerator>
+		<capacitor>Cette capacitée va améliorer votre prochain Tir simple en un tir de 2 par 2 pour le prochain tour uniquement</capacitor>
+		<alternateShot>Tir sur 3 cases à la verticale puis au prochain change de sens</alternateShot>
+		<upgradeShot>Révèle une case puis s'améliore - Détruit une case puis s'améliore - Détruit 3 cases en diagonales puis s'améliore - Détruit 5 case en forme de croix</upgradeShot>
+		<scanner>Révèle les salles sur une colonne</scanner>
+		<energyDecoy>Révèle une case de salle. Si cette salle est touchée elle va vous donner un d'énergie en plus pour le prochain tour puis réapparait sur une case vide aléatoire</energyDecoy>
+		<timeDecoy>Révèle une case de salle. Si cette salle est touchée elle va augmenté le cooldown de la capacité utilisé de 1 (ne marche pas sur le tir de base) puis réapparait sur une case vide aléatoire</timeDecoy>
+		<repairDecoy>Révèle une case de salle. Si cette salle est touchée elle va réparer une salle détruite aléatoire puis réapparait sur une case vide aléatoire</repairDecoy>
+
+		<!--UI Fight-->
+		<changeView>Regarder votre vaisseau</changeView>
+		<warning>Attention</warning>
+		<enemyLife>Vie ennemi</enemyLife>
+		<yourLife>Ta vie</yourLife>
+		<endTurn>Fin de tour</endTurn>
+		<Fire>Feu !</Fire>
+
+		<Player1>Joueur 1</Player1>
+		<Player2>Joueur 2</Player2>
+
+		<!--Card title -->
+		<titleSimpleShot>Tir simple</titleSimpleShot>
+		<titleProbe>Sonde</titleProbe>
+		<titleEmp>IEM</titleEmp>
+		<titleTimeAccelerator>Accélérateur temporel</titleTimeAccelerator>
+		<titleCapacitor>Condensateur</titleCapacitor>
+		<titleAlternateShot>Tir alterné</titleAlternateShot>
+		<titleUpgradeShot>Tir améliorer</titleUpgradeShot>
+		<titlescanner>Scanneur</titlescanner>
+		<titleEnergyDecoy>Leure énergétique</titleEnergyDecoy>
+		<titleTimeDecoy>Leure Temporel</titleTimeDecoy>
+		<titleRepairDecoy>Leure Réparateur</titleRepairDecoy>
+
+		<!--UI Draft-->
+		<selectSpaceShip>Sélectionné un vaisseau</selectSpaceShip>
+		<selectRooms>Sélectionné une salle</selectRooms>
+
+		<!--UI Construct-->
+		<randomizeRooms>Aléatoirisé les salles</randomizeRooms>
+		<timeRemaning>restant</timeRemaning>
+
+		<textWin>Gagner</textWin>
 	</language>
 </languages>

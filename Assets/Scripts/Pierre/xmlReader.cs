@@ -34,6 +34,7 @@ public class xmlReader : MonoBehaviour
 
     private void LoadLanguages()
     {
+        _languages.Clear();
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(_dictionary.text);
         XmlNodeList languageList = xmlDoc.GetElementsByTagName("language");
@@ -45,7 +46,7 @@ public class xmlReader : MonoBehaviour
 
             foreach (XmlNode textFieldNode in languageNode.ChildNodes)
             {
-                if (textFieldNode.Name != "Name")
+                if (textFieldNode.Name != "Name" && textFieldNode.NodeType == XmlNodeType.Element)
                 {
                     string fieldName = textFieldNode.Name;
                     string fieldValue = textFieldNode.InnerText;
