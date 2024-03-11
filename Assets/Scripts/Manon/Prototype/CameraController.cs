@@ -16,6 +16,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] Camera _mainCamera;
     [SerializeField] float _lerpDuration = 1f;
 
+    public bool CombatOwnSpaceShip;
+
     private bool _isMoving;
 
     private Transform _currentPos;
@@ -40,6 +42,9 @@ public class CameraController : MonoBehaviour
     public void SwitchPlayerShipCameraDirectly(Player player)
     {
         Debug.Log("switch player ship camera " + player.ToString());
+        UIManager.instance.HideFicheAbility();
+        UIManager.instance.HideFicheRoom();
+
         if (player == Player.Player1)
         {
             _mainCamera.transform.position = _cameraPosShipPlayer1.position;
@@ -50,6 +55,8 @@ public class CameraController : MonoBehaviour
             _mainCamera.transform.position = _cameraPosShipPlayer2.position;
             _currentPos = _cameraPosShipPlayer2;
         }
+
+        CombatOwnSpaceShip = false;
     }
 
     public void SwitchRewindPlayerShipCameraDirectly(Player player)
@@ -81,6 +88,8 @@ public class CameraController : MonoBehaviour
                 StartCoroutine(LerpPosition(_cameraPosShipPlayer1));
             }
         }
+
+        CombatOwnSpaceShip = !CombatOwnSpaceShip;
     }
 
 

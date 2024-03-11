@@ -29,24 +29,29 @@ public class Room : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (GameManager.instance.GetCurrentMode() != Mode.Construction)
-            return;
+        if (GameManager.instance.GetCurrentMode() == Mode.Construction)
+        {
+            if (isDragging)
+                return;
 
-        if (isDragging)
-            return;
 
+            // Store offset between touch position and object center
+            offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            isDragging = true;
 
-        // Store offset between touch position and object center
-        offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        isDragging = true;
-
-        Tile tile = GameManager.instance.FindNearestTileInGridFromInputPosition(GameManager.instance.PlayerTurn);
-
-        UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
-        GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
-
-        firstTile = tile;
+            Tile tile = GameManager.instance.FindNearestTileInGridFromInputPosition(GameManager.instance.PlayerTurn);
+            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+            tile.IsMovingConstruction = true;
+            GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
+            
+            firstTile = tile;
+        }
+        else if (GameManager.instance.GetCurrentMode() == Mode.Combat)
+        {
+            UIManager.instance.ShowFicheRoom(RoomData);
+        }
     }
+
 
     void OnMouseDrag()
     {
@@ -56,6 +61,7 @@ public class Room : MonoBehaviour
         if (Input.GetMouseButtonDown(0) || !isDragging)
             return;
 
+
         Tile tile = GameManager.instance.FindNearestTileInGridFromRoom(GameManager.instance.PlayerTurn, this);
         if (tile != null)
         {
@@ -63,6 +69,7 @@ public class Room : MonoBehaviour
             {
                 Debug.Log("set end drag tile " + tile.name);
                 endDragTile = tile;
+                GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
             }
         }
         
@@ -85,7 +92,7 @@ public class Room : MonoBehaviour
 
             transform.position = new Vector3(firstTile.transform.position.x, firstTile.transform.position.y, -0.5f);
             isDragging = false;
-            //GameManager.instance.SetBuildingTilesOccupied(this, firstTile);
+            GameManager.instance.SetBuildingTilesOccupied(this, firstTile);
         }
         else
         {
@@ -95,10 +102,12 @@ public class Room : MonoBehaviour
             transform.position = new Vector3(endDragTile.transform.position.x, endDragTile.transform.position.y, -0.5f);
             isDragging = false;
             GameManager.instance.SetBuildingTilesOccupied(this, endDragTile);
+
+            firstTile.IsMovingConstruction = false;
         }
        
         endDragTile = null;
 
-        UIManager.instance.HideFicheRoom();
+        //UIManager.instance.HideFicheRoom();
     }
 }

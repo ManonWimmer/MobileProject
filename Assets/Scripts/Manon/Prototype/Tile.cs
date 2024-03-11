@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour
     public bool IsMissedReavealed;
     public bool IsMissedDestroyed;
     public bool IsAbilitySelected;
+    public bool IsMovingConstruction;
 
     public Room Room;
 
@@ -53,15 +54,7 @@ public class Tile : MonoBehaviour
     {
         if (GameManager.instance.GetCurrentMode() == Mode.Construction)
         {
-            if (IsOccupied)
-            {
-                _bordure.color = Color.black;
-            }
-            else
-            {
-                _bordure.color = Color.black;
-            }
-
+            _bordure.color = Color.black;
             _inside.sprite = _normal;
         }
         else

@@ -154,7 +154,29 @@ public class GameManager : MonoBehaviour
             // Select tile in specific grid
             if (_currentMode == Mode.Construction)
             {
+                Debug.Log("a");
                 nearestTileGridPlayer = FindNearestTileInGridFromInputPosition(_playerTurn);
+
+                if (nearestTileGridPlayer != null)
+                {
+                    Debug.Log("b");
+                    Debug.Log(nearestTileGridPlayer.name);
+                    if (nearestTileGridPlayer.Room != null)
+                    {
+                        Debug.Log("c");
+                        UIManager.instance.ShowFicheRoom(nearestTileGridPlayer.Room.RoomData);
+                    }
+                    else if (!nearestTileGridPlayer.IsMovingConstruction)
+                    {
+                        Debug.Log("d");
+                        UIManager.instance.HideFicheRoom();
+                    }
+                }
+                else
+                {
+                    Debug.Log("e");
+                    UIManager.instance.HideFicheRoom();
+                }
             }
             else
             {
@@ -173,6 +195,32 @@ public class GameManager : MonoBehaviour
             if (_currentMode == Mode.Combat && nearestTileGridPlayer != null)
             {
                 CheckTileClickedInCombat(nearestTileGridPlayer);
+            }
+            else if ((_currentMode == Mode.Combat && CameraController.instance.CombatOwnSpaceShip))
+            {
+                Debug.Log("a");
+                nearestTileGridPlayer = FindNearestTileInGridFromInputPosition(_playerTurn);
+
+                if (nearestTileGridPlayer != null)
+                {
+                    Debug.Log("b");
+                    Debug.Log(nearestTileGridPlayer.name);
+                    if (nearestTileGridPlayer.Room != null)
+                    {
+                        Debug.Log("c");
+                        UIManager.instance.ShowFicheRoom(nearestTileGridPlayer.Room.RoomData);
+                    }
+                    else if (!nearestTileGridPlayer.IsMovingConstruction)
+                    {
+                        Debug.Log("d");
+                        UIManager.instance.HideFicheRoom();
+                    }
+                }
+                else
+                {
+                    Debug.Log("e");
+                    UIManager.instance.HideFicheRoom();
+                }
             }
         }
     }

@@ -509,6 +509,11 @@ public class UIManager : MonoBehaviour
         _infosRoomPattern.sprite = roomData.RoomPatternImg;
         _infosNameRoom.text = roomData.RoomName.ToUpper();
 
+        UpdateFicheRoom(roomData);
+    }
+
+    public void UpdateFicheRoom(RoomSO roomData)
+    {
         if (roomData.RoomAbility != null)
         {
             _infosNameRoomAbility.gameObject.SetActive(true);
