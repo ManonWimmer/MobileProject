@@ -517,7 +517,7 @@ public class UIManager : MonoBehaviour
     {
         _infosNameAbility.text = abilityData.AbilityName.ToUpper();
         _infosDescriptionAbility.text = "Description : \n\n" + abilityData.Description.ToUpper();
-        _infosCooldown.text = abilityData.ActionPointsNeeded.ToString();
+        _infosCooldown.text = abilityData.Cooldown.ToString();
         _infosAbilityIcon.sprite = abilityData.Icon;
     }
 
