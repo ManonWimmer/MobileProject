@@ -181,6 +181,9 @@ public class AbilityButton : MonoBehaviour
 
     public void SelectOrDeselectAbility()
     {
+        if (CameraController.instance.IsMoving)
+            return;
+
         Debug.Log("select / deselect ability");
         if (AbilityButtonsManager.instance.IsProbeStarted())
         {

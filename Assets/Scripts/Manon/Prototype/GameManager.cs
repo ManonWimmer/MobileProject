@@ -1455,12 +1455,12 @@ public class GameManager : MonoBehaviour
         if (GetPlayerLife(Player.Player2) == 0)
         {
             CheckVictoryAchievements(Player.Player2);
-            UIManager.instance.ShowVictoryCanvas(Player.Player2);
+            UIManager.instance.ShowVictoryCanvas(Player.Player1);
         }
         else if (GetPlayerLife(Player.Player1) == 0)
         {
             CheckVictoryAchievements(Player.Player1);
-            UIManager.instance.ShowVictoryCanvas(Player.Player1);
+            UIManager.instance.ShowVictoryCanvas(Player.Player2);
         }
     }
 
@@ -1919,6 +1919,9 @@ public class GameManager : MonoBehaviour
     #region Camera, Mode & Player
     public void SwitchPlayer()
     {
+        if (CameraController.instance.IsMoving)
+            return;
+
         if (_playerTurn == Player.Player1)
         {
             _playerTurn = Player.Player2;
@@ -1968,6 +1971,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideFicheAbility();
             UIManager.instance.UpdateSwitchShipArrow();
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
+            CameraController.instance.ResetEndTurnAndAbilityButtonsPos();
         }
 
         if (_currentMode == Mode.Construction)

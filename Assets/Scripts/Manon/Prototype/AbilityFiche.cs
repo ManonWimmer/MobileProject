@@ -10,6 +10,9 @@ public class AbilityFiche : MonoBehaviour
 
     public void ToggleAbilityFiche()
     {
+        if (CameraController.instance.IsMoving)
+            return;
+
         if (UIManager.instance.IsFicheAbilityOpened())
         {
             if (UIManager.instance.IsFicheAbilityWithSameAbility(_abilityButton.GetAbility()))

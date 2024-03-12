@@ -21,14 +21,18 @@ public class CameraController : MonoBehaviour
     [SerializeField] float _abilityButtonsHideY;
 
     [SerializeField] Transform _endTurn;
-    [SerializeField] Vector3 _endTurnShow;
-    [SerializeField] float _endTurnHideX;
+    [SerializeField] Transform _fireButton;
+    [SerializeField] Vector3 _endTurnAndFireShow;
+    [SerializeField] float _endTurnAndFireHideY;
 
     public bool CombatOwnSpaceShip;
 
     private bool _isMoving;
 
     private Transform _currentPos;
+
+    public bool IsMoving { get => _isMoving; set => _isMoving = value; }
+
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -46,6 +50,7 @@ public class CameraController : MonoBehaviour
         _mainCamera.transform.position = _cameraPosShipPlayer1.position;
         _currentPos = _cameraPosShipPlayer1;
         _abilityButtonsShow = _abilityButtons.position;
+        _endTurnAndFireShow = _endTurn.position;
     }
 
     public void SwitchPlayerShipCameraDirectly(Player player)
@@ -85,10 +90,10 @@ public class CameraController : MonoBehaviour
 
     public void SwitchPlayerShipCameraWithLerp()
     {
-        CombatOwnSpaceShip = !CombatOwnSpaceShip;
-
-        if (!_isMoving)
+        if (!_isMoving && !AbilityButtonsManager.instance.IsInRewind)
         {
+            CombatOwnSpaceShip = !CombatOwnSpaceShip;
+
             if (_currentPos == _cameraPosShipPlayer1)
             {
                 StartCoroutine(LerpPosition(_cameraPosShipPlayer2));
@@ -102,18 +107,25 @@ public class CameraController : MonoBehaviour
             {
                 UIManager.instance.GoToEnemyShipText();
                 StartCoroutine(LerpAbilityButtonsPosition(true));
+                StartCoroutine(LerpEndTurnAndFirePosition(true));
             }
             else
             {
                 UIManager.instance.GoToPlayerShipText();
                 StartCoroutine(LerpAbilityButtonsPosition(false));
+                StartCoroutine(LerpEndTurnAndFirePosition(false));
             }
-        }
 
-        UIManager.instance.UpdateSwitchShipArrow();
+            UIManager.instance.UpdateSwitchShipArrow();
+        }
     }
 
     // Rajouter pour quand changement de tour, les remettre à la position de show AU CAS OU
+    public  void ResetEndTurnAndAbilityButtonsPos()
+    {
+        _abilityButtons.position = _abilityButtonsShow;
+        _endTurn.position = _endTurnAndFireShow;
+    }
 
     IEnumerator LerpPosition(Transform transTarget)
     {
@@ -152,6 +164,30 @@ public class CameraController : MonoBehaviour
         while (timeElapsed < _lerpDuration)
         {
             _abilityButtons.transform.position = Vector3.Lerp(startingPos, targetPos, timeElapsed / _lerpDuration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    IEnumerator LerpEndTurnAndFirePosition(bool hide)
+    {
+        float timeElapsed = 0f;
+        Vector3 startingPos = _endTurn.position;
+        Vector3 targetPos = Vector3.zero;
+
+        if (hide)
+        {
+            targetPos = new Vector3(_endTurnAndFireShow.x, _endTurnAndFireHideY, _endTurnAndFireShow.z);
+        }
+        else
+        {
+            targetPos = _endTurnAndFireShow;
+        }
+
+        while (timeElapsed < _lerpDuration)
+        {
+            _endTurn.transform.position = Vector3.Lerp(startingPos, targetPos, timeElapsed / _lerpDuration);
+            _fireButton.transform.position = Vector3.Lerp(startingPos, targetPos, timeElapsed / _lerpDuration);
             timeElapsed += Time.deltaTime;
             yield return null;
         }

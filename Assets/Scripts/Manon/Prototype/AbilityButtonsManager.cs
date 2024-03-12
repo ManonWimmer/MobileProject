@@ -104,13 +104,23 @@ public class AbilityButtonsManager : MonoBehaviour
 
             if (_lastRoundActionsPlayer2.Count > 0)
             {
-                Debug.Log("last round actions player 2 count > 0");
+                Debug.Log("last round actions player 2 count : " + +_lastRoundActionsPlayer2.Count);
                 foreach (var action in _lastRoundActionsPlayer2)
                 {
-                    Debug.Log("Last round action " + action.Item1);
+                    Debug.Log("Last round action " + action.Item1 + action.Item2[0].name);
                     RewindAction(action.Item1, action.Item2, Player.Player1);
 
                     lastRoundActionNames.Add(action.Item1);
+                    EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
+
+                    yield return new WaitForSeconds(2f);
+                }
+                for(int i = 0; i < _lastRoundActionsPlayer2.Count; i++)
+                {
+                    Debug.Log("Last round action " + _lastRoundActionsPlayer2[i].Item1 + _lastRoundActionsPlayer2[i].Item2[0].name);
+                    RewindAction(_lastRoundActionsPlayer2[i].Item1, _lastRoundActionsPlayer2[i].Item2, Player.Player1);
+
+                    lastRoundActionNames.Add(_lastRoundActionsPlayer2[i].Item1);
                     EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
 
                     yield return new WaitForSeconds(2f);
@@ -129,10 +139,10 @@ public class AbilityButtonsManager : MonoBehaviour
 
             if (_lastRoundActionsPlayer1 != null)
             {
-                Debug.Log("last round actions player 1 count > 0");
+                Debug.Log("last round actions player 1 count : " + _lastRoundActionsPlayer1.Count);
                 foreach (var action in _lastRoundActionsPlayer1)
                 {
-                    Debug.Log("Last round action " + action.Item1);
+                    Debug.Log("Last round action " + action.Item1 + action.Item2[0].name);
                     RewindAction(action.Item1, action.Item2, Player.Player2);
 
                     lastRoundActionNames.Add(action.Item1);
@@ -140,6 +150,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
                     yield return new WaitForSeconds(2f); 
                 }
+
             }
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player1);
             _lastRoundActionsPlayer1.Clear();
@@ -478,6 +489,9 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Use Ability
     public void UseSelectedAbility()
     {
+        if (CameraController.instance.IsMoving)
+            return;
+
         _lastAbilityUsed = _selectedButton.GetAbility().name;
 
         switch (_selectedButton.GetAbility().name)
@@ -1232,7 +1246,7 @@ public class AbilityButtonsManager : MonoBehaviour
     // Selection
     private void RandomReveal_SelectAbilityTiles()
     {
-        Debug.Log("select ability tiles simple reveal");
+        Debug.Log("select ability tiles random reveal");
         
     }
 
@@ -1340,6 +1354,8 @@ public class AbilityButtonsManager : MonoBehaviour
         if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
         Debug.Log(_target.name);
+
+
         _currentActionTargetTiles.Add(_target);
         AddActionToCurrentPlayerRound("AlternateShot");
         // ----- REWIND ----- //
@@ -1400,16 +1416,21 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void AddActionToCurrentPlayerRound(string actionName)
     {
-        Debug.Log("action " + actionName);
+        Debug.Log("add action " + actionName + "target 0 " + _currentActionTargetTiles[0]);
+
+        // BUG : J'UTILISAIS _currentActionTargetTiles DANS LA CREATION DES TUPLES MAIS CA FAIT UNE REF DU COUP NORMAL QUE TOUS
+        // AIENT LA MEME POS QUAND Y'EN A PLUSIEURS PTN FAUT UNE COPIE
+        List<Tile> targetTilesCopy = new List<Tile>(_currentActionTargetTiles);
+
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
             Debug.Log("add action to player 1 " + actionName);
-            _lastRoundActionsPlayer1.Add(Tuple.Create(actionName, _currentActionTargetTiles));
+            _lastRoundActionsPlayer1.Add(Tuple.Create(actionName, targetTilesCopy));
         }
         else
         {
             Debug.Log("add action to player 2 " + actionName);
-            _lastRoundActionsPlayer2.Add(Tuple.Create(actionName, _currentActionTargetTiles));
+            _lastRoundActionsPlayer2.Add(Tuple.Create(actionName, targetTilesCopy));
         }
     }
 
