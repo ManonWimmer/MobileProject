@@ -1168,26 +1168,34 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void SimpleHitX2_Action()
     {
+        List<Tile> affectedTiles = new List<Tile>();
+
         Debug.Log("simple hit x 2 action");
         DestroyRoom(_target);
+        affectedTiles.Add(_target);
 
         // Try destroy right
         if (_target.RightTile != null)
         {
             DestroyRoom(_target.RightTile);
+            affectedTiles.Add(_target.RightTile);
         }
 
         // Try destroy bottom
         if (_target.BottomTile != null)
         {
             DestroyRoom(_target.BottomTile);
+            affectedTiles.Add(_target.BottomTile);
         }
 
         // Try destroy diag bottom right
         if (_target.DiagBottomRightTile != null)
         {
             DestroyRoom(_target.DiagBottomRightTile);
+            affectedTiles.Add(_target.DiagBottomRightTile);
         }
+
+        VFXManager.instance.PlaySimpleHitX2VFX(affectedTiles);
     }
 
     public void ActivateSimpleHitX2()
