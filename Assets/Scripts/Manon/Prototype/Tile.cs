@@ -69,16 +69,9 @@ public class Tile : MonoBehaviour
                 _bordure.color = Color.green;
                 _inside.sprite = _revealed;
             }
-            else if (IsAbilitySelected && ActionPointsManager.instance.TryUseActionPoints(GameManager.instance.PlayerTurn) && AbilityButtonsManager.instance.GetCurrentlySelectedAbilityButton() != null)
+            else if (IsAbilitySelected)
             {
-                if (GameManager.instance.IsAbilityInCooldown(AbilityButtonsManager.instance.GetCurrentlySelectedAbilityButton().GetAbility()))
-                {
-                    _bordure.color = Color.black;
-                }
-                else
-                {
-                    _bordure.color = Color.white;
-                }
+                _bordure.color = Color.white;
                 _inside.sprite = _normal;
             }
             else

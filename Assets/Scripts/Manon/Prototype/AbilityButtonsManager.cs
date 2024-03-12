@@ -1290,6 +1290,9 @@ public class AbilityButtonsManager : MonoBehaviour
 
         _currentAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
 
+        _target.IsAbilitySelected = true;
+        _selectedTiles.Add(_target);
+
         if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
         {
             if (_target.LeftTile != null)
