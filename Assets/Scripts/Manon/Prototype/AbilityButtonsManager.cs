@@ -478,6 +478,9 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Use Ability
     public void UseSelectedAbility()
     {
+        if (CameraController.instance.IsMoving)
+            return;
+
         _lastAbilityUsed = _selectedButton.GetAbility().name;
 
         switch (_selectedButton.GetAbility().name)

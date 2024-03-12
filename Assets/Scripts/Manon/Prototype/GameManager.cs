@@ -1919,6 +1919,9 @@ public class GameManager : MonoBehaviour
     #region Camera, Mode & Player
     public void SwitchPlayer()
     {
+        if (CameraController.instance.IsMoving)
+            return;
+
         if (_playerTurn == Player.Player1)
         {
             _playerTurn = Player.Player2;

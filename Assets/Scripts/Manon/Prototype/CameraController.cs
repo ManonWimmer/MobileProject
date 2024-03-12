@@ -30,6 +30,9 @@ public class CameraController : MonoBehaviour
     private bool _isMoving;
 
     private Transform _currentPos;
+
+    public bool IsMoving { get => _isMoving; set => _isMoving = value; }
+
     // ----- FIELDS ----- //
 
     private void Awake()
