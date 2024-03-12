@@ -258,6 +258,9 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("SimpleHit"):
                 SimpleHit_Action();
                 break;
+            case ("SimpleHitX2"):
+                SimpleHitX2_Action();
+                break;
             case ("EMP"):
                 EMP_Action();
                 break;
@@ -1124,8 +1127,6 @@ public class AbilityButtonsManager : MonoBehaviour
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
-        DesactivateSimpleHitX2IfActivated();
-
         TargetController.instance.ChangeTargetColorToRed();
 
         if (GetIfSimpleHitXS())
@@ -1149,6 +1150,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void SimpleHit_Action()
     {
+        Debug.Log("simple hit action");
         DestroyRoom(_target);
 
         VFXManager.instance.PlaySimpleHitVFX(_target);
@@ -1156,6 +1158,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void SimpleHitX2_Action()
     {
+        Debug.Log("simple hit x 2 action");
         DestroyRoom(_target);
 
         // Try destroy right
