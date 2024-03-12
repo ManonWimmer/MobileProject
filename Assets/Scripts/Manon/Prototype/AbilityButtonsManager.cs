@@ -1430,6 +1430,24 @@ public class AbilityButtonsManager : MonoBehaviour
         }
     }
 
+    public AlternateShotDirection GetRewindPlayerAlternateShotDirection()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            if (_currentAlternateShotDirectionPlayer2 == AlternateShotDirection.Horizontal)
+                return AlternateShotDirection.Vertical;
+            else
+                return AlternateShotDirection.Horizontal;
+        }
+        else
+        {
+            if (_currentAlternateShotDirectionPlayer1 == AlternateShotDirection.Horizontal)
+                return AlternateShotDirection.Vertical;
+            else
+                return AlternateShotDirection.Horizontal;
+        }
+    }
+
     private void ChangeAlternateShotDirection()
     {
         AlternateShotDirection _tempAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();

@@ -38,11 +38,18 @@ public class VFXManager : MonoBehaviour
 
     public void PlayAlternateShotVFX(List<Tile> tiles)
     {
+        AlternateShotDirection currentAlternateShotDirection;
+
+        if (AbilityButtonsManager.instance.IsInRewind)
+            currentAlternateShotDirection = AbilityButtonsManager.instance.GetRewindPlayerAlternateShotDirection();
+        else
+            currentAlternateShotDirection = AbilityButtonsManager.instance.GetCurrentPlayerAlternateShotDirection();
+
         int i = 0;
         foreach(GameObject vfxAlternateShot in _vfxsAlternateShot)
         {
             // rotate vfx ? 
-            if (AbilityButtonsManager.instance.GetCurrentPlayerAlternateShotDirection() == AlternateShotDirection.Horizontal)
+            if (currentAlternateShotDirection == AlternateShotDirection.Horizontal)
                 vfxAlternateShot.transform.eulerAngles = new Vector3(0, 0, 0);
             else
                 vfxAlternateShot.transform.eulerAngles = new Vector3(0, 0, 90);
