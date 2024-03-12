@@ -15,6 +15,10 @@ public class VFXManager : MonoBehaviour
     [SerializeField] List<GameObject> _vfxsAlternateShot = new List<GameObject>();
     [SerializeField] float _vfxTimeAlternateShot;
 
+    [Header("Repair Decoy")]
+    [SerializeField] GameObject _vfxRepairDecoy;
+    [SerializeField] float _vfxTimeRepairDecoy;
+
     [Header("Scanner")]
     [SerializeField] List<GameObject> _vfxsScanner = new List<GameObject>();
 
@@ -62,6 +66,14 @@ public class VFXManager : MonoBehaviour
             Debug.Log(vfxAlternateShot.transform.position);
             StartCoroutine(DesactivateVFXAfterTime(vfxAlternateShot, _vfxTimeAlternateShot));
         }    
+    }
+
+    public void PlayRepairDecoyVFX(Tile tile)
+    {
+        _vfxRepairDecoy.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+        _vfxRepairDecoy.SetActive(true);
+
+        StartCoroutine(DesactivateVFXAfterTime(_vfxRepairDecoy, _vfxTimeRepairDecoy));
     }
 
     IEnumerator DesactivateVFXAfterTime(GameObject vfxToDesactivate, float timeToWait)

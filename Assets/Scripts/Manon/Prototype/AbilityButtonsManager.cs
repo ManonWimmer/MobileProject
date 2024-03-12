@@ -1929,8 +1929,9 @@ public class AbilityButtonsManager : MonoBehaviour
         Debug.Log("rewind repair " + rewindTileToRepair.name + rewindTileToRepair.Room.name);
         RoomsAssetsManager.instance.SetTileRoomAsset(rewindTileToRepair.Room.RoomData.RoomAbility, rewindTileToRepair.RoomTileSpriteRenderer, false, false);
 
-        Debug.Log("new room repair decoy " + _target.name);
+        VFXManager.instance.PlayRepairDecoyVFX(rewindTileToRepair);
 
+        Debug.Log("new room repair decoy " + _target.name);
         Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
 
         // Create new decoy rewind 
@@ -1965,7 +1966,8 @@ public class AbilityButtonsManager : MonoBehaviour
         foreach(Tile tile in playerTiles)
         {
             if (tile.IsOccupied && tile.Room != null && tile.IsDestroyed)
-                occupiedTiles.Add(tile);
+                if (tile.Room.RoomData.RoomName != "Repair Decoy")
+                    occupiedTiles.Add(tile);
         }
 
         // prendre une tile random -> si room dessus destroy, plus destroy (+ check si pas room completely destroyed et mettre à false), update sprites ?
@@ -1983,6 +1985,8 @@ public class AbilityButtonsManager : MonoBehaviour
             tileToRepair.IsDestroyed = false;
             RoomsAssetsManager.instance.SetTileRoomAsset(roomToRepair.RoomData.RoomAbility, tileToRepair.RoomTileSpriteRenderer, false, false);
             _tempTileRepaired = tileToRepair;
+
+            VFXManager.instance.PlayRepairDecoyVFX(tileToRepair);
         }
         else
         {
