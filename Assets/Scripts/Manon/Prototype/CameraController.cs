@@ -20,6 +20,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] Vector3 _abilityButtonsShow;
     [SerializeField] float _abilityButtonsHideY;
 
+    [SerializeField] Transform _endTurn;
+    [SerializeField] Vector3 _endTurnShow;
+    [SerializeField] float _endTurnHideX;
+
     public bool CombatOwnSpaceShip;
 
     private bool _isMoving;
@@ -96,10 +100,12 @@ public class CameraController : MonoBehaviour
 
             if (CombatOwnSpaceShip)
             {
+                UIManager.instance.GoToEnemyShipText();
                 StartCoroutine(LerpAbilityButtonsPosition(true));
             }
             else
             {
+                UIManager.instance.GoToPlayerShipText();
                 StartCoroutine(LerpAbilityButtonsPosition(false));
             }
         }
@@ -107,6 +113,7 @@ public class CameraController : MonoBehaviour
         UIManager.instance.UpdateSwitchShipArrow();
     }
 
+    // Rajouter pour quand changement de tour, les remettre à la position de show AU CAS OU
 
     IEnumerator LerpPosition(Transform transTarget)
     {

@@ -62,6 +62,7 @@ public class UIManager : MonoBehaviour
     [Header("Switch Ship")]
     [SerializeField] GameObject _switchShipButton;
     [SerializeField] Image _switchShipArrow;
+    [SerializeField] TMP_Text _goToShipText;
 
     [Header("Ability Bonus")]
     [SerializeField] Image _alternateShotIcon;
@@ -112,6 +113,16 @@ public class UIManager : MonoBehaviour
         HideProbeCount();
         HidePlayerCorner();
         HideRewindTxt();
+    }
+
+    public void GoToPlayerShipText()
+    {
+        _goToShipText.text = "SEE YOUR\nSPACESHIP";
+    }
+
+    public void GoToEnemyShipText()
+    {
+        _goToShipText.text = "SEE ENEMY\nSPACESHIP";
     }
 
     public void UpdateSwitchShipArrow()
