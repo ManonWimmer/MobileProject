@@ -24,8 +24,15 @@
 
 public static class GPGSIds
 {
-        public const string achievement_ruler_of_everything = "CgkIusy6mqADEAIQAQ"; // <GPGSID>
+        public const string achievement_space_surgeon = "CgkIusy6mqADEAIQBQ"; // <GPGSID>
+        public const string achievement_all_cards_on_the_table = "CgkIusy6mqADEAIQCA"; // <GPGSID>
+        public const string achievement_imma_fire_mah_laserr = "CgkIusy6mqADEAIQBA"; // <GPGSID>
+        public const string achievement_moooooooo = "CgkIusy6mqADEAIQCQ"; // <GPGSID>
+        public const string achievement_meatballed = "CgkIusy6mqADEAIQAg"; // <GPGSID>
+        public const string achievement_see_you_space_cowboy = "CgkIusy6mqADEAIQAw"; // <GPGSID>
+        public const string achievement_battleships = "CgkIusy6mqADEAIQBw"; // <GPGSID>
         public const string achievement_gg_ez = "CgkIusy6mqADEAIQAA"; // <GPGSID>
+        public const string achievement_space_sniper = "CgkIusy6mqADEAIQBg"; // <GPGSID>
 
 }
 
