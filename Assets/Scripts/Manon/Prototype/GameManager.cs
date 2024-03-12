@@ -1968,6 +1968,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideFicheAbility();
             UIManager.instance.UpdateSwitchShipArrow();
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
+            CameraController.instance.ResetEndTurnAndAbilityButtonsPos();
         }
 
         if (_currentMode == Mode.Construction)

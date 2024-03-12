@@ -265,9 +265,10 @@ MonoBehaviour:
   _abilityButtons: {fileID: 1529084517}
   _abilityButtonsShow: {x: 0, y: 0, z: 0}
   _abilityButtonsHideY: -250
-  _endTurn: {fileID: 0}
-  _endTurnShow: {x: 0, y: 0, z: 0}
-  _endTurnHideX: 0
+  _endTurn: {fileID: 1131718966}
+  _fireButton: {fileID: 2060684032}
+  _endTurnAndFireShow: {x: 0, y: 0, z: 0}
+  _endTurnAndFireHideY: -250
   CombatOwnSpaceShip: 0
 --- !u!4 &8882636
 Transform:
@@ -21657,7 +21658,7 @@ MonoBehaviour:
   _scanner: {fileID: 21300000, guid: fe87dfa450dd0244fbc22d460da526e2, type: 3}
   _scannerRevealed: {fileID: 21300000, guid: 02db85c0d5594bc448440fbb5d83c62a, type: 3}
   _scannerDestroyed: {fileID: 21300000, guid: 14b57339d5933444a8ea3923f2c4ef65, type: 3}
-  _timeAccelerator: {fileID: 21300000, guid: f672920f2138e744faeb4948866d9897, type: 3}
+  _timeAccelerator: {fileID: 21300000, guid: 92fcad0e035f95349b3cef7f8098b887, type: 3}
   _timeAcceleratorRevealed: {fileID: 21300000, guid: 812fb08b43d2fec4d8e1281de7b7f7b4, type: 3}
   _timeAcceleratorDestroyed: {fileID: 21300000, guid: d5be3e39bf1550d48bfe7109a651ca2b, type: 3}
   _upgradeShot: {fileID: 21300000, guid: f672920f2138e744faeb4948866d9897, type: 3}
