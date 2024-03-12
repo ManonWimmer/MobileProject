@@ -1455,12 +1455,12 @@ public class GameManager : MonoBehaviour
         if (GetPlayerLife(Player.Player2) == 0)
         {
             CheckVictoryAchievements(Player.Player2);
-            UIManager.instance.ShowVictoryCanvas(Player.Player2);
+            UIManager.instance.ShowVictoryCanvas(Player.Player1);
         }
         else if (GetPlayerLife(Player.Player1) == 0)
         {
             CheckVictoryAchievements(Player.Player1);
-            UIManager.instance.ShowVictoryCanvas(Player.Player1);
+            UIManager.instance.ShowVictoryCanvas(Player.Player2);
         }
     }
 

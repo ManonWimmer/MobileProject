@@ -265,6 +265,9 @@ MonoBehaviour:
   _abilityButtons: {fileID: 1529084517}
   _abilityButtonsShow: {x: 0, y: 0, z: 0}
   _abilityButtonsHideY: -250
+  _endTurn: {fileID: 0}
+  _endTurnShow: {x: 0, y: 0, z: 0}
+  _endTurnHideX: 0
   CombatOwnSpaceShip: 0
 --- !u!4 &8882636
 Transform:
@@ -13203,6 +13206,7 @@ MonoBehaviour:
   _victoryTxt: {fileID: 1306871851}
   _switchShipButton: {fileID: 1152081684}
   _switchShipArrow: {fileID: 1893683516}
+  _goToShipText: {fileID: 1597397719}
   _alternateShotIcon: {fileID: 2075798330}
   _simpleHitX2Img: {fileID: 558262120}
   _probeCount: {fileID: 1867265291}
