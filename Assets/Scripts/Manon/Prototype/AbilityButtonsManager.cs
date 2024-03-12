@@ -1143,6 +1143,8 @@ public class AbilityButtonsManager : MonoBehaviour
     private void SimpleHit_Action()
     {
         DestroyRoom(_target);
+
+        VFXManager.instance.PlaySimpleHitVFX(_target);
     }
 
     private void SimpleHitX2_Action()
@@ -1338,8 +1340,6 @@ public class AbilityButtonsManager : MonoBehaviour
 
         AlternateShot_Action();
 
-        DestroyRoom(_target);
-
         ChangeAlternateShotDirection();
 
         UpdateHiddenRooms(); // si destroy ou reveal 
@@ -1348,25 +1348,41 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void AlternateShot_Action()
     {
-        // current pas changé après utilisation -> donc ancien
+        List<Tile> affectedTiles = new List<Tile>();
+
+        DestroyRoom(_target);
+        affectedTiles.Add(_target);
+
         if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
         {
             if (_target.LeftTile != null)
+            {
                 DestroyRoom(_target.LeftTile);
+                affectedTiles.Add(_target.LeftTile);
+            }
 
             if (_target.RightTile != null)
+            {
                 DestroyRoom(_target.RightTile);
+                affectedTiles.Add(_target.RightTile);
+            }
         }
         else
         {
             if (_target.TopTile != null)
+            {
                 DestroyRoom(_target.TopTile);
+                affectedTiles.Add(_target.TopTile);
+            }
 
             if (_target.BottomTile != null)
+            {
                 DestroyRoom(_target.BottomTile);
+                affectedTiles.Add(_target.BottomTile);
+            }
         }
 
-        DestroyRoom(_target);
+        VFXManager.instance.PlayAlternateShotVFX(affectedTiles);
     }
 
     private void AddActionToCurrentPlayerRound(string actionName)
@@ -2158,14 +2174,6 @@ public class AbilityButtonsManager : MonoBehaviour
             return  GameManager.instance.TilesPlayer2;
         else
             return GameManager.instance.TilesPlayer1;
-    }
-
-    private List<Room> GetPlayerRooms()
-    {
-        if (GameManager.instance.PlayerTurn == Player.Player1)
-            return GameManager.instance.PlacedRoomsPlayer2;
-        else
-            return GameManager.instance.PlacedRoomsPlayer1;
     }
 
     private void PlayerUsedOtherAbilityThanSimpleHit()

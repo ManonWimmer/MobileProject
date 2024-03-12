@@ -48,12 +48,10 @@ public class ActionPointsManager : MonoBehaviour
     {
         if (player == Player.Player1)
         {
-            Debug.Log(_player1ActionPoints);
             return _player1ActionPoints;
         }
         else
         {
-            Debug.Log(_player2ActionPoints);
             return _player2ActionPoints;
         }
     }
