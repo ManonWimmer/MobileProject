@@ -15,7 +15,7 @@
 		<textTuto>Tutoriel</textTuto>
 		<textSettings>Paramètres</textSettings>
 		<textLeave>Quitter</textLeave>
-		<textForfeit>FORFAIT</textForfeit>
+		<textForfeit>ABANDONNÉ</textForfeit>
 		<textContinue>CONTINUER</textContinue>
 		<oui>boooooo</oui>
 
@@ -67,6 +67,48 @@
 		<timeRemaning>restant</timeRemaning>
 		
 		<textWin>Gagner</textWin>
+		
+		<!--Voice lines : N=Nerd,C=Cowboy, R=Chef -->
+			<!--Hit-->
+		<voiceHitN2>Debug.log("panique");</voiceHitN2>
+		<voiceHitN3>Erreur 404 => salle introuvable !</voiceHitN3>
+		<voiceHitN4>Tu sais te battre dis donc (ง・.・)ง</voiceHitN4>
+		
+		<voiceHitC1>Je suis trop rouillé pour faire ça</voiceHitC1>
+		<voiceHitC2>Dis donc les jeunes de nos jours ne savent pas comment se comporter avec les robots de mon âge</voiceHitC2>
+		<voiceHitC3>C'est juste une balle dans mon buste...</voiceHitC3>
+		<voiceHitC4>Attends !J'ai le soleil dans mes capteurs visuels</voiceHitC4>
+		
+		<voiceHitR1>Oh non! T'as presque fait tomber mes magnifiiiiques raviolis!</voiceHitR1>
+		
+			<!--Attack-->
+		<voiceAttackN1>Print("FEU,MORT ET CHAT &gt;3!!!");</voiceAttackN1>
+		<voiceAttackN2>Un 20 naturel !!.! (*w*)</voiceAttackN2>
+		<voiceAttackN3>On va speedrun ce combat (>wO)~~~**</voiceAttackN3>
+		
+		<voiceAttackC1>Tu peux me dire quel goût à mon revolver-railgun?</voiceAttackC1>
+		<voiceAttackC2>Tu t'es attaqué au mauvais robot mon ptit</voiceAttackC2>
+		<voiceAttackC3>Tu ne survivrai pas un seul jour dans la galaxie du far west</voiceAttackC3>
+		
+		<voiceAttackR1>C'est l'heure de l'A.D.I.T.I.O.N</voiceAttackR1>
+		<voiceAttackR2>Aw, t'as l'air d'avoir faim! Pends quelqoune ravioliii !</voiceAttackR2>
+		<voiceAttackR3>Fais gaffe à celui-ci</voiceAttackR3>
+		
+			<!--Victory-->
+		<voiceVictoryN1>GGEZ tu seras peut-être plus chanceux la prochaine fois \(^U^)/ !</voiceVictoryN1>
+		<voiceVictoryN2>Désolé pour le blue screen |v&gt;</voiceVictoryN2>
+		<voiceVictoryN3>Va falloir que tu pexes le noob!</voiceVictoryN3>
+		<voiceVictoryN4>J'espère que ton prochain adversaire n'est pas aussi bon que moi ;3</voiceVictoryN4>
+		<voiceVictoryN5>Bonne killcam乁(^◞ ^)ㄏ</voiceVictoryN5>
+		
+		<voiceVictoryC1>Non cette galaxie n'est pas pour un viel robot comme toi!</voiceVictoryC1>
+		<voiceVictoryC2>Je suis toujours aussi précis malgré mon viel âge</voiceVictoryC2>
+		<voiceVictoryC3>Une dernière volontée avant de quitter cette galaxie?</voiceVictoryC3>
+		
+		<voiceVictoryR1>Aww retourne pleurer dans les joupons de ta mamma!</voiceVictoryR1>
+		<voiceVictoryR2>Tu n'étais pas assez bien assaisoner pour être servis, bambino</voiceVictoryR2>
+		<voiceVictoryR3>Il capo gagne toujours!!</voiceVictoryR3>
+		
 	</language>
 
 	
