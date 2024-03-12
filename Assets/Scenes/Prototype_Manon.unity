@@ -23643,6 +23643,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4668477176079140204, guid: 58a0df8c0b42bb74f92614343a5adbf6, type: 3}
+      propertyPath: Column
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4910662776479467639, guid: 58a0df8c0b42bb74f92614343a5adbf6, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.9
@@ -25298,6 +25302,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1494180812640451414, guid: c1c0ae3518f7b4c45b72cb29ba733523, type: 3}
       propertyPath: m_DrawMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667880174318651726, guid: c1c0ae3518f7b4c45b72cb29ba733523, type: 3}
+      propertyPath: Column
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1813576617988047000, guid: c1c0ae3518f7b4c45b72cb29ba733523, type: 3}
@@ -28250,6 +28258,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3733954349025381857, guid: 1096e6009935e9c4faa434b24653ccc2, type: 3}
+      propertyPath: Column
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3747984151233351541, guid: 1096e6009935e9c4faa434b24653ccc2, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -31139,6 +31151,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7995850865050987138, guid: 856013c6f14b1ea4ca1e4247162711ef, type: 3}
+      propertyPath: Column
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8134416021767930085, guid: 856013c6f14b1ea4ca1e4247162711ef, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -31950,6 +31966,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2429904134695757881, guid: 35644e85f5d4bbe4784a64e6cbb77d29, type: 3}
+      propertyPath: Column
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8935535027550057795, guid: 35644e85f5d4bbe4784a64e6cbb77d29, type: 3}
       propertyPath: m_Name
       value: ShipRavioli-Player1
@@ -32632,6 +32652,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1708925417279287008, guid: f960fd550a85bfd4e9ea8c2cc2165770, type: 3}
       propertyPath: m_DrawMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966370613426357510, guid: f960fd550a85bfd4e9ea8c2cc2165770, type: 3}
+      propertyPath: Column
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2061482802157422482, guid: f960fd550a85bfd4e9ea8c2cc2165770, type: 3}
