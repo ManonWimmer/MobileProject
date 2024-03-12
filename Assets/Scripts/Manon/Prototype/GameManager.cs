@@ -2228,6 +2228,125 @@ public class GameManager : MonoBehaviour
             case ("EMP"):
                 if (_playerTurn == Player.Player1)
                 {
+                    _empCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _empCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Time Accelerator"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _timeAcceleratorCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _timeAcceleratorCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Random Reveal"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _randomRevealCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _randomRevealCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Alternate Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _alternateShotCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _alternateShotCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Scanner"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _scannerCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _scannerCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Capacitor"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _capacitorCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _capacitorCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Upgrade Shot"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _upgradeShotCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _upgradeShotCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Probe"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _probeCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _probeCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Energy Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _energyDecoyCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _energyDecoyCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Time Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _timeDecoyCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _timeDecoyCooldownPlayer1 += 1;
+                }
+                break;
+            case ("Repair Decoy"):
+                if (_playerTurn == Player.Player1)
+                {
+                    _repairDecoyCooldownPlayer2 += 1;
+                }
+                else
+                {
+                    _repairDecoyCooldownPlayer1 += 1;
+                }
+                break;
+        }
+    }
+
+    public void AddEnemyAbilityOneCooldownNextTurn(scriptablePower ability)
+    {
+        Debug.Log("set ability cooldown " + ability.name + " " + _playerTurn);
+
+        switch (ability.AbilityName)
+        {
+            case ("EMP"):
+                if (_playerTurn == Player.Player1)
+                {
                     _empCooldownPlayer2 += 2;
                 }
                 else

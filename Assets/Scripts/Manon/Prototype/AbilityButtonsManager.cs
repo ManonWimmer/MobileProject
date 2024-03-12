@@ -1075,9 +1075,15 @@ public class AbilityButtonsManager : MonoBehaviour
                 Debug.Log("cooldown " + GameManager.instance.GetCurrentCooldown(room.RoomData.RoomAbility));
                 if (GameManager.instance.GetEnemyCurrentCooldown(room.RoomData.RoomAbility) == 0)
                 {
+                    GameManager.instance.AddEnemyAbilityOneCooldownNextTurn(room.RoomData.RoomAbility);
+                    Debug.Log("add 2 cooldown to " + room.RoomData.RoomAbility.name);
+                }
+                else if (GameManager.instance.GetEnemyCurrentCooldown(room.RoomData.RoomAbility) == 1)
+                {
                     GameManager.instance.AddEnemyAbilityOneCooldown(room.RoomData.RoomAbility);
                     Debug.Log("add 1 cooldown to " + room.RoomData.RoomAbility.name);
                 }
+                
             }
         }
     }
