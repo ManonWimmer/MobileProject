@@ -115,16 +115,6 @@ public class AbilityButtonsManager : MonoBehaviour
 
                     yield return new WaitForSeconds(2f);
                 }
-                for(int i = 0; i < _lastRoundActionsPlayer2.Count; i++)
-                {
-                    Debug.Log("Last round action " + _lastRoundActionsPlayer2[i].Item1 + _lastRoundActionsPlayer2[i].Item2[0].name);
-                    RewindAction(_lastRoundActionsPlayer2[i].Item1, _lastRoundActionsPlayer2[i].Item2, Player.Player1);
-
-                    lastRoundActionNames.Add(_lastRoundActionsPlayer2[i].Item1);
-                    EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
-
-                    yield return new WaitForSeconds(2f);
-                }
             }
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
             _lastRoundActionsPlayer2.Clear();
