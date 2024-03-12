@@ -33,29 +33,6 @@ public class VFXManager : MonoBehaviour
         instance = this;
     }
 
-    private void FixedUpdate()
-    {
-        // Ca va lock la position z à la dure si c'est comme ça, craignez moi
-
-        // Simple Hit
-        _vfxSimpleHit.transform.position = new Vector3(_vfxSimpleHit.transform.position.x, _vfxSimpleHit.transform.position.y, -1);
-
-        // Simple Hit X2
-        foreach(GameObject _vfxSimpleHitX2 in _vfxsSimpleHitX2)
-            _vfxSimpleHitX2.transform.position = new Vector3(_vfxSimpleHitX2.transform.position.x, _vfxSimpleHitX2.transform.position.y, -1);
-
-        // Alternate Shot
-        foreach (GameObject _vfxAlternateShot in _vfxsAlternateShot)
-            _vfxAlternateShot.transform.position = new Vector3(_vfxAlternateShot.transform.position.x, _vfxAlternateShot.transform.position.y, -1);
-
-        // Scanner
-        foreach (GameObject _vfxScanner in _vfxsScanner)
-            _vfxScanner.transform.position = new Vector3(_vfxScanner.transform.position.x, _vfxScanner.transform.position.y, -1);
-
-        // Repair Decoy
-        _vfxRepairDecoy.transform.position = new Vector3(_vfxRepairDecoy.transform.position.x, _vfxRepairDecoy.transform.position.y, -1);
-    }
-
     // TO DO : mettre bool quand un vfx is playing pour que le joueur puisse pas end turn ni use une autre compétence (sinon potentiels problemes)
 
     // Play VFX -> change position, enable, wait time anim, disable
