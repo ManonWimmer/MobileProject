@@ -24,6 +24,7 @@ public class xmlReader : MonoBehaviour
     private int _currentLanguageIndex = 0;
 
     public void ChangeText(TextMeshProUGUI textMesh, string newName) => UpdateTextTranslation(textMesh, newName);
+    public string GetText(string name) => _languages[_currentLanguageIndex].texts[name];
     public int GetLanguage() => _currentLanguageIndex;
 
     private void Awake()

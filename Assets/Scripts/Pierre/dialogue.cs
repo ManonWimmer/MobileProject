@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,18 +8,34 @@ public class dialogue : MonoBehaviour
 {
     private Animator _animator;
     [SerializeField] private TextMeshProUGUI _dialogue;
-    [SerializeField] private float _timeDilogue;
+    [SerializeField] private float _timeDialogue;
+    [SerializeField] private xmlReader _xmlReader;
 
-    [SerializeField] private List<string> _dialoguesNerd = new List<string>();
-    private List<string> _dialoguesCow = new List<string>();
-    private List<string> _dialoguesPizza = new List<string>();
+    [Header("Dialogue Hit")]
+    [SerializeField] private List<string> _dialoguesNerdHit = new List<string>();
+    [SerializeField] private List<string> _dialoguesCowHit = new List<string>();
+    [SerializeField] private List<string> _dialoguesPizzaHit = new List<string>();
+
+    [Header("Dialogue Attack")]
+    [SerializeField] private List<string> _dialoguesNerdAttack = new List<string>();
+    [SerializeField] private List<string> _dialoguesCowAttack = new List<string>();
+    [SerializeField] private List<string> _dialoguesPizzaAttack = new List<string>();
+
+    [Header("Dialogue Victory")]
+    [SerializeField] private List<string> _dialoguesNerdVictory = new List<string>();
+    [SerializeField] private List<string> _dialoguesCowVictory = new List<string>();
+    [SerializeField] private List<string> _dialoguesPizzaVictory = new List<string>();
+
+    [SerializeField] float _textSpeed;
+    private string _lines;
+    private int _index;
+    private bool _isWriting = false;
 
     private int _lastIndex = 0;
-    private string _text;
     private bool _isPlayed;
 
-    public void DialogueText() => SetDilogueText(_text = RandomDialogue(_dialoguesNerd));
-    public bool GetPlayedDilogue() => _isPlayed;
+    public void StartDialogueText() => SetDialogueText();
+    public bool GetDilogueIsPlayed() => _isPlayed;
 
     private void Start()
     {
@@ -27,38 +44,108 @@ public class dialogue : MonoBehaviour
         _isPlayed = false;
     }
 
+    private void SetDialogueText()
+    {
+        if (!_isPlayed)
+        {
+            string text = RandomDialogue(_dialoguesNerdHit);
+            Enable(text);
+
+            _animator.SetBool("Close", false);
+            _animator.SetTrigger("Open");
+        }
+    }
+
+    private void Enable(string text)
+    {
+        gameObject.name = text;
+        _lines = _xmlReader.GetText(text);
+        _dialogue.text = string.Empty;
+        _isPlayed = true;
+
+        //SeparateString(text);
+        StartDialogue();
+    }
+
+    private void Disable()
+    {
+        _index = 0;
+        _dialogue.text = string.Empty;
+        _isPlayed = false;
+    }
+
+    private void StartDialogue()
+    {
+        _index = 0;
+        StartCoroutine(TypeLine());
+    }
+
+    private IEnumerator TypeLine()
+    {
+        _isWriting = true;
+
+        foreach (char c in _lines)
+        {
+            _dialogue.text += c;
+            //sounds
+            yield return new WaitForSeconds(_textSpeed);
+        }
+
+        StartCoroutine(TimeDialogue());
+
+        /*_isWriting = false;
+
+        while (_isWriting)
+        {
+            yield return null;
+        }
+        NextLine(); */
+    }
+
+    private IEnumerator TimeDialogue()
+    {
+        yield return new WaitForSeconds(_timeDialogue);
+
+        Disable();
+        _animator.SetBool("Close", true);
+    }
+
+
+    //SEPERATE LINES 
+
+    /*private void NextLine()
+    {
+        if (_index < _lines.Length - 1)
+        {
+            _index++;
+            _dialogue.text = string.Empty;
+            StartCoroutine(TypeLine());
+        }
+        else
+        {
+            StartCoroutine(TimeDialogue());
+        }
+    }
+
+    private void SeparateString(string text)
+    {
+        _lines = text.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+    } */
+
     private string RandomDialogue(List<string> listDialogue)
     {
         string dialogue;
         int index;
+        int lastIndex = 0;
 
         do
         {
-            index = Random.Range(0, listDialogue.Count);
-        } while (index == _lastIndex);
-        _lastIndex = index;
+            index = UnityEngine.Random.Range(0, listDialogue.Count);
+        } while (index == lastIndex);
 
+        lastIndex = index;
         dialogue = listDialogue[index];
         return dialogue;
     } 
 
-    private void SetDilogueText(string text)
-    {
-        if (!_isPlayed)
-        {
-            _isPlayed = true;
-            _animator.SetBool("Close", false);
-            _animator.SetTrigger("Open");
-
-            _dialogue.text = text;
-            StartCoroutine(TimeDilogue());
-        }
-    }
-
-    private IEnumerator TimeDilogue()
-    {
-        yield return new WaitForSeconds(_timeDilogue);
-        _animator.SetBool("Close", true);
-        _isPlayed = false;
-    }
 }
