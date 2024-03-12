@@ -8,20 +8,20 @@ public class VFXManager : MonoBehaviour
     public static VFXManager instance;
 
     [Header("Simple Hit")]
-    [SerializeField] GameObject _vfxSimpleHit;
+    [SerializeField] GameObject _vfxSimpleHit; // list avec 4 si meme effet pour simple hit et simple hit x2
     [SerializeField] float _vfxTimeSimpleHit;
 
     [Header("Alternate Shot")]
     [SerializeField] List<GameObject> _vfxsAlternateShot = new List<GameObject>();
     [SerializeField] float _vfxTimeAlternateShot;
 
+    [Header("Scanner")]
+    [SerializeField] List<GameObject> _vfxsScanner = new List<GameObject>();
+    [SerializeField] float _vfxTimeScanner;
+
     [Header("Repair Decoy")]
     [SerializeField] GameObject _vfxRepairDecoy;
     [SerializeField] float _vfxTimeRepairDecoy;
-
-    [Header("Scanner")]
-    [SerializeField] List<GameObject> _vfxsScanner = new List<GameObject>();
-
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -50,22 +50,33 @@ public class VFXManager : MonoBehaviour
             currentAlternateShotDirection = AbilityButtonsManager.instance.GetCurrentPlayerAlternateShotDirection();
 
         int i = 0;
-        foreach(GameObject vfxAlternateShot in _vfxsAlternateShot)
+        foreach (Tile tile in tiles)
         {
             // rotate vfx ? 
             if (currentAlternateShotDirection == AlternateShotDirection.Horizontal)
-                vfxAlternateShot.transform.eulerAngles = new Vector3(0, 0, 0);
+                _vfxsAlternateShot[i].transform.eulerAngles = new Vector3(0, 0, 0);
             else
-                vfxAlternateShot.transform.eulerAngles = new Vector3(0, 0, 90);
+                _vfxsAlternateShot[i].transform.eulerAngles = new Vector3(0, 0, 90);
 
-            vfxAlternateShot.transform.position = new Vector3(tiles[i].transform.position.x, tiles[i].transform.position.y, -1);
-            Debug.Log(vfxAlternateShot.transform.position);
-            vfxAlternateShot.SetActive(true);
+            _vfxsAlternateShot[i].transform.position = new Vector3(tiles[i].transform.position.x, tiles[i].transform.position.y, -1);
+            _vfxsAlternateShot[i].SetActive(true);
 
+            StartCoroutine(DesactivateVFXAfterTime(_vfxsAlternateShot[i], _vfxTimeScanner));
             i++;
-            Debug.Log(vfxAlternateShot.transform.position);
-            StartCoroutine(DesactivateVFXAfterTime(vfxAlternateShot, _vfxTimeAlternateShot));
-        }    
+        }
+    }
+
+    public void PlayScannerVFX(List<Tile> tiles)
+    {
+        int i = 0;
+        foreach(Tile tile in tiles)
+        {
+            _vfxsScanner[i].transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+            _vfxsScanner[i].SetActive(true);
+
+            StartCoroutine(DesactivateVFXAfterTime(_vfxsScanner[i], _vfxTimeScanner));
+            i++;
+        }
     }
 
     public void PlayRepairDecoyVFX(Tile tile)

@@ -707,6 +707,12 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void Scanner_Action()
     {
+        List<Tile> affectedTiles = new List<Tile>();
+
+        // Center
+        RevealRoom(_target);
+        affectedTiles.Add(_target);
+
         #region Top
         // Top
         bool canGoTop = true;
@@ -717,6 +723,7 @@ public class AbilityButtonsManager : MonoBehaviour
             if (currentTile.TopTile != null)
             {
                 RevealRoom(currentTile.TopTile);
+                affectedTiles.Add(currentTile.TopTile);
 
                 currentTile = currentTile.TopTile;
             }
@@ -772,6 +779,7 @@ public class AbilityButtonsManager : MonoBehaviour
             if (currentTile.BottomTile != null)
             {
                 RevealRoom(currentTile.BottomTile);
+                affectedTiles.Add(currentTile.BottomTile);
 
                 currentTile = currentTile.BottomTile;
             }
@@ -817,8 +825,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
         #endregion
 
-        // Center
-        RevealRoom(_target);
+        VFXManager.instance.PlayScannerVFX(affectedTiles);
     }
     #endregion
 
