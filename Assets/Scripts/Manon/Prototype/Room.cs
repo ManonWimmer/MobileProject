@@ -39,12 +39,15 @@ public class Room : MonoBehaviour
             isDragging = true;
 
             Tile tile = GameManager.instance.FindNearestTileInGridFromInputPosition(GameManager.instance.PlayerTurn);
+            if (tile == null)
+                return;
+
             if (tile.Room != null)
             {
                 UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
                 tile.IsMovingConstruction = true;
                 GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
-
+                Debug.Log("set first tile : " + firstTile);
                 firstTile = tile;
             }
             else
@@ -105,6 +108,7 @@ public class Room : MonoBehaviour
 
             transform.position = new Vector3(firstTile.transform.position.x, firstTile.transform.position.y, -0.5f);
             isDragging = false;
+            Debug.Log(firstTile.name);
             GameManager.instance.SetBuildingTilesOccupied(this, firstTile);
         }
         else
@@ -114,6 +118,7 @@ public class Room : MonoBehaviour
 
             transform.position = new Vector3(endDragTile.transform.position.x, endDragTile.transform.position.y, -0.5f);
             isDragging = false;
+            Debug.Log(endDragTile.name);
             GameManager.instance.SetBuildingTilesOccupied(this, endDragTile);
 
             firstTile.IsMovingConstruction = false;
