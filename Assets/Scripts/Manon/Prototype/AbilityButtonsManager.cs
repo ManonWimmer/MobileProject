@@ -1826,6 +1826,8 @@ public class AbilityButtonsManager : MonoBehaviour
                 tempTargets.Add(randomTile);
 
                 roomBuilt = true;
+
+                //VFXManager.instance.PlayDecoyCreationVFX(randomTile);
             }
         }
     }
@@ -1891,6 +1893,8 @@ public class AbilityButtonsManager : MonoBehaviour
         // Create new decoy rewind 
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
         RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+
+        VFXManager.instance.PlayDecoyCreationVFX(_target);
     }
     
     private void UseEnergyDecoyAfterDestroy()
@@ -1934,6 +1938,8 @@ public class AbilityButtonsManager : MonoBehaviour
         // Create new decoy rewind 
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
         RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+
+        VFXManager.instance.PlayDecoyCreationVFX(_target);
     }
 
     private void UseTimeDecoyAfterDestroy()
@@ -2032,8 +2038,6 @@ public class AbilityButtonsManager : MonoBehaviour
             tileToRepair.IsDestroyed = false;
             RoomsAssetsManager.instance.SetTileRoomAsset(roomToRepair.RoomData.RoomAbility, tileToRepair.RoomTileSpriteRenderer, false, false);
             _tempTileRepaired = tileToRepair;
-
-            VFXManager.instance.PlayRepairDecoyVFX(tileToRepair);
         }
         else
         {
