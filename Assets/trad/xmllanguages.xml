@@ -83,7 +83,7 @@
 		<voiceHitR1>Oh non! T'as presque fait tomber mes magnifiiiiques raviolis!</voiceHitR1>
 		
 			<!--Attack-->
-		<voiceAttackN1>Print("FEU,MORT ET CHAT &gt;3!!!");</voiceAttackN1>
+		<voiceAttackN1>Print("FEU,MORT ET CHAT &lt;3!!!");</voiceAttackN1>
 		<voiceAttackN2>Un 20 naturel !!.! (*w*)</voiceAttackN2>
 		<voiceAttackN3>On va speedrun ce combat (>wO)~~~**</voiceAttackN3>
 		
@@ -97,7 +97,7 @@
 		
 			<!--Victory-->
 		<voiceVictoryN1>GGEZ tu seras peut-être plus chanceux la prochaine fois \(^U^)/ !</voiceVictoryN1>
-		<voiceVictoryN2>Désolé pour le screen blue |v&gt;</voiceVictoryN2>
+		<voiceVictoryN2>Désolé pour le screen blue |v&lt;</voiceVictoryN2>
 		<voiceVictoryN3>Va falloir que tu pexes le noob!</voiceVictoryN3>
 		<voiceVictoryN4>J'espère que ton prochain adversaire n'est pas aussi bon que moi ;3</voiceVictoryN4>
 		<voiceVictoryN5>Bonne killcam乁(^◞ ^)ㄏ</voiceVictoryN5>
@@ -135,91 +135,91 @@
 		<textTitle>NAME :</textTitle>
 
 		<!-- Description carte-->
-		<simpleShot>Détruit une case</simpleShot>
-		<probe>Lance une salve de 3 tirs dans une zone ciblée qui ne vont pas faire de dégâts mais vont révéler des cases</probe>
-		<emp>Tir qui va détruire la salle ciblée et rendre inactive les salles autours pour 1 tour</emp>
-		<timeAccelerator>Un saut dans le temps qui va réduire vos cooldowns de 1</timeAccelerator>
-		<capacitor>Cette capacitée va améliorer votre prochain Tir simple en un tir de 2 par 2 pour le prochain tour uniquement</capacitor>
-		<alternateShot>Tir sur 3 cases à la verticale puis au prochain change de sens</alternateShot>
-		<upgradeShot>Révèle une case puis s'améliore - Détruit une case puis s'améliore - Détruit 3 cases en diagonales puis s'améliore - Détruit 5 case en forme de croix</upgradeShot>
-		<scanner>Révèle les salles sur une colonne</scanner>
-		<energyDecoy>Révèle une case de salle. Si cette salle est touchée elle va vous donner un d'énergie en plus pour le prochain tour puis réapparait sur une case vide aléatoire</energyDecoy>
-		<timeDecoy>Révèle une case de salle. Si cette salle est touchée elle va augmenté le cooldown de la capacité utilisé de 1 (ne marche pas sur le tir de base) puis réapparait sur une case vide aléatoire</timeDecoy>
-		<repairDecoy>Révèle une case de salle. Si cette salle est touchée elle va réparer une salle détruite aléatoire puis réapparait sur une case vide aléatoire</repairDecoy>
+		<simpleShot>Destroy a tile</simpleShot>
+		<probe>Lets you shoot three probes that won't damage the enemy spaceship but will reveal the selected tiles</probe>
+		<emp> Shoots a beam that will destroy the target and make the surrounding rooms inactive for 1 turn</emp>
+		<timeAccelerator>A jump in time that will reduce all your cooldowns by 1</timeAccelerator>
+		<capacitor>This ability will upgrade your next simple hit shot to a massive cube shot of 2 by 2 for the next turn only</capacitor>
+		<alternateShot>Shoots in a row of 3 tiles then changes for its next use this ability to shoot in a column of 3 tiles</alternateShot>
+		<upgradeShot>Reveal one tile then upgrades itself - Destroy one tile then upgrades itself - Destroy 3 tiles in a diagonal then upgrades itself - Destroy 5 tiles in a cross pattern</upgradeShot>
+		<scanner>Reveals an entire column of tiles</scanner>
+		<energyDecoy>Reveal a random room tile and when it’s destroyed it will give 1 energy for the next turn ; It will respawn at a random place after it‘s destroyed</energyDecoy>
+		<timeDecoy>Reveal a random room tile and when it’s destroyed it will increase the cooldown by 1 of the ability that destroyed it ; It will respawn at a random place after it‘s destroyed</timeDecoy>
+		<repairDecoy>Reveal a random room tile and when it’s destroyed it will repair a random room; It will respawn at a random place after it‘s destroyed</repairDecoy>
 
 		<!--UI Fight-->
-		<changeView>Regarder votre vaisseau</changeView>
-		<warning>Attention</warning>
-		<enemyLife>Vie ennemi</enemyLife>
-		<yourLife>Ta vie</yourLife>
-		<endTurn>Fin de tour</endTurn>
-		<Fire>Feu !</Fire>
+		<changeView>Change view</changeView>
+		<warning>Warning</warning>
+		<enemyLife>Enemy life</enemyLife>
+		<yourLife>My Life</yourLife>
+		<endTurn>End turn</endTurn>
+		<Fire>Fire !</Fire>
 
-		<Player1>Joueur 1</Player1>
-		<Player2>Joueur 2</Player2>
+		<Player1>Player 1</Player1>
+		<Player2>Player 2</Player2>
 
 		<!--Card title -->
-		<titleSimpleShot>Tir simple</titleSimpleShot>
-		<titleProbe>Sonde</titleProbe>
-		<titleEmp>IEM</titleEmp>
-		<titleTimeAccelerator>Accélérateur temporel</titleTimeAccelerator>
-		<titleCapacitor>Condensateur</titleCapacitor>
-		<titleAlternateShot>Tir alterné</titleAlternateShot>
-		<titleUpgradeShot>Tir améliorer</titleUpgradeShot>
-		<titlescanner>Scanneur</titlescanner>
-		<titleEnergyDecoy>Leure énergétique</titleEnergyDecoy>
-		<titleTimeDecoy>Leure Temporel</titleTimeDecoy>
-		<titleRepairDecoy>Leure Réparateur</titleRepairDecoy>
+		<titleSimpleShot>Simple shot</titleSimpleShot>
+		<titleProbe>Probe</titleProbe>
+		<titleEmp>EMP</titleEmp>
+		<titleTimeAccelerator>Time accelerator</titleTimeAccelerator>
+		<titleCapacitor>Capacitor</titleCapacitor>
+		<titleAlternateShot>Alternate shot</titleAlternateShot>
+		<titleUpgradeShot>Upgrade shot</titleUpgradeShot>
+		<titlescanner>Scanner</titlescanner>
+		<titleEnergyDecoy>Energy decoy</titleEnergyDecoy>
+		<titleTimeDecoy>Time decoy</titleTimeDecoy>
+		<titleRepairDecoy>Repair decoy</titleRepairDecoy>
 
 		<!--UI Draft-->
-		<selectSpaceShip>Sélectionné un vaisseau</selectSpaceShip>
-		<selectRooms>Sélectionné une salle</selectRooms>
+		<selectSpaceShip>Select a spaceship</selectSpaceShip>
+		<selectRooms>Select rooms</selectRooms>
 
 		<!--UI Construct-->
-		<randomizeRooms>Aléatoirisé les salles</randomizeRooms>
-		<timeRemaning>restant</timeRemaning>
+		<randomizeRooms>Randomize your rooms</randomizeRooms>
+		<timeRemaning>remaning</timeRemaning>
 		
 				<!--Voice lines : N=Nerd,C=Cowboy, R=Chef -->
 			<!--Hit-->
-		<voiceHitN2>Debug.log("panique");</voiceHitN2>
-		<voiceHitN3>Erreur 404 => salle introuvable !</voiceHitN3>
-		<voiceHitN4>Tu sais te battre dis donc (ง・.・)ง</voiceHitN4>
+		<voiceHitN2>Debug.log("panik");</voiceHitN2>
+		<voiceHitN3>Error 404 =>  room not found !</voiceHitN3>
+		<voiceHitN4>Putting up a fight huh.. (ง・.・)ง</voiceHitN4>
 		
-		<voiceHitC1>Je suis trop rouillé pour faire ça</voiceHitC1>
-		<voiceHitC2>Dis donc les jeunes de nos jours ne savent pas comment se comporter avec les robots de mon âge</voiceHitC2>
-		<voiceHitC3>C'est juste une balle dans mon buste...</voiceHitC3>
-		<voiceHitC4>Attends !J'ai le soleil dans mes capteurs visuels</voiceHitC4>
+		<voiceHitC1>I might be getting too rusty for this…</voiceHitC1>
+		<voiceHitC2>Darn younglings don’t know how to treat robots my age</voiceHitC2>
+		<voiceHitC3>This is just a bullet wound…</voiceHitC3>
+		<voiceHitC4>Wait ! The sun was in my eye-captors-</voiceHitC4>
 		
-		<voiceHitR1>Oh non! T'as presque fait tomber mes magnifiiiiques raviolis!</voiceHitR1>
+		<voiceHitR1>Oh no ! You almost-a made my beautiful ravioli slip!</voiceHitR1>
 		
 			<!--Attack-->
-		<voiceAttackN1>Print("FEU,MORT ET CHAT &gt;3!!!");</voiceAttackN1>
-		<voiceAttackN2>Un 20 naturel !!.! (*w*)</voiceAttackN2>
-		<voiceAttackN3>On va speedrun ce combat (>wO)~~~**</voiceAttackN3>
+		<voiceAttackN1>Print(“FIRE, DEATH and CATZ &lt;3 !!!”);</voiceAttackN1>
+		<voiceAttackN2>Natural 20 !!!.! (*w*)</voiceAttackN2>
+		<voiceAttackN3>Let’s speedrun this fight (>wO)~~~**</voiceAttackN3>
 		
-		<voiceAttackC1>Tu peux me dire quel goût à mon revolver-railgun?</voiceAttackC1>
-		<voiceAttackC2>Tu t'es attaqué au mauvais robot mon ptit</voiceAttackC2>
-		<voiceAttackC3>Tu ne survivrai pas un seul jour dans la galaxie du far west</voiceAttackC3>
+		<voiceAttackC1>Tell me now, how does my iron-railgun taste ?</voiceAttackC1>
+		<voiceAttackC2>You attacked the wrong bot, kiddo</voiceAttackC2>
+		<voiceAttackC3>You wouldn’t last a day in the galactic far west</voiceAttackC3>
 		
-		<voiceAttackR1>C'est l'heure de l'A.D.I.T.I.O.N</voiceAttackR1>
-		<voiceAttackR2>Aw, t'as l'air d'avoir faim! Pends quelqoune ravioliii !</voiceAttackR2>
-		<voiceAttackR3>Fais gaffe à celui-ci</voiceAttackR3>
+		<voiceAttackR1>Time for-a the bill !</voiceAttackR1>
+		<voiceAttackR2>Aw, you look-a hungry ! Have-a some ravioli !</voiceAttackR2>
+		<voiceAttackR3>Watch out for this-a one !</voiceAttackR3>
 		
 			<!--Victory-->
-		<voiceVictoryN1>GGEZ tu seras peut-être plus chanceux la prochaine fois \(^U^)/ !</voiceVictoryN1>
-		<voiceVictoryN2>Désolé pour le screen blue |v&gt;</voiceVictoryN2>
-		<voiceVictoryN3>Va falloir que tu pexes le noob!</voiceVictoryN3>
-		<voiceVictoryN4>J'espère que ton prochain adversaire n'est pas aussi bon que moi ;3</voiceVictoryN4>
-		<voiceVictoryN5>Bonne killcam乁(^◞ ^)ㄏ</voiceVictoryN5>
+		<voiceVictoryN1>GGEZ better luck next time \(^U^)/ !</voiceVictoryN1>
+		<voiceVictoryN2>Sorry for the blue screen Iv&lt; </voiceVictoryN2>
+		<voiceVictoryN3>Get PWND noob !</voiceVictoryN3>
+		<voiceVictoryN4>Hope your next opponent isn't as good as me ;3</voiceVictoryN4>
+		<voiceVictoryN5>Enjoy the killcam 乁(^◞ ^)ㄏ</voiceVictoryN5>
 		
-		<voiceVictoryC1>Non cette galaxie n'est pas pour un viel robot comme toi!</voiceVictoryC1>
-		<voiceVictoryC2>Je suis toujours aussi précis malgré mon viel âge</voiceVictoryC2>
-		<voiceVictoryC3>Une dernière volontée avant de quitter cette galaxie?</voiceVictoryC3>
+		<voiceVictoryC1>I’m good, you might be bad… but you’re sure as space ugly..</voiceVictoryC1>
+		<voiceVictoryC2>Still a good shot despite my old age..</voiceVictoryC2>
+		<voiceVictoryC3>Tis’ High Noon somewhere in the galaxy…</voiceVictoryC3>
 		
-		<voiceVictoryR1>Aww retourne pleurer dans les joupons de ta mamma!</voiceVictoryR1>
-		<voiceVictoryR2>Tu n'étais pas assez bien assaisoner pour être servis, bambino</voiceVictoryR2>
-		<voiceVictoryR3>Il capo gagne toujours!!</voiceVictoryR3>
+		<voiceVictoryR1>Aww go back and-a cry to your-a mamma !</voiceVictoryR1>
+		<voiceVictoryR2>You weren’t seasoned well enough to be served, bambino</voiceVictoryR2>
+		<voiceVictoryR3>Il capo always-a wins !</voiceVictoryR3>
 
-		<textWin>Gagner</textWin>
+		<textWin>Win</textWin>
 	</language>
 </languages>
