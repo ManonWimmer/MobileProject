@@ -12,9 +12,22 @@ public class Cow : MonoBehaviour
     private void Start()
     {
         moo = GetComponent<AudioSource>();
-}
+    }
 public void moo_rotate()
     {
+        if (GoogleSignInCheck.instance.getPlayerStatus() == true)
+        {
+            Social.ReportProgress("CgkIusy6mqADEAIQCQ", 100.0f, (bool success) => {
+                if (success)
+                {
+                    Debug.Log("Progress reported successfully!");
+                }
+                else
+                {
+                    Debug.LogWarning("Error failed to report progress!");
+                }
+            });
+        }
         isUpwards = !isUpwards;
         Debug.Log("Rotating " + isUpwards);
         if (isUpwards)

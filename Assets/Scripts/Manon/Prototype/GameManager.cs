@@ -3056,7 +3056,22 @@ public class GameManager : MonoBehaviour
             winnerShip = _shipPlayer1;
 
             if (_player1OnlyUsingSimpleHit)
+            {
                 Debug.Log("Achievement : BATTLESHIPS");
+                if(GoogleSignInCheck.instance.getPlayerStatus() == true)
+                {
+                    Social.ReportProgress("CgkIusy6mqADEAIQBw", 100.0f, (bool success) => {
+                        if (success)
+                        {
+                            Debug.Log("Progress reported successfully!");
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Error failed to report progress!");
+                        }
+                    });
+                }
+            }
         }
         else
         {
@@ -3064,25 +3079,158 @@ public class GameManager : MonoBehaviour
 
             if (_player2OnlyUsingSimpleHit)
                 Debug.Log("Achievement : BATTLESHIPS");
+            if (GoogleSignInCheck.instance.getPlayerStatus() == true)
+            {
+                Social.ReportProgress("CgkIusy6mqADEAIQBw", 100.0f, (bool success) => {
+                    if (success)
+                    {
+                        Debug.Log("Progress reported successfully!");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Error failed to report progress!");
+                    }
+                });
+            }
         }
 
         if (winnerShip.ShipData.CaptainName == "CPT. RAVIOLI")
+        {
+            if (GoogleSignInCheck.instance.getPlayerStatus() == true)
+            {
+                Social.ReportProgress("CgkIusy6mqADEAIQAg", 100.0f, (bool success) => {
+                    if (success)
+                    {
+                        Debug.Log("Progress reported successfully!");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Error failed to report progress!");
+                    }
+                });
+            }
             Debug.Log("Achievement : Meatballed");
+        }
+
         else if (winnerShip.ShipData.CaptainName == "CPT. COWBOY")
+        {
+            if (GoogleSignInCheck.instance.getPlayerStatus() == true)
+            {
+                Social.ReportProgress("CgkIusy6mqADEAIQAw", 100.0f, (bool success) => {
+                    if (success)
+                    {
+                        Debug.Log("Progress reported successfully!");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Error failed to report progress!");
+                    }
+                });
+            }
             Debug.Log("Achievement : See you space cowboy");
+        }
         else
+        {
+            if (GoogleSignInCheck.instance.getPlayerStatus() == true)
+            {
+                Social.ReportProgress("CgkIusy6mqADEAIQAA", 100.0f, (bool success) => {
+                    if (success)
+                    {
+                        Debug.Log("Progress reported successfully!");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Error failed to report progress!");
+                    }
+                });
+            }
             Debug.Log("Achievement : GG EZ");
+        }
 
         // Pour "All cards on the table" (Win 1 matches with each commander), tu dois surement
         // pouvoir check si les bools des 3 précédents achievements sont tous true
 
         if (_currentRound <= 10)
+        {
+            if (GoogleSignInCheck.instance.getPlayerStatus() == true)
+            {
+                Social.ReportProgress("CgkIusy6mqADEAIQBg", 100.0f, (bool success) => {
+                    if (success)
+                    {
+                        Debug.Log("Progress reported successfully!");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Error failed to report progress!");
+                    }
+                });
+            }
             Debug.Log("Achievement : Sniper");
+        }
         if (_currentRound <= 15)
+        {
+            if (GoogleSignInCheck.instance.getPlayerStatus() == true)
+            {
+                Social.ReportProgress("CgkIusy6mqADEAIQBg", 100.0f, (bool success) => {
+                    if (success)
+                    {
+                        Debug.Log("Progress reported successfully!");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Error failed to report progress!");
+                    }
+                });
+            }
             Debug.Log("Achievement : Space Surgeon");
+        }
 
 
         // Manque easter egg -> script Pierre ou il est activé
+        // l'achievement d'easter egg je l'ai mis dans mon script cow (celui qui retourne la ptite boite a meuh la)
+/* 
+    // ALL CARDS ON THE TABLE
+    // increment achievement (achievement ID "CgkIusy6mqADEAIQCA") by 1 steps
+    // incrémente lorsque le joueur gagne avec un nouveau commandant (il faut peut être un autre check pour ne pas se repeter
+    PlayGamesPlatform.Instance.IncrementAchievement("CgkIusy6mqADEAIQCA", 1, (bool success) => {
+    // handle success or failure
+        if (success)
+        {
+            Debug.Log("Progress reported successfully!");
+        }
+        else
+        {
+            Debug.LogWarning("Error failed to report progress!");
+        }
+    });
+
+    // IMMA FIRE MA LASER
+    // faut avoir juste un check si la valeur de tir amelioré est au max et bam
+    if (GoogleSignInCheck.instance.getPlayerStatus() == true)
+    {
+        Social.ReportProgress("CgkIusy6mqADEAIQBA", 100.0f, (bool success) => {
+            if (success)
+            {
+                Debug.Log("Progress reported successfully!");
+            }
+            else
+            {
+                Debug.LogWarning("Error failed to report progress!");
+            }
+        });
     }
-    #endregion
+        tout les IDS juste pour être sur
+        <!--achievement GG EZ-->
+        achievement_gg_ez                               >CgkIusy6mqADEAIQAA
+        achievement_meatballed" translatable="false"    >CgkIusy6mqADEAIQAg
+        achievement_see_you_space_cowboy..."            >CgkIusy6mqADEAIQAw
+        achievement_imma_fire_mah_laserr"               >CgkIusy6mqADEAIQBA
+        achievement_space_surgeon"                      >CgkIusy6mqADEAIQBQ
+        achievement_space_sniper"                       >CgkIusy6mqADEAIQBg
+        achievement_battleships"                        >CgkIusy6mqADEAIQBw
+        achievement_all_cards_on_the_table"             >CgkIusy6mqADEAIQCA
+        achievement_moooooooo...."                      >CgkIusy6mqADEAIQCQ
+        */
+}
+#endregion
 }
