@@ -1823,7 +1823,7 @@ public class AbilityButtonsManager : MonoBehaviour
         bool roomBuilt = false;
         while (!roomBuilt)
         {
-            Debug.Log("while 3" + _target.name + _target.Room.name);
+            //Debug.Log("while 3" + _destroyTarget.name + _destroyTarget.Room.name);
             Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
             if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile)) // target on decoy room after destroy
             {
