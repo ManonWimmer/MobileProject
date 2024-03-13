@@ -215,6 +215,7 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             foreach (Tile tile in GameManager.instance.TilesRewindPlayer1)
             {
+                Debug.Log(tile.name);
                 if (tile.name == targetTile.name)
                 {
                     Debug.Log("found ship tile " + tile.name);
@@ -226,6 +227,7 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             foreach (Tile tile in GameManager.instance.TilesRewindPlayer2)
             {
+                Debug.Log(tile.name);
                 if (tile.name == targetTile.name)
                 {
                     Debug.Log("found ship tile " + tile.name);
@@ -1957,14 +1959,18 @@ public class AbilityButtonsManager : MonoBehaviour
     private void RepairDecoyDestroyNewRoom()
     {
         // Repair room
-        Tile rewindTileToRepair = GetRewindShipTile(GameManager.instance.PlayerTurn, _tempTileRepaired);
-        if (rewindTileToRepair.Room.IsRoomDestroyed)
-            rewindTileToRepair.Room.IsRoomDestroyed = false;
-        rewindTileToRepair.IsDestroyed = false;
-        Debug.Log("rewind repair " + rewindTileToRepair.name + rewindTileToRepair.Room.name);
-        RoomsAssetsManager.instance.SetTileRoomAsset(rewindTileToRepair.Room.RoomData.RoomAbility, rewindTileToRepair.RoomTileSpriteRenderer, false, false);
+        if (_tempTileRepaired != null)
+        {
+            Tile rewindTileToRepair = GetRewindShipTile(GameManager.instance.PlayerTurn, _tempTileRepaired);
+            if (rewindTileToRepair.Room.IsRoomDestroyed)
+                rewindTileToRepair.Room.IsRoomDestroyed = false;
+            rewindTileToRepair.IsDestroyed = false;
+            Debug.Log("rewind repair " + rewindTileToRepair.name + rewindTileToRepair.Room.name);
+            RoomsAssetsManager.instance.SetTileRoomAsset(rewindTileToRepair.Room.RoomData.RoomAbility, rewindTileToRepair.RoomTileSpriteRenderer, false, false);
 
-        VFXManager.instance.PlayRepairDecoyVFX(rewindTileToRepair);
+            VFXManager.instance.PlayRepairDecoyVFX(rewindTileToRepair);
+        }
+
 
         Debug.Log("new room repair decoy " + _target.name);
         Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
@@ -2025,6 +2031,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
         else
         {
+            _tempTileRepaired = null;
             Debug.Log("no room to repair");
         }
         // sinon pas de réparation à faire
