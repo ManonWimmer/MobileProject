@@ -1363,6 +1363,7 @@ public class GameManager : MonoBehaviour
         {
             StopCoroutine(_constructionTimerCoroutine);
         }
+        CheckIfRoomsPlaced();
         SwitchPlayer();
 
         if (_playerTurn == Player.Player1)
@@ -1373,6 +1374,35 @@ public class GameManager : MonoBehaviour
             UIManager.instance.ShowButtonsCombat();
             CheckPlayerAbilityButtonsEnabled();
             CreateRewindShips();
+        }
+    }
+
+    private void CheckIfRoomsPlaced()
+    {
+        Debug.Log("check if rooms placed");
+
+        if (_playerTurn == Player.Player1)
+        {
+            foreach(Room room in PlacedRoomsPlayer1)
+            {
+                if (room.IsDragging)
+                {
+                    Debug.Log(room.name + " dragging");
+                    room.SetPositionAtLastPosMouse();
+                }
+            }
+        }
+        else
+        {
+            foreach (Room room in PlacedRoomsPlayer2)
+            {
+                if (room.IsDragging)
+                {
+                    Debug.Log(room.name + " dragging");
+                    room.SetPositionAtLastPosMouse();
+                }
+                
+            }
         }
     }
 
