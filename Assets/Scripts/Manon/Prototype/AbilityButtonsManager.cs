@@ -930,6 +930,8 @@ public class AbilityButtonsManager : MonoBehaviour
             _selectedTiles.Add(_target.DiagBottomRightTile);
         }
         #endregion
+
+        
     }
 
     // Use
@@ -955,6 +957,8 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void EMP_Action()
     {
+        List<Tile> affectedTiles = new List<Tile>();
+
         DestroyRoom(_target);
 
         // Desactivate for one turn room's abilities around the target (+1 cooldown)
@@ -964,6 +968,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Right
         if (_target.RightTile != null)
         {
+            affectedTiles.Add(_target.RightTile);
             if (_target.RightTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.RightTile.Room))
@@ -976,6 +981,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Left
         if (_target.LeftTile != null)
         {
+            affectedTiles.Add(_target.LeftTile);
             if (_target.LeftTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.LeftTile.Room))
@@ -988,6 +994,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Bottom
         if (_target.BottomTile != null)
         {
+            affectedTiles.Add(_target.BottomTile);
             if (_target.BottomTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.BottomTile.Room))
@@ -1000,6 +1007,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Top
         if (_target.TopTile != null)
         {
+            affectedTiles.Add(_target.TopTile);
             if (_target.TopTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.TopTile.Room))
@@ -1014,6 +1022,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Diag top left
         if (_target.DiagTopLeftTile != null)
         {
+            affectedTiles.Add(_target.DiagTopLeftTile);
             if (_target.DiagTopLeftTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.DiagTopLeftTile.Room))
@@ -1026,6 +1035,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Diag top right
         if (_target.DiagTopRightTile != null)
         {
+            affectedTiles.Add(_target.DiagTopRightTile);
             if (_target.DiagTopRightTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.DiagTopRightTile.Room))
@@ -1038,6 +1048,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Diag bottom left
         if (_target.DiagBottomLeftTile != null)
         {
+            affectedTiles.Add(_target.DiagBottomLeftTile);
             if (_target.DiagBottomLeftTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.DiagBottomLeftTile.Room))
@@ -1050,6 +1061,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Diag bottom right
         if (_target.DiagBottomRightTile != null)
         {
+            affectedTiles.Add(_target.DiagBottomRightTile);
             if (_target.DiagBottomRightTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.DiagBottomRightTile.Room))
@@ -1059,6 +1071,8 @@ public class AbilityButtonsManager : MonoBehaviour
             }
         }
         #endregion
+
+        VFXManager.instance.PlayEMPVFX(_target, affectedTiles);
 
         foreach (Room room in roomsToDesactivate)
         {
@@ -1078,6 +1092,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 
             }
         }
+
     }
     #endregion
 
@@ -1960,7 +1975,6 @@ public class AbilityButtonsManager : MonoBehaviour
     {
         Debug.Log("----- use time decoy after destroy");
 
-        // +1 Action point next round
         GameManager.instance.AddCurrentPlayerAbilityOneCooldown(GameManager.instance.GetAbilityFromName(_lastAbilityUsed));
 
         CreateNewRandomDecoy("Time Decoy");

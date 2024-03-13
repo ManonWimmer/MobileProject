@@ -30,6 +30,11 @@ public class VFXManager : MonoBehaviour
     [Header("Decoy Creation")]
     [SerializeField] GameObject _vfxDecoyCreation;
     [SerializeField] float _vfxTimeDecoyCreation;
+
+    [Header("EMP")]
+    [SerializeField] GameObject _vfxEMPCenter;
+    [SerializeField] List<GameObject> _vfxsEMPAround = new List<GameObject>();
+    [SerializeField] float _vfxTimeEMP;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -114,6 +119,24 @@ public class VFXManager : MonoBehaviour
         _vfxDecoyCreation.SetActive(true);
 
         StartCoroutine(DesactivateVFXAfterTime(_vfxDecoyCreation, _vfxTimeDecoyCreation));
+    }
+
+    public void PlayEMPVFX(Tile centerTile, List<Tile> aroundTile)
+    {
+        _vfxEMPCenter.transform.position = new Vector3(centerTile.transform.position.x, centerTile.transform.position.y, -1);
+        _vfxEMPCenter.SetActive(true);
+        StartCoroutine(DesactivateVFXAfterTime(_vfxEMPCenter, _vfxTimeEMP));
+
+        int i = 0;
+        foreach (Tile tile in aroundTile)
+        {
+            Debug.Log(tile.name);
+            _vfxsEMPAround[i].transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+            _vfxsEMPAround[i].SetActive(true);
+
+            StartCoroutine(DesactivateVFXAfterTime(_vfxsEMPAround[i], _vfxTimeEMP));
+            i++;
+        }
     }
 
     IEnumerator DesactivateVFXAfterTime(GameObject vfxToDesactivate, float timeToWait)
