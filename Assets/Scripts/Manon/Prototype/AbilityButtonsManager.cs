@@ -2078,17 +2078,20 @@ public class AbilityButtonsManager : MonoBehaviour
     private void DestroyRoom(Tile tile)
     {
         Debug.Log("destroy room " + tile.name);
-        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        if (tile.IsOccupied)
         {
-            Debug.Log("hit room " + tile.Room.name);
-            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true, false);
-            tile.IsDestroyed = true;
+            if (!tile.IsDestroyed)
+            {
+                Debug.Log("hit room " + tile.Room.name);
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true, false);
+                tile.IsDestroyed = true;
 
-            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+                GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+                UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
 
-            if (!IsInRewind)
-                CheckDecoysAfterDestoy(tile);
+                if (!IsInRewind)
+                    CheckDecoysAfterDestoy(tile);
+            }
         }
         else
         {
@@ -2105,15 +2108,18 @@ public class AbilityButtonsManager : MonoBehaviour
     private void RevealRoom(Tile tile)
     {
         Debug.Log("reveal room " + tile.name);
-        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        if (tile.IsOccupied)
         {
-            Debug.Log("hit room " + tile.Room.name);
-            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, true);
-            tile.IsReavealed = true;
+            if (!tile.IsDestroyed)
+            {
+                Debug.Log("hit room " + tile.Room.name);
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, true);
+                tile.IsReavealed = true;
 
-            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+                GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
 
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+                UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+            }
         }
         else
         {
