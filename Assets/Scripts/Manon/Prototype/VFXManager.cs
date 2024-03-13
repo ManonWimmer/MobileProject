@@ -26,6 +26,10 @@ public class VFXManager : MonoBehaviour
     [Header("Repair Decoy")]
     [SerializeField] GameObject _vfxRepairDecoy;
     [SerializeField] float _vfxTimeRepairDecoy;
+
+    [Header("Decoy Creation")]
+    [SerializeField] GameObject _vfxDecoyCreation;
+    [SerializeField] float _vfxTimeDecoyCreation;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -102,6 +106,14 @@ public class VFXManager : MonoBehaviour
         _vfxRepairDecoy.SetActive(true);
 
         StartCoroutine(DesactivateVFXAfterTime(_vfxRepairDecoy, _vfxTimeRepairDecoy));
+    }
+
+    public void PlayDecoyCreationVFX(Tile tile)
+    {
+        _vfxDecoyCreation.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+        _vfxDecoyCreation.SetActive(true);
+
+        StartCoroutine(DesactivateVFXAfterTime(_vfxDecoyCreation, _vfxTimeDecoyCreation));
     }
 
     IEnumerator DesactivateVFXAfterTime(GameObject vfxToDesactivate, float timeToWait)

@@ -1826,6 +1826,8 @@ public class AbilityButtonsManager : MonoBehaviour
                 tempTargets.Add(randomTile);
 
                 roomBuilt = true;
+
+                //VFXManager.instance.PlayDecoyCreationVFX(randomTile);
             }
         }
     }
@@ -1891,6 +1893,8 @@ public class AbilityButtonsManager : MonoBehaviour
         // Create new decoy rewind 
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
         RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+
+        VFXManager.instance.PlayDecoyCreationVFX(_target);
     }
     
     private void UseEnergyDecoyAfterDestroy()
@@ -1934,6 +1938,8 @@ public class AbilityButtonsManager : MonoBehaviour
         // Create new decoy rewind 
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
         RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+
+        VFXManager.instance.PlayDecoyCreationVFX(_target);
     }
 
     private void UseTimeDecoyAfterDestroy()
@@ -2032,8 +2038,6 @@ public class AbilityButtonsManager : MonoBehaviour
             tileToRepair.IsDestroyed = false;
             RoomsAssetsManager.instance.SetTileRoomAsset(roomToRepair.RoomData.RoomAbility, tileToRepair.RoomTileSpriteRenderer, false, false);
             _tempTileRepaired = tileToRepair;
-
-            VFXManager.instance.PlayRepairDecoyVFX(tileToRepair);
         }
         else
         {
@@ -2074,17 +2078,20 @@ public class AbilityButtonsManager : MonoBehaviour
     private void DestroyRoom(Tile tile)
     {
         Debug.Log("destroy room " + tile.name);
-        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        if (tile.IsOccupied)
         {
-            Debug.Log("hit room " + tile.Room.name);
-            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true, false);
-            tile.IsDestroyed = true;
+            if (!tile.IsDestroyed)
+            {
+                Debug.Log("hit room " + tile.Room.name);
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true, false);
+                tile.IsDestroyed = true;
 
-            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+                GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+                UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
 
-            if (!IsInRewind)
-                CheckDecoysAfterDestoy(tile);
+                if (!IsInRewind)
+                    CheckDecoysAfterDestoy(tile);
+            }
         }
         else
         {
@@ -2101,15 +2108,18 @@ public class AbilityButtonsManager : MonoBehaviour
     private void RevealRoom(Tile tile)
     {
         Debug.Log("reveal room " + tile.name);
-        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        if (tile.IsOccupied)
         {
-            Debug.Log("hit room " + tile.Room.name);
-            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, true);
-            tile.IsReavealed = true;
+            if (!tile.IsDestroyed)
+            {
+                Debug.Log("hit room " + tile.Room.name);
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, true);
+                tile.IsReavealed = true;
 
-            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+                GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
 
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+                UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+            }
         }
         else
         {
