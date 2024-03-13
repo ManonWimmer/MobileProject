@@ -39,11 +39,15 @@ public class Room : MonoBehaviour
             isDragging = true;
 
             Tile tile = GameManager.instance.FindNearestTileInGridFromInputPosition(GameManager.instance.PlayerTurn);
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
-            tile.IsMovingConstruction = true;
-            GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
+            if (tile.Room != null)
+            {
+                UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+                tile.IsMovingConstruction = true;
+                GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
+
+                firstTile = tile;
+            }
             
-            firstTile = tile;
         }
         else if (GameManager.instance.GetCurrentMode() == Mode.Combat)
         {
