@@ -25,6 +25,9 @@ public class Room : MonoBehaviour
 
     private bool isDragging;
     private Vector3 offset;
+
+    public bool IsDragging { get => isDragging; set => isDragging = value; }
+
     // ----- FIELDS ----- //
 
     void OnMouseDown()
@@ -40,15 +43,18 @@ public class Room : MonoBehaviour
 
             Tile tile = GameManager.instance.FindNearestTileInGridFromInputPosition(GameManager.instance.PlayerTurn);
             if (tile == null)
+            {
+                firstTile = null;
                 return;
+            }
 
             if (tile.Room != null)
             {
                 UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
                 tile.IsMovingConstruction = true;
                 GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
-                Debug.Log("set first tile : " + firstTile);
                 firstTile = tile;
+                Debug.Log("set first tile : " + firstTile.name);
             }
             else
             {
@@ -66,12 +72,19 @@ public class Room : MonoBehaviour
     void OnMouseDrag()
     {
         if (firstTile == null)
+        {
+            isDragging = false;
             return;
+        }
+            
 
         if (GameManager.instance.GetCurrentMode() != Mode.Construction)
+        {
+            isDragging = false;
             return;
+        }
 
-        if (Input.GetMouseButtonDown(0) || !isDragging)
+        if (Input.GetMouseButtonDown(0) || !isDragging) 
             return;
 
 
@@ -93,9 +106,22 @@ public class Room : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (firstTile == null)
-            return;
+        SetPositionAtLastPosMouse(); 
 
+        //UIManager.instance.HideFicheRoom();
+    }
+
+    public void SetPositionAtLastPosMouse()
+    {
+        Debug.Log("set position at last pos mouse");
+        isDragging = false;
+
+        if (firstTile == null)
+        {
+            Debug.Log("return first tile null");
+            return;
+        }
+            
         if (GameManager.instance.GetCurrentMode() != Mode.Construction)
             return;
 
@@ -103,29 +129,30 @@ public class Room : MonoBehaviour
 
         if (endDragTile == null)
         {
+            Debug.Log("set pos at first tile");
             firstTile.Room = this;
             firstTile.IsOccupied = true;
 
             transform.position = new Vector3(firstTile.transform.position.x, firstTile.transform.position.y, -0.5f);
-            isDragging = false;
+
             Debug.Log(firstTile.name);
             GameManager.instance.SetBuildingTilesOccupied(this, firstTile);
         }
         else
         {
+            Debug.Log("set pos at end tile");
             endDragTile.Room = this;
             endDragTile.IsOccupied = true;
 
             transform.position = new Vector3(endDragTile.transform.position.x, endDragTile.transform.position.y, -0.5f);
-            isDragging = false;
+            
             Debug.Log(endDragTile.name);
             GameManager.instance.SetBuildingTilesOccupied(this, endDragTile);
 
             firstTile.IsMovingConstruction = false;
         }
-       
-        endDragTile = null;
 
-        //UIManager.instance.HideFicheRoom();
+        endDragTile = null;
+        firstTile = null;
     }
 }
