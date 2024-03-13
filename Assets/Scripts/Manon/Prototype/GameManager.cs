@@ -1052,18 +1052,11 @@ public class GameManager : MonoBehaviour
         if (player == Player.Player1)
         {
             newBuilding.transform.parent = _shipPlayer1.gameObject.transform;
-        }
-        else
-        {
-            newBuilding.transform.parent = _shipPlayer2.gameObject.transform;
-        }
-
-        if (player == Player.Player1)
-        {
             _placedRoomsPlayer1.Add(newBuilding);
         }
         else
         {
+            newBuilding.transform.parent = _shipPlayer2.gameObject.transform;
             _placedRoomsPlayer2.Add(newBuilding);
         }
 
@@ -1400,8 +1393,7 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log(room.name + " dragging");
                     room.SetPositionAtLastPosMouse();
-                }
-                
+                }     
             }
         }
     }
@@ -1710,7 +1702,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void CheckPlayerAbilityButtonsEnabled()
+    public void CheckPlayerAbilityButtonsEnabled()
     {
         Debug.Log("check player ability buttons enabled");
         List<scriptablePower> inRoomsAbilities = new List<scriptablePower>();

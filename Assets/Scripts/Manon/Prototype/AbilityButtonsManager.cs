@@ -1815,7 +1815,13 @@ public class AbilityButtonsManager : MonoBehaviour
             {
                 // Player Ship
                 Debug.Log("create room ship " + randomTile);
-                GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile, GameManager.instance.PlayerTurn);
+                //GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile, GameManager.instance.PlayerTurn);
+
+                if (GameManager.instance.PlayerTurn == Player.Player1)
+                    GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile,  Player.Player2);
+                else
+                    GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile, Player.Player1);
+
                 RoomsAssetsManager.instance.SetTileRoomAsset(GetRoomFromTargetWithAbility(decoyName).RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false, false);
                 tempTargets.Add(randomTile);
 
