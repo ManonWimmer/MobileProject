@@ -20232,7 +20232,7 @@ MonoBehaviour:
   - {fileID: 200755579937151920, guid: 93d929f30e0b09f4ca9bfc5c77a1f819, type: 3}
   - {fileID: 200755579937151920, guid: 14a09d01b992f6c4a94caeffefd3e7ce, type: 3}
   - {fileID: 200755579937151920, guid: 3ea9ea3b7b76841488681cc5f8043f11, type: 3}
-  _constructionTimerSeconds: 20
+  _constructionTimerSeconds: 120
 --- !u!4 &1857460080
 Transform:
   m_ObjectHideFlags: 0

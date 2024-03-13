@@ -654,7 +654,7 @@ public class GameManager : MonoBehaviour
         #endregion
 
         #region Player2Dict
-        foreach (Tile tile in _shipPlayer2.GetComponentsInChildren<Tile>())
+        foreach (Tile tile in _shipPlayer2.gameObject.GetComponentsInChildren<Tile>())
         {
             _tilesPlayer2.Add(tile);
             int row = tile.Row;
@@ -1295,7 +1295,7 @@ public class GameManager : MonoBehaviour
         {
             foreach (Tile tile in _tilesPlayer1)
             {
-                float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                float distance = Vector2.Distance(tile.transform.position, CameraController.instance.MainCamera.ScreenToWorldPoint(Input.mousePosition));
 
                 if (distance < shortestDistance && distance < 1)
                 {
@@ -1308,7 +1308,7 @@ public class GameManager : MonoBehaviour
         {
             foreach (Tile tile in _tilesPlayer2)
             {
-                float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                float distance = Vector2.Distance(tile.transform.position, CameraController.instance.MainCamera.ScreenToWorldPoint(Input.mousePosition));
 
                 if (distance < shortestDistance && distance < 1)
                 {
@@ -1343,7 +1343,7 @@ public class GameManager : MonoBehaviour
         {
             foreach (Tile tile in _tilesPlayer2)
             {
-                float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                float distance = Vector2.Distance(tile.transform.position, roomClicked.transform.position);
 
                 if (distance < shortestDistance && distance < 1)
                 {

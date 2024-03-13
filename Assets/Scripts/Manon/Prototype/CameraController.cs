@@ -32,6 +32,7 @@ public class CameraController : MonoBehaviour
     private Transform _currentPos;
 
     public bool IsMoving { get => _isMoving; set => _isMoving = value; }
+    public Camera MainCamera { get => _mainCamera; set => _mainCamera = value; }
 
     // ----- FIELDS ----- //
 

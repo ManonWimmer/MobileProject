@@ -38,18 +38,36 @@ public class Room : MonoBehaviour
                 return;
 
             // Store offset between touch position and object center
-            offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            offset = transform.position - CameraController.instance.MainCamera.ScreenToWorldPoint(Input.mousePosition);
             isDragging = true;
 
             Tile tile = GameManager.instance.FindNearestTileInGridFromInputPosition(GameManager.instance.PlayerTurn);
+            
             if (tile == null)
             {
                 firstTile = null;
                 return;
             }
 
+
             if (tile.Room != null)
             {
+                /*
+                // faut que je get la tile ou y'a le center sprite renderer surement
+                if (tile.RoomTileSpriteRenderer.transform.parent == null) // c'est pas la center (la center a pas de parent)
+                {
+                    foreach (Tile otherTile in tile.RoomOnOtherTiles)
+                    {
+                        if (otherTile.RoomTileSpriteRenderer.transform.parent == null) // c'est le center
+                        {
+                            tile = otherTile;
+                            break;
+                        }
+                    }
+                }
+                */ 
+
+
                 UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
                 tile.IsMovingConstruction = true;
                 GameManager.instance.SetBuildingTilesNotOccupied(this, tile);
