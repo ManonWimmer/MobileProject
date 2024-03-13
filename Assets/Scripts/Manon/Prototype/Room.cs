@@ -118,7 +118,7 @@ public class Room : MonoBehaviour
         }
         
         // Move room with mouse / finger
-        Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
+        Vector3 newPosition = CameraController.instance.MainCamera.ScreenToWorldPoint(Input.mousePosition) + offset;
         transform.position = new Vector3(newPosition.x, newPosition.y, -1f);
     }
 

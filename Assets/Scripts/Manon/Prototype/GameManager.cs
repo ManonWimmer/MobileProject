@@ -789,8 +789,6 @@ public class GameManager : MonoBehaviour
                             roomBuilt = true;
                         }
                     }
-                    
-
                 }
             }
         }
@@ -1052,18 +1050,11 @@ public class GameManager : MonoBehaviour
         if (player == Player.Player1)
         {
             newBuilding.transform.parent = _shipPlayer1.gameObject.transform;
-        }
-        else
-        {
-            newBuilding.transform.parent = _shipPlayer2.gameObject.transform;
-        }
-
-        if (player == Player.Player1)
-        {
             _placedRoomsPlayer1.Add(newBuilding);
         }
         else
         {
+            newBuilding.transform.parent = _shipPlayer2.gameObject.transform;
             _placedRoomsPlayer2.Add(newBuilding);
         }
 
@@ -1400,8 +1391,7 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log(room.name + " dragging");
                     room.SetPositionAtLastPosMouse();
-                }
-                
+                }     
             }
         }
     }
@@ -1710,7 +1700,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void CheckPlayerAbilityButtonsEnabled()
+    public void CheckPlayerAbilityButtonsEnabled()
     {
         Debug.Log("check player ability buttons enabled");
         List<scriptablePower> inRoomsAbilities = new List<scriptablePower>();
@@ -2002,6 +1992,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateSwitchShipArrow();
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
             CameraController.instance.ResetEndTurnAndAbilityButtonsPos();
+            UIManager.instance.HideEndTurnButton();
         }
 
         if (_currentMode == Mode.Construction)
@@ -2096,6 +2087,7 @@ public class GameManager : MonoBehaviour
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
             UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.UpdateSwitchShipArrow();
+            UIManager.instance.HideEndTurnButton();
         }
         else if (_currentMode == Mode.Draft)
         {

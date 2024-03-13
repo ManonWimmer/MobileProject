@@ -54,15 +54,22 @@ public class EnemyActionsManager : MonoBehaviour
             _enemyActions[0].HideEnemyAction();
             _enemyActions[1].HideEnemyAction();
             _enemyActions[2].HideEnemyAction();
+            _enemyActions[3].HideEnemyAction();
         }
         else if (i == 1)
         {
             _enemyActions[1].HideEnemyAction();
             _enemyActions[2].HideEnemyAction();
+            _enemyActions[3].HideEnemyAction();
         }
         else if (i == 2)
         {
             _enemyActions[2].HideEnemyAction();
+            _enemyActions[3].HideEnemyAction();
+        }
+        else if (i == 3)
+        {
+            _enemyActions[3].HideEnemyAction();
         }
     }
 

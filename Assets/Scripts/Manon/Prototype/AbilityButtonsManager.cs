@@ -388,9 +388,10 @@ public class AbilityButtonsManager : MonoBehaviour
         _selectedButton = null;
         DeselectAbilityTiles();
 
-        UIManager.instance.ShowValidateCombat();
+        UIManager.instance.CheckIfShowEndTurnButton();
         UIManager.instance.CheckAbilityButtonsColor();
         UIManager.instance.HideFicheAbility();
+        UIManager.instance.HideFireButton();
     }
 
     public void ChangeSelectedTilesOnTargetPos()
@@ -539,8 +540,6 @@ public class AbilityButtonsManager : MonoBehaviour
                 PlayerUsedOtherAbilityThanSimpleHit();
                 break;
         }
-
-        
 
         TargetController.instance.HideTarget();
     }
@@ -930,6 +929,8 @@ public class AbilityButtonsManager : MonoBehaviour
             _selectedTiles.Add(_target.DiagBottomRightTile);
         }
         #endregion
+
+        
     }
 
     // Use
@@ -955,6 +956,8 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void EMP_Action()
     {
+        List<Tile> affectedTiles = new List<Tile>();
+
         DestroyRoom(_target);
 
         // Desactivate for one turn room's abilities around the target (+1 cooldown)
@@ -964,6 +967,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Right
         if (_target.RightTile != null)
         {
+            affectedTiles.Add(_target.RightTile);
             if (_target.RightTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.RightTile.Room))
@@ -976,6 +980,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Left
         if (_target.LeftTile != null)
         {
+            affectedTiles.Add(_target.LeftTile);
             if (_target.LeftTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.LeftTile.Room))
@@ -988,6 +993,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Bottom
         if (_target.BottomTile != null)
         {
+            affectedTiles.Add(_target.BottomTile);
             if (_target.BottomTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.BottomTile.Room))
@@ -1000,6 +1006,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Top
         if (_target.TopTile != null)
         {
+            affectedTiles.Add(_target.TopTile);
             if (_target.TopTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.TopTile.Room))
@@ -1014,6 +1021,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Diag top left
         if (_target.DiagTopLeftTile != null)
         {
+            affectedTiles.Add(_target.DiagTopLeftTile);
             if (_target.DiagTopLeftTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.DiagTopLeftTile.Room))
@@ -1026,6 +1034,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Diag top right
         if (_target.DiagTopRightTile != null)
         {
+            affectedTiles.Add(_target.DiagTopRightTile);
             if (_target.DiagTopRightTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.DiagTopRightTile.Room))
@@ -1038,6 +1047,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Diag bottom left
         if (_target.DiagBottomLeftTile != null)
         {
+            affectedTiles.Add(_target.DiagBottomLeftTile);
             if (_target.DiagBottomLeftTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.DiagBottomLeftTile.Room))
@@ -1050,6 +1060,7 @@ public class AbilityButtonsManager : MonoBehaviour
         // Diag bottom right
         if (_target.DiagBottomRightTile != null)
         {
+            affectedTiles.Add(_target.DiagBottomRightTile);
             if (_target.DiagBottomRightTile.Room != null)
             {
                 if (!roomsToDesactivate.Contains(_target.DiagBottomRightTile.Room))
@@ -1059,6 +1070,8 @@ public class AbilityButtonsManager : MonoBehaviour
             }
         }
         #endregion
+
+        VFXManager.instance.PlayEMPVFX(_target, affectedTiles);
 
         foreach (Room room in roomsToDesactivate)
         {
@@ -1078,6 +1091,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 
             }
         }
+
     }
     #endregion
 
@@ -1809,17 +1823,25 @@ public class AbilityButtonsManager : MonoBehaviour
         bool roomBuilt = false;
         while (!roomBuilt)
         {
-            Debug.Log("while 3" + _target.name + _target.Room.name);
+            //Debug.Log("while 3" + _destroyTarget.name + _destroyTarget.Room.name);
             Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
             if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile)) // target on decoy room after destroy
             {
                 // Player Ship
                 Debug.Log("create room ship " + randomTile);
-                GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile, GameManager.instance.PlayerTurn);
+                //GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile, GameManager.instance.PlayerTurn);
+
+                if (GameManager.instance.PlayerTurn == Player.Player1)
+                    GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile,  Player.Player2);
+                else
+                    GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile, Player.Player1);
+
                 RoomsAssetsManager.instance.SetTileRoomAsset(GetRoomFromTargetWithAbility(decoyName).RoomData.RoomAbility, randomTile.RoomTileSpriteRenderer, false, false);
                 tempTargets.Add(randomTile);
 
                 roomBuilt = true;
+
+                //VFXManager.instance.PlayDecoyCreationVFX(randomTile);
             }
         }
     }
@@ -1885,6 +1907,8 @@ public class AbilityButtonsManager : MonoBehaviour
         // Create new decoy rewind 
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
         RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+
+        VFXManager.instance.PlayDecoyCreationVFX(_target);
     }
     
     private void UseEnergyDecoyAfterDestroy()
@@ -1928,6 +1952,8 @@ public class AbilityButtonsManager : MonoBehaviour
         // Create new decoy rewind 
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
         RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+
+        VFXManager.instance.PlayDecoyCreationVFX(_target);
     }
 
     private void UseTimeDecoyAfterDestroy()
@@ -1948,7 +1974,6 @@ public class AbilityButtonsManager : MonoBehaviour
     {
         Debug.Log("----- use time decoy after destroy");
 
-        // +1 Action point next round
         GameManager.instance.AddCurrentPlayerAbilityOneCooldown(GameManager.instance.GetAbilityFromName(_lastAbilityUsed));
 
         CreateNewRandomDecoy("Time Decoy");
@@ -2026,8 +2051,6 @@ public class AbilityButtonsManager : MonoBehaviour
             tileToRepair.IsDestroyed = false;
             RoomsAssetsManager.instance.SetTileRoomAsset(roomToRepair.RoomData.RoomAbility, tileToRepair.RoomTileSpriteRenderer, false, false);
             _tempTileRepaired = tileToRepair;
-
-            VFXManager.instance.PlayRepairDecoyVFX(tileToRepair);
         }
         else
         {
@@ -2068,17 +2091,20 @@ public class AbilityButtonsManager : MonoBehaviour
     private void DestroyRoom(Tile tile)
     {
         Debug.Log("destroy room " + tile.name);
-        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        if (tile.IsOccupied)
         {
-            Debug.Log("hit room " + tile.Room.name);
-            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true, false);
-            tile.IsDestroyed = true;
+            if (!tile.IsDestroyed)
+            {
+                Debug.Log("hit room " + tile.Room.name);
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, true, false);
+                tile.IsDestroyed = true;
 
-            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+                GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+                UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
 
-            if (!IsInRewind)
-                CheckDecoysAfterDestoy(tile);
+                if (!IsInRewind)
+                    CheckDecoysAfterDestoy(tile);
+            }
         }
         else
         {
@@ -2095,15 +2121,18 @@ public class AbilityButtonsManager : MonoBehaviour
     private void RevealRoom(Tile tile)
     {
         Debug.Log("reveal room " + tile.name);
-        if (tile.IsOccupied && !tile.Room.IsRoomDestroyed)
+        if (tile.IsOccupied)
         {
-            Debug.Log("hit room " + tile.Room.name);
-            RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, true);
-            tile.IsReavealed = true;
+            if (!tile.IsDestroyed)
+            {
+                Debug.Log("hit room " + tile.Room.name);
+                RoomsAssetsManager.instance.SetTileRoomAsset(tile.Room.RoomData.RoomAbility, tile.RoomTileSpriteRenderer, false, true);
+                tile.IsReavealed = true;
 
-            GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
+                GameManager.instance.CheckIfTileRoomIsCompletelyDestroyed(tile);
 
-            UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+                UIManager.instance.ShowFicheRoom(tile.Room.RoomData);
+            }
         }
         else
         {
