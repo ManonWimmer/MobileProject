@@ -20,17 +20,12 @@ public class mainMenu : MonoBehaviour
     private bool _easterEggPlay;
     private Vector2 _poseCredits;
 
-    public xmlReader xmlReader;
-    public TextMeshProUGUI _text;
-    public void ChangeText()
-    {
-        _text.text = "oui";
-        xmlReader.ChangeText(_text, "oui");
-    }
-
     private void Start()
     {
         _menu = GetComponent<GameObject>();
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
+        _music = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
+        _audioOpenClose = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioSource>();
         _playlistFXUI = _audioManager.GetPlaylistFX();
 
         _poseCredits = _creditsSroll.anchoredPosition;

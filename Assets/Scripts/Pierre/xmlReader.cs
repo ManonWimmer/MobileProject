@@ -17,7 +17,6 @@ public class xmlReader : MonoBehaviour
 
     [SerializeField] private TextAsset _dictionary;
     [SerializeField] private TMP_Dropdown _dropdown1;
-    [SerializeField] private TMP_Dropdown _dropdown2;
     [SerializeField] private List<TextMeshProUGUI> _textFields = new List<TextMeshProUGUI>();
 
     private List<LanguageData> _languages = new List<LanguageData>();
@@ -26,8 +25,15 @@ public class xmlReader : MonoBehaviour
     public void ChangeText(TextMeshProUGUI textMesh, string newName) => UpdateTextTranslation(textMesh, newName);
     public string GetText(string name) => _languages[_currentLanguageIndex].texts[name];
     public int GetLanguage() => _currentLanguageIndex;
+    public void SetTextTranslate(List<TextMeshProUGUI> text) => _textFields = text;
+    public void SetDropdown(TMP_Dropdown dropdown) { _dropdown1 = dropdown; LaunchTrad(); }
 
     private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void LaunchTrad()
     {
         LoadLanguages();
         UpdateTexts();
@@ -72,14 +78,7 @@ public class xmlReader : MonoBehaviour
     {
         if (_dropdown1.gameObject.activeInHierarchy && _dropdown1.IsActive())
         {
-            _dropdown2.value = _dropdown1.value;
             _currentLanguageIndex = _dropdown1.value;
-            UpdateTexts();
-        }
-        else if (_dropdown2.gameObject.activeInHierarchy && _dropdown2.IsActive())
-        {
-            _dropdown1.value = _dropdown2.value;
-            _currentLanguageIndex = _dropdown2.value;
             UpdateTexts();
         }
 

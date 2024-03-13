@@ -9,6 +9,10 @@ TagManager:
   - Button
   - conffeti
   - text
+  - Audio
+  - Translate
+  - Manager
+  - Sound
   layers:
   - Default
   - TransparentFX
