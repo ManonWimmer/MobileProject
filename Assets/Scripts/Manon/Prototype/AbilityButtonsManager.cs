@@ -388,9 +388,10 @@ public class AbilityButtonsManager : MonoBehaviour
         _selectedButton = null;
         DeselectAbilityTiles();
 
-        UIManager.instance.ShowValidateCombat();
+        UIManager.instance.CheckIfShowEndTurnButton();
         UIManager.instance.CheckAbilityButtonsColor();
         UIManager.instance.HideFicheAbility();
+        UIManager.instance.HideFireButton();
     }
 
     public void ChangeSelectedTilesOnTargetPos()
@@ -539,8 +540,6 @@ public class AbilityButtonsManager : MonoBehaviour
                 PlayerUsedOtherAbilityThanSimpleHit();
                 break;
         }
-
-        
 
         TargetController.instance.HideTarget();
     }

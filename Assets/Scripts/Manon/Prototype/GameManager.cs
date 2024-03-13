@@ -789,8 +789,6 @@ public class GameManager : MonoBehaviour
                             roomBuilt = true;
                         }
                     }
-                    
-
                 }
             }
         }
@@ -1994,6 +1992,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateSwitchShipArrow();
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
             CameraController.instance.ResetEndTurnAndAbilityButtonsPos();
+            UIManager.instance.HideEndTurnButton();
         }
 
         if (_currentMode == Mode.Construction)
@@ -2088,6 +2087,7 @@ public class GameManager : MonoBehaviour
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
             UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.UpdateSwitchShipArrow();
+            UIManager.instance.HideEndTurnButton();
         }
         else if (_currentMode == Mode.Draft)
         {

@@ -115,6 +115,19 @@ public class UIManager : MonoBehaviour
         HideRewindTxt();
     }
 
+    public void HideEndTurnButton()
+    {
+        _buttonValidateCombat.SetActive(false); 
+    }
+
+    public void CheckIfShowEndTurnButton()
+    {
+        if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.PlayerTurn) == 0)
+            _buttonValidateCombat.SetActive(true);
+        else
+            _buttonValidateCombat.SetActive(false);
+    }
+
     public void GoToPlayerShipText()
     {
         _goToShipText.text = "SEE YOUR\nSPACESHIP";
@@ -161,7 +174,7 @@ public class UIManager : MonoBehaviour
         HideRewindTxt();
         ShowOrUpdateActionPoints();
         _playerBottom.SetActive(true);
-        ShowValidateCombat();
+        CheckIfShowEndTurnButton();
         HideFicheAbility();
         HideFicheRoom();
     }
@@ -407,7 +420,7 @@ public class UIManager : MonoBehaviour
             abilityButton.SetActive(true);
         }
 
-        ShowValidateCombat();
+        CheckIfShowEndTurnButton();
     }
 
     public void CheckAbilityButtonsColor()

@@ -145,5 +145,7 @@ public class VFXManager : MonoBehaviour
         yield return new WaitForSeconds(timeToWait);
         Debug.Log(vfxToDesactivate.transform.position);
         vfxToDesactivate.SetActive(false);
+
+        UIManager.instance.CheckIfShowEndTurnButton();
     }
 }
