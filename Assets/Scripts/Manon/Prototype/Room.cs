@@ -47,6 +47,10 @@ public class Room : MonoBehaviour
 
                 firstTile = tile;
             }
+            else
+            {
+                firstTile = null;
+            }
             
         }
         else if (GameManager.instance.GetCurrentMode() == Mode.Combat)
@@ -58,6 +62,9 @@ public class Room : MonoBehaviour
 
     void OnMouseDrag()
     {
+        if (firstTile == null)
+            return;
+
         if (GameManager.instance.GetCurrentMode() != Mode.Construction)
             return;
 
@@ -83,6 +90,9 @@ public class Room : MonoBehaviour
 
     void OnMouseUp()
     {
+        if (firstTile == null)
+            return;
+
         if (GameManager.instance.GetCurrentMode() != Mode.Construction)
             return;
 
