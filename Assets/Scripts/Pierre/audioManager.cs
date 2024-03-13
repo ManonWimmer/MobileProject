@@ -10,7 +10,21 @@ public class audioManager : MonoBehaviour
     [SerializeField] private AudioClip[] _playlistFight;
     [SerializeField] private AudioClip[] _playlistMenu;
     [SerializeField] public AudioClip[] _playlistFX;
-    [SerializeField] public AudioClip[] _playlistWin;
+
+    [Header("Voice playList")]
+    [Header("Voice Win")]
+    [SerializeField] public AudioClip[] _playlistWinNerd;
+    [SerializeField] public AudioClip[] _playlistWinCow;
+    [SerializeField] public AudioClip[] _playlistWinPizza;
+    [Header("Voice Hit")]
+    [SerializeField] public AudioClip[] _playlistHitNerd;
+    [SerializeField] public AudioClip[] _playlistHitCow;
+    [SerializeField] public AudioClip[] _playlistHitPizza;
+    [Header("Voice Attack")]
+    [SerializeField] public AudioClip[] _playlistAttackNerd;
+    [SerializeField] public AudioClip[] _playlistAttackCow;
+    [SerializeField] public AudioClip[] _playlistAttackPizza;
+
     [SerializeField] private AudioMixer _mixer;
 
     private GameManager _gameManager;
@@ -19,9 +33,21 @@ public class audioManager : MonoBehaviour
     private int _index = 0;
     private int _lastIndex = 0;
     private AudioClip[] _actualClip;
+    private float _musicV;
+    private float _soundV;
+
 
     public void PlayMusic() => PlayNextSound();
     public AudioClip[] GetPlaylistFX() => _playlistFX;
+
+    public AudioClip[] GetPlayListDialogueWin() => FindAudioClipDialogueWin();
+    public AudioClip[] GetPlayListDialogueHit() => FindAudioClipDialogueHit();
+    public AudioClip[] GetPlayListDialogueAttack() => FindAudioClipDialogueAttack();
+
+    public void ChangeValueMusic(float volume) => SetMusiqueVolume(volume);
+    public void ChangeValueSound(float volume) => SetVolume(volume);
+    public float GetVolumeMusic() => _musicV;
+    public float GetVolumeSound() => _soundV;
 
     void Start()
     {
@@ -51,6 +77,84 @@ public class audioManager : MonoBehaviour
             _mixer.SetFloat("musique", -80f);
         }
     }
+    #region Audio Dialogue
+    private AudioClip[] FindAudioClipDialogueWin()
+    {
+        AudioClip[] clip;
+
+        if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+        {
+            clip = _playlistWinCow;
+            return clip;
+        }
+        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+        {
+            clip = _playlistWinNerd;
+            return clip;
+        }
+        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+        {
+            clip = _playlistWinPizza;
+            return clip;
+        } else
+        {
+            Debug.Log("Pas de clip choisi");
+            return clip = null;
+        }
+    }
+
+    private AudioClip[] FindAudioClipDialogueHit()
+    {
+        AudioClip[] clip;
+
+        if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+        {
+            clip = _playlistHitCow;
+            return clip;
+        }
+        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+        {
+            clip = _playlistHitNerd;
+            return clip;
+        }
+        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+        {
+            clip = _playlistHitPizza;
+            return clip;
+        }
+        else
+        {
+            Debug.Log("Pas de clip choisi");
+            return clip = null;
+        }
+    }
+
+    private AudioClip[] FindAudioClipDialogueAttack()
+    {
+        AudioClip[] clip;
+
+        if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+        {
+            clip = _playlistAttackCow;
+            return clip;
+        }
+        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+        {
+            clip = _playlistAttackNerd;
+            return clip;
+        }
+        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+        {
+            clip = _playlistAttackPizza;
+            return clip;
+        }
+        else
+        {
+            Debug.Log("Pas de clip choisi");
+            return clip = null;
+        }
+    }
+    #endregion
 
     public void ChangeMode()
     {
@@ -97,11 +201,13 @@ public class audioManager : MonoBehaviour
 
     public void SetVolume(float volume)
     {
+        _soundV = volume;
         _mixer.SetFloat("volume", volume);
     }
 
     public void SetMusiqueVolume(float volume)
     {
+        _musicV = volume;
         _mixer.SetFloat("musique", volume);
     }
 }

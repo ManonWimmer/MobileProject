@@ -94,7 +94,7 @@ public class debuffButton : MonoBehaviour
     {
         if (!_enabled) 
         {
-            OpenDescription();
+            //OpenDescription();
             CheckSelected();
             _enabled = true;
             _animator.enabled = true;
@@ -108,11 +108,11 @@ public class debuffButton : MonoBehaviour
     }
 
     // OPEN DESCRIPTION 
-    public void OpenDescription()
+    /*public void OpenDescription()
     {
         _descriptionPage.SetActive(true);
         _descriptionPage.GetComponent<popUp>().OpenDescDebuff(_scriptable);
-    }
+    }*/
 
     // CLOSE DESCRIPTION
     private void CloseDescription()

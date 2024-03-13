@@ -5,10 +5,17 @@ using UnityEngine;
 public class pause : MonoBehaviour
 {
     [SerializeField] private GameObject _pausePage;
-    [SerializeField] private AudioSource _audioOpenClose;
-    [SerializeField] private audioManager _audioManager;
+    [SerializeField] private listReferences _listRef;
+    private AudioSource _audioOpenClose;
+    private audioManager _audioManager;
 
     private bool _paused;
+
+    private void Start()
+    {
+        _audioOpenClose = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioSource>();
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
+    }
 
     public void OpenPage()
     {

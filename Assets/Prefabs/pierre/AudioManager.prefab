@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2395400709432532111}
   - component: {fileID: 2068843414222030998}
   - component: {fileID: 1193490090152100816}
-  - component: {fileID: 5655750904428063450}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Audio
@@ -155,19 +154,40 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 29325b59bd2461c47a5c30d9cc7fb3ff, type: 3}
   - {fileID: 8300000, guid: 50ba42bca3cc3714b9ca3f2d871a0ea9, type: 3}
   - {fileID: 8300000, guid: 871e0ba665eca114a84261d55295e0dc, type: 3}
-  _playlistWin: []
+  _playlistWinNerd:
+  - {fileID: 8300000, guid: 8d1effc92e48b26458c8283cfe3a1730, type: 3}
+  - {fileID: 8300000, guid: 7528493c18a81694a84bf84b879dcaad, type: 3}
+  - {fileID: 8300000, guid: 1e2f82a0f8db17f418f909f53965bf06, type: 3}
+  _playlistWinCow:
+  - {fileID: 8300000, guid: 12166c824b91cd847a048d150e3edc50, type: 3}
+  - {fileID: 8300000, guid: ca885d3d65b11dd41ac4fa990da6bbc2, type: 3}
+  - {fileID: 8300000, guid: 5237b942bca7d494abe98187a4d9274c, type: 3}
+  _playlistWinPizza:
+  - {fileID: 8300000, guid: c95e46208c9959748ae25634b2db459c, type: 3}
+  - {fileID: 8300000, guid: d839608dcd5d778428e7d7ef9d0800bb, type: 3}
+  - {fileID: 8300000, guid: df4236507d2490847bb0036f320bc0c8, type: 3}
+  _playlistHitNerd:
+  - {fileID: 8300000, guid: e348da946a57c5e45bbd64e79381a35d, type: 3}
+  - {fileID: 8300000, guid: 8dd31eca6e479df49b620cc9cbe6323b, type: 3}
+  - {fileID: 8300000, guid: 92016c6606c7e1a45bb164b5bbf8e930, type: 3}
+  _playlistHitCow:
+  - {fileID: 8300000, guid: 3a4c6a7aa6e414242aa5b6010666cca7, type: 3}
+  - {fileID: 8300000, guid: 3243f1e90a51c8f46b06f458987ba630, type: 3}
+  - {fileID: 8300000, guid: 73f357adda2fcdd41a78de48d347b68f, type: 3}
+  _playlistHitPizza:
+  - {fileID: 8300000, guid: 52c71624d9b67e94595b76ec0fa0e7dd, type: 3}
+  - {fileID: 8300000, guid: 46e7939117910cf4ca99e0eb3e2a1b0b, type: 3}
+  - {fileID: 8300000, guid: 415f79bf3d5486545b172b0a88efe7c0, type: 3}
+  _playlistAttackNerd:
+  - {fileID: 8300000, guid: 849f0c795ecfebc40a5572703877c122, type: 3}
+  - {fileID: 8300000, guid: 8426329064869cf4d94437b929b5b2d3, type: 3}
+  - {fileID: 8300000, guid: 8d83ae6d2b032894eb49bff8e61953bf, type: 3}
+  _playlistAttackCow:
+  - {fileID: 8300000, guid: 9c69cec29fcde56448f38baf66b5fb1d, type: 3}
+  - {fileID: 8300000, guid: 4428507c3070b3a4f91e87c4ae07068c, type: 3}
+  - {fileID: 8300000, guid: c6b30d49e00441842be7d63b0522f848, type: 3}
+  _playlistAttackPizza:
+  - {fileID: 8300000, guid: e9618a377c8cb644a937e12d6f69bd05, type: 3}
+  - {fileID: 8300000, guid: 7c564177db3661b4d866fd80c617af3e, type: 3}
+  - {fileID: 8300000, guid: 85126bf9786f81c45935fd74baf094d4, type: 3}
   _mixer: {fileID: 24100000, guid: d2bf478d2228d2245b6bbe28cf40aabb, type: 2}
---- !u!114 &5655750904428063450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6994133070065156000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8529b7c3fca4adc41ae257642d59288b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sliderSound1: {fileID: 0}
-  _sliderMusic1: {fileID: 0}

@@ -12,7 +12,6 @@ public class popUp : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _powerNeed;
     [SerializeField] private Image _icon;
 
-    [SerializeField] private popUp _popup;
     [SerializeField] private bool _popupVisible;
     [SerializeField] private Animator _animator;
 
@@ -20,23 +19,6 @@ public class popUp : MonoBehaviour
 
     private void Start()
     {
-        Transform parentTransform = transform.parent;
-        foreach (Transform childTransform in parentTransform)
-        {
-            if (childTransform.name == "content" && gameObject.name == "contentDebuff")
-            {
-                GameObject childGameObject = childTransform.gameObject;
-                _popup = childGameObject.GetComponent<popUp>();
-                break;
-            } 
-            else if(childTransform.name == "contentDebuff" && gameObject.name == "content")
-            {
-                GameObject childGameObject = childTransform.gameObject;
-                _popup = childGameObject.GetComponent<popUp>();
-                break;
-            }
-        }
-
         gameObject.SetActive(false);
     }
 
@@ -51,7 +33,6 @@ public class popUp : MonoBehaviour
     #region Description Open
     public void OpenDescAbility(scriptablePower scriptable)
     {
-        _popup.CheckOpen();
         _popupVisible = true;
         _animator.SetTrigger("selected");
         _animator.SetBool("disabled", false);
@@ -62,9 +43,8 @@ public class popUp : MonoBehaviour
         _icon.sprite = scriptable.Icon;
     }
 
-    public void OpenDescDebuff(scriptableDebuff scriptable)
+    /*public void OpenDescDebuff(scriptableDebuff scriptable)
     {
-        _popup.CheckOpen();
         _popupVisible = true;
         _animator.SetTrigger("selected");
         _animator.SetBool("disabled", false);
@@ -72,7 +52,7 @@ public class popUp : MonoBehaviour
         _description.text = scriptable.Description;
         _name.text = scriptable.DebuffName;
         _icon.sprite = scriptable.Icon;
-    }
+    }*/
     #endregion
 
     public void Close()

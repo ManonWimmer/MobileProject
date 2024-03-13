@@ -131,6 +131,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1084954956118358465, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084954956118358465, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 723026852}
+    - target: {fileID: 1084954956118358465, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084954956118358465, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: listReferences, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 1261448258315558456, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -278,6 +294,22 @@ PrefabInstance:
     - target: {fileID: 6890592702048259013, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
       propertyPath: _audioOpenClose
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640566642099663346, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640566642099663346, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 723026852}
+    - target: {fileID: 7640566642099663346, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeMusic
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640566642099663346, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: listReferences, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7801239742325348441, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1004,5 +1036,5 @@ SceneRoots:
   - {fileID: 1481366491}
   - {fileID: 763282575}
   - {fileID: 106872552}
-  - {fileID: 1938761541}
   - {fileID: 6067481947055243802}
+  - {fileID: 1938761541}

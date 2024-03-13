@@ -12,9 +12,9 @@ public class mainMenu : MonoBehaviour
     [SerializeField] private RectTransform _creditsSroll;
 
     private AudioClip[] _playlistFXUI;
-    [SerializeField] private AudioSource _audioOpenClose;
-    [SerializeField] private AudioSource _music;
-    [SerializeField] private audioManager _audioManager;
+    private AudioSource _audioOpenClose;
+    private AudioSource _music;
+    private audioManager _audioManager;
     [SerializeField] private GameObject _conffeti; 
 
     private bool _easterEggPlay;
