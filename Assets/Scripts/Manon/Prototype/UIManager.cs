@@ -167,6 +167,8 @@ public class UIManager : MonoBehaviour
         _playerBottom.SetActive(false);
         HideValidateCombat();
         TargetController.instance.HideTarget();
+        HideFicheAbility();
+        HideFicheRoom();
     }
 
     public void BackToCombatUI()
@@ -175,7 +177,7 @@ public class UIManager : MonoBehaviour
         ShowOrUpdateActionPoints();
         _playerBottom.SetActive(true);
         CheckIfShowEndTurnButton();
-        HideFicheAbility();
+        //HideFicheAbility();
         HideFicheRoom();
     }
 
@@ -431,7 +433,7 @@ public class UIManager : MonoBehaviour
 
             AbilityButton button = abilityButton.GetComponentInChildren<AbilityButton>();
             //Debug.Log(button.name);
-            if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()) > 0 && GameManager.instance.IsTargetOnTile() && TargetController.instance.CanShootOnThisTile() && !button.IsOffline && GameManager.instance.GetCurrentCooldown(button.GetAbility()) == 0)
+            if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()) > 0 && !button.IsOffline && GameManager.instance.GetCurrentCooldown(button.GetAbility()) == 0)
             {
                 if (button.IsSelected)
                 {

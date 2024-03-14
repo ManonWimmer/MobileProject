@@ -127,8 +127,8 @@ public class AbilityButton : MonoBehaviour
 
     public void SetOffline()
     {
-        if (_ability.name != "SimpleHit")
-        {
+        if (_ability.AbilityName != "Simple Hit" && _ability.AbilityName != "Repair Decoy" && _ability.AbilityName != "Time Decoy" && _ability.AbilityName != "Energy Decoy")
+        { 
             _image.color = Color.red;
 
             if (_button != null)

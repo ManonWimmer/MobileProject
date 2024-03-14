@@ -110,12 +110,12 @@ public class AbilityButtonsManager : MonoBehaviour
                 foreach (var action in _lastRoundActionsPlayer2)
                 {
                     Debug.Log("Last round action " + action.Item1 + action.Item2[0].name);
-                    RewindAction(action.Item1, action.Item2, Player.Player1);
-
                     lastRoundActionNames.Add(action.Item1);
                     EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
 
-                    yield return new WaitForSeconds(2f);
+                    yield return StartCoroutine(RewindAction(action.Item1, action.Item2, Player.Player1));
+
+                    
                 }
             }
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
@@ -135,12 +135,12 @@ public class AbilityButtonsManager : MonoBehaviour
                 foreach (var action in _lastRoundActionsPlayer1)
                 {
                     Debug.Log("Last round action " + action.Item1 + action.Item2[0].name);
-                    RewindAction(action.Item1, action.Item2, Player.Player2);
-
                     lastRoundActionNames.Add(action.Item1);
                     EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
 
-                    yield return new WaitForSeconds(2f); 
+                    yield return StartCoroutine(RewindAction(action.Item1, action.Item2, Player.Player2));
+
+                    
                 }
 
             }
@@ -242,7 +242,7 @@ public class AbilityButtonsManager : MonoBehaviour
         return null;
     }
 
-    private void RewindAction(string actionName, List<Tile> targets, Player player)
+    IEnumerator RewindAction(string actionName, List<Tile> targets, Player player)
     {
         Debug.Log("rewind action");
         // important -> target sur le ship normal à convertir en target sur le ship rewind
@@ -256,53 +256,70 @@ public class AbilityButtonsManager : MonoBehaviour
         _target = targetsOnRewind[0];
         Debug.Log("target on rewind " + _target.name);
 
+        UpdateRoomsRewind();
+
         switch (actionName)
         {
             case ("Alternate Shot"):
                 AlternateShot_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Simple Hit"):
                 SimpleHit_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Simple Hit X2"):
                 SimpleHitX2_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("EMP"):
                 EMP_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Scanner"):
                 Scanner_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Time Accelerator"):
                 //UseTimeAccelerator();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Capacitor"):
                 //UseCapacitor();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Upgrade Shot"):
                 UpgradeShot_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Probe"):
-                StartCoroutine(ProbeRewind(targetsOnRewind));
+                yield return StartCoroutine(ProbeRewind(targetsOnRewind));
+                yield return new WaitForSeconds(1f);
                 break;
             case ("Random Reveal"):
-                StartCoroutine(RandomRevealRewind(targetsOnRewind));
+                yield return StartCoroutine(RandomRevealRewind(targetsOnRewind));
+                yield return new WaitForSeconds(1f);
                 break;
             case ("Decoy"):
                 Decoy_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("EnergyDecoyDestroy"):
                 EnergyDecoyDestroyNewRoom(targetsOnRewind);
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("TimeDecoyDestroy"):
                 TimeDecoyDestroyNewRoom(targetsOnRewind);
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("RepairDecoyDestroy"):
                 RepairDecoyDestroyNewRoom(targetsOnRewind);
+                yield return new WaitForSeconds(1.5f);
                 break;
         }
 
-        UpdateRoomsRewind();
+        
+        
     }
 
     private IEnumerator ProbeRewind(List<Tile> targets)
@@ -311,7 +328,7 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             _target = target;
             Probe_Action();
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.7f);
         }
     }
 
@@ -321,7 +338,7 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             _target = target;
             RevealRoom(_target);
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
     #endregion
@@ -457,7 +474,8 @@ public class AbilityButtonsManager : MonoBehaviour
 
         foreach (Tile tile in _selectedTiles)
         {
-            tile.IsAbilitySelected = false;
+            tile.IsAbilitySelectedDestroy = false;
+            tile.IsAbilitySelectedReveal = false;
         }
 
         _selectedTiles.Clear();
@@ -471,7 +489,7 @@ public class AbilityButtonsManager : MonoBehaviour
             _selectedTiles.Clear();
         }
 
-        _target.IsAbilitySelected = true;
+        _target.IsAbilitySelectedDestroy = true;
         _selectedTiles.Add(_target);
     }
     #endregion
@@ -566,7 +584,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         // Center
-        _target.IsAbilitySelected = true;
+        _target.IsAbilitySelectedReveal = true;
         _selectedTiles.Add(_target);
 
         #region Top
@@ -578,7 +596,7 @@ public class AbilityButtonsManager : MonoBehaviour
             Debug.Log("can go top");
             if (currentTile.TopTile != null)
             {
-                currentTile.TopTile.IsAbilitySelected = true;
+                currentTile.TopTile.IsAbilitySelectedReveal = true;
                 _selectedTiles.Add(currentTile.TopTile);
 
                 currentTile = currentTile.TopTile;
@@ -598,7 +616,7 @@ public class AbilityButtonsManager : MonoBehaviour
                         {
                             currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row - i, column)];
                             Debug.Log("current tile " + currentTile.name);
-                            currentTile.TopTile.IsAbilitySelected = true;
+                            currentTile.TopTile.IsAbilitySelectedReveal = true;
                             _selectedTiles.Add(currentTile.TopTile);
                             foundTop = true;
                             break;
@@ -613,7 +631,7 @@ public class AbilityButtonsManager : MonoBehaviour
                         {
                             currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row - i, column)];
                             foundTop = true;
-                            currentTile.TopTile.IsAbilitySelected = true;
+                            currentTile.TopTile.IsAbilitySelectedReveal = true;
                             _selectedTiles.Add(currentTile.TopTile);
                             Debug.Log("current tile " + currentTile.name);
                             break;
@@ -638,7 +656,7 @@ public class AbilityButtonsManager : MonoBehaviour
             Debug.Log("can go bottom");
             if (currentTile.BottomTile != null)
             {
-                currentTile.BottomTile.IsAbilitySelected = true;
+                currentTile.BottomTile.IsAbilitySelectedReveal = true;
                 _selectedTiles.Add(currentTile.BottomTile);
 
                 currentTile = currentTile.BottomTile;
@@ -658,7 +676,7 @@ public class AbilityButtonsManager : MonoBehaviour
                         {
                             currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row + i, column)];
                             Debug.Log("current tile " + currentTile.name);
-                            currentTile.BottomTile.IsAbilitySelected = true;
+                            currentTile.BottomTile.IsAbilitySelectedReveal = true;
                             _selectedTiles.Add(currentTile.BottomTile);
                             if (currentTile.BottomTile.BottomTile == null)
                                 foundBottom = true;
@@ -674,7 +692,7 @@ public class AbilityButtonsManager : MonoBehaviour
                         {
                             currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row + i, column)];
                             Debug.Log("current tile " + currentTile.name);
-                            currentTile.BottomTile.IsAbilitySelected = true;
+                            currentTile.BottomTile.IsAbilitySelectedReveal = true;
                             _selectedTiles.Add(currentTile.BottomTile);
                             if (currentTile.BottomTile.BottomTile == null)
                                 foundBottom = true;
@@ -953,35 +971,35 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         // Center
-        _target.IsAbilitySelected = true;
+        _target.IsAbilitySelectedDestroy = true;
         _selectedTiles.Add(_target);
 
         #region Right, Left, Bottom & Top
         // Right
         if (_target.RightTile != null)
         {
-            _target.RightTile.IsAbilitySelected = true;
+            _target.RightTile.IsAbilitySelectedReveal = true;
             _selectedTiles.Add(_target.RightTile);
         }
 
         // Left
         if (_target.LeftTile != null)
         {
-            _target.LeftTile.IsAbilitySelected = true;
+            _target.LeftTile.IsAbilitySelectedReveal = true;
             _selectedTiles.Add(_target.LeftTile);
         }
 
         // Bottom
         if (_target.BottomTile != null)
         {
-            _target.BottomTile.IsAbilitySelected = true;
+            _target.BottomTile.IsAbilitySelectedReveal = true;
             _selectedTiles.Add(_target.BottomTile);
         }
 
         // Top
         if (_target.TopTile != null)
         {
-            _target.TopTile.IsAbilitySelected = true;
+            _target.TopTile.IsAbilitySelectedReveal = true;
             _selectedTiles.Add(_target.TopTile);
         }
         #endregion
@@ -990,28 +1008,28 @@ public class AbilityButtonsManager : MonoBehaviour
         // Diag top left
         if (_target.DiagTopLeftTile != null)
         {
-            _target.DiagTopLeftTile.IsAbilitySelected = true;
+            _target.DiagTopLeftTile.IsAbilitySelectedReveal = true;
             _selectedTiles.Add(_target.DiagTopLeftTile);
         }
 
         // Diag top right
         if (_target.DiagTopRightTile != null)
         {
-            _target.DiagTopRightTile.IsAbilitySelected = true;
+            _target.DiagTopRightTile.IsAbilitySelectedReveal = true;
             _selectedTiles.Add(_target.DiagTopRightTile);
         }
 
         // Diag bottom left
         if (_target.DiagBottomLeftTile != null)
         {
-            _target.DiagBottomLeftTile.IsAbilitySelected = true;
+            _target.DiagBottomLeftTile.IsAbilitySelectedReveal = true;
             _selectedTiles.Add(_target.DiagBottomLeftTile);
         }
 
         // Diag bottom right
         if (_target.DiagBottomRightTile != null)
         {
-            _target.DiagBottomRightTile.IsAbilitySelected = true;
+            _target.DiagBottomRightTile.IsAbilitySelectedReveal = true;
             _selectedTiles.Add(_target.DiagBottomRightTile);
         }
         #endregion
@@ -1197,27 +1215,27 @@ public class AbilityButtonsManager : MonoBehaviour
                 _selectedTiles.Clear();
             }
 
-            _target.IsAbilitySelected = true;
+            _target.IsAbilitySelectedDestroy = true;
             _selectedTiles.Add(_target);
 
             // right
             if (_target.RightTile != null)
             {
-                _target.RightTile.IsAbilitySelected = true;
+                _target.RightTile.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target.RightTile);
             }
 
             // bottom
             if (_target.BottomTile != null)
             {
-                _target.BottomTile.IsAbilitySelected = true;
+                _target.BottomTile.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target.BottomTile);
             }
 
             // diag bottom right
             if (_target.DiagBottomRightTile != null)
             {
-                _target.DiagBottomRightTile.IsAbilitySelected = true;
+                _target.DiagBottomRightTile.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target.DiagBottomRightTile);
             }
         }
@@ -1419,20 +1437,20 @@ public class AbilityButtonsManager : MonoBehaviour
 
         _currentAlternateShotDirection = GetCurrentPlayerAlternateShotDirection();
 
-        _target.IsAbilitySelected = true;
+        _target.IsAbilitySelectedDestroy = true;
         _selectedTiles.Add(_target);
 
         if (_currentAlternateShotDirection == AlternateShotDirection.Horizontal)
         {
             if (_target.LeftTile != null)
             {
-                _target.LeftTile.IsAbilitySelected = true;
+                _target.LeftTile.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target.LeftTile);
             }
 
             if (_target.RightTile != null)
             {
-                _target.RightTile.IsAbilitySelected = true;
+                _target.RightTile.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target.RightTile);
             }
         }
@@ -1440,13 +1458,13 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             if (_target.TopTile != null)
             {
-                _target.TopTile.IsAbilitySelected = true;
+                _target.TopTile.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target.TopTile);
             }
 
             if (_target.BottomTile != null)
             {
-                _target.BottomTile.IsAbilitySelected = true;
+                _target.BottomTile.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target.BottomTile);
             }
         }
@@ -1651,57 +1669,57 @@ public class AbilityButtonsManager : MonoBehaviour
         switch (_currentUpgradeShotStep)
         {
             case (UpgradeShotStep.RevealOneTile):
-                _target.IsAbilitySelected = true;
+                _target.IsAbilitySelectedReveal = true;
                 _selectedTiles.Add(_target);
                 break;
             case (UpgradeShotStep.DestroyOneTile):
-                _target.IsAbilitySelected = true;
+                _target.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target);
                 break;
             case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
 
                 if (_target.DiagTopLeftTile != null)
                 {
-                    _target.DiagTopLeftTile.IsAbilitySelected = true;
+                    _target.DiagTopLeftTile.IsAbilitySelectedDestroy = true;
                     _selectedTiles.Add(_target.DiagTopLeftTile);
                 }
 
                 if (_target.DiagBottomRightTile != null)
                 {
-                    _target.DiagBottomRightTile.IsAbilitySelected = true;
+                    _target.DiagBottomRightTile.IsAbilitySelectedDestroy = true;
                     _selectedTiles.Add(_target.DiagBottomRightTile);
                 }
 
-                _target.IsAbilitySelected = true;
+                _target.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target);
                 break;
             case (UpgradeShotStep.DestroyFiveTilesInCross):
 
                 if (_target.LeftTile != null)
                 {
-                    _target.LeftTile.IsAbilitySelected = true;
+                    _target.LeftTile.IsAbilitySelectedDestroy = true;
                     _selectedTiles.Add(_target.LeftTile);
                 }
 
                 if (_target.RightTile != null)
                 {
-                    _target.RightTile.IsAbilitySelected = true;
+                    _target.RightTile.IsAbilitySelectedDestroy = true;
                     _selectedTiles.Add(_target.RightTile);
                 }
 
                 if (_target.TopTile != null)
                 {
-                    _target.TopTile.IsAbilitySelected = true;
+                    _target.TopTile.IsAbilitySelectedDestroy = true;
                     _selectedTiles.Add(_target.TopTile);
                 }
 
                 if (_target.BottomTile != null)
                 {
-                    _target.BottomTile.IsAbilitySelected = true;
+                    _target.BottomTile.IsAbilitySelectedDestroy = true;
                     _selectedTiles.Add(_target.BottomTile);
                 }
 
-                _target.IsAbilitySelected = true;
+                _target.IsAbilitySelectedDestroy = true;
                 _selectedTiles.Add(_target);
                 break;
         }

@@ -305,7 +305,6 @@ public class GameManager : MonoBehaviour
 
         if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
         {
-            UIManager.instance.CheckAbilityButtonsColor();
             if (_targetOnTile.Room != null)
             {
                 UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
@@ -317,7 +316,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            UIManager.instance.CheckAbilityButtonsColor();
             UIManager.instance.HideFicheRoom();
         }
 
@@ -1475,7 +1473,7 @@ public class GameManager : MonoBehaviour
     {
         foreach(scriptablePower ability in _abilitiesSO)
         {
-            if (ability.name == name) 
+            if (ability.AbilityName == name) 
                return ability;
         }
 
@@ -1527,7 +1525,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    public void Forfeit()
+    {
+        if (_playerTurn == Player.Player2)
+        {
+            CheckVictoryAchievements(Player.Player2);
+            UIManager.instance.ShowVictoryCanvas(Player.Player1);
+        }
+        else if (_playerTurn == Player.Player1)
+        {
+            CheckVictoryAchievements(Player.Player1);
+            UIManager.instance.ShowVictoryCanvas(Player.Player2);
+        }
+    }
 
     public int GetPlayerLife(Player player)
     {
@@ -2036,6 +2046,7 @@ public class GameManager : MonoBehaviour
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
             CameraController.instance.ResetEndTurnAndAbilityButtonsPos();
             UIManager.instance.HideEndTurnButton();
+            UIManager.instance.CheckAbilityButtonsColor();
         }
 
         if (_currentMode == Mode.Construction)
@@ -2133,6 +2144,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.UpdateSwitchShipArrow();
             UIManager.instance.HideEndTurnButton();
+            UIManager.instance.CheckAbilityButtonsColor();
         }
         else if (_currentMode == Mode.Draft)
         {
@@ -2526,7 +2538,7 @@ public class GameManager : MonoBehaviour
 
     public void AddCurrentPlayerAbilityOneCooldown(scriptablePower ability)
     {
-        Debug.Log("set ability cooldown " + ability.name + " " + _playerTurn);
+        Debug.Log("set ability cooldown " + ability.AbilityName + " " + _playerTurn);
 
         switch (ability.AbilityName)
         {
