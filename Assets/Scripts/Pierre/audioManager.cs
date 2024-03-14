@@ -60,6 +60,11 @@ public class audioManager : MonoBehaviour
     public void PlaySoundExplosion() => PlaySound(_playlistDestroy[1]);
 
 
+    public void PlaySoundChangeView() => PlaySound(_playlistFightMode[0]);
+    public void PlaySoundRewindStart() => PlaySound(_playlistFightMode[4]);
+    public void PlaySoundRewindEnd() => PlaySound(_playlistFightMode[3]);
+
+
     public AudioClip[] GetPlayListDialogueWin() => FindAudioClipDialogueWin();
     public AudioClip[] GetPlayListDialogueHit() => FindAudioClipDialogueHit();
     public AudioClip[] GetPlayListDialogueAttack() => FindAudioClipDialogueAttack();

@@ -96,6 +96,9 @@ public class AbilityButtonsManager : MonoBehaviour
     {
         IsInRewind = true;
 
+        if (audioManager.instance != null)
+            audioManager.instance.PlaySoundRewindStart();
+
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
             CameraController.instance.SwitchRewindPlayerShipCameraDirectly(Player.Player1);
@@ -150,6 +153,10 @@ public class AbilityButtonsManager : MonoBehaviour
 
         UIManager.instance.BackToCombatUI();
         IsInRewind = false;
+
+        if (audioManager.instance != null)
+            audioManager.instance.PlaySoundRewindEnd();
+
         yield return null;
     }
 

@@ -93,6 +93,9 @@ public class CameraController : MonoBehaviour
     {
         if (!_isMoving && !AbilityButtonsManager.instance.IsInRewind)
         {
+            if (audioManager.instance != null)
+                audioManager.instance.PlaySoundChangeView();
+
             CombatOwnSpaceShip = !CombatOwnSpaceShip;
 
             if (_currentPos == _cameraPosShipPlayer1)
