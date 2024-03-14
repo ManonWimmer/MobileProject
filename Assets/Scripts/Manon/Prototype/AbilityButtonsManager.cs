@@ -290,13 +290,13 @@ public class AbilityButtonsManager : MonoBehaviour
                 Decoy_Action();
                 break;
             case ("EnergyDecoyDestroy"):
-                EnergyDecoyDestroyNewRoom();
+                EnergyDecoyDestroyNewRoom(targetsOnRewind);
                 break;
             case ("TimeDecoyDestroy"):
-                TimeDecoyDestroyNewRoom();
+                TimeDecoyDestroyNewRoom(targetsOnRewind);
                 break;
             case ("RepairDecoyDestroy"):
-                RepairDecoyDestroyNewRoom();
+                RepairDecoyDestroyNewRoom(targetsOnRewind);
                 break;
         }
 
@@ -1235,6 +1235,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
         if (GetIfSimpleHitXS())
         {
+            _lastAbilityUsed = "SimpleHitX2";
             Debug.Log("simple hit x2");
             AddActionToCurrentPlayerRound("SimpleHitX2");
 
@@ -1535,15 +1536,17 @@ public class AbilityButtonsManager : MonoBehaviour
     private void AddActionToCurrentPlayerRoundWithTempTargets(string actionName)
     {
         Debug.Log("action " + actionName);
+        List<Tile> targetTilesCopy = new List<Tile>(tempTargets);
+
         if (GameManager.instance.PlayerTurn == Player.Player1)
         {
             Debug.Log("add action to player 1 " + actionName);
-            _lastRoundActionsPlayer1.Add(Tuple.Create(actionName, tempTargets));
+            _lastRoundActionsPlayer1.Add(Tuple.Create(actionName, targetTilesCopy));
         }
         else
         {
             Debug.Log("add action to player 2 " + actionName);
-            _lastRoundActionsPlayer2.Add(Tuple.Create(actionName, tempTargets));
+            _lastRoundActionsPlayer2.Add(Tuple.Create(actionName, targetTilesCopy));
         }
     }
 
@@ -1903,7 +1906,7 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             //Debug.Log("while 3" + _destroyTarget.name + _destroyTarget.Room.name);
             Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
-            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile) && !randomTile.IsDestroyed) // target on decoy room after destroy
+            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile) && !randomTile.IsDestroyed && !randomTile.IsReavealed && !randomTile.IsMissed && !randomTile.IsOccupied) // target on decoy room after destroy
             {
                 // Player Ship
                 Debug.Log("create room ship " + randomTile + " " + decoyName);
@@ -1976,9 +1979,19 @@ public class AbilityButtonsManager : MonoBehaviour
     #endregion
 
     #region Energy Decoy
-    private void EnergyDecoyDestroyNewRoom()
+    private void EnergyDecoyDestroyNewRoom(List<Tile> targets)
     {        
         Debug.Log("new room energy decoy " + _target.name);
+        foreach(Tile target in targets)
+        {
+            if (target.Room != null)
+            {
+                if (target.Room.RoomData.RoomName == "Energy Decoy")
+                {
+                    _target = target;
+                }
+            }
+        }
         Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
 
         // Create new decoy rewind 
@@ -2020,10 +2033,21 @@ public class AbilityButtonsManager : MonoBehaviour
     #endregion
 
     #region Time Decoy
-    private void TimeDecoyDestroyNewRoom()
+    private void TimeDecoyDestroyNewRoom(List<Tile> targets)
     {
         // Montrer que +1 action points
         Debug.Log("new room time decoy " + _target.name);
+        foreach (Tile target in targets)
+        {
+            if (target.Room != null)
+            {
+                if (target.Room.RoomData.RoomName == "Energy Decoy")
+                {
+                    _target = target;
+                }
+            }
+        }
+
         Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
 
         // Create new decoy rewind 
@@ -2058,8 +2082,19 @@ public class AbilityButtonsManager : MonoBehaviour
     #endregion
 
     #region Repair Decoy
-    private void RepairDecoyDestroyNewRoom()
+    private void RepairDecoyDestroyNewRoom(List<Tile> targets)
     {
+        foreach (Tile target in targets)
+        {
+            if (target.Room != null)
+            {
+                if (target.Room.RoomData.RoomName == "Energy Decoy")
+                {
+                    _target = target;
+                }
+            }
+        }
+
         // Repair room
         if (_tempTileRepaired != null)
         {
@@ -2252,8 +2287,10 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             case ("SimpleHit"):
             case ("EMP"):
+                Debug.Log("last ability used simple hit or emp");
                 return _target.Room;
             case ("AlternateShot"):
+                Debug.Log("last ability used alternate shot");
                 if (_target != null)
                     if (_target.Room != null)
                         if (_target.Room.RoomData.RoomName == decoyName)
@@ -2284,6 +2321,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 }
                 break;
             case ("UpgradeShot"):
+                Debug.Log("last ability used upgrade shot");
                 switch (_currentUpgradeShotStep)
                 {
                     case (UpgradeShotStep.DestroyOneTile):
@@ -2337,6 +2375,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 }
                 break;
             case ("SimpleHitX2"):
+                Debug.Log("last ability used simple hit x2");
                 if (_target != null)
                     if (_target.Room != null)
                         if (_target.Room.RoomData.RoomName == decoyName)
