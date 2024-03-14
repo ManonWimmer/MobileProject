@@ -305,7 +305,6 @@ public class GameManager : MonoBehaviour
 
         if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
         {
-            UIManager.instance.CheckAbilityButtonsColor();
             if (_targetOnTile.Room != null)
             {
                 UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
@@ -317,7 +316,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            UIManager.instance.CheckAbilityButtonsColor();
             UIManager.instance.HideFicheRoom();
         }
 
@@ -2048,6 +2046,7 @@ public class GameManager : MonoBehaviour
             ActionPointsManager.instance.InitRoundActionPoints(GameManager.instance.GetCurrentRound());
             CameraController.instance.ResetEndTurnAndAbilityButtonsPos();
             UIManager.instance.HideEndTurnButton();
+            UIManager.instance.CheckAbilityButtonsColor();
         }
 
         if (_currentMode == Mode.Construction)
@@ -2145,6 +2144,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.ShowOrUpdateActionPoints();
             UIManager.instance.UpdateSwitchShipArrow();
             UIManager.instance.HideEndTurnButton();
+            UIManager.instance.CheckAbilityButtonsColor();
         }
         else if (_currentMode == Mode.Draft)
         {
