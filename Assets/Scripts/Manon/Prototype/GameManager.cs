@@ -148,6 +148,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        /*
         if (audioManager.instance != null)
         {
             Debug.Log("audio manager pas null");
@@ -155,6 +156,7 @@ public class GameManager : MonoBehaviour
         }
         else
             Debug.Log("audio Manager null");
+        */
 
         _abilityButtons = AbilityButtonsManager.instance.GetAbilityButtonsList();
         InitDrafts();

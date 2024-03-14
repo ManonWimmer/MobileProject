@@ -193,6 +193,7 @@ public class audioManager : MonoBehaviour
     public void ChangeMode()
     {
         Debug.Log("change mode playlist");
+        /*
         if (GameManager.instance != null)
         {
             if (GameManager.instance.GetCurrentMode() == Mode.Draft)
@@ -212,6 +213,13 @@ public class audioManager : MonoBehaviour
             _actualClip = _playlistMenu;
             PlayNextSound();
         }
+        */
+        if (_actualClip == _playlistMenu)
+            _actualClip = _playlistFight;
+        else
+            _actualClip = _playlistMenu;
+
+        PlayNextSound();
     }
 
     private void PlayNextSound()
