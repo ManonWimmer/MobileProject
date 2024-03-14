@@ -2099,7 +2099,7 @@ public class AbilityButtonsManager : MonoBehaviour
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
         RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
 
-        VFXManager.instance.PlayDecoyCreationVFX(_target);
+        VFXManager.instance.PlayEnergyDecoyCreationVFX(_target);
     }
     
     private void UseEnergyDecoyAfterDestroy()
@@ -2154,7 +2154,7 @@ public class AbilityButtonsManager : MonoBehaviour
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
         RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
 
-        VFXManager.instance.PlayDecoyCreationVFX(_target);
+        VFXManager.instance.PlayTimeDecoyCreationVFX(_target);
     }
 
     private void UseTimeDecoyAfterDestroy()
@@ -2215,6 +2215,8 @@ public class AbilityButtonsManager : MonoBehaviour
         // Create new decoy rewind 
         GameManager.instance.CreateNewBuildingRewind(lastTarget.Room, _target, GameManager.instance.PlayerTurn);
         RoomsAssetsManager.instance.SetTileRoomAsset(lastTarget.Room.RoomData.RoomAbility, _target.RoomTileSpriteRenderer, false, false);
+
+        VFXManager.instance.PlayRepairDecoyCreationVFX(_target);
     }
 
     private void UseRepairDecoyAfterDestroy()

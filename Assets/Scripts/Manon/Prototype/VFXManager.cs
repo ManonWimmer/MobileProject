@@ -27,9 +27,17 @@ public class VFXManager : MonoBehaviour
     [SerializeField] GameObject _vfxRepairDecoy;
     [SerializeField] float _vfxTimeRepairDecoy;
 
-    [Header("Decoy Creation")]
-    [SerializeField] GameObject _vfxDecoyCreation;
-    [SerializeField] float _vfxTimeDecoyCreation;
+    [Header("Repair Decoy Creation")]
+    [SerializeField] GameObject _vfxEnergyDecoyCreation;
+    [SerializeField] float _vfxTimeEnergyDecoyCreation;
+
+    [Header("Repair Decoy Creation")]
+    [SerializeField] GameObject _vfxRepairDecoyCreation;
+    [SerializeField] float _vfxTimeRepairDecoyCreation;
+
+    [Header("Time Decoy Creation")]
+    [SerializeField] GameObject _vfxTimeDecoyCreation;
+    [SerializeField] float _vfxTimeTimeDecoyCreation;
 
     [Header("EMP")]
     [SerializeField] GameObject _vfxEMPCenter;
@@ -146,12 +154,28 @@ public class VFXManager : MonoBehaviour
         StartCoroutine(DesactivateVFXAfterTime(_vfxRepairDecoy, _vfxTimeRepairDecoy));
     }
 
-    public void PlayDecoyCreationVFX(Tile tile)
+    public void PlayEnergyDecoyCreationVFX(Tile tile)
     {
-        _vfxDecoyCreation.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
-        _vfxDecoyCreation.SetActive(true);
+        _vfxEnergyDecoyCreation.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+        _vfxEnergyDecoyCreation.SetActive(true);
 
-        StartCoroutine(DesactivateVFXAfterTime(_vfxDecoyCreation, _vfxTimeDecoyCreation));
+        StartCoroutine(DesactivateVFXAfterTime(_vfxEnergyDecoyCreation, _vfxTimeEnergyDecoyCreation));
+    }
+
+    public void PlayRepairDecoyCreationVFX(Tile tile)
+    {
+        _vfxRepairDecoyCreation.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+        _vfxRepairDecoyCreation.SetActive(true);
+
+        StartCoroutine(DesactivateVFXAfterTime(_vfxRepairDecoyCreation, _vfxTimeRepairDecoyCreation));
+    }
+
+    public void PlayTimeDecoyCreationVFX(Tile tile)
+    {
+        _vfxTimeDecoyCreation.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+        _vfxTimeDecoyCreation.SetActive(true);
+
+        StartCoroutine(DesactivateVFXAfterTime(_vfxTimeDecoyCreation, _vfxTimeTimeDecoyCreation));
     }
 
     public void PlayEMPVFX(Tile centerTile, List<Tile> aroundTile)
@@ -262,28 +286,5 @@ public class VFXManager : MonoBehaviour
 
         if (audioManager.instance != null)
             audioManager.instance.PlaySoundUpgradeShot();
-    }
-
-    public float GetAnimationTime(string actionName)
-    {
-        switch (actionName)
-        {
-            case ("Simple Hit"):
-                return _vfxTimeSimpleHit;
-            case ("Simple Hit X2"):
-                return _vfxTimeSimpleHitX2;
-            case ("Alternate Shot"):
-                return _vfxTimeAlternateShot;
-            case ("Scanner"):
-                return _vfxTimeScanner;
-            case ("Repair Decoy"):
-                return _vfxTimeRepairDecoy;
-            case ("EMP"):
-                return _vfxTimeEMP;
-            case ("Probe"):
-                return _vfxTimeProbe;
-        }
-
-        return 2;
     }
 }
