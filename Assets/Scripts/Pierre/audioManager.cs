@@ -5,6 +5,8 @@ using UnityEngine.Audio;
 
 public class audioManager : MonoBehaviour
 {
+    public static audioManager instance;
+
     [SerializeField] private float _minVolume;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip[] _playlistFight;
@@ -53,11 +55,13 @@ public class audioManager : MonoBehaviour
     public void PlaySoundAlternate2() => PlaySound(_playlistRooms[1]);
     public void PlaySoundGunNormal() => PlaySound(_playlistRooms[2]);
     public void PlaySoundLaser() => PlaySound(_playlistRooms[3]);
-    public void PlaySoundProb() => PlaySound(_playlistRooms[4]);
+    public void PlaySoundProbe() => PlaySound(_playlistRooms[4]);
     public void PlaySoundSonar() => PlaySound(_playlistRooms[5]);
     public void PlaySoundTimeAccelerator() => PlaySound(_playlistRooms[6]);
     public void PlaySoundUpgradeShot() => PlaySound(_playlistRooms[7]);
     public void PlaySoundDecoyReveal() => PlaySound(_playlistRooms[8]);
+
+    public void PlaySoundExplosion() => PlaySound(_playlistDestroy[1]);
 
 
     public AudioClip[] GetPlayListDialogueWin() => FindAudioClipDialogueWin();
@@ -70,6 +74,11 @@ public class audioManager : MonoBehaviour
     public float GetVolumeSound() => _soundV;
 
     private AudioSource _audioSourceSound;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {

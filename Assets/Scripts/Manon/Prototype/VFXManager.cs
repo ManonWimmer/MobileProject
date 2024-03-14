@@ -55,6 +55,9 @@ public class VFXManager : MonoBehaviour
         _vfxSimpleHit.SetActive(true);
 
         StartCoroutine(DesactivateVFXAfterTime(_vfxSimpleHit, _vfxTimeSimpleHit));
+
+        if (audioManager.instance != null)
+            audioManager.instance.PlaySoundGunNormal();
     }
 
     public void PlaySimpleHitX2VFX(List<Tile> tiles)
@@ -68,6 +71,9 @@ public class VFXManager : MonoBehaviour
             StartCoroutine(DesactivateVFXAfterTime(_vfxsSimpleHitX2[i], _vfxTimeSimpleHitX2));
             i++;
         }
+
+        if (audioManager.instance != null)
+            audioManager.instance.PlaySoundExplosion();
     }
 
     public void PlayAlternateShotVFX(List<Tile> tiles)
@@ -75,10 +81,20 @@ public class VFXManager : MonoBehaviour
         AlternateShotDirection currentAlternateShotDirection;
 
         if (AbilityButtonsManager.instance.IsInRewind)
+        {
             currentAlternateShotDirection = AbilityButtonsManager.instance.GetRewindPlayerAlternateShotDirection();
+
+            if (audioManager.instance != null)
+                audioManager.instance.PlaySoundAlternate1();
+        }
         else
+        {
             currentAlternateShotDirection = AbilityButtonsManager.instance.GetCurrentPlayerAlternateShotDirection();
 
+            if (audioManager.instance != null)
+                audioManager.instance.PlaySoundAlternate2();
+        }
+           
         int i = 0;
         foreach (Tile tile in tiles)
         {
@@ -107,6 +123,9 @@ public class VFXManager : MonoBehaviour
             StartCoroutine(DesactivateVFXAfterTime(_vfxsScanner[i], _vfxTimeScanner));
             i++;
         }
+
+        if (audioManager.instance != null)
+            audioManager.instance.PlaySoundSonar();
     }
 
     public void PlayRepairDecoyVFX(Tile tile)
@@ -141,6 +160,9 @@ public class VFXManager : MonoBehaviour
             StartCoroutine(DesactivateVFXAfterTime(_vfxsEMPAround[i], _vfxTimeEMP));
             i++;
         }
+
+        if (audioManager.instance != null)
+            audioManager.instance.PlaySoundLaser();
     }
 
     IEnumerator DesactivateVFXAfterTime(GameObject vfxToDesactivate, float timeToWait)
@@ -164,10 +186,13 @@ public class VFXManager : MonoBehaviour
                 _vfxProbe.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
                 _vfxProbe.SetActive(true);
 
+                if (audioManager.instance != null)
+                    audioManager.instance.PlaySoundProbe();
+
                 StartCoroutine(DesactivateVFXAfterTime(_vfxProbe, _vfxTimeProbe));
                 return;
             }
-        }
+        }  
     }
 
     public float GetAnimationTime(string actionName)

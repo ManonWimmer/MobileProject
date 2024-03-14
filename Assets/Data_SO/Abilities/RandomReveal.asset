@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RandomReveal
   m_EditorClassIdentifier: 
   AbilityName: Random Reveal
-  Description: Random Reveal description
+  Description: Reveals 5 empty tiles at random places in the enemy ship.
   Icon: {fileID: 21300000, guid: 84a008cd97643864d92ed0d269998db5, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 2
