@@ -1725,6 +1725,40 @@ public class AbilityButtonsManager : MonoBehaviour
         }
     }
 
+    public UpgradeShotStep GetRewindPlayerUpgradeShotStep()
+    {
+        if (GameManager.instance.PlayerTurn == Player.Player1)
+        {
+            switch (_currentUpgradeShotStepPlayer2)
+            {
+                case (UpgradeShotStep.RevealOneTile):
+                    return UpgradeShotStep.DestroyFiveTilesInCross;
+                case (UpgradeShotStep.DestroyOneTile):
+                    return UpgradeShotStep.RevealOneTile;
+                case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
+                    return UpgradeShotStep.DestroyOneTile;
+                case (UpgradeShotStep.DestroyFiveTilesInCross):
+                    return UpgradeShotStep.DestroyThreeTilesInDiagonal;
+            }
+        }
+        else
+        {
+            switch (_currentUpgradeShotStepPlayer1)
+            {
+                case (UpgradeShotStep.RevealOneTile):
+                    return UpgradeShotStep.DestroyFiveTilesInCross;
+                case (UpgradeShotStep.DestroyOneTile):
+                    return UpgradeShotStep.RevealOneTile;
+                case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
+                    return UpgradeShotStep.DestroyOneTile;
+                case (UpgradeShotStep.DestroyFiveTilesInCross):
+                    return UpgradeShotStep.DestroyThreeTilesInDiagonal;
+            }
+        }
+
+        return UpgradeShotStep.RevealOneTile;
+    }
+
     // Use
     private void UseUpgradeShot()
     {
@@ -1752,53 +1786,67 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void UpgradeShot_Action()
     {
+        List<Tile> affectedTiles = new List<Tile>();
+
         switch (_currentUpgradeShotStep)
         {
             case (UpgradeShotStep.RevealOneTile):
                 RevealRoom(_target);
+                affectedTiles.Add(_target);
                 break;
             case (UpgradeShotStep.DestroyOneTile):
                 DestroyRoom(_target);
+                affectedTiles.Add(_target);
                 break;
             case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
 
                 if (_target.DiagTopLeftTile != null)
                 {
                     DestroyRoom(_target.DiagTopLeftTile);
+                    affectedTiles.Add(_target.DiagTopLeftTile);
                 }
 
                 if (_target.DiagBottomRightTile != null)
                 {
                     DestroyRoom(_target.DiagBottomRightTile);
+                    affectedTiles.Add(_target.DiagBottomRightTile);
                 }
 
                 DestroyRoom(_target);
+                affectedTiles.Add(_target);
                 break;
             case (UpgradeShotStep.DestroyFiveTilesInCross):
 
                 if (_target.LeftTile != null)
                 {
                     DestroyRoom(_target.LeftTile);
+                    affectedTiles.Add(_target.LeftTile);
                 }
 
                 if (_target.RightTile != null)
                 {
                     DestroyRoom(_target.RightTile);
+                    affectedTiles.Add(_target.RightTile);
                 }
 
                 if (_target.TopTile != null)
                 {
                     DestroyRoom(_target.TopTile);
+                    affectedTiles.Add(_target.TopTile);
                 }
 
                 if (_target.BottomTile != null)
                 {
                     DestroyRoom(_target.BottomTile);
+                    affectedTiles.Add(_target.BottomTile);
                 }
 
                 DestroyRoom(_target);
+                affectedTiles.Add(_target);
                 break;
         }
+
+        VFXManager.instance.PlayUpgradeShotVFX(affectedTiles);
     }
 
     public UpgradeShotStep GetCurrentPlayerUpgradeShotStep()

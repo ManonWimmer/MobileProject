@@ -60,7 +60,6 @@ public class audioManager : MonoBehaviour
     public void PlaySoundTimeAccelerator() => PlaySound(_playlistRooms[6]);
     public void PlaySoundUpgradeShot() => PlaySound(_playlistRooms[7]);
     public void PlaySoundDecoyReveal() => PlaySound(_playlistRooms[8]);
-
     public void PlaySoundExplosion() => PlaySound(_playlistDestroy[1]);
 
 

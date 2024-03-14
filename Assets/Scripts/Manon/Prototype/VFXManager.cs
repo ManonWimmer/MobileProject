@@ -39,6 +39,12 @@ public class VFXManager : MonoBehaviour
     [Header("Probe")]
     [SerializeField] List<GameObject> _vfxsProbe = new List<GameObject>();
     [SerializeField] float _vfxTimeProbe;
+
+    [Header("Upgrade Shot")]
+    [SerializeField] GameObject _vfxUpgradeShot1;
+    [SerializeField] GameObject _vfxUpgradeShot2;
+    [SerializeField] List<GameObject> _vfxsUpgradeShot3And4 = new List<GameObject>();
+    [SerializeField] float _vfxTimeUpgradeShot;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -193,6 +199,45 @@ public class VFXManager : MonoBehaviour
                 return;
             }
         }  
+    }
+
+    public void PlayUpgradeShotVFX(List<Tile> tiles)
+    {
+        UpgradeShotStep currentUpgradeShotStep;
+
+        if (AbilityButtonsManager.instance.IsInRewind)
+            currentUpgradeShotStep = AbilityButtonsManager.instance.GetRewindPlayerUpgradeShotStep();
+        else
+            currentUpgradeShotStep = AbilityButtonsManager.instance.GetCurrentPlayerUpgradeShotStep();
+
+        int i = 0;
+        foreach (Tile tile in tiles)
+        {
+            switch (currentUpgradeShotStep)
+            {
+                case (UpgradeShotStep.RevealOneTile):
+                    _vfxUpgradeShot1.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+                    _vfxUpgradeShot1.SetActive(true);
+                    StartCoroutine(DesactivateVFXAfterTime(_vfxUpgradeShot1, _vfxTimeUpgradeShot));
+                    break;
+                case (UpgradeShotStep.DestroyOneTile):
+                    _vfxUpgradeShot2.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+                    _vfxUpgradeShot2.SetActive(true);
+                    StartCoroutine(DesactivateVFXAfterTime(_vfxUpgradeShot1, _vfxTimeUpgradeShot));
+                    break;
+                case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
+                case (UpgradeShotStep.DestroyFiveTilesInCross):
+                    _vfxsUpgradeShot3And4[i].transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+                    _vfxsUpgradeShot3And4[i].SetActive(true);
+                    StartCoroutine(DesactivateVFXAfterTime(_vfxsUpgradeShot3And4[i], _vfxTimeUpgradeShot));
+                    break;
+            } 
+
+            i++;
+        }
+
+        if (audioManager.instance != null)
+            audioManager.instance.PlaySoundUpgradeShot();
     }
 
     public float GetAnimationTime(string actionName)
