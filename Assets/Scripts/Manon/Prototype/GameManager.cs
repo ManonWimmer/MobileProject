@@ -3221,6 +3221,8 @@ public class GameManager : MonoBehaviour
                         Debug.LogWarning("Error failed to report progress!");
                     }
                 });
+
+
             }
             Debug.Log("Achievement : Sniper");
         }

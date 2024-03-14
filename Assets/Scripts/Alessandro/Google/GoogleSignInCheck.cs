@@ -18,7 +18,13 @@ public class GoogleSignInCheck : MonoBehaviour{
 
     public void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
+        DontDestroyOnLoad(gameObject);
         // juste un check pour debug au cas ou si ça marche pas très bien
         if (shouldGoogleBeActive)
         {

@@ -17,6 +17,7 @@ public class StarVFXhandler : MonoBehaviour
     [SerializeField] Transform _StarSpawnPoint;
     [SerializeField] UnityEvent OnStartStars;
     [SerializeField] UnityEvent OnCancelStars;
+    [SerializeField] bool PlayOnAwake = false;
 
     private List<StarInstance> StarArray = new List<StarInstance>();
     private IEnumerator coroutine;
@@ -34,7 +35,8 @@ public class StarVFXhandler : MonoBehaviour
             StarArray.Add(tempVal.GetComponent<StarInstance>());
             StarArray[i].StarSpawnPoint = new Vector2(0, 0);
         }
-        //StartVFX();
+        if(PlayOnAwake)
+            StartVFX();
     }
     // their position is set outside the screen boundaries (might not have to set them here, could do it from the star itself)
     // function that selects _howManyStarsCycle number of stars that arent active

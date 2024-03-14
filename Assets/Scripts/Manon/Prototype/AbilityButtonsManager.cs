@@ -1854,6 +1854,24 @@ public class AbilityButtonsManager : MonoBehaviour
             _currentUpgradeShotStepPlayer2 = _tempUpgradeShotStep;
         }
 
+        if (_currentUpgradeShotStepPlayer1 == UpgradeShotStep.DestroyFiveTilesInCross || _currentUpgradeShotStepPlayer2 == UpgradeShotStep.DestroyFiveTilesInCross)
+        {
+            Debug.Log("Achievement IMMA FIRE MA LASER");
+            if (GoogleSignInCheck.instance.getPlayerStatus() == true)
+            {
+                Social.ReportProgress("CgkIusy6mqADEAIQBA", 100.0f, (bool success) => {
+                    if (success)
+                    {
+                        Debug.Log("Progress reported successfully!");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Error failed to report progress!");
+                    }
+                });
+            }
+        }
+
         UIManager.instance.CheckUpgradeShotLvlImg();
     }
     #endregion

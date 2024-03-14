@@ -25,7 +25,6 @@
 public static class GPGSIds
 {
         public const string achievement_space_surgeon = "CgkIusy6mqADEAIQBQ"; // <GPGSID>
-        public const string achievement_all_cards_on_the_table = "CgkIusy6mqADEAIQCA"; // <GPGSID>
         public const string achievement_imma_fire_mah_laserr = "CgkIusy6mqADEAIQBA"; // <GPGSID>
         public const string achievement_moooooooo = "CgkIusy6mqADEAIQCQ"; // <GPGSID>
         public const string achievement_meatballed = "CgkIusy6mqADEAIQAg"; // <GPGSID>

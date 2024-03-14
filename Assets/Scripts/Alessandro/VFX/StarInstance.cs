@@ -51,6 +51,7 @@ public class StarInstance : MonoBehaviour
             // Move the star to the left
             t = _speed * Time.deltaTime;
             transform.position = Vector2.MoveTowards(transform.position, destination, t);
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
             // if we get futher than the destination, reset the position of the star and its destination
             if (transform.position.x < destination.x + 0.5)
             {
@@ -59,6 +60,8 @@ public class StarInstance : MonoBehaviour
                 destination = new Vector2(-9, transform.position.y);
 
             }
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+
         }
     }
 
