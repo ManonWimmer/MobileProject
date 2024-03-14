@@ -486,20 +486,20 @@ public class AbilityButtonsManager : MonoBehaviour
         if (CameraController.instance.IsMoving)
             return;
 
-        _lastAbilityUsed = _selectedButton.GetAbility().name;
+        _lastAbilityUsed = _selectedButton.GetAbility().AbilityName;
 
         switch (_selectedButton.GetAbility().name)
         {
-            case ("AlternateShot"):
+            case ("Alternate Shot"):
                 UseAlternateShot();
                 DeselectAbilityButton(_selectedButton);
                 PlayerUsedOtherAbilityThanSimpleHit();
                 break;
-            case ("SimpleHit"):
+            case ("Simple Hit"):
                 UseSimpleHit();
                 DeselectAbilityButton(_selectedButton);
                 break;
-            case ("RandomReveal"):
+            case ("Random Reveal"):
                 UseRandomReveal();
                 DeselectAbilityButton(_selectedButton);
                 PlayerUsedOtherAbilityThanSimpleHit();
@@ -514,7 +514,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 DeselectAbilityButton(_selectedButton);
                 PlayerUsedOtherAbilityThanSimpleHit();
                 break;
-            case ("TimeAccelerator"):
+            case ("Time  Accelerator"):
                 UseTimeAccelerator();
                 DeselectAbilityButton(_selectedButton);
                 PlayerUsedOtherAbilityThanSimpleHit();
@@ -533,9 +533,9 @@ public class AbilityButtonsManager : MonoBehaviour
                 UseProbe();
                 PlayerUsedOtherAbilityThanSimpleHit();
                 break;
-            case ("EnergyDecoy"):
-            case ("TimeDecoy"):
-            case ("RepairDecoy"):
+            case ("Energy Decoy"):
+            case ("Time Decoy"):
+            case ("Repair Decoy"):
                 UseDecoy();
                 DeselectAbilityButton(_selectedButton); 
                 PlayerUsedOtherAbilityThanSimpleHit();
@@ -1235,9 +1235,9 @@ public class AbilityButtonsManager : MonoBehaviour
 
         if (GetIfSimpleHitXS())
         {
-            _lastAbilityUsed = "SimpleHitX2";
+            _lastAbilityUsed = "Simple Hit X2";
             Debug.Log("simple hit x2");
-            AddActionToCurrentPlayerRound("SimpleHitX2");
+            AddActionToCurrentPlayerRound("Simple Hit X2");
 
             SimpleHitX2_Action();
 
@@ -1245,7 +1245,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
         else
         {
-            AddActionToCurrentPlayerRound("SimpleHit");
+            AddActionToCurrentPlayerRound("Simple Hit");
             SimpleHit_Action();
         }
 
@@ -1388,7 +1388,7 @@ public class AbilityButtonsManager : MonoBehaviour
             } 
         }
 
-        AddActionToCurrentPlayerRound("RandomReveal");
+        AddActionToCurrentPlayerRound("Random Reveal");
 
         UpdateHiddenRooms(); // si destroy ou reveal 
         UIManager.instance.CheckAbilityButtonsColor();
@@ -1456,7 +1456,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
 
         _currentActionTargetTiles.Add(_target);
-        AddActionToCurrentPlayerRound("AlternateShot");
+        AddActionToCurrentPlayerRound("Alternate Shot");
         // ----- REWIND ----- //
 
         _selectedButton.SetCooldown();
@@ -1614,7 +1614,7 @@ public class AbilityButtonsManager : MonoBehaviour
         if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
         _currentActionTargetTiles.Add(_target);
-        AddActionToCurrentPlayerRound("TimeAccelerator");
+        AddActionToCurrentPlayerRound("Time Accelerator");
         // ----- REWIND ----- //
 
         _selectedButton.SetCooldown();
@@ -1708,7 +1708,7 @@ public class AbilityButtonsManager : MonoBehaviour
         if (_currentActionTargetTiles.Count > 0)
             _currentActionTargetTiles.Clear();
         _currentActionTargetTiles.Add(_target);
-        AddActionToCurrentPlayerRound("UpgradeShot");
+        AddActionToCurrentPlayerRound("Upgrade Shot");
         // ----- REWIND ----- //
 
         _selectedButton.SetCooldown();
@@ -2035,7 +2035,6 @@ public class AbilityButtonsManager : MonoBehaviour
     #region Time Decoy
     private void TimeDecoyDestroyNewRoom(List<Tile> targets)
     {
-        // Montrer que +1 action points
         Debug.Log("new room time decoy " + _target.name);
         foreach (Tile target in targets)
         {
@@ -2285,11 +2284,11 @@ public class AbilityButtonsManager : MonoBehaviour
     {
         switch (_lastAbilityUsed)
         {
-            case ("SimpleHit"):
+            case ("Simple Hit"):
             case ("EMP"):
                 Debug.Log("last ability used simple hit or emp");
                 return _target.Room;
-            case ("AlternateShot"):
+            case ("Alternate Shot"):
                 Debug.Log("last ability used alternate shot");
                 if (_target != null)
                     if (_target.Room != null)
@@ -2320,7 +2319,7 @@ public class AbilityButtonsManager : MonoBehaviour
                                 return _target.BottomTile.Room;
                 }
                 break;
-            case ("UpgradeShot"):
+            case ("Upgrade Shot"):
                 Debug.Log("last ability used upgrade shot");
                 switch (_currentUpgradeShotStep)
                 {
@@ -2374,7 +2373,7 @@ public class AbilityButtonsManager : MonoBehaviour
                         break;
                 }
                 break;
-            case ("SimpleHitX2"):
+            case ("Simple Hit X2"):
                 Debug.Log("last ability used simple hit x2");
                 if (_target != null)
                     if (_target.Room != null)
