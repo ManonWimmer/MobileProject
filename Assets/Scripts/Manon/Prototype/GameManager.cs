@@ -148,6 +148,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (audioManager.instance != null)
+        {
+            Debug.Log("audio manager pas null");
+            audioManager.instance.ChangeMode();
+        }
+        else
+            Debug.Log("audio Manager null");
+
         _abilityButtons = AbilityButtonsManager.instance.GetAbilityButtonsList();
         InitDrafts();
         StartDraftShips();
@@ -2146,8 +2154,6 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideEndTurnButton();
             UIManager.instance.CheckAbilityButtonsColor();
 
-            if (audioManager.instance != null)
-                audioManager.instance.ChangeMode();
         }
         else if (_currentMode == Mode.Draft)
         {

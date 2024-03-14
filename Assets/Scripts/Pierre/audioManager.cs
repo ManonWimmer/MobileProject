@@ -34,9 +34,6 @@ public class audioManager : MonoBehaviour
 
     [SerializeField] private AudioMixer _mixer;
 
-    private GameManager _gameManager;
-    private bool _combatMode;
-
     private int _index = 0;
     private int _lastIndex = 0;
     private AudioClip[] _actualClip;
@@ -113,17 +110,17 @@ public class audioManager : MonoBehaviour
     {
         AudioClip[] clip;
 
-        if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+        if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
         {
             clip = _playlistWinCow;
             return clip;
         }
-        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+        else if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
         {
             clip = _playlistWinNerd;
             return clip;
         }
-        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+        else if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
         {
             clip = _playlistWinPizza;
             return clip;
@@ -138,17 +135,17 @@ public class audioManager : MonoBehaviour
     {
         AudioClip[] clip;
 
-        if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+        if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
         {
             clip = _playlistHitCow;
             return clip;
         }
-        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+        else if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
         {
             clip = _playlistHitNerd;
             return clip;
         }
-        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+        else if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
         {
             clip = _playlistHitPizza;
             return clip;
@@ -164,17 +161,17 @@ public class audioManager : MonoBehaviour
     {
         AudioClip[] clip;
 
-        if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+        if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
         {
             clip = _playlistAttackCow;
             return clip;
         }
-        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+        else if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
         {
             clip = _playlistAttackNerd;
             return clip;
         }
-        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+        else if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
         {
             clip = _playlistAttackPizza;
             return clip;
@@ -195,20 +192,22 @@ public class audioManager : MonoBehaviour
 
     public void ChangeMode()
     {
-        if (_gameManager.GetCurrentMode() == Mode.Combat)
+        Debug.Log("change mode playlist");
+        if (GameManager.instance != null)
         {
-            _combatMode = true;
+            if (GameManager.instance.GetCurrentMode() == Mode.Draft)
+            {
+                Debug.Log("playlist fight");
+                _actualClip = _playlistFight;
+                PlayNextSound();
+            }
+            else
+            {
+                _actualClip = _playlistMenu;
+                PlayNextSound();
+            }
         }
         else
-        {
-            _combatMode = false;
-        }
-
-        if (_combatMode)
-        {
-            _actualClip = _playlistFight;
-            PlayNextSound();
-        } else
         {
             _actualClip = _playlistMenu;
             PlayNextSound();
@@ -217,22 +216,26 @@ public class audioManager : MonoBehaviour
 
     private void PlayNextSound()
     {
-        if (_playlistMenu.Length == 0)
+        Debug.Log("play next sound");
+
+        if (_actualClip.Length == 0)
         {
             Debug.LogWarning("La playlist est vide.");
             return;
         }
+        else
+            Debug.Log(_actualClip.Length);
 
         int randomIndex;
         do
         {
-            randomIndex = Random.Range(0, _playlistMenu.Length);
+            randomIndex = Random.Range(0, _actualClip.Length);
         } while (randomIndex == _lastIndex);
 
         _lastIndex = randomIndex;
         _index = randomIndex;
 
-        _audioSource.clip = _playlistMenu[_index];
+        _audioSource.clip = _actualClip[_index];
         _audioSource.Play();
     }
 
