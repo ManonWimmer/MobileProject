@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RepairDecoy
   m_EditorClassIdentifier: 
   AbilityName: Repair Decoy
-  Description: Repair Decoy Description
+  Description: when it's destroyed, repair a random room tile, then it respawns.
   Icon: {fileID: 21300000, guid: ea6877cb1f98bf54cbc7041aee4c83a0, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 3

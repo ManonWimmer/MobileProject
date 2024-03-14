@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: EnergyDecoy
   m_EditorClassIdentifier: 
   AbilityName: Energy Decoy
-  Description: "Reveals a random room tile and when it\u2019s destroyed it will give
-    1 energy for the next turn. It will respawn at a random place after it\u2018s
-    destroyed."
+  Description: when it's destroyed, you gain 1 energy, then it respawns.
   Icon: {fileID: 21300000, guid: 15db0e4ffa62bc441b4427920c106225, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 3
