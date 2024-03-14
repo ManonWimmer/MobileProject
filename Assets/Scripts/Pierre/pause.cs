@@ -6,14 +6,14 @@ public class pause : MonoBehaviour
 {
     [SerializeField] private GameObject _pausePage;
     [SerializeField] private listReferences _listRef;
-    private AudioSource _audioOpenClose;
+    private AudioSource _audioSource;
     private audioManager _audioManager;
 
     private bool _paused;
 
     private void Start()
     {
-        _audioOpenClose = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioSource>();
+        _audioSource = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioSource>();
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
     }
 
@@ -22,8 +22,8 @@ public class pause : MonoBehaviour
         if (!_paused)
         {
             _pausePage.SetActive(true);
-            _audioOpenClose.clip = _audioManager._playlistFX[0];
-            _audioOpenClose.Play();
+            _audioSource.clip = _audioManager._playlistFX[0];
+            _audioSource.Play();
 
             _paused = true;
         } else
@@ -34,8 +34,8 @@ public class pause : MonoBehaviour
 
     public void ClosePage()
     {
-        _audioOpenClose.clip = _audioManager._playlistFX[1];
-        _audioOpenClose.Play();
+        _audioSource.clip = _audioManager._playlistFX[1];
+        _audioSource.Play();
         _pausePage.SetActive(false);
 
         _paused = false;

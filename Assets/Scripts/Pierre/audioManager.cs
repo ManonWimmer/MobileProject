@@ -11,19 +11,24 @@ public class audioManager : MonoBehaviour
     [SerializeField] private AudioClip[] _playlistMenu;
     [SerializeField] public AudioClip[] _playlistFX;
 
+    [Header("SFX")]
+    public AudioClip[] _playlistRooms;
+    public AudioClip[] _playlistFightMode;
+    public AudioClip[] _playlistDestroy;
+
     [Header("Voice playList")]
     [Header("Voice Win")]
-    [SerializeField] public AudioClip[] _playlistWinNerd;
-    [SerializeField] public AudioClip[] _playlistWinCow;
-    [SerializeField] public AudioClip[] _playlistWinPizza;
+    public AudioClip[] _playlistWinNerd;
+    public AudioClip[] _playlistWinCow;
+    public AudioClip[] _playlistWinPizza;
     [Header("Voice Hit")]
-    [SerializeField] public AudioClip[] _playlistHitNerd;
-    [SerializeField] public AudioClip[] _playlistHitCow;
-    [SerializeField] public AudioClip[] _playlistHitPizza;
+    public AudioClip[] _playlistHitNerd;
+    public AudioClip[] _playlistHitCow;
+    public AudioClip[] _playlistHitPizza;
     [Header("Voice Attack")]
-    [SerializeField] public AudioClip[] _playlistAttackNerd;
-    [SerializeField] public AudioClip[] _playlistAttackCow;
-    [SerializeField] public AudioClip[] _playlistAttackPizza;
+    public AudioClip[] _playlistAttackNerd;
+    public AudioClip[] _playlistAttackCow;
+    public AudioClip[] _playlistAttackPizza;
 
     [SerializeField] private AudioMixer _mixer;
 
@@ -40,6 +45,20 @@ public class audioManager : MonoBehaviour
     public void PlayMusic() => PlayNextSound();
     public AudioClip[] GetPlaylistFX() => _playlistFX;
 
+    public void PlaySoundDropRoom() => PlaySound(_playlistFX[2]);
+    public void PlaySoundDepRoom() => PlaySound(_playlistFX[3]);
+
+    public void PlaySoundAlternate1() => PlaySound(_playlistRooms[0]);
+    public void PlaySoundAlternate2() => PlaySound(_playlistRooms[1]);
+    public void PlaySoundGunNormal() => PlaySound(_playlistRooms[2]);
+    public void PlaySoundLaser() => PlaySound(_playlistRooms[3]);
+    public void PlaySoundProb() => PlaySound(_playlistRooms[4]);
+    public void PlaySoundSonar() => PlaySound(_playlistRooms[5]);
+    public void PlaySoundTimeAccelerator() => PlaySound(_playlistRooms[6]);
+    public void PlaySoundUpgradeShot() => PlaySound(_playlistRooms[7]);
+    public void PlaySoundDecoyReveal() => PlaySound(_playlistRooms[8]);
+
+
     public AudioClip[] GetPlayListDialogueWin() => FindAudioClipDialogueWin();
     public AudioClip[] GetPlayListDialogueHit() => FindAudioClipDialogueHit();
     public AudioClip[] GetPlayListDialogueAttack() => FindAudioClipDialogueAttack();
@@ -49,8 +68,11 @@ public class audioManager : MonoBehaviour
     public float GetVolumeMusic() => _musicV;
     public float GetVolumeSound() => _soundV;
 
+    private AudioSource _audioSourceSound;
+
     void Start()
     {
+        _audioSourceSound = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioSource>();
         _actualClip = _playlistMenu;
         PlayNextSound();
     }
@@ -155,6 +177,12 @@ public class audioManager : MonoBehaviour
         }
     }
     #endregion
+
+    private void PlaySound(AudioClip playlist)
+    {
+        _audioSourceSound.clip = playlist;
+        _audioSourceSound.Play();
+    }
 
     public void ChangeMode()
     {
