@@ -169,4 +169,27 @@ public class VFXManager : MonoBehaviour
             }
         }
     }
+
+    public float GetAnimationTime(string actionName)
+    {
+        switch (actionName)
+        {
+            case ("Simple Hit"):
+                return _vfxTimeSimpleHit;
+            case ("Simple Hit X2"):
+                return _vfxTimeSimpleHitX2;
+            case ("Alternate Shot"):
+                return _vfxTimeAlternateShot;
+            case ("Scanner"):
+                return _vfxTimeScanner;
+            case ("Repair Decoy"):
+                return _vfxTimeRepairDecoy;
+            case ("EMP"):
+                return _vfxTimeEMP;
+            case ("Probe"):
+                return _vfxTimeProbe;
+        }
+
+        return 2;
+    }
 }

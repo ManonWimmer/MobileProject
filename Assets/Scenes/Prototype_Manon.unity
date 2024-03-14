@@ -22008,18 +22008,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _vfxSimpleHit: {fileID: 1226936437}
-  _vfxTimeSimpleHit: 2
+  _vfxTimeSimpleHit: 1.5
   _vfxsSimpleHitX2:
   - {fileID: 1014833027}
   - {fileID: 1377261634}
   - {fileID: 1916673458}
   - {fileID: 2099607029}
-  _vfxTimeSimpleHitX2: 2
+  _vfxTimeSimpleHitX2: 1.5
   _vfxsAlternateShot:
   - {fileID: 1539990367}
   - {fileID: 1015114933}
   - {fileID: 991045563}
-  _vfxTimeAlternateShot: 2
+  _vfxTimeAlternateShot: 1.5
   _vfxsScanner:
   - {fileID: 941337530}
   - {fileID: 1911680494}
@@ -22030,11 +22030,11 @@ MonoBehaviour:
   - {fileID: 143529940}
   - {fileID: 886055754}
   - {fileID: 72635733}
-  _vfxTimeScanner: 2
+  _vfxTimeScanner: 1.5
   _vfxRepairDecoy: {fileID: 1277995297}
-  _vfxTimeRepairDecoy: 2
+  _vfxTimeRepairDecoy: 1.5
   _vfxDecoyCreation: {fileID: 864688764}
-  _vfxTimeDecoyCreation: 2
+  _vfxTimeDecoyCreation: 1.5
   _vfxEMPCenter: {fileID: 1125020694}
   _vfxsEMPAround:
   - {fileID: 762715481}
@@ -22045,12 +22045,12 @@ MonoBehaviour:
   - {fileID: 619865130}
   - {fileID: 1320495340}
   - {fileID: 755462490}
-  _vfxTimeEMP: 2
+  _vfxTimeEMP: 1.5
   _vfxsProbe:
   - {fileID: 94381803}
   - {fileID: 727665563}
   - {fileID: 895302848}
-  _vfxTimeProbe: 2
+  _vfxTimeProbe: 1.5
 --- !u!1 &1929213726
 GameObject:
   m_ObjectHideFlags: 0

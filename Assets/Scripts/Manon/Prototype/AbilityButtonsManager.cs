@@ -110,12 +110,10 @@ public class AbilityButtonsManager : MonoBehaviour
                 foreach (var action in _lastRoundActionsPlayer2)
                 {
                     Debug.Log("Last round action " + action.Item1 + action.Item2[0].name);
-                    RewindAction(action.Item1, action.Item2, Player.Player1);
+                    yield return StartCoroutine(RewindAction(action.Item1, action.Item2, Player.Player1));
 
                     lastRoundActionNames.Add(action.Item1);
                     EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
-
-                    yield return new WaitForSeconds(3f);
                 }
             }
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
@@ -135,12 +133,10 @@ public class AbilityButtonsManager : MonoBehaviour
                 foreach (var action in _lastRoundActionsPlayer1)
                 {
                     Debug.Log("Last round action " + action.Item1 + action.Item2[0].name);
-                    RewindAction(action.Item1, action.Item2, Player.Player2);
+                    yield return StartCoroutine(RewindAction(action.Item1, action.Item2, Player.Player2));
 
                     lastRoundActionNames.Add(action.Item1);
                     EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
-
-                    yield return new WaitForSeconds(3f); 
                 }
 
             }
@@ -242,7 +238,7 @@ public class AbilityButtonsManager : MonoBehaviour
         return null;
     }
 
-    private void RewindAction(string actionName, List<Tile> targets, Player player)
+    IEnumerator RewindAction(string actionName, List<Tile> targets, Player player)
     {
         Debug.Log("rewind action");
         // important -> target sur le ship normal à convertir en target sur le ship rewind
@@ -260,48 +256,63 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             case ("Alternate Shot"):
                 AlternateShot_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Simple Hit"):
                 SimpleHit_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Simple Hit X2"):
                 SimpleHitX2_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("EMP"):
                 EMP_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Scanner"):
                 Scanner_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Time Accelerator"):
                 //UseTimeAccelerator();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Capacitor"):
                 //UseCapacitor();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Upgrade Shot"):
                 UpgradeShot_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("Probe"):
-                StartCoroutine(ProbeRewind(targetsOnRewind));
+                yield return StartCoroutine(ProbeRewind(targetsOnRewind));
+                yield return new WaitForSeconds(1f);
                 break;
             case ("Random Reveal"):
-                StartCoroutine(RandomRevealRewind(targetsOnRewind));
+                yield return StartCoroutine(RandomRevealRewind(targetsOnRewind));
+                yield return new WaitForSeconds(1f);
                 break;
             case ("Decoy"):
                 Decoy_Action();
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("EnergyDecoyDestroy"):
                 EnergyDecoyDestroyNewRoom(targetsOnRewind);
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("TimeDecoyDestroy"):
                 TimeDecoyDestroyNewRoom(targetsOnRewind);
+                yield return new WaitForSeconds(1.5f);
                 break;
             case ("RepairDecoyDestroy"):
                 RepairDecoyDestroyNewRoom(targetsOnRewind);
+                yield return new WaitForSeconds(1.5f);
                 break;
         }
 
+        
         UpdateRoomsRewind();
     }
 
@@ -311,7 +322,7 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             _target = target;
             Probe_Action();
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.7f);
         }
     }
 
@@ -321,7 +332,7 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             _target = target;
             RevealRoom(_target);
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
     #endregion
