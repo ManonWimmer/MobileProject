@@ -28,4 +28,27 @@ public class EnemyAction : MonoBehaviour
         GetComponent<Image>().enabled = false;
         _abilityIcon.enabled = false;
     }
+
+    public void EnemyActionToggleFiche()
+    {
+        if (CameraController.instance.IsMoving)
+            return;
+
+        if (UIManager.instance.IsFicheAbilityOpened())
+        {
+            if (UIManager.instance.IsFicheAbilityWithSameAbility(_ability))
+            {
+                UIManager.instance.HideFicheAbility();
+            }
+            else
+            {
+                UIManager.instance.UpdateFicheAbility(_ability);
+            }
+        }
+        else
+        {
+            UIManager.instance.ShowFicheAbility(_ability);
+        }
+
+    }
 }

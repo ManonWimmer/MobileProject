@@ -167,6 +167,8 @@ public class UIManager : MonoBehaviour
         _playerBottom.SetActive(false);
         HideValidateCombat();
         TargetController.instance.HideTarget();
+        HideFicheAbility();
+        HideFicheRoom();
     }
 
     public void BackToCombatUI()
@@ -175,7 +177,7 @@ public class UIManager : MonoBehaviour
         ShowOrUpdateActionPoints();
         _playerBottom.SetActive(true);
         CheckIfShowEndTurnButton();
-        HideFicheAbility();
+        //HideFicheAbility();
         HideFicheRoom();
     }
 

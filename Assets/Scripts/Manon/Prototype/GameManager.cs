@@ -1475,7 +1475,7 @@ public class GameManager : MonoBehaviour
     {
         foreach(scriptablePower ability in _abilitiesSO)
         {
-            if (ability.name == name) 
+            if (ability.AbilityName == name) 
                return ability;
         }
 
