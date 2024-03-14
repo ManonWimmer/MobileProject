@@ -11,7 +11,8 @@ public class Tile : MonoBehaviour
     public bool IsMissed;
     public bool IsMissedReavealed;
     public bool IsMissedDestroyed;
-    public bool IsAbilitySelected;
+    public bool IsAbilitySelectedDestroy;
+    public bool IsAbilitySelectedReveal;
     public bool IsMovingConstruction;
 
     public Room Room;
@@ -59,21 +60,25 @@ public class Tile : MonoBehaviour
         }
         else
         {
-            if (IsDestroyed || IsMissedDestroyed)
+            if ((IsDestroyed || IsMissedDestroyed)) 
             {
-                _bordure.color = Color.red;
+                _bordure.color = Color.red; // selectionnée ou pas c'est rouge
                 _inside.sprite = _destroyed;
             }
-            else if (IsReavealed || IsMissedReavealed)
+            else if ((IsReavealed || IsMissedReavealed))
             {
-                _bordure.color = Color.green;
+                if (IsAbilitySelectedDestroy)
+                    _bordure.color = Color.white;
+                else
+                    _bordure.color = Color.green;
+
                 _inside.sprite = _revealed;
             }
-            else if (IsAbilitySelected)
+            else if (IsAbilitySelectedDestroy || IsAbilitySelectedReveal)
             {
                 _bordure.color = Color.white;
                 _inside.sprite = _normal;
-            }
+            } 
             else
             {
                 _bordure.color = Color.black;
