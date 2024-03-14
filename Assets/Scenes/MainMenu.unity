@@ -451,6 +451,10 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: listReferences, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 7667012543120596389, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7801239742325348441, guid: 11150e11b78fb134fba9e7457b80cca5, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -1006,6 +1010,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Google
       objectReference: {fileID: 0}
+    - target: {fileID: 4527057185955502163, guid: 9483c2f6f312a47489b6a38122e17939, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6183296572390201600, guid: 9483c2f6f312a47489b6a38122e17939, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.8816591
@@ -1316,6 +1324,10 @@ PrefabInstance:
       propertyPath: errorText
       value: 
       objectReference: {fileID: 864493889}
+    - target: {fileID: 2640774338755774756, guid: 81df9518accf7314a9578c1cf45dd9f1, type: 3}
+      propertyPath: shouldGoogleBeActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2640774338755774756, guid: 81df9518accf7314a9578c1cf45dd9f1, type: 3}
       propertyPath: OnPlayerConnectingFail.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StarVFXhandler : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class StarVFXhandler : MonoBehaviour
     [SerializeField] Transform _topLeftPosAnchor;
     [SerializeField] Transform _botRightPosAnchor;
     [SerializeField] Transform _StarSpawnPoint;
+    [SerializeField] UnityEvent OnStartStars;
+    [SerializeField] UnityEvent OnCancelStars;
 
     private List<StarInstance> StarArray = new List<StarInstance>();
     private IEnumerator coroutine;
@@ -76,6 +79,7 @@ public class StarVFXhandler : MonoBehaviour
         coroutine = VFXCycleMovement();
         //coroutine = VFXCycleRandomSpawn();
         StartCoroutine(coroutine);
+        OnStartStars.Invoke();
     }
     public void StopVFX()
     {
@@ -87,6 +91,7 @@ public class StarVFXhandler : MonoBehaviour
                 StarArray[i].Reset();
             }
             // and resets
+            OnCancelStars.Invoke();
             StopAllCoroutines();
         }
     }

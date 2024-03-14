@@ -10,13 +10,18 @@ public class EasterEgg : MonoBehaviour
 
     float _randomVal = 0;
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         if (EasterEggMaxSpawn < EasterEggMinSpawn)
             EasterEggMinSpawn = EasterEggMaxSpawn;
         // determine a number
         Reset();
         StartCoroutine(EasterEggIterator());
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     private IEnumerator EasterEggIterator()
