@@ -252,6 +252,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         _target = targetsOnRewind[0];
+        Debug.Log("target on rewind " + _target.name);
 
         switch (actionName)
         {
@@ -643,7 +644,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
                 if (GameManager.instance.PlayerTurn == Player.Player1)
                 {
-                    for (int i = 1; (row - i) > 0; i++)
+                    for (int i = 1; (row + i) <= 9; i++)
                     {
                         if (GameManager.instance.DictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + i, column)))
                         {
@@ -651,23 +652,25 @@ public class AbilityButtonsManager : MonoBehaviour
                             Debug.Log("current tile " + currentTile.name);
                             currentTile.BottomTile.IsAbilitySelected = true;
                             _selectedTiles.Add(currentTile.BottomTile);
-                            foundBottom = true;
-                            break;
+                            if (currentTile.BottomTile.BottomTile == null)
+                                foundBottom = true;
+                            
                         }
                     }
                 }
                 else
                 {
-                    for (int i = 1; (row - i) > 0; i++)
+                    for (int i = 1; (row + i) <= 9; i++)
                     {
                         if (GameManager.instance.DictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + i, column)))
                         {
                             currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row + i, column)];
-                            foundBottom = true;
                             Debug.Log("current tile " + currentTile.name);
                             currentTile.BottomTile.IsAbilitySelected = true;
                             _selectedTiles.Add(currentTile.BottomTile);
-                            break;
+                            if (currentTile.BottomTile.BottomTile == null)
+                                foundBottom = true;
+                            
                         }
                     }
                 }
@@ -721,10 +724,12 @@ public class AbilityButtonsManager : MonoBehaviour
         RevealRoom(_target);
         affectedTiles.Add(_target);
 
+        Tile currentTile = _target;
+
         #region Top
         // Top
         bool canGoTop = true;
-        Tile currentTile = _target;
+        
         while (canGoTop)
         {
             Debug.Log("can go top 2");
@@ -744,27 +749,64 @@ public class AbilityButtonsManager : MonoBehaviour
 
                 if (GameManager.instance.PlayerTurn == Player.Player1)
                 {
-                    for (int i = 1; (row - i) > 0; i++)
+                    if (IsInRewind)
                     {
-                        if (GameManager.instance.DictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - i, column)))
+                        for (int i = 1; (row - i) > 0; i++)
                         {
-                            currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row - i, column)];
-                            Debug.Log("current tile " + currentTile.name);
-                            foundTop = true;
-                            break;
+                            if (GameManager.instance.RewindDictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - i, column)))
+                            {
+                                currentTile.TopTile = GameManager.instance.RewindDictTilesRowColumnPlayer1[new Tuple<int, int>(row - i, column)];
+                                Debug.Log("current tile " + currentTile.name);
+                                RevealRoom(currentTile.TopTile);
+                                foundTop = true;
+                                break;
+                            }
                         }
                     }
+                    else
+                    {
+                        for (int i = 1; (row - i) > 0; i++)
+                        {
+                            if (GameManager.instance.DictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - i, column)))
+                            {
+                                currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row - i, column)];
+                                Debug.Log("current tile " + currentTile.name);
+                                RevealRoom(currentTile.TopTile);
+                                foundTop = true;
+                                break;
+                            }
+                        }
+                    }
+
                 }
                 else
                 {
-                    for (int i = 1; (row - i) > 0; i++)
+                    if (IsInRewind)
                     {
-                        if (GameManager.instance.DictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - i, column)))
+                        for (int i = 1; (row - i) > 0; i++)
                         {
-                            currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row - i, column)];
-                            foundTop = true;
-                            Debug.Log("current tile " + currentTile.name);
-                            break;
+                            if (GameManager.instance.RewindDictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row - i, column)))
+                            {
+                                currentTile.TopTile = GameManager.instance.RewindDictTilesRowColumnPlayer2[new Tuple<int, int>(row - i, column)];
+                                Debug.Log("current tile " + currentTile.name);
+                                RevealRoom(currentTile.TopTile);
+                                foundTop = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 1; (row - i) > 0; i++)
+                        {
+                            if (GameManager.instance.DictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row - i, column)))
+                            {
+                                currentTile.TopTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row - i, column)];
+                                Debug.Log("current tile " + currentTile.name);
+                                RevealRoom(currentTile.TopTile);
+                                foundTop = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -800,27 +842,63 @@ public class AbilityButtonsManager : MonoBehaviour
 
                 if (GameManager.instance.PlayerTurn == Player.Player1)
                 {
-                    for (int i = 1; (row - i) > 0; i++)
+                    if (IsInRewind)
                     {
-                        if (GameManager.instance.DictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + i, column)))
+                        for (int i = 1; (row + i) <= 9; i++)
                         {
-                            currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row + i, column)];
-                            Debug.Log("current tile " + currentTile.name);
-                            foundBottom = true;
-                            break;
+                            if (GameManager.instance.RewindDictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + i, column)))
+                            {
+                                currentTile.BottomTile = GameManager.instance.RewindDictTilesRowColumnPlayer1[new Tuple<int, int>(row + i, column)];
+                                Debug.Log("current tile " + currentTile.name);
+                                RevealRoom(currentTile.BottomTile);
+                                foundBottom = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 1; (row + i) <= 9; i++)
+                        {
+                            if (GameManager.instance.DictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + i, column)))
+                            {
+                                currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer2[new Tuple<int, int>(row + i, column)];
+                                Debug.Log("current tile " + currentTile.name);
+                                RevealRoom(currentTile.BottomTile);
+                                foundBottom = true;
+                                break;
+                            }
                         }
                     }
                 }
                 else
                 {
-                    for (int i = 1; (row - i) > 0; i++)
+                    if (IsInRewind)
                     {
-                        if (GameManager.instance.DictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + i, column)))
+                        for (int i = 1; (row + i) <= 9; i++)
                         {
-                            currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row + i, column)];
-                            foundBottom = true;
-                            Debug.Log("current tile " + currentTile.name);
-                            break;
+                            if (GameManager.instance.RewindDictTilesRowColumnPlayer2.ContainsKey(new Tuple<int, int>(row + i, column)))
+                            {
+                                currentTile.BottomTile = GameManager.instance.RewindDictTilesRowColumnPlayer2[new Tuple<int, int>(row + i, column)];
+                                Debug.Log("current tile " + currentTile.name);
+                                RevealRoom(currentTile.BottomTile);
+                                foundBottom = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 1; (row + i) <= 9; i++)
+                        {
+                            if (GameManager.instance.DictTilesRowColumnPlayer1.ContainsKey(new Tuple<int, int>(row + i, column)))
+                            {
+                                currentTile.BottomTile = GameManager.instance.DictTilesRowColumnPlayer1[new Tuple<int, int>(row + i, column)];
+                                Debug.Log("current tile " + currentTile.name);
+                                RevealRoom(currentTile.BottomTile);
+                                foundBottom = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -1825,10 +1903,10 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             //Debug.Log("while 3" + _destroyTarget.name + _destroyTarget.Room.name);
             Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
-            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile)) // target on decoy room after destroy
+            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile) && !randomTile.IsDestroyed) // target on decoy room after destroy
             {
                 // Player Ship
-                Debug.Log("create room ship " + randomTile);
+                Debug.Log("create room ship " + randomTile + " " + decoyName);
                 //GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile, GameManager.instance.PlayerTurn);
 
                 if (GameManager.instance.PlayerTurn == Player.Player1)
@@ -1899,8 +1977,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
     #region Energy Decoy
     private void EnergyDecoyDestroyNewRoom()
-    {
-        // Montrer que +1 action points
+    {        
         Debug.Log("new room energy decoy " + _target.name);
         Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
 
@@ -2032,7 +2109,7 @@ public class AbilityButtonsManager : MonoBehaviour
         foreach(Tile tile in playerTiles)
         {
             if (tile.IsOccupied && tile.Room != null && tile.IsDestroyed)
-                if (tile.Room.RoomData.RoomName != "Repair Decoy")
+                if (tile.Room.RoomData.RoomName != "Repair Decoy" && tile.Room.RoomData.RoomName != "Energy Decoy" && tile.Room.RoomData.RoomName != "Time Decoy")
                     occupiedTiles.Add(tile);
         }
 
@@ -2258,6 +2335,24 @@ public class AbilityButtonsManager : MonoBehaviour
                                     return _target.BottomTile.Room;
                         break;
                 }
+                break;
+            case ("SimpleHitX2"):
+                if (_target != null)
+                    if (_target.Room != null)
+                        if (_target.Room.RoomData.RoomName == decoyName)
+                            return _target.Room;
+                if (_target.LeftTile != null)
+                    if (_target.LeftTile.Room != null)
+                        if (_target.LeftTile.Room.RoomData.RoomName == decoyName)
+                            return _target.LeftTile.Room;
+                if (_target.BottomTile != null)
+                    if (_target.BottomTile.Room != null)
+                        if (_target.BottomTile.Room.RoomData.RoomName == decoyName)
+                            return _target.BottomTile.Room;
+                if (_target.DiagBottomRightTile != null)
+                    if (_target.DiagBottomRightTile.Room != null)
+                        if (_target.DiagBottomRightTile.Room.RoomData.RoomName == decoyName)
+                            return _target.DiagBottomRightTile.Room;
                 break;
         }
 

@@ -64,6 +64,9 @@ public class GameManager : MonoBehaviour
     private Dictionary<Tuple<int, int>, Tile> _dictTilesRowColumnPlayer1 = new Dictionary<Tuple<int, int>, Tile>();
     private Dictionary<Tuple<int, int>, Tile> _dictTilesRowColumnPlayer2 = new Dictionary<Tuple<int, int>, Tile>();
 
+    private Dictionary<Tuple<int, int>, Tile> _rewindDictTilesRowColumnPlayer1 = new Dictionary<Tuple<int, int>, Tile>();
+    private Dictionary<Tuple<int, int>, Tile> _rewindDictTilesRowColumnPlayer2 = new Dictionary<Tuple<int, int>, Tile>();
+
     private List<Tile> _tilesPlayer1 = new List<Tile>();
     private List<Tile> _tilesPlayer2 = new List<Tile>();
 
@@ -125,6 +128,8 @@ public class GameManager : MonoBehaviour
     public List<Tile> TilesRewindPlayer2 { get => _tilesRewindPlayer2; set => _tilesRewindPlayer2 = value; }
     public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer1 { get => _dictTilesRowColumnPlayer1; set => _dictTilesRowColumnPlayer1 = value; }
     public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer2 { get => _dictTilesRowColumnPlayer2; set => _dictTilesRowColumnPlayer2 = value; }
+    public Dictionary<Tuple<int, int>, Tile> RewindDictTilesRowColumnPlayer1 { get => _rewindDictTilesRowColumnPlayer1; set => _rewindDictTilesRowColumnPlayer1 = value; }
+    public Dictionary<Tuple<int, int>, Tile> RewindDictTilesRowColumnPlayer2 { get => _rewindDictTilesRowColumnPlayer2; set => _rewindDictTilesRowColumnPlayer2 = value; }
     public List<Tile> TilesPlayer1 { get => _tilesPlayer1; set => _tilesPlayer1 = value; }
     public List<Tile> TilesPlayer2 { get => _tilesPlayer2; set => _tilesPlayer2 = value; }
     public bool EnergyDecoyTriggeredPlayer1 { get => _energyDecoyTriggeredPlayer1; set => _energyDecoyTriggeredPlayer1 = value; }
@@ -525,9 +530,12 @@ public class GameManager : MonoBehaviour
 
         rewindShip1.transform.position += new Vector3(CameraController.instance.GetDistanceShipToRewind(), 0f, 0f);
 
-        foreach(Tile tile in rewindShip1.GetComponentsInChildren<Tile>())
+        foreach (Tile tile in rewindShip1.GetComponentsInChildren<Tile>())
         {
             _tilesRewindPlayer1.Add(tile);
+            int row = tile.Row;
+            int column = tile.Column;
+            _rewindDictTilesRowColumnPlayer1[new Tuple<int, int>(row, column)] = tile;
         }
 
         GameObject rewindShip2 = Instantiate(_shipPlayer2.gameObject);
@@ -538,8 +546,12 @@ public class GameManager : MonoBehaviour
         foreach (Tile tile in rewindShip2.GetComponentsInChildren<Tile>())
         {
             _tilesRewindPlayer2.Add(tile);
+            int row = tile.Row;
+            int column = tile.Column;
+            _rewindDictTilesRowColumnPlayer2[new Tuple<int, int>(row, column)] = tile;
         }
     }
+
 
     #region Get Ship & Room
     public Ship GetPlayerShip()

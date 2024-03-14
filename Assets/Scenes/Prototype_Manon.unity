@@ -23060,13 +23060,13 @@ MonoBehaviour:
   _vitalRevealed: {fileID: 21300000, guid: 958dd6478947cc24484a4ba76811df4c, type: 3}
   _vitalDestroyed: {fileID: 21300000, guid: 9f612920f15b02c48a1062150d2db763, type: 3}
   _alternateShot: {fileID: 21300000, guid: d61a149f9e6034f4b8f058527c576d3a, type: 3}
-  _alternateShotRevealed: {fileID: 21300000, guid: 5ea914c15224c3e47a881d7f63fb2777, type: 3}
+  _alternateShotRevealed: {fileID: 21300000, guid: 1f56571c2e9f287428d603a073d3a7f8, type: 3}
   _alternateShotDestroyed: {fileID: 21300000, guid: 0ec5db72c8db2fb438b836d6ee5eb011, type: 3}
   _capacitor: {fileID: 21300000, guid: ac8d0625eddeb554093fca2f820fcfe0, type: 3}
   _capacitorRevealed: {fileID: 21300000, guid: bbd260b28e97e9b45b73822d127ed8da, type: 3}
   _capacitorDestroyed: {fileID: 21300000, guid: 522d63e611fcd244a9da5a029749d38a, type: 3}
   _emp: {fileID: 21300000, guid: 65c1e5f2c3314d744942b29a7f1385cd, type: 3}
-  _empRevealed: {fileID: 21300000, guid: 02db85c0d5594bc448440fbb5d83c62a, type: 3}
+  _empRevealed: {fileID: 21300000, guid: 9e2a8ec0882c2364abd01ee0101b0c95, type: 3}
   _empDestroyed: {fileID: 21300000, guid: aec70dba89e178f41a5875f3895bd9f7, type: 3}
   _probe: {fileID: 21300000, guid: 29b6a0d2b8bfd6841badc5df2ddb40e0, type: 3}
   _probeRevealed: {fileID: 21300000, guid: dfdc2f8c1980d1d46b10d30b2981d40d, type: 3}
