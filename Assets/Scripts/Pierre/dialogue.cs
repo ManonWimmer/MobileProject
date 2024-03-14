@@ -73,43 +73,43 @@ public class dialogue : MonoBehaviour
         List<string> list = new List<string>();
         int i;
 
-        if (name == _dialoguesNerdHit.ToString())
+        if (name == "_dialoguesNerdHit")
         {
             list = _dialoguesNerdHit;
         }
-        else if (name == _dialoguesCowHit.ToString())
+        else if (name == "_dialoguesCowHit")
         {
             list = _dialoguesCowHit;
         }
-        else if (name == _dialoguesPizzaHit.ToString())
+        else if (name == "_dialoguesPizzaHit")
         {
             list = _dialoguesPizzaHit;
         }
-        else if (name == _dialoguesNerdAttack.ToString())
+        else if (name == "_dialoguesNerdAttack")
         {
             list = _dialoguesNerdAttack;
         }
-        else if (name == _dialoguesCowAttack.ToString())
+        else if (name == "_dialoguesCowAttack")
         {
             list = _dialoguesCowAttack;
         }
-        else if (name == _dialoguesPizzaAttack.ToString())
+        else if (name == "_dialoguesPizzaAttack")
         {
             list = _dialoguesPizzaAttack;
         }
-        else if (name == _dialoguesNerdVictory.ToString())
+        else if (name == "_dialoguesNerdVictory")
         {
             list = _dialoguesNerdVictory;
         }
-        else if (name == _dialoguesCowVictory.ToString())
+        else if (name == "_dialoguesCowVictory")
         {
             list = _dialoguesCowVictory;
         }
-        else if (name == _dialoguesPizzaVictory.ToString())
+        else if (name == "_dialoguesPizzaVictory")
         {
             list = _dialoguesPizzaVictory;
         }
-        else if (name == _dialoguesTuto.ToString())
+        else if (name == "_dialoguesTuto")
         {
             list = _dialoguesTuto;
         }
@@ -146,6 +146,16 @@ public class dialogue : MonoBehaviour
             OpenDialogue();
         }
         else if (index == 5)
+        {
+            Enable(_dialoguesTuto[index]);
+            OpenDialogue();
+        }
+        else if (index == 6)
+        {
+            Enable(_dialoguesTuto[index]);
+            OpenDialogue();
+        }
+        else if (index == 7)
         {
             Enable(_dialoguesTuto[index]);
             OpenDialogue();

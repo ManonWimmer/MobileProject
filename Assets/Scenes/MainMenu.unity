@@ -439,16 +439,13 @@ MonoBehaviour:
   _imageTuto:
   - {fileID: 21300000, guid: 2344debb1548bdb4bb47c91bc3c4f7a8, type: 3}
   - {fileID: 21300000, guid: b87e6e77a8c91954387e9d0be814df7f, type: 3}
-  - {fileID: 21300000, guid: 823ad9cfdbbafa8408bf3c362888c634, type: 3}
   - {fileID: 21300000, guid: a1771b51adf38a546ae406874dc93b9c, type: 3}
   - {fileID: 21300000, guid: 8f39f38ea5aecca4bb3e3cd4fbb23fa8, type: 3}
-  - {fileID: 21300000, guid: 08ab690444cfd3743b3888b7869cb755, type: 3}
   - {fileID: 21300000, guid: a4d23bd1623846b4ebea48f5fea1c499, type: 3}
   - {fileID: 21300000, guid: c264fdd293442fd40a4bc180f5bffd77, type: 3}
-  - {fileID: 21300000, guid: 3162245280477e649936c5b34ab3c95e, type: 3}
   - {fileID: 21300000, guid: 920055092d7c5c44f810d9d7c177e6d9, type: 3}
   - {fileID: 21300000, guid: 7b75ce423e7d6f14c91686e80435ff5a, type: 3}
-  _mainMenu: {fileID: 0}
+  _mainMenu: {fileID: 6890592702143067437}
 --- !u!1 &689826769
 GameObject:
   m_ObjectHideFlags: 0
@@ -4412,6 +4409,9 @@ MonoBehaviour:
   - textTuto3
   - textTuto4
   - textTuto5
+  - textTuto6
+  - textTuto7
+  - textTuto8
   _textSpeed: 0.03
   _audio: {fileID: 0}
   _audioManager: {fileID: 0}

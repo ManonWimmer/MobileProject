@@ -116,6 +116,9 @@
 		<textTuto3>Votre adversaire aura les mêmes propositions que vous, donc rappelez vous en pour faire le choix le plus réfléchi.</textTuto3>
 		<textTuto4>Dans ce menu, vous pouvez déplacer vos pièces pour vous préparer à recevoir les attaques adverses.</textTuto4>
 		<textTuto5>Pour gagner, vous devrez annihiler le vaisseau ennemi en détruisant toutes ses salles vitales. Vous pouvez voir le nombre de salles vitales restantes à votre adversaire en rouge, et les votres en bleu.</textTuto5>
+		<textTuto6>Ici, vous voyez vos capacités, chacune prendra une énergie à être lancée et aura un cooldown indiqué avec le chronomètre au dessus de sa carte.</textTuto6>
+		<textTuto7>Chaque salle est associée à une capacité, si la salle est entièrement détruite, la capacité liée sera inutilisable.</textTuto7>
+		<textTuto8>Chaque salle est associée à une capacité, si la salle est entièrement détruite, la capacité liée sera inutilisable.</textTuto8>
 		
 	</language>
 
@@ -235,5 +238,8 @@
 		<textTuto3>Your enemy will have the same options as you so don’t forget to think ahead and make smart decision</textTuto3>
 		<textTuto4>Here you can arrange the rooms you chose to prepare yourself for the fight.</textTuto4>
 		<textTuto5>To win you will need to annihilate the enemy spaceship by destroying all of his vital rooms. Here you can see how many vitals are left to destroy, in red, your ennemy’s and in blue, yours</textTuto5>
+		<textTuto6>Those are your abilities each of them will need a energy to be use and most of them will have a cooldown represented by a clock on top of it’s card.</textTuto6>
+		<textTuto7>Every room is attached to an ability, if the room is entirely destroyed, the capacity linked to it will be deactivated</textTuto7>
+		<textTuto8>This is a recap of the enemy actions were you can look at the effects of enemy abilty</textTuto8>
 	</language>
 </languages>

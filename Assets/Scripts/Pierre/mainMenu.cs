@@ -57,7 +57,6 @@ public class mainMenu : MonoBehaviour
 
         if ( obj.name == "tuto")
         {
-
             Debug.Log("StartTuto");
             obj.GetComponent<tuto>().StartDialogueTuto();
         }
