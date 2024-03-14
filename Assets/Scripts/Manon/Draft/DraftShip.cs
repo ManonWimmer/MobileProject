@@ -52,11 +52,13 @@ public class DraftShip : MonoBehaviour
     {
         Debug.Log("select ship ui");
         _selectedBackground.enabled = true;
+        _shipImg.color = new Color(0.094f, 0.09f, 0.15f, 1f);
     }
 
     public void DeselectShipUI()
     {
         Debug.Log("deselect ship ui");
         _selectedBackground.enabled = false;
+        _shipImg.color = new Color(0.34f, 0.54f, 0.76f, 1f);
     }
 }
