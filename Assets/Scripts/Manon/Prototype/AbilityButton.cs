@@ -189,11 +189,6 @@ public class AbilityButton : MonoBehaviour
         {
             return;
         }
-        
-        if (GameManager.instance.TargetOnTile == null)
-        {
-            GameManager.instance.SetRoundTargetPos();
-        }
 
         _target = GameManager.instance.TargetOnTile;
 

@@ -63,6 +63,6 @@ public abstract class AAbility : MonoBehaviour
 
             UIManager.instance.HideFicheRoom();
         }
-        TargetController.instance.ChangeTargetColorToRed();
+        UIManager.instance.CheckAbilityButtonsColor();
     }
 }

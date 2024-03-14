@@ -45,6 +45,8 @@ public class AbilityButtonsManager : MonoBehaviour
     private bool _simpleHitX2Player2;
     public bool SimpleHitX2Player1 { get => _simpleHitX2Player1; set => _simpleHitX2Player1 = value; }
     public bool SimpleHitX2Player2 { get => _simpleHitX2Player2; set => _simpleHitX2Player2 = value; }
+    public AbilityButton SelectedButton { get => _selectedButton; set => _selectedButton = value; }
+
     // ----- Capacitor ----- //
 
     // ----- Upgrade Shot ----- //
@@ -362,6 +364,8 @@ public class AbilityButtonsManager : MonoBehaviour
     {
         Debug.Log("select ability button");
         _selectedButton = button;
+        GameManager.instance.SetRoundTargetPos();
+
         _target = GameManager.instance.TargetOnTile;
 
         // Deselect
@@ -381,6 +385,8 @@ public class AbilityButtonsManager : MonoBehaviour
         UIManager.instance.ShowFireButton();
         UIManager.instance.CheckAbilityButtonsColor();
         UIManager.instance.ShowFicheAbility(_selectedButton.GetAbility());
+
+        
     }
 
     public void DeselectAbilityButton(AbilityButton button)
@@ -393,6 +399,8 @@ public class AbilityButtonsManager : MonoBehaviour
         UIManager.instance.CheckAbilityButtonsColor();
         UIManager.instance.HideFicheAbility();
         UIManager.instance.HideFireButton();
+
+        TargetController.instance.HideTarget();
     }
 
     public void ChangeSelectedTilesOnTargetPos()
@@ -1230,8 +1238,6 @@ public class AbilityButtonsManager : MonoBehaviour
 
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
-
-        TargetController.instance.ChangeTargetColorToRed();
 
         if (GetIfSimpleHitXS())
         {

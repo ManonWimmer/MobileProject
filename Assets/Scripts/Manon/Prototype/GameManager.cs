@@ -284,13 +284,28 @@ public class GameManager : MonoBehaviour
     public void CheckTileClickedInCombat(Tile nearestTile)
     {
         Debug.Log("check tile combat");
-        TargetController.instance.ChangeTargetPosition(nearestTile.transform.position);
+        if (AbilityButtonsManager.instance.SelectedButton != null)
+        {
+            if (AbilityNeedsTarget(AbilityButtonsManager.instance.SelectedButton.GetAbility()) && ActionPointsManager.instance.GetPlayerActionPoints(_playerTurn) > 0)
+            {
+                // if selected button ability need target && action points player > 0
+                TargetController.instance.ChangeTargetPosition(nearestTile.transform.position);
+            }
+            else
+                TargetController.instance.HideTarget();
+            
+        }
+        else
+            TargetController.instance.HideTarget();
+
+
+        
         _targetOnTile = nearestTile;
 
 
         if (_targetOnTile.IsDestroyed || _targetOnTile.IsMissed)
         {
-            TargetController.instance.ChangeTargetColorToRed();
+            UIManager.instance.CheckAbilityButtonsColor();
             if (_targetOnTile.Room != null)
             {
                 UIManager.instance.ShowFicheRoom(_targetOnTile.Room.RoomData);
@@ -302,12 +317,28 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            TargetController.instance.ChangeTargetColorToWhite();
+            UIManager.instance.CheckAbilityButtonsColor();
             UIManager.instance.HideFicheRoom();
         }
 
         AbilityButtonsManager.instance.ChangeSelectedTilesOnTargetPos();
         UIManager.instance.CheckAbilityButtonsColor();
+    }
+
+    public bool AbilityNeedsTarget(scriptablePower ability)
+    {
+        switch (ability.AbilityName)
+        {
+            case ("Time Accelerator"):
+            case ("Capacitor"):
+            case ("Energy Decoy"):
+            case ("Time Decoy"):
+            case ("Repair Decoy"):
+            case ("Random Reveal"):
+                return false;
+        }
+
+        return true;
     }
 
     public bool IsTargetOnTile()
@@ -2028,6 +2059,8 @@ public class GameManager : MonoBehaviour
 
     public void SetRoundTargetPos()
     {
+        TargetController.instance.ShowTarget();
+
         Debug.Log("set round target pos");
         if (_playerTurn == Player.Player1)
         {

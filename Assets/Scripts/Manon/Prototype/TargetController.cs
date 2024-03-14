@@ -50,21 +50,6 @@ public class TargetController : MonoBehaviour
         transform.position = new Vector3(pos.x, pos.y, transform.position.z);
     }
 
-    #region Color
-    public void ChangeTargetColorToRed()
-    {
-        Debug.Log("target red (desactivated)");
-        //_spriteRenderer.color = Color.magenta;
-        UIManager.instance.CheckAbilityButtonsColor();
-    }
-
-    public void ChangeTargetColorToWhite()
-    {
-        Debug.Log("target white");
-        //_spriteRenderer.color = Color.magenta; // white on voit pas avec les sprite blanches temp, a changer plus tard avec les assets
-    }
-    #endregion
-
     public bool CanShootOnThisTile()
     {
         return true;

@@ -45,7 +45,7 @@ public class AbilityRevealExample : AAbility
                 UIManager.instance.HideFicheRoom();
             }
 
-            TargetController.instance.ChangeTargetColorToRed();
+            UIManager.instance.CheckAbilityButtonsColor();
         }
     }
 }
