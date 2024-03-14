@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: UpgradeShot
   m_EditorClassIdentifier: 
   AbilityName: Upgrade Shot
-  Description: Reveals one tile then upgrades itself -> Destroys one tile then upgrades
-    itself -> Destroys 3 tiles in a diagonal then upgrades itself -> Destroys 5 tiles
-    in a cross pattern.
+  Description: 'upgrade by using this ability :  1rst reveal a tile, 2nd normal shot,
+    3rd Strong shot, 4th Apocalypse shot. '
   Icon: {fileID: 21300000, guid: 17e8c35ffb406a444ae1a7aa2090fb72, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 1
   AbilityButton: {fileID: 0}
+  CanBeDefused: 0
