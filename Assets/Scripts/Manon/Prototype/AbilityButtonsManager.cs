@@ -2109,7 +2109,7 @@ public class AbilityButtonsManager : MonoBehaviour
         foreach(Tile tile in playerTiles)
         {
             if (tile.IsOccupied && tile.Room != null && tile.IsDestroyed)
-                if (tile.Room.RoomData.RoomName != "Repair Decoy")
+                if (tile.Room.RoomData.RoomName != "Repair Decoy" && tile.Room.RoomData.RoomName != "Energy Decoy" && tile.Room.RoomData.RoomName != "Time Decoy")
                     occupiedTiles.Add(tile);
         }
 
