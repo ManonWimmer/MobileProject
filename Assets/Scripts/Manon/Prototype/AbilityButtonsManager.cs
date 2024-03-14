@@ -1906,7 +1906,7 @@ public class AbilityButtonsManager : MonoBehaviour
             if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile)) // target on decoy room after destroy
             {
                 // Player Ship
-                Debug.Log("create room ship " + randomTile);
+                Debug.Log("create room ship " + randomTile + " " + decoyName);
                 //GameManager.instance.CreateNewBuilding(GetRoomFromTargetWithAbility(decoyName), randomTile, GameManager.instance.PlayerTurn);
 
                 if (GameManager.instance.PlayerTurn == Player.Player1)
@@ -1977,8 +1977,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
     #region Energy Decoy
     private void EnergyDecoyDestroyNewRoom()
-    {
-        // Montrer que +1 action points
+    {        
         Debug.Log("new room energy decoy " + _target.name);
         Tile lastTarget = GetShipTile(GameManager.instance.PlayerTurn, _target);
 
@@ -2336,6 +2335,24 @@ public class AbilityButtonsManager : MonoBehaviour
                                     return _target.BottomTile.Room;
                         break;
                 }
+                break;
+            case ("SimpleHitX2"):
+                if (_target != null)
+                    if (_target.Room != null)
+                        if (_target.Room.RoomData.RoomName == decoyName)
+                            return _target.Room;
+                if (_target.LeftTile != null)
+                    if (_target.LeftTile.Room != null)
+                        if (_target.LeftTile.Room.RoomData.RoomName == decoyName)
+                            return _target.LeftTile.Room;
+                if (_target.BottomTile != null)
+                    if (_target.BottomTile.Room != null)
+                        if (_target.BottomTile.Room.RoomData.RoomName == decoyName)
+                            return _target.BottomTile.Room;
+                if (_target.DiagBottomRightTile != null)
+                    if (_target.DiagBottomRightTile.Room != null)
+                        if (_target.DiagBottomRightTile.Room.RoomData.RoomName == decoyName)
+                            return _target.DiagBottomRightTile.Room;
                 break;
         }
 
