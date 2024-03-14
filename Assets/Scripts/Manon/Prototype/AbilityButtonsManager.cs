@@ -337,7 +337,7 @@ public class AbilityButtonsManager : MonoBehaviour
         foreach (Tile target in targets) // 5 reveals
         {
             _target = target;
-            RevealRoom(_target);
+            RandomReveal_Action();
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -1963,7 +1963,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
         UpdateHiddenRooms(); 
     }
-
+    
     private void Probe_Action()
     {
         RevealRoom(_target);
