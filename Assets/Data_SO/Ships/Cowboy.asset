@@ -15,4 +15,4 @@ MonoBehaviour:
   CaptainName: CPT. COWBOY
   CaptainImgCut: {fileID: 21300000, guid: d30882b94b37a89469130087fccb6b41, type: 3}
   CaptainImg: {fileID: 21300000, guid: 8313660de9780ae46b1eccbb5a50ee43, type: 3}
-  ShipImg: {fileID: 21300000, guid: c9ad306cb57e02b4d94355ca405949c0, type: 3}
+  ShipImg: {fileID: 21300000, guid: 0c34257e44ae3ab4ca55d156a62f77ff, type: 3}

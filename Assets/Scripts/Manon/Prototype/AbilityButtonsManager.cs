@@ -514,7 +514,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 DeselectAbilityButton(_selectedButton);
                 PlayerUsedOtherAbilityThanSimpleHit();
                 break;
-            case ("Time  Accelerator"):
+            case ("Time Accelerator"):
                 UseTimeAccelerator();
                 DeselectAbilityButton(_selectedButton);
                 PlayerUsedOtherAbilityThanSimpleHit();
@@ -524,7 +524,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 DeselectAbilityButton(_selectedButton);
                 PlayerUsedOtherAbilityThanSimpleHit();
                 break;
-            case ("UpgradeShot"):
+            case ("Upgrade Shot"):
                 UseUpgradeShot();
                 DeselectAbilityButton(_selectedButton);
                 PlayerUsedOtherAbilityThanSimpleHit();
