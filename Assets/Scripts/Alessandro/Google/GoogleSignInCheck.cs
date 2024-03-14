@@ -15,12 +15,10 @@ public class GoogleSignInCheck : MonoBehaviour{
     [SerializeField] UnityEvent OnPlayerConnectingFail;
     [SerializeField] TextMeshProUGUI errorText;
     int loginHardCap = 5;
-    private void Awake()
+
+    public void Awake()
     {
         instance = this;
-    }
-    public void Start()
-    {
         // juste un check pour debug au cas ou si ça marche pas très bien
         if (shouldGoogleBeActive)
         {
