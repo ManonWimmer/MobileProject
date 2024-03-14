@@ -40,6 +40,10 @@ public class VFXManager : MonoBehaviour
     [SerializeField] List<GameObject> _vfxsProbe = new List<GameObject>();
     [SerializeField] float _vfxTimeProbe;
 
+    [Header("Random Probe")]
+    [SerializeField] List<GameObject> _vfxsRandomProbe = new List<GameObject>();
+    [SerializeField] float _vfxTimeRandomProbe;
+
     [Header("Upgrade Shot")]
     [SerializeField] GameObject _vfxUpgradeShot1;
     [SerializeField] GameObject _vfxUpgradeShot2;
@@ -199,6 +203,26 @@ public class VFXManager : MonoBehaviour
                 return;
             }
         }  
+    }
+
+    public void PlayRandomProbeVFX(Tile tile)
+    {
+        foreach (GameObject _vfxRandomProbe in _vfxsRandomProbe)
+        {
+            Debug.Log(tile.name);
+
+            if (!_vfxRandomProbe.activeSelf)
+            {
+                _vfxRandomProbe.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+                _vfxRandomProbe.SetActive(true);
+
+                if (audioManager.instance != null)
+                    audioManager.instance.PlaySoundProbe();
+
+                StartCoroutine(DesactivateVFXAfterTime(_vfxRandomProbe, _vfxTimeProbe));
+                return;
+            }
+        }
     }
 
     public void PlayUpgradeShotVFX(List<Tile> tiles)

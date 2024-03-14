@@ -1421,6 +1421,8 @@ public class AbilityButtonsManager : MonoBehaviour
     private void RandomReveal_Action()
     {
         RevealRoom(_target);
+
+        VFXManager.instance.PlayRandomProbeVFX(_target);
     }
     #endregion
 
