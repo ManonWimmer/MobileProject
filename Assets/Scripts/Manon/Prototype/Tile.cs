@@ -55,7 +55,7 @@ public class Tile : MonoBehaviour
     {
         if (GameManager.instance.GetCurrentMode() == Mode.Construction)
         {
-            _bordure.color = Color.black;
+            _bordure.color = new Color(00.5f, 0.5f, 0.5f, 1); // gray
             _inside.sprite = _normal;
         }
         else
@@ -81,7 +81,7 @@ public class Tile : MonoBehaviour
             } 
             else
             {
-                _bordure.color = Color.black;
+                _bordure.color = new Color(00.5f, 0.5f, 0.5f, 1); // gray
                 _inside.sprite = _normal;
             }
         }
