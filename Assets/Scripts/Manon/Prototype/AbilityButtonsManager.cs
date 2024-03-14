@@ -256,13 +256,13 @@ public class AbilityButtonsManager : MonoBehaviour
 
         switch (actionName)
         {
-            case ("AlternateShot"):
+            case ("Alternate Shot"):
                 AlternateShot_Action();
                 break;
-            case ("SimpleHit"):
+            case ("Simple Hit"):
                 SimpleHit_Action();
                 break;
-            case ("SimpleHitX2"):
+            case ("Simple Hit X2"):
                 SimpleHitX2_Action();
                 break;
             case ("EMP"):
@@ -271,19 +271,19 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("Scanner"):
                 Scanner_Action();
                 break;
-            case ("TimeAccelerator"):
+            case ("Time Accelerator"):
                 //UseTimeAccelerator();
                 break;
             case ("Capacitor"):
                 //UseCapacitor();
                 break;
-            case ("UpgradeShot"):
+            case ("Upgrade Shot"):
                 UpgradeShot_Action();
                 break;
             case ("Probe"):
                 StartCoroutine(ProbeRewind(targetsOnRewind));
                 break;
-            case ("RandomReveal"):
+            case ("Random Reveal"):
                 StartCoroutine(RandomRevealRewind(targetsOnRewind));
                 break;
             case ("Decoy"):
@@ -411,12 +411,12 @@ public class AbilityButtonsManager : MonoBehaviour
             return;
         }
 
-        switch (_selectedButton.GetAbility().name)
+        switch (_selectedButton.GetAbility().AbilityName)
         {
-            case ("AlternateShot"):
+            case ("Alternate Shot"):
                 AlternateShot_SelectAbilityTiles();
                 break;
-            case ("SimpleHit"):
+            case ("Simple Hit"):
                 SimpleHit_SelectAbilityTiles();
                 break;
             case ("EMP"):
@@ -425,14 +425,14 @@ public class AbilityButtonsManager : MonoBehaviour
             case ("Scanner"):
                 Scanner_SelectAbilityTiles();
                 break;
-            case ("UpgradeShot"):
+            case ("Upgrade Shot"):
                 UpgradeShot_SelectAbilityTiles();
                 break;
             case ("Probe"):
                 Probe_SelectAbilityTiles();
                 break;
-            case ("RandomReveal"):
-            case ("TimeAccelerator"):
+            case ("Random Reveal"):
+            case ("Time Accelerator"):
             case ("Capacitor"):
                 break; // Pas de tile à sélectionner lol
 
@@ -488,7 +488,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
         _lastAbilityUsed = _selectedButton.GetAbility().AbilityName;
 
-        switch (_selectedButton.GetAbility().name)
+        switch (_selectedButton.GetAbility().AbilityName)
         {
             case ("Alternate Shot"):
                 UseAlternateShot();
