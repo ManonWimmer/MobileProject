@@ -2538,7 +2538,7 @@ public class GameManager : MonoBehaviour
 
     public void AddCurrentPlayerAbilityOneCooldown(scriptablePower ability)
     {
-        Debug.Log("set ability cooldown " + ability.name + " " + _playerTurn);
+        Debug.Log("set ability cooldown " + ability.AbilityName + " " + _playerTurn);
 
         switch (ability.AbilityName)
         {

@@ -110,10 +110,12 @@ public class AbilityButtonsManager : MonoBehaviour
                 foreach (var action in _lastRoundActionsPlayer2)
                 {
                     Debug.Log("Last round action " + action.Item1 + action.Item2[0].name);
-                    yield return StartCoroutine(RewindAction(action.Item1, action.Item2, Player.Player1));
-
                     lastRoundActionNames.Add(action.Item1);
                     EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
+
+                    yield return StartCoroutine(RewindAction(action.Item1, action.Item2, Player.Player1));
+
+                    
                 }
             }
             CameraController.instance.SwitchPlayerShipCameraDirectly(Player.Player2);
@@ -133,10 +135,12 @@ public class AbilityButtonsManager : MonoBehaviour
                 foreach (var action in _lastRoundActionsPlayer1)
                 {
                     Debug.Log("Last round action " + action.Item1 + action.Item2[0].name);
-                    yield return StartCoroutine(RewindAction(action.Item1, action.Item2, Player.Player2));
-
                     lastRoundActionNames.Add(action.Item1);
                     EnemyActionsManager.instance.InitEnemyActions(lastRoundActionNames);
+
+                    yield return StartCoroutine(RewindAction(action.Item1, action.Item2, Player.Player2));
+
+                    
                 }
 
             }
@@ -252,6 +256,8 @@ public class AbilityButtonsManager : MonoBehaviour
         _target = targetsOnRewind[0];
         Debug.Log("target on rewind " + _target.name);
 
+        UpdateRoomsRewind();
+
         switch (actionName)
         {
             case ("Alternate Shot"):
@@ -313,7 +319,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         
-        UpdateRoomsRewind();
+        
     }
 
     private IEnumerator ProbeRewind(List<Tile> targets)
