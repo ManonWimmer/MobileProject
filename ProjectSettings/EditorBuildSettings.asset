@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Prototype_Manon.unity
     guid: afd91610fcc2a0c4086c33036dc5a65d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/UI.unity
     guid: 7776abf0ab46e4647b02a957ab1dbd89
   m_configObjects:

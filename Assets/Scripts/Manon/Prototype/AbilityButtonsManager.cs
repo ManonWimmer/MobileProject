@@ -1903,7 +1903,7 @@ public class AbilityButtonsManager : MonoBehaviour
         {
             //Debug.Log("while 3" + _destroyTarget.name + _destroyTarget.Room.name);
             Tile randomTile = playerTiles[Random.Range(0, playerTiles.Count - 1)];
-            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile)) // target on decoy room after destroy
+            if (GameManager.instance.CheckCanBuild(GetRoomFromTargetWithAbility(decoyName), randomTile) && !randomTile.IsDestroyed) // target on decoy room after destroy
             {
                 // Player Ship
                 Debug.Log("create room ship " + randomTile + " " + decoyName);
