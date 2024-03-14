@@ -1527,7 +1527,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    public void Forfeit()
+    {
+        if (_playerTurn == Player.Player2)
+        {
+            CheckVictoryAchievements(Player.Player2);
+            UIManager.instance.ShowVictoryCanvas(Player.Player1);
+        }
+        else if (_playerTurn == Player.Player1)
+        {
+            CheckVictoryAchievements(Player.Player1);
+            UIManager.instance.ShowVictoryCanvas(Player.Player2);
+        }
+    }
 
     public int GetPlayerLife(Player player)
     {
