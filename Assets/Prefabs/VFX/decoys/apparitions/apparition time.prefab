@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6004545726630277010}
   m_Layer: 0
-  m_Name: apparition de salle
+  m_Name: apparition time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4932,7 +4932,7 @@ GameObject:
   - component: {fileID: 3738885876653049300}
   - component: {fileID: 7489390479299872997}
   m_Layer: 0
-  m_Name: energy
+  m_Name: time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4961,7 +4961,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2974776292781582202}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -9746,7 +9746,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b2b79da13f63cd94c8ec801940b4a02f, type: 2}
+  - {fileID: 2100000, guid: e564d2bb4e976d941a5477aa3fb8eb2a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
