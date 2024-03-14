@@ -35,6 +35,10 @@ public class VFXManager : MonoBehaviour
     [SerializeField] GameObject _vfxEMPCenter;
     [SerializeField] List<GameObject> _vfxsEMPAround = new List<GameObject>();
     [SerializeField] float _vfxTimeEMP;
+
+    [Header("Probe")]
+    [SerializeField] List<GameObject> _vfxsProbe = new List<GameObject>();
+    [SerializeField] float _vfxTimeProbe;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -147,5 +151,22 @@ public class VFXManager : MonoBehaviour
         vfxToDesactivate.SetActive(false);
 
         UIManager.instance.CheckIfShowEndTurnButton();
+    }
+
+    public void PlayProbeVFX(Tile tile)
+    {
+        foreach (GameObject _vfxProbe in _vfxsProbe)
+        {
+            Debug.Log(tile.name);
+
+            if (!_vfxProbe.activeSelf)
+            {
+                _vfxProbe.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+                _vfxProbe.SetActive(true);
+
+                StartCoroutine(DesactivateVFXAfterTime(_vfxProbe, _vfxTimeProbe));
+                return;
+            }
+        }
     }
 }

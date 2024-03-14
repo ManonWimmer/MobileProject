@@ -1881,6 +1881,8 @@ public class AbilityButtonsManager : MonoBehaviour
     private void Probe_Action()
     {
         RevealRoom(_target);
+
+        VFXManager.instance.PlayProbeVFX(_target);
     }
 
     public bool IsProbeStarted()
