@@ -2156,6 +2156,9 @@ public class GameManager : MonoBehaviour
             UIManager.instance.HideEndTurnButton();
             UIManager.instance.CheckAbilityButtonsColor();
 
+            if (audioManager.instance != null)
+                audioManager.instance.ChangeMode();
+
         }
         else if (_currentMode == Mode.Draft)
         {
