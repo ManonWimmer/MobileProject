@@ -7,14 +7,14 @@
 		<Bonjour>Bonjour</Bonjour>
 		<Aurevoir>Aurevoir</Aurevoir>
 		
-		<textSounds>Sons</textSounds>
-		<textMusic>Musique</textMusic>
-		<textLanguage>Langages</textLanguage>
-		<textBack>Retour</textBack>
+		<textSounds>SONS</textSounds>
+		<textMusic>MUSIQUE</textMusic>
+		<textLanguage>LANGAGES</textLanguage>
+		<textBack>RETOUR</textBack>
 	
-		<textTuto>Tutoriel</textTuto>
-		<textSettings>Paramètres</textSettings>
-		<textLeave>Quitter</textLeave>
+		<textTuto>TUTORIEL</textTuto>
+		<textSettings>PARAMETRES</textSettings>
+		<textLeave>QUITTER</textLeave>
 		<textForfeit>ABANDONNÉ</textForfeit>
 		<textContinue>CONTINUER</textContinue>
 		<oui>boooooo</oui>
@@ -109,6 +109,13 @@
 		<voiceVictoryR1>Aww retourne pleurer dans les joupons de ta mamma!</voiceVictoryR1>
 		<voiceVictoryR2>Tu n'étais pas assez bien assaisoner pour être servis, bambino</voiceVictoryR2>
 		<voiceVictoryR3>Il capo gagne toujours!!</voiceVictoryR3>
+
+		<!--Tuto-->
+		<textTuto1>Dans ce menu, vous pouvez choisir des salles à ajouter à votre vaisseau. Chaque pièce est liée à une capacité que vous pourrez utiliser, mais si la salle est détruite, la capacité sera désactivée.</textTuto1>
+		<textTuto2>Ici, vous pouvez voir votre vaisseau, et en dessous, une liste des salles que vous avez déjà choisies.</textTuto2>
+		<textTuto3>Votre adversaire aura les mêmes propositions que vous, donc rappelez vous en pour faire le choix le plus réfléchi.</textTuto3>
+		<textTuto4>Dans ce menu, vous pouvez déplacer vos pièces pour vous préparer à recevoir les attaques adverses.</textTuto4>
+		<textTuto5>Pour gagner, vous devrez annihiler le vaisseau ennemi en détruisant toutes ses salles vitales. Vous pouvez voir le nombre de salles vitales restantes à votre adversaire en rouge, et les votres en bleu.</textTuto5>
 		
 	</language>
 
@@ -119,14 +126,14 @@
 		<Bonjour>Hello</Bonjour>
 		<Aurevoir>bye</Aurevoir>
 		
-		<textSounds>Sounds</textSounds>
-		<textMusic>Music</textMusic>
-		<textLanguage>Languages</textLanguage>
-		<textBack>Back</textBack>
+		<textSounds>SOUNDS</textSounds>
+		<textMusic>MUSIC</textMusic>
+		<textLanguage>LANGUAGES</textLanguage>
+		<textBack>BACK</textBack>
 	
-		<textTuto>Tutorial</textTuto>
-		<textSettings>Settings</textSettings>
-		<textLeave>Quit</textLeave>
+		<textTuto>TUTORIAL</textTuto>
+		<textSettings>SETTINGS</textSettings>
+		<textLeave>QUIT</textLeave>
 		<textForfeit>FORFAIT</textForfeit>
 		<textContinue>CONTINUE</textContinue>
 		<oui>brrrrrrrrr</oui>
@@ -221,5 +228,12 @@
 		<voiceVictoryR3>Il capo always-a wins !</voiceVictoryR3>
 
 		<textWin>Win</textWin>
+
+		<!--Tuto-->
+		<textTuto1>Here you will be able to choose a room to add in your spaceship. Each room is linked to an ability, so if a room is destroyed you will loose the capacity</textTuto1>
+		<textTuto2>This is your spaceship. Down there you have a reminder of the room you already chose</textTuto2>
+		<textTuto3>Your enemy will have the same options as you so don’t forget to think ahead and make smart decision</textTuto3>
+		<textTuto4>Here you can arrange the rooms you chose to prepare yourself for the fight.</textTuto4>
+		<textTuto5>To win you will need to annihilate the enemy spaceship by destroying all of his vital rooms. Here you can see how many vitals are left to destroy, in red, your ennemy’s and in blue, yours</textTuto5>
 	</language>
 </languages>

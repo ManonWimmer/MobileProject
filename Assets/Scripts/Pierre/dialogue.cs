@@ -11,6 +11,7 @@ public class dialogue : MonoBehaviour
     private Animator _animator;
     [SerializeField] private TextMeshProUGUI _dialogue;
     [SerializeField] private float _timeDialogue;
+    [SerializeField] private bool _dontTimeDialogue;
 
     [Header("Dialogue Hit")]
     [SerializeField] private List<string> _dialoguesNerdHit = new List<string>();
@@ -27,6 +28,9 @@ public class dialogue : MonoBehaviour
     [SerializeField] private List<string> _dialoguesCowVictory = new List<string>();
     [SerializeField] private List<string> _dialoguesPizzaVictory = new List<string>();
 
+    [Header("Tuto")]
+    [SerializeField] private List<string> _dialoguesTuto = new List<string>();
+
     [SerializeField] float _textSpeed;
     private string _lines;
     private int _index;
@@ -41,15 +45,18 @@ public class dialogue : MonoBehaviour
     [SerializeField] private AudioSource _audio;
     [SerializeField] private audioManager _audioManager;
 
-    public void StartDialogueText() => SetDialogueText();
+    public void StartDialogueText() => SetDialogueTextTest();
     public bool GetDilogueIsPlayed() => _isPlayed;
+    public bool DisablePlayed() => _isPlayed = false;
+    public int GetLenghDialogue(string name) => GetListLengh(name);
 
     public void SartDialogueHit() => SetDialogueHit();
     public void SartDialogueAttack() => SetDialogueAttack();
     public void SartDialogueWin() => SetDialogueWin();
+    public void StartDialogueTuto(int i) => StetDialogueTuto(i);
 
 
-    private void Start()
+    private void Awake()
     {
         //_gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
@@ -59,6 +66,90 @@ public class dialogue : MonoBehaviour
         _dialogue = gameObject.GetComponentInChildren<TextMeshProUGUI>();
         _animator = GetComponent<Animator>();
         _isPlayed = false;
+    }
+
+    private int GetListLengh(string name)
+    {
+        List<string> list = new List<string>();
+        int i;
+
+        if (name == _dialoguesNerdHit.ToString())
+        {
+            list = _dialoguesNerdHit;
+        }
+        else if (name == _dialoguesCowHit.ToString())
+        {
+            list = _dialoguesCowHit;
+        }
+        else if (name == _dialoguesPizzaHit.ToString())
+        {
+            list = _dialoguesPizzaHit;
+        }
+        else if (name == _dialoguesNerdAttack.ToString())
+        {
+            list = _dialoguesNerdAttack;
+        }
+        else if (name == _dialoguesCowAttack.ToString())
+        {
+            list = _dialoguesCowAttack;
+        }
+        else if (name == _dialoguesPizzaAttack.ToString())
+        {
+            list = _dialoguesPizzaAttack;
+        }
+        else if (name == _dialoguesNerdVictory.ToString())
+        {
+            list = _dialoguesNerdVictory;
+        }
+        else if (name == _dialoguesCowVictory.ToString())
+        {
+            list = _dialoguesCowVictory;
+        }
+        else if (name == _dialoguesPizzaVictory.ToString())
+        {
+            list = _dialoguesPizzaVictory;
+        }
+        else if (name == _dialoguesTuto.ToString())
+        {
+            list = _dialoguesTuto;
+        }
+
+        i = list.Count;
+        return i;
+    }
+
+    private void StetDialogueTuto(int index)
+    {
+        if (index == 0)
+        {
+            Enable(_dialoguesTuto[index]);
+            OpenDialogue();
+        }
+        else if (index == 1)
+        {
+            Enable(_dialoguesTuto[index]);
+            OpenDialogue();
+        }
+        else if (index == 2)
+        {
+            Enable(_dialoguesTuto[index]);
+            OpenDialogue();
+        }
+        else if (index == 3)
+        {
+            Enable(_dialoguesTuto[index]);
+            OpenDialogue();
+        }
+        else if (index == 4)
+        {
+            Enable(_dialoguesTuto[index]);
+            OpenDialogue();
+        }
+        else if (index == 5)
+        {
+            Enable(_dialoguesTuto[index]);
+            OpenDialogue();
+        }
     }
 
     #region Start dialogues
@@ -100,7 +191,7 @@ public class dialogue : MonoBehaviour
 
     #endregion
 
-    private void SetDialogueText()
+    private void SetDialogueTextTest()
     {
         if (!_isPlayed)
         {
@@ -207,7 +298,6 @@ public class dialogue : MonoBehaviour
     {
         _index = 0;
         _dialogue.text = string.Empty;
-        _isPlayed = false;
     }
 
     private IEnumerator TypeLine()
@@ -221,7 +311,11 @@ public class dialogue : MonoBehaviour
             yield return new WaitForSeconds(_textSpeed);
         }
 
-        StartCoroutine(TimeDialogue());
+        _isPlayed = false;
+        if (!_dontTimeDialogue) 
+        {
+            StartCoroutine(TimeDialogue());
+        }
 
         /*_isWriting = false;
 

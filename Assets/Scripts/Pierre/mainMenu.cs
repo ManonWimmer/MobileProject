@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class mainMenu : MonoBehaviour
 {
     private GameObject _menu;
-    [SerializeField] private GameObject _settings;
     [SerializeField] private GameObject _credits;
     [SerializeField] private RectTransform _creditsSroll;
 
@@ -49,25 +48,26 @@ public class mainMenu : MonoBehaviour
         SceneManager.LoadScene("Prototype_Manon");
     }
 
-    public void StartTuto()
-    {
-
-    }
-
-    public void OpenSettings()
+    public void Open(GameObject obj)
     {
         _audioOpenClose.clip = _playlistFXUI[0];
         _audioOpenClose.Play();
 
-        _settings.SetActive(true);
+        obj.SetActive(true);
+
+        if ( obj.name == "tuto")
+        {
+
+            Debug.Log("StartTuto");
+            obj.GetComponent<tuto>().StartDialogueTuto();
+        }
     }
 
-    public void CloseSettings()
+    public void Close(GameObject obj)
     {
         _audioOpenClose.clip = _playlistFXUI[1];
         _audioOpenClose.Play();
-
-        _settings.SetActive(false);
+        obj.SetActive(false);
     }
 
     public void CloseCredits()
@@ -85,14 +85,6 @@ public class mainMenu : MonoBehaviour
         _audioOpenClose.Play();
 
         _credits.SetActive(false);
-    }
-
-    public void OpenCredits()
-    {
-        _audioOpenClose.clip = _playlistFXUI[0];
-        _audioOpenClose.Play();
-
-        _credits.SetActive(true);
     }
 
     public void Leave()

@@ -8850,7 +8850,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5669189792682595027}
   - component: {fileID: 1036489243460090364}
-  - component: {fileID: 1722820872229647120}
   - component: {fileID: 600484414111428043}
   - component: {fileID: 8537771730495854347}
   m_Layer: 6
@@ -8890,36 +8889,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2524270422209527686}
   m_CullTransparentMesh: 1
---- !u!114 &1722820872229647120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2524270422209527686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.09019608, g: 0.098039225, b: 0.14901961, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &600484414111428043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10170,7 +10139,6 @@ MonoBehaviour:
   _name: {fileID: 8280662451241437721}
   _powerNeed: {fileID: 3239286841718633561}
   _icon: {fileID: 2289137425088070772}
-  _popup: {fileID: 7212203313048203348}
   _popupVisible: 0
   _animator: {fileID: 7183771099617542489}
 --- !u!95 &7183771099617542489
@@ -11092,7 +11060,6 @@ MonoBehaviour:
   _name: {fileID: 1771009223379177704}
   _powerNeed: {fileID: 6528659028205628744}
   _icon: {fileID: 2433212739514522719}
-  _popup: {fileID: 1669411327364371032}
   _popupVisible: 0
   _animator: {fileID: 5666308791748846363}
 --- !u!95 &5666308791748846363
@@ -15037,13 +15004,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogue: {fileID: 8086404905504161514}
-  _timeDilogue: 5
-  _dialoguesNerd:
-  - 111111111111111111111111111111111111111111
-  - 22222222222222222222222222222222222222
-  - 3333333333333333333333333333333333333333
-  - 444444444444444444444444444444444444444444
-  - 5555555555555555555555555555555555
+  _timeDialogue: 0
+  _dialoguesNerdHit: []
+  _dialoguesCowHit: []
+  _dialoguesPizzaHit: []
+  _dialoguesNerdAttack: []
+  _dialoguesCowAttack: []
+  _dialoguesPizzaAttack: []
+  _dialoguesNerdVictory: []
+  _dialoguesCowVictory: []
+  _dialoguesPizzaVictory: []
+  _textSpeed: 0
+  _audio: {fileID: 0}
+  _audioManager: {fileID: 0}
 --- !u!1 &4401988886362169346
 GameObject:
   m_ObjectHideFlags: 0
@@ -19623,7 +19596,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7588719170852135972}
   - component: {fileID: 3077231863828590539}
-  - component: {fileID: 7667012543120596389}
   - component: {fileID: 6890592702048259013}
   m_Layer: 6
   m_Name: mainMenu
@@ -19665,36 +19637,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5903837618248898991}
   m_CullTransparentMesh: 1
---- !u!114 &7667012543120596389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5903837618248898991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.09019608, g: 0.098039225, b: 0.14901961, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &6890592702048259013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19710,12 +19652,7 @@ MonoBehaviour:
   _settings: {fileID: 1752319542948802110}
   _credits: {fileID: 2524270422209527686}
   _creditsSroll: {fileID: 6552847903531260841}
-  _audioOpenClose: {fileID: 0}
-  _music: {fileID: 0}
-  _audioManager: {fileID: 0}
   _conffeti: {fileID: 2945847013817177929}
-  xmlReader: {fileID: 0}
-  _text: {fileID: 3197638700094628170}
 --- !u!1 &5930963005114663558
 GameObject:
   m_ObjectHideFlags: 0
@@ -19966,8 +19903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pausePage: {fileID: 7537572172481984358}
-  _audioOpenClose: {fileID: 0}
-  _audioManager: {fileID: 0}
+  _listRef: {fileID: 0}
 --- !u!1 &5957614349695952688
 GameObject:
   m_ObjectHideFlags: 0
