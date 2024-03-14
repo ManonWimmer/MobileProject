@@ -44,6 +44,8 @@ public class mainMenu : MonoBehaviour
 
     public void StartDuel()
     {
+        _audioOpenClose.clip = _playlistFXUI[0];
+        _audioOpenClose.Play();
         SceneManager.LoadScene("Prototype_Manon");
     }
 
