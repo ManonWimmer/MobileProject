@@ -143,7 +143,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 383504345847113710, guid: 790791e8811cb3444a3bfaab8c9e2765, type: 3}
       propertyPath: EasterEggMaxSpawn
-      value: 1000
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 383504345847113710, guid: 790791e8811cb3444a3bfaab8c9e2765, type: 3}
+      propertyPath: EasterEggMinSpawn
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2418754931994615668, guid: 790791e8811cb3444a3bfaab8c9e2765, type: 3}
       propertyPath: m_LocalPosition.x
@@ -194,8 +198,20 @@ PrefabInstance:
       value: StarVFX
       objectReference: {fileID: 0}
     - target: {fileID: 6814673092528884043, guid: 790791e8811cb3444a3bfaab8c9e2765, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6814673092528884043, guid: 790791e8811cb3444a3bfaab8c9e2765, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026346424421075533, guid: 790791e8811cb3444a3bfaab8c9e2765, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026346424421075533, guid: 790791e8811cb3444a3bfaab8c9e2765, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1937391741
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
