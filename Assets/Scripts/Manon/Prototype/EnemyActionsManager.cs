@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEngine;
 
 public class EnemyActionsManager : MonoBehaviour
@@ -36,9 +37,13 @@ public class EnemyActionsManager : MonoBehaviour
         int i = 0;
         foreach(string actionName in actionNames)
         {
-            scriptablePower ability = GameManager.instance.GetAbilityFromName(actionName);
+            string newActionName = actionName;
+            if (actionName == "Simple Hit X2")
+                newActionName = "Simple Hit";
+            scriptablePower ability = GameManager.instance.GetAbilityFromName(newActionName);
             if (ability != null)
             {
+                Debug.Log("abilit : " + ability.AbilityName);
                 _enemyActions[i].InitEnemyAction(ability);
             }
             else

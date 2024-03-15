@@ -307,7 +307,9 @@ public class AbilityButtonsManager : MonoBehaviour
                 yield return StartCoroutine(RandomRevealRewind(targetsOnRewind));
                 yield return new WaitForSeconds(1f);
                 break;
-            case ("Decoy"):
+            case ("Time Decoy"):
+            case ("Repair Decoy"):
+            case ("Energy Decoy"):
                 Decoy_Action();
                 yield return new WaitForSeconds(1.5f);
                 break;
@@ -567,9 +569,17 @@ public class AbilityButtonsManager : MonoBehaviour
                 PlayerUsedOtherAbilityThanSimpleHit();
                 break;
             case ("Energy Decoy"):
+                UseDecoy("Energy Decoy");
+                DeselectAbilityButton(_selectedButton);
+                PlayerUsedOtherAbilityThanSimpleHit();
+                break;
             case ("Time Decoy"):
+                UseDecoy("Time Decoy");
+                DeselectAbilityButton(_selectedButton);
+                PlayerUsedOtherAbilityThanSimpleHit();
+                break;
             case ("Repair Decoy"):
-                UseDecoy();
+                UseDecoy("Repair Decoy");
                 DeselectAbilityButton(_selectedButton); 
                 PlayerUsedOtherAbilityThanSimpleHit();
                 break;
@@ -2028,7 +2038,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
     }
 
-    private void UseDecoy()
+    private void UseDecoy(string decoyName)
     {
         // ----- REWIND ----- //
         if (_currentActionTargetTiles.Count > 0)
@@ -2066,7 +2076,7 @@ public class AbilityButtonsManager : MonoBehaviour
             }
         }
 
-        AddActionToCurrentPlayerRound("Decoy");
+        AddActionToCurrentPlayerRound(decoyName);
 
         UpdateHiddenRooms();
         UIManager.instance.CheckAbilityButtonsColor();
