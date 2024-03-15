@@ -38,12 +38,12 @@
 		<repairDecoy>Reveal a random room tile and when it’s destroyed it will repair a random room; It will respawn at a random place after it‘s destroyed</repairDecoy>
 
 		<!--UI Fight-->
-		<changeView>Change view</changeView>
-		<warning>Warning</warning>
-		<enemyLife>Enemy life</enemyLife>
-		<yourLife>My Life</yourLife>
-		<endTurn>End turn</endTurn>
-		<Fire>Fire !</Fire>
+		<changeView>CHANGE VIEW</changeView>
+		<warning>WARNING</warning>
+		<enemyLife>ENEMY LIFE</enemyLife>
+		<yourLife>MY LIFE</yourLife>
+		<endTurn>END TURN</endTurn>
+		<Fire>FIRE !</Fire>
 
 		<Player1>Player 1</Player1>
 		<Player2>Player 2</Player2>
