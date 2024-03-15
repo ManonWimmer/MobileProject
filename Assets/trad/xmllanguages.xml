@@ -1,126 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <languages>
-	<!--FRENCH-->
-	<language>
-		<Name>Français</Name>
-		<Bonjour>Bonjour</Bonjour>
-		<Aurevoir>Aurevoir</Aurevoir>
-		
-		<textSounds>SONS</textSounds>
-		<textMusic>MUSIQUE</textMusic>
-		<textLanguage>LANGAGES</textLanguage>
-		<textBack>RETOUR</textBack>
-	
-		<textTuto>TUTORIEL</textTuto>
-		<textSettings>PARAMETRES</textSettings>
-		<textLeave>QUITTER</textLeave>
-		<textForfeit>ABANDONNÉ</textForfeit>
-		<textContinue>CONTINUER</textContinue>
-		<oui>boooooo</oui>
-		<textDialogue>PAS DE TEXTE</textDialogue>
-
-		<textTitle>NOM :</textTitle>
-		
-		<!-- Description carte-->
-		<simpleShot>Détruit une case</simpleShot>
-		<probe>Lance une salve de 3 tirs dans une zone ciblée qui ne vont pas faire de dégâts mais vont révéler des cases</probe>
-		<emp>Tir qui va détruire la salle ciblée et rendre inactive les salles autours pour 1 tour</emp>
-		<timeAccelerator>Un saut dans le temps qui va réduire vos cooldowns de 1</timeAccelerator>
-		<capacitor>Cette capacitée va améliorer votre prochain Tir simple en un tir de 2 par 2 pour le prochain tour uniquement</capacitor>
-		<alternateShot>Tir sur 3 cases à la verticale puis au prochain change de sens</alternateShot>
-		<upgradeShot>Révèle une case puis s'améliore - Détruit une case puis s'améliore - Détruit 3 cases en diagonales puis s'améliore - Détruit 5 case en forme de croix</upgradeShot>
-		<scanner>Révèle les salles sur une colonne</scanner>
-		<energyDecoy>Révèle une case de salle. Si cette salle est touchée elle va vous donner un d'énergie en plus pour le prochain tour puis réapparait sur une case vide aléatoire</energyDecoy>
-		<timeDecoy>Révèle une case de salle. Si cette salle est touchée elle va augmenté le cooldown de la capacité utilisé de 1 (ne marche pas sur le tir de base) puis réapparait sur une case vide aléatoire</timeDecoy>
-		<repairDecoy>Révèle une case de salle. Si cette salle est touchée elle va réparer une salle détruite aléatoire puis réapparait sur une case vide aléatoire</repairDecoy>
-		
-		<!--UI Fight-->
-		<changeView>Regarder votre vaisseau</changeView>
-		<warning>Attention</warning>
-		<enemyLife>Vie ennemi</enemyLife>
-		<yourLife>Ta vie</yourLife>
-		<endTurn>Fin de tour</endTurn>
-		<Fire>Feu !</Fire>
-		
-		<Player1>Joueur 1</Player1>
-		<Player2>Joueur 2</Player2>
-		
-		<!--Card title -->
-		<titleSimpleShot>Tir simple</titleSimpleShot>
-		<titleProbe>Sonde</titleProbe>
-		<titleEmp>IEM</titleEmp>
-		<titleTimeAccelerator>Accélérateur temporel</titleTimeAccelerator>
-		<titleCapacitor>Condensateur</titleCapacitor>
-		<titleAlternateShot>Tir alterné</titleAlternateShot>
-		<titleUpgradeShot>Tir améliorer</titleUpgradeShot>
-		<titlescanner>Scanneur</titlescanner>
-		<titleEnergyDecoy>Leure énergétique</titleEnergyDecoy>
-		<titleTimeDecoy>Leure Temporel</titleTimeDecoy>
-		<titleRepairDecoy>Leure Réparateur</titleRepairDecoy>
-		
-		<!--UI Draft-->
-		<selectSpaceShip>Sélectionné un vaisseau</selectSpaceShip>
-		<selectRooms>Sélectionné une salle</selectRooms>
-		
-		<!--UI Construct-->
-		<randomizeRooms>Aléatoirisé les salles</randomizeRooms>
-		<timeRemaning>restant</timeRemaning>
-		
-		<textWin>Gagner</textWin>
-		
-		<!--Voice lines : N=Nerd,C=Cowboy, R=Chef -->
-			<!--Hit-->
-		<voiceHitN2>Debug.log("panique");</voiceHitN2>
-		<voiceHitN3>Erreur 404 => salle introuvable !</voiceHitN3>
-		<voiceHitN4>Tu sais te battre dis donc (ง・.・)ง</voiceHitN4>
-		
-		<voiceHitC1>Je suis trop rouillé pour faire ça</voiceHitC1>
-		<voiceHitC2>Dis donc les jeunes de nos jours ne savent pas comment se comporter avec les robots de mon âge</voiceHitC2>
-		<voiceHitC3>C'est juste une balle dans mon buste...</voiceHitC3>
-		<voiceHitC4>Attends !J'ai le soleil dans mes capteurs visuels</voiceHitC4>
-		
-		<voiceHitR1>Oh non! T'as presque fait tomber mes magnifiiiiques raviolis!</voiceHitR1>
-		
-			<!--Attack-->
-		<voiceAttackN1>Print("FEU,MORT ET CHAT &lt;3!!!");</voiceAttackN1>
-		<voiceAttackN2>Un 20 naturel !!.! (*w*)</voiceAttackN2>
-		<voiceAttackN3>On va speedrun ce combat (>wO)~~~**</voiceAttackN3>
-		
-		<voiceAttackC1>Tu peux me dire quel goût à mon revolver-railgun?</voiceAttackC1>
-		<voiceAttackC2>Tu t'es attaqué au mauvais robot mon ptit</voiceAttackC2>
-		<voiceAttackC3>Tu ne survivrai pas un seul jour dans la galaxie du far west</voiceAttackC3>
-		
-		<voiceAttackR1>C'est l'heure de l'A.D.I.T.I.O.N</voiceAttackR1>
-		<voiceAttackR2>Aw, t'as l'air d'avoir faim! Pends quelqoune ravioliii !</voiceAttackR2>
-		<voiceAttackR3>Fais gaffe à celui-ci</voiceAttackR3>
-		
-			<!--Victory-->
-		<voiceVictoryN1>GGEZ tu seras peut-être plus chanceux la prochaine fois \(^U^)/ !</voiceVictoryN1>
-		<voiceVictoryN2>Désolé pour le screen blue |v&lt;</voiceVictoryN2>
-		<voiceVictoryN3>Va falloir que tu pexes le noob!</voiceVictoryN3>
-		<voiceVictoryN4>J'espère que ton prochain adversaire n'est pas aussi bon que moi ;3</voiceVictoryN4>
-		<voiceVictoryN5>Bonne killcam乁(^◞ ^)ㄏ</voiceVictoryN5>
-		
-		<voiceVictoryC1>Non cette galaxie n'est pas pour un viel robot comme toi!</voiceVictoryC1>
-		<voiceVictoryC2>Je suis toujours aussi précis malgré mon viel âge</voiceVictoryC2>
-		<voiceVictoryC3>Une dernière volontée avant de quitter cette galaxie?</voiceVictoryC3>
-		
-		<voiceVictoryR1>Aww retourne pleurer dans les joupons de ta mamma!</voiceVictoryR1>
-		<voiceVictoryR2>Tu n'étais pas assez bien assaisoner pour être servis, bambino</voiceVictoryR2>
-		<voiceVictoryR3>Il capo gagne toujours!!</voiceVictoryR3>
-
-		<!--Tuto-->
-		<textTuto1>Dans ce menu, vous pouvez choisir des salles à ajouter à votre vaisseau. Chaque pièce est liée à une capacité que vous pourrez utiliser, mais si la salle est détruite, la capacité sera désactivée.</textTuto1>
-		<textTuto2>Ici, vous pouvez voir votre vaisseau, et en dessous, une liste des salles que vous avez déjà choisies.</textTuto2>
-		<textTuto3>Votre adversaire aura les mêmes propositions que vous, donc rappelez vous en pour faire le choix le plus réfléchi.</textTuto3>
-		<textTuto4>Dans ce menu, vous pouvez déplacer vos pièces pour vous préparer à recevoir les attaques adverses.</textTuto4>
-		<textTuto5>Pour gagner, vous devrez annihiler le vaisseau ennemi en détruisant toutes ses salles vitales. Vous pouvez voir le nombre de salles vitales restantes à votre adversaire en rouge, et les votres en bleu.</textTuto5>
-		<textTuto6>Ici, vous voyez vos capacités, chacune prendra une énergie à être lancée et aura un cooldown indiqué avec le chronomètre au dessus de sa carte.</textTuto6>
-		<textTuto7>Chaque salle est associée à une capacité, si la salle est entièrement détruite, la capacité liée sera inutilisable.</textTuto7>
-		<textTuto8>Chaque salle est associée à une capacité, si la salle est entièrement détruite, la capacité liée sera inutilisable.</textTuto8>
-		
-	</language>
 
 	
 	<!--ENGLISH-->
@@ -241,5 +121,126 @@
 		<textTuto6>Those are your abilities each of them will need a energy to be use and most of them will have a cooldown represented by a clock on top of it’s card.</textTuto6>
 		<textTuto7>Every room is attached to an ability, if the room is entirely destroyed, the capacity linked to it will be deactivated</textTuto7>
 		<textTuto8>This is a recap of the enemy actions were you can look at the effects of enemy abilty</textTuto8>
+	</language>
+
+<!--FRENCH-->
+	<language>
+		<Name>Français</Name>
+		<Bonjour>Bonjour</Bonjour>
+		<Aurevoir>Aurevoir</Aurevoir>
+		
+		<textSounds>SONS</textSounds>
+		<textMusic>MUSIQUE</textMusic>
+		<textLanguage>LANGAGES</textLanguage>
+		<textBack>RETOUR</textBack>
+	
+		<textTuto>TUTORIEL</textTuto>
+		<textSettings>PARAMETRES</textSettings>
+		<textLeave>QUITTER</textLeave>
+		<textForfeit>ABANDONNER</textForfeit>
+		<textContinue>CONTINUER</textContinue>
+		<oui>boooooo</oui>
+		<textDialogue>PAS DE TEXTE</textDialogue>
+
+		<textTitle>NOM :</textTitle>
+		
+		<!-- Description carte-->
+		<simpleShot>Détruit une case</simpleShot>
+		<probe>Lance une salve de 3 tirs dans une zone ciblée qui ne vont pas faire de dégâts mais vont révéler des cases</probe>
+		<emp>Tir qui va détruire la salle ciblée et rendre inactive les salles autours pour 1 tour</emp>
+		<timeAccelerator>Un saut dans le temps qui va réduire vos cooldowns de 1</timeAccelerator>
+		<capacitor>Cette capacitée va améliorer votre prochain Tir simple en un tir de 2 par 2 pour le prochain tour uniquement</capacitor>
+		<alternateShot>Tir sur 3 cases à la verticale puis au prochain change de sens</alternateShot>
+		<upgradeShot>Révèle une case puis s'améliore - Détruit une case puis s'améliore - Détruit 3 cases en diagonales puis s'améliore - Détruit 5 case en forme de croix</upgradeShot>
+		<scanner>Révèle les salles sur une colonne</scanner>
+		<energyDecoy>Révèle une case de salle. Si cette salle est touchée elle va vous donner un d'énergie en plus pour le prochain tour puis réapparait sur une case vide aléatoire</energyDecoy>
+		<timeDecoy>Révèle une case de salle. Si cette salle est touchée elle va augmenté le cooldown de la capacité utilisé de 1 (ne marche pas sur le tir de base) puis réapparait sur une case vide aléatoire</timeDecoy>
+		<repairDecoy>Révèle une case de salle. Si cette salle est touchée elle va réparer une salle détruite aléatoire puis réapparait sur une case vide aléatoire</repairDecoy>
+		
+		<!--UI Fight-->
+		<changeView>Regarder votre vaisseau</changeView>
+		<warning>Attention</warning>
+		<enemyLife>Vie ennemi</enemyLife>
+		<yourLife>Ta vie</yourLife>
+		<endTurn>Fin de tour</endTurn>
+		<Fire>Feu !</Fire>
+		
+		<Player1>Joueur 1</Player1>
+		<Player2>Joueur 2</Player2>
+		
+		<!--Card title -->
+		<titleSimpleShot>Tir simple</titleSimpleShot>
+		<titleProbe>Sonde</titleProbe>
+		<titleEmp>IEM</titleEmp>
+		<titleTimeAccelerator>Accélérateur temporel</titleTimeAccelerator>
+		<titleCapacitor>Condensateur</titleCapacitor>
+		<titleAlternateShot>Tir alterné</titleAlternateShot>
+		<titleUpgradeShot>Tir améliorer</titleUpgradeShot>
+		<titlescanner>Scanneur</titlescanner>
+		<titleEnergyDecoy>Leure énergétique</titleEnergyDecoy>
+		<titleTimeDecoy>Leure Temporel</titleTimeDecoy>
+		<titleRepairDecoy>Leure Réparateur</titleRepairDecoy>
+		
+		<!--UI Draft-->
+		<selectSpaceShip>Sélectionné un vaisseau</selectSpaceShip>
+		<selectRooms>Sélectionné une salle</selectRooms>
+		
+		<!--UI Construct-->
+		<randomizeRooms>Aléatoirisé les salles</randomizeRooms>
+		<timeRemaning>restant</timeRemaning>
+		
+		<textWin>Gagner</textWin>
+		
+		<!--Voice lines : N=Nerd,C=Cowboy, R=Chef -->
+			<!--Hit-->
+		<voiceHitN2>Debug.log("panique");</voiceHitN2>
+		<voiceHitN3>Erreur 404 => salle introuvable !</voiceHitN3>
+		<voiceHitN4>Tu sais te battre dis donc (ง・.・)ง</voiceHitN4>
+		
+		<voiceHitC1>Je suis trop rouillé pour faire ça</voiceHitC1>
+		<voiceHitC2>Dis donc les jeunes de nos jours ne savent pas comment se comporter avec les robots de mon âge</voiceHitC2>
+		<voiceHitC3>C'est juste une balle dans mon buste...</voiceHitC3>
+		<voiceHitC4>Attends !J'ai le soleil dans mes capteurs visuels</voiceHitC4>
+		
+		<voiceHitR1>Oh non! T'as presque fait tomber mes magnifiiiiques raviolis!</voiceHitR1>
+		
+			<!--Attack-->
+		<voiceAttackN1>Print("FEU,MORT ET CHAT &lt;3!!!");</voiceAttackN1>
+		<voiceAttackN2>Un 20 naturel !!.! (*w*)</voiceAttackN2>
+		<voiceAttackN3>On va speedrun ce combat (>wO)~~~**</voiceAttackN3>
+		
+		<voiceAttackC1>Tu peux me dire quel goût à mon revolver-railgun?</voiceAttackC1>
+		<voiceAttackC2>Tu t'es attaqué au mauvais robot mon ptit</voiceAttackC2>
+		<voiceAttackC3>Tu ne survivrai pas un seul jour dans la galaxie du far west</voiceAttackC3>
+		
+		<voiceAttackR1>C'est l'heure de l'A.D.I.T.I.O.N</voiceAttackR1>
+		<voiceAttackR2>Aw, t'as l'air d'avoir faim! Pends quelqoune ravioliii !</voiceAttackR2>
+		<voiceAttackR3>Fais gaffe à celui-ci</voiceAttackR3>
+		
+			<!--Victory-->
+		<voiceVictoryN1>GGEZ tu seras peut-être plus chanceux la prochaine fois \(^U^)/ !</voiceVictoryN1>
+		<voiceVictoryN2>Désolé pour le screen blue |v&lt;</voiceVictoryN2>
+		<voiceVictoryN3>Va falloir que tu pexes le noob!</voiceVictoryN3>
+		<voiceVictoryN4>J'espère que ton prochain adversaire n'est pas aussi bon que moi ;3</voiceVictoryN4>
+		<voiceVictoryN5>Bonne killcam乁(^◞ ^)ㄏ</voiceVictoryN5>
+		
+		<voiceVictoryC1>Non cette galaxie n'est pas pour un viel robot comme toi!</voiceVictoryC1>
+		<voiceVictoryC2>Je suis toujours aussi précis malgré mon viel âge</voiceVictoryC2>
+		<voiceVictoryC3>Une dernière volontée avant de quitter cette galaxie?</voiceVictoryC3>
+		
+		<voiceVictoryR1>Aww retourne pleurer dans les joupons de ta mamma!</voiceVictoryR1>
+		<voiceVictoryR2>Tu n'étais pas assez bien assaisoner pour être servis, bambino</voiceVictoryR2>
+		<voiceVictoryR3>Il capo gagne toujours!!</voiceVictoryR3>
+
+		<!--Tuto-->
+		<textTuto1>Dans ce menu, vous pouvez choisir des salles à ajouter à votre vaisseau. Chaque pièce est liée à une capacité que vous pourrez utiliser, mais si la salle est détruite, la capacité sera désactivée.</textTuto1>
+		<textTuto2>Ici, vous pouvez voir votre vaisseau, et en dessous, une liste des salles que vous avez déjà choisies.</textTuto2>
+		<textTuto3>Votre adversaire aura les mêmes propositions que vous, donc rappelez vous en pour faire le choix le plus réfléchi.</textTuto3>
+		<textTuto4>Dans ce menu, vous pouvez déplacer vos pièces pour vous préparer à recevoir les attaques adverses.</textTuto4>
+		<textTuto5>Pour gagner, vous devrez annihiler le vaisseau ennemi en détruisant toutes ses salles vitales. Vous pouvez voir le nombre de salles vitales restantes à votre adversaire en rouge, et les votres en bleu.</textTuto5>
+		<textTuto6>Ici, vous voyez vos capacités, chacune prendra une énergie à être lancée et aura un cooldown indiqué avec le chronomètre au dessus de sa carte.</textTuto6>
+		<textTuto7>Chaque salle est associée à une capacité, si la salle est entièrement détruite, la capacité liée sera inutilisable.</textTuto7>
+		<textTuto8>Chaque salle est associée à une capacité, si la salle est entièrement détruite, la capacité liée sera inutilisable.</textTuto8>
+		
 	</language>
 </languages>
