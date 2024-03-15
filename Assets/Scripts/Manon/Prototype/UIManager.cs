@@ -90,6 +90,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Rewind")]
     [SerializeField] TMP_Text _rewindTxt;
+    [SerializeField] GameObject _rewindAssets;
+    [SerializeField] GameObject _canvasPause;
 
     private bool _needAddEnergyVFX;
 
@@ -162,11 +164,15 @@ public class UIManager : MonoBehaviour
     public void HideRewindTxt()
     {
         _rewindTxt.gameObject.SetActive(false);
+        _rewindAssets.SetActive(false);
+        _canvasPause.SetActive(true);
     }
 
     public void ShowRewindTxt()
     {
         _rewindTxt.gameObject.SetActive(true);
+        _rewindAssets.SetActive(true);
+        _canvasPause.SetActive(false);
     }
 
     public void ShowRewindUI()
