@@ -87,7 +87,12 @@ public class UIManager : MonoBehaviour
     [Header("Rewind")]
     [SerializeField] TMP_Text _rewindTxt;
 
+    private bool _needAddEnergyVFX;
+
     private SpriteRenderer _spriteRenderer;
+
+    public bool NeedAddEnergyVFX { get => _needAddEnergyVFX; set => _needAddEnergyVFX = value; }
+
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -507,6 +512,11 @@ public class UIManager : MonoBehaviour
 
         _actionPointsTxt.text = ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.GetCurrentPlayer()).ToString();
         _currentRoundTxt.text = "Current round : " + GameManager.instance.GetCurrentRound().ToString();
+
+        if (_needAddEnergyVFX)
+            VFXManager.instance.PlayAddEnergyVFX();
+
+        _needAddEnergyVFX = false;
     }
     #endregion
 

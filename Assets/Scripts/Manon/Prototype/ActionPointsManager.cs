@@ -34,6 +34,7 @@ public class ActionPointsManager : MonoBehaviour
             _player1ActionPoints += 1;
             Debug.Log(_player1ActionPoints);
             GameManager.instance.EnergyDecoyTriggeredPlayer1 = false;
+            UIManager.instance.NeedAddEnergyVFX = true;
         }
         else if (GameManager.instance.EnergyDecoyTriggeredPlayer2)
         {
@@ -41,6 +42,7 @@ public class ActionPointsManager : MonoBehaviour
             _player2ActionPoints += 1;
             Debug.Log(_player2ActionPoints);
             GameManager.instance.EnergyDecoyTriggeredPlayer2 = false;
+            UIManager.instance.NeedAddEnergyVFX = true;
         }
     }
 
