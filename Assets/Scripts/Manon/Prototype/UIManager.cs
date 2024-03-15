@@ -57,7 +57,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Victory")]
     [SerializeField] GameObject _victoryCanvas;
-    [SerializeField] TMP_Text _victoryTxt;
+    [SerializeField] TMP_Text _victoryCaptainName;
+    [SerializeField] TMP_Text _victoryWinner;
+    [SerializeField] Image _victoryCaptainImg;
 
     [Header("Switch Ship")]
     [SerializeField] GameObject _switchShipButton;
@@ -332,7 +334,10 @@ public class UIManager : MonoBehaviour
     public void ShowVictoryCanvas(Player winner)
     {
         _victoryCanvas.SetActive(true);
-        _victoryTxt.text = "Winner : " + winner.ToString();
+        _victoryWinner.text = "Winner : " + winner.ToString();
+        Ship winnerShip = GameManager.instance.GetPlayerShip(winner);
+        _victoryCaptainName.text = winnerShip.ShipData.CaptainName.ToUpper();
+        _victoryCaptainImg.sprite = winnerShip.ShipData.CaptainImgCut;
     }
 
     public void HideGameCanvas()

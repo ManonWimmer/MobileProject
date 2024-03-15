@@ -605,6 +605,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Ship GetPlayerShip(Player player)
+    {
+        if (player == Player.Player1)
+        {
+            return _shipPlayer1;
+        }
+        else
+        {
+            return _shipPlayer2;
+        }
+    }
+
     public Ship GetPlayerRewindShip()
     {
         if (_playerTurn == Player.Player1)
