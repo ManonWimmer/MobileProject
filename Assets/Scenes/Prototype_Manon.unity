@@ -9430,7 +9430,7 @@ PrefabInstance:
     - target: {fileID: 5397294177761688212, guid: 6cfd3b3dc4b417a479b73bd93c92eb2d, type: 3}
       propertyPath: _listRef
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1445438518}
     - target: {fileID: 5397294177761688212, guid: 6cfd3b3dc4b417a479b73bd93c92eb2d, type: 3}
       propertyPath: _pausePage
       value: 
@@ -13827,10 +13827,10 @@ PrefabInstance:
     - target: {fileID: 6399772758019095702, guid: 466640b61c327c2468f8b3857d3a3f4c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1857460079}
     - target: {fileID: 6399772758019095702, guid: 466640b61c327c2468f8b3857d3a3f4c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: Forfeit
       objectReference: {fileID: 0}
     - target: {fileID: 6399772758019095702, guid: 466640b61c327c2468f8b3857d3a3f4c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -17381,6 +17381,7 @@ MonoBehaviour:
   _rewindTxt: {fileID: 418588589}
   _rewindAssets: {fileID: 585340392}
   _canvasPause: {fileID: 1718270439}
+  _forfeitPause: {fileID: 939278989}
 --- !u!4 &1379391156
 Transform:
   m_ObjectHideFlags: 0
@@ -19901,7 +19902,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 15
   m_TargetDisplay: 0
 --- !u!224 &1543358637
 RectTransform:

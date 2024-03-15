@@ -93,6 +93,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject _rewindAssets;
     [SerializeField] GameObject _canvasPause;
 
+    [SerializeField] TMP_Text _forfeitPause;
+
     private bool _needAddEnergyVFX;
 
     private SpriteRenderer _spriteRenderer;
@@ -124,6 +126,17 @@ public class UIManager : MonoBehaviour
         HideProbeCount();
         HidePlayerCorner();
         HideRewindTxt();
+        HideForfeit();
+    }
+
+    public void ShowForfeit()
+    {
+        _forfeitPause.gameObject.SetActive(true);
+    }
+
+    public void HideForfeit()
+    {
+        _forfeitPause.gameObject.SetActive(false);
     }
 
     public void HideEndTurnButton()
@@ -340,7 +353,7 @@ public class UIManager : MonoBehaviour
     public void ShowVictoryCanvas(Player winner)
     {
         _victoryCanvas.SetActive(true);
-        _victoryWinner.text = "Winner : " + winner.ToString();
+        _victoryWinner.text = winner.ToString();
         Ship winnerShip = GameManager.instance.GetPlayerShip(winner);
         _victoryCaptainName.text = winnerShip.ShipData.CaptainName.ToUpper();
         _victoryCaptainImg.sprite = winnerShip.ShipData.CaptainImgCut;

@@ -123,6 +123,8 @@ public class GameManager : MonoBehaviour
     private bool _player1OnlyUsingSimpleHit = true;
     private bool _player2OnlyUsingSimpleHit = true;
 
+    private bool _hasForfeit;
+
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
     public List<Tile> TilesRewindPlayer1 { get => _tilesRewindPlayer1; set => _tilesRewindPlayer1 = value; }
@@ -1550,6 +1552,7 @@ public class GameManager : MonoBehaviour
 
     public void Forfeit()
     {
+        _hasForfeit = true;
         if (_playerTurn == Player.Player2)
         {
             CheckVictoryAchievements(Player.Player2);
@@ -2168,6 +2171,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateSwitchShipArrow();
             UIManager.instance.HideEndTurnButton();
             UIManager.instance.CheckAbilityButtonsColor();
+            UIManager.instance.ShowForfeit();
 
             if (audioManager.instance != null)
                 audioManager.instance.ChangeMode();
@@ -3135,7 +3139,7 @@ public class GameManager : MonoBehaviour
     private void CheckVictoryAchievements(Player winner)
     {
         Ship winnerShip;
-        if (winner == Player.Player1)
+        if (winner == Player.Player1 && !_hasForfeit)
         {
             winnerShip = _shipPlayer1;
 
@@ -3161,7 +3165,7 @@ public class GameManager : MonoBehaviour
         {
             winnerShip = _shipPlayer2;
 
-            if (_player2OnlyUsingSimpleHit)
+            if (_player2OnlyUsingSimpleHit && !_hasForfeit)
                 Debug.Log("Achievement : BATTLESHIPS");
             if (GoogleSignInCheck.instance.getPlayerStatus() == true)
             {
@@ -3234,7 +3238,7 @@ public class GameManager : MonoBehaviour
         // Pour "All cards on the table" (Win 1 matches with each commander), tu dois surement
         // pouvoir check si les bools des 3 précédents achievements sont tous true
 
-        if (_currentRound <= 10)
+        if (_currentRound <= 10 && !_hasForfeit)
         {
             if (GoogleSignInCheck.instance.getPlayerStatus() == true)
             {
@@ -3253,7 +3257,7 @@ public class GameManager : MonoBehaviour
             }
             Debug.Log("Achievement : Sniper");
         }
-        if (_currentRound <= 15)
+        if (_currentRound <= 15 && !_hasForfeit)
         {
             if (GoogleSignInCheck.instance.getPlayerStatus() == true)
             {
