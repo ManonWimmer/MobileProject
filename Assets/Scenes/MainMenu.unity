@@ -5041,9 +5041,9 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "Fran\xE7ais"
-      m_Image: {fileID: 0}
     - m_Text: English
+      m_Image: {fileID: 0}
+    - m_Text: "Fran\xE7ais"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5296,7 +5296,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Fran\xE7ais"
+  m_text: English
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9c40f72859948814c849b74c4dfb163d, type: 2}
   m_sharedMaterial: {fileID: -2480729344998384182, guid: 9c40f72859948814c849b74c4dfb163d, type: 2}
