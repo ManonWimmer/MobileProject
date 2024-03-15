@@ -558,7 +558,7 @@ public class UIManager : MonoBehaviour
     public void UpdateFicheAbility(scriptablePower abilityData)
     {
         _infosNameAbility.text = abilityData.AbilityName.ToUpper();
-        _infosDescriptionAbility.text = "Description : \n\n" + abilityData.Description.ToUpper();
+        _infosDescriptionAbility.text = abilityData.Description.ToUpper();
         _infosCooldown.text = abilityData.Cooldown.ToString();
         _infosAbilityIcon.sprite = abilityData.Icon;
     }
