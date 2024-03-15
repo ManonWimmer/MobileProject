@@ -58,10 +58,17 @@ public class VFXManager : MonoBehaviour
     [SerializeField] List<GameObject> _vfxsUpgradeShot3And4 = new List<GameObject>();
     [SerializeField] float _vfxTimeUpgradeShot;
 
-    [Header("Add Energy")]
+    [Header("Add Energy UI")]
     [SerializeField] GameObject _vfxAddEnergy;
     [SerializeField] float _vfxTimeAddEnergy;
 
+    [Header("Time Accelerator UI")]
+    [SerializeField] GameObject _vfxTimeAccelerator;
+    [SerializeField] float _vfxTimeTimeAccelerator;
+
+    [Header("Capacitor UI")]
+    [SerializeField] GameObject _vfxCapacitor;
+    [SerializeField] float _vfxTimeCapacitor;
     // ----- FIELDS ----- //
 
     private void Awake()
@@ -318,5 +325,22 @@ public class VFXManager : MonoBehaviour
         _vfxAddEnergy.SetActive(true);
 
         StartCoroutine(DesactivateVFXAfterTime(_vfxAddEnergy, _vfxTimeAddEnergy));
+    }
+
+    public void PlayTimeAcceleratorVFX()
+    {
+        _vfxTimeAccelerator.SetActive(true);
+
+        StartCoroutine(DesactivateVFXAfterTime(_vfxTimeAccelerator, _vfxTimeTimeAccelerator));
+
+        if (audioManager.instance != null)
+            audioManager.instance.PlaySoundTimeAccelerator();
+    }
+
+    public void PlayCapacitorVFX()
+    {
+        _vfxCapacitor.SetActive(true);
+
+        StartCoroutine(DesactivateVFXAfterTime(_vfxCapacitor, _vfxTimeCapacitor));
     }
 }

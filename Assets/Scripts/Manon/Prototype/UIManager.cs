@@ -66,7 +66,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Ability Bonus")]
     [SerializeField] Image _alternateShotIcon;
-    [SerializeField] Image _simpleHitX2Img;
+    [SerializeField] Image _simpleHitIcon;
+    [SerializeField] Sprite _simpleHitX2Img;
+    [SerializeField] Sprite _simpleHitImg;
     [SerializeField] TMP_Text _probeCount;
     [SerializeField] Image _upgradeShotIcon;
     [SerializeField] Sprite _upgradeShotLvl1;
@@ -266,7 +268,11 @@ public class UIManager : MonoBehaviour
             showImg = AbilityButtonsManager.instance.SimpleHitX2Player2;
         }
 
-        _simpleHitX2Img.enabled = showImg;
+
+        if (showImg)
+            _simpleHitIcon.sprite = _simpleHitX2Img;
+        else
+            _simpleHitIcon.sprite = _simpleHitImg;
     }
 
     #region Switch Ship 

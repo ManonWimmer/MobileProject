@@ -972,6 +972,7 @@ public class AbilityButtonsManager : MonoBehaviour
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
 
         ActivateSimpleHitX2();
+        VFXManager.instance.PlayCapacitorVFX();
         UIManager.instance.CheckAbilityButtonsColor();
     }
     #endregion
@@ -1662,6 +1663,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
         _selectedButton.SetCooldown();
         ActionPointsManager.instance.UseActionPoint(GameManager.instance.PlayerTurn);
+        VFXManager.instance.PlayTimeAcceleratorVFX();
 
         DesactivateSimpleHitX2IfActivated();
 
