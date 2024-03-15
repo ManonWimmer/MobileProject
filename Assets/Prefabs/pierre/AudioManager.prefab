@@ -166,6 +166,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 477011163be1fb04c96826c9f0209478, type: 3}
   - {fileID: 8300000, guid: 67dcc8804c755bb4d8985d42cfc43c55, type: 3}
   - {fileID: 8300000, guid: fc9a2128219d0a8458434f56ace916f9, type: 3}
+  - {fileID: 8300000, guid: 78549ab48f778d44ba6d2de4f3d9248a, type: 3}
   _playlistFightMode:
   - {fileID: 8300000, guid: ba476aac67088454b9ac895e74f309de, type: 3}
   - {fileID: 8300000, guid: fb4cc924416292045b818ebefc6ba7b9, type: 3}

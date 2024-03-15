@@ -342,5 +342,8 @@ public class VFXManager : MonoBehaviour
         _vfxCapacitor.SetActive(true);
 
         StartCoroutine(DesactivateVFXAfterTime(_vfxCapacitor, _vfxTimeCapacitor));
+
+        if (audioManager.instance != null)
+            audioManager.instance.PlaySoundCapacitor();
     }
 }
