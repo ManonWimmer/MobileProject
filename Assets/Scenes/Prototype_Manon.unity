@@ -13834,6 +13834,14 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0.5714286
       objectReference: {fileID: 0}
+    - target: {fileID: 4152373681870565375, guid: 466640b61c327c2468f8b3857d3a3f4c, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[0].m_Text
+      value: English
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152373681870565375, guid: 466640b61c327c2468f8b3857d3a3f4c, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[1].m_Text
+      value: "Fran\xE7ais"
+      objectReference: {fileID: 0}
     - target: {fileID: 5132262112794459628, guid: 466640b61c327c2468f8b3857d3a3f4c, type: 3}
       propertyPath: m_Name
       value: pausePage
@@ -17938,7 +17946,7 @@ PrefabInstance:
       objectReference: {fileID: 55968095}
     - target: {fileID: 2402774735065239238, guid: aefc7aa42bb2fb643b6b4923ec39829d, type: 3}
       propertyPath: _listTextTranslate.Array.size
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2402774735065239238, guid: aefc7aa42bb2fb643b6b4923ec39829d, type: 3}
       propertyPath: _listTextTranslate.Array.data[0]
@@ -17947,23 +17955,23 @@ PrefabInstance:
     - target: {fileID: 2402774735065239238, guid: aefc7aa42bb2fb643b6b4923ec39829d, type: 3}
       propertyPath: _listTextTranslate.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 365972853}
     - target: {fileID: 2402774735065239238, guid: aefc7aa42bb2fb643b6b4923ec39829d, type: 3}
       propertyPath: _listTextTranslate.Array.data[2]
       value: 
-      objectReference: {fileID: 365972853}
+      objectReference: {fileID: 1337536425}
     - target: {fileID: 2402774735065239238, guid: aefc7aa42bb2fb643b6b4923ec39829d, type: 3}
       propertyPath: _listTextTranslate.Array.data[3]
       value: 
-      objectReference: {fileID: 1337536425}
+      objectReference: {fileID: 898475899}
     - target: {fileID: 2402774735065239238, guid: aefc7aa42bb2fb643b6b4923ec39829d, type: 3}
       propertyPath: _listTextTranslate.Array.data[4]
       value: 
-      objectReference: {fileID: 898475899}
+      objectReference: {fileID: 939278989}
     - target: {fileID: 2402774735065239238, guid: aefc7aa42bb2fb643b6b4923ec39829d, type: 3}
       propertyPath: _listTextTranslate.Array.data[5]
       value: 
-      objectReference: {fileID: 939278989}
+      objectReference: {fileID: 850856199}
     - target: {fileID: 2402774735065239238, guid: aefc7aa42bb2fb643b6b4923ec39829d, type: 3}
       propertyPath: _listTextTranslate.Array.data[6]
       value: 
