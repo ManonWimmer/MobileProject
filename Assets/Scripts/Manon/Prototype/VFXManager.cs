@@ -229,6 +229,26 @@ public class VFXManager : MonoBehaviour
         }  
     }
 
+    public void PlayUseDecoyVFX(Tile tile)
+    {
+        foreach (GameObject _vfxProbe in _vfxsProbe)
+        {
+            Debug.Log(tile.name);
+
+            if (!_vfxProbe.activeSelf)
+            {
+                _vfxProbe.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+                _vfxProbe.SetActive(true);
+
+                if (audioManager.instance != null)
+                    audioManager.instance.PlaySoundDecoyReveal();
+
+                StartCoroutine(DesactivateVFXAfterTime(_vfxProbe, _vfxTimeProbe));
+                return;
+            }
+        }
+    }
+
     public void PlayRandomProbeVFX(Tile tile)
     {
         foreach (GameObject _vfxRandomProbe in _vfxsRandomProbe)

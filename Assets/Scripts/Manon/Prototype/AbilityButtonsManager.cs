@@ -2076,6 +2076,8 @@ public class AbilityButtonsManager : MonoBehaviour
     {
         Debug.Log("energy decoy action");
         RevealRoom(_target);
+
+        VFXManager.instance.PlayUseDecoyVFX(_target);
     }
     #endregion
 
