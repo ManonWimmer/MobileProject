@@ -1,3 +1,4 @@
+using GooglePlayGames;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -3143,7 +3144,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Achievement : BATTLESHIPS");
                 if(GoogleSignInCheck.instance.getPlayerStatus() == true)
                 {
-                    Social.ReportProgress("CgkIusy6mqADEAIQBw", 100.0f, (bool success) => {
+                    PlayGamesPlatform.Instance.ReportProgress("CgkIusy6mqADEAIQBw", 100.0f, (bool success) => {
                         if (success)
                         {
                             Debug.Log("Progress reported successfully!");
@@ -3164,7 +3165,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Achievement : BATTLESHIPS");
             if (GoogleSignInCheck.instance.getPlayerStatus() == true)
             {
-                Social.ReportProgress("CgkIusy6mqADEAIQBw", 100.0f, (bool success) => {
+                PlayGamesPlatform.Instance.ReportProgress("CgkIusy6mqADEAIQBw", 100.0f, (bool success) => {
                     if (success)
                     {
                         Debug.Log("Progress reported successfully!");
@@ -3181,7 +3182,7 @@ public class GameManager : MonoBehaviour
         {
             if (GoogleSignInCheck.instance.getPlayerStatus() == true)
             {
-                Social.ReportProgress("CgkIusy6mqADEAIQAg", 100.0f, (bool success) => {
+                PlayGamesPlatform.Instance.ReportProgress("CgkIusy6mqADEAIQAg", 100.0f, (bool success) => {
                     if (success)
                     {
                         Debug.Log("Progress reported successfully!");
@@ -3199,7 +3200,7 @@ public class GameManager : MonoBehaviour
         {
             if (GoogleSignInCheck.instance.getPlayerStatus() == true)
             {
-                Social.ReportProgress("CgkIusy6mqADEAIQAw", 100.0f, (bool success) => {
+                PlayGamesPlatform.Instance.ReportProgress("CgkIusy6mqADEAIQAw", 100.0f, (bool success) => {
                     if (success)
                     {
                         Debug.Log("Progress reported successfully!");
@@ -3216,7 +3217,7 @@ public class GameManager : MonoBehaviour
         {
             if (GoogleSignInCheck.instance.getPlayerStatus() == true)
             {
-                Social.ReportProgress("CgkIusy6mqADEAIQAA", 100.0f, (bool success) => {
+                PlayGamesPlatform.Instance.ReportProgress("CgkIusy6mqADEAIQAA", 100.0f, (bool success) => {
                     if (success)
                     {
                         Debug.Log("Progress reported successfully!");
@@ -3237,7 +3238,7 @@ public class GameManager : MonoBehaviour
         {
             if (GoogleSignInCheck.instance.getPlayerStatus() == true)
             {
-                Social.ReportProgress("CgkIusy6mqADEAIQBg", 100.0f, (bool success) => {
+                PlayGamesPlatform.Instance.ReportProgress("CgkIusy6mqADEAIQBg", 100.0f, (bool success) => {
                     if (success)
                     {
                         Debug.Log("Progress reported successfully!");
@@ -3256,7 +3257,7 @@ public class GameManager : MonoBehaviour
         {
             if (GoogleSignInCheck.instance.getPlayerStatus() == true)
             {
-                Social.ReportProgress("CgkIusy6mqADEAIQBg", 100.0f, (bool success) => {
+                PlayGamesPlatform.Instance.ReportProgress("CgkIusy6mqADEAIQBg", 100.0f, (bool success) => {
                     if (success)
                     {
                         Debug.Log("Progress reported successfully!");
