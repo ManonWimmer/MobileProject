@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class dialogue : MonoBehaviour
 {
+    public static dialogue instance;
     private Animator _animator;
     [SerializeField] private TextMeshProUGUI _dialogue;
     [SerializeField] private float _timeDialogue;
@@ -36,16 +37,16 @@ public class dialogue : MonoBehaviour
     private int _index;
     private bool _isWriting = false;
 
-    private int _lastIndex = 0;
+    private int _lastIndex = -1;
+    private int _lastIndexVoice = -1;
     private bool _isPlayed;
 
     private xmlReader _xmlReader;
-    private GameManager _gameManager;
+    [SerializeField] private GameManager _gameManager;
 
     [SerializeField] private AudioSource _audio;
-    [SerializeField] private audioManager _audioManager;
+    private audioManager _audioManager;
 
-    public void StartDialogueText() => SetDialogueTextTest();
     public bool GetDilogueIsPlayed() => _isPlayed;
     public bool DisablePlayed() => _isPlayed = false;
     public int GetLenghDialogue(string name) => GetListLengh(name);
@@ -55,17 +56,22 @@ public class dialogue : MonoBehaviour
     public void SartDialogueWin() => SetDialogueWin();
     public void StartDialogueTuto(int i) => StetDialogueTuto(i);
 
+    public void CloseDialogue() => Disable();
+
 
     private void Awake()
     {
-        //_gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
-        _audio = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioSource>();
-        _xmlReader = GameObject.FindGameObjectWithTag("Translate").GetComponent<xmlReader>();
+        instance = this;
 
         _dialogue = gameObject.GetComponentInChildren<TextMeshProUGUI>();
         _animator = GetComponent<Animator>();
         _isPlayed = false;
+    }
+
+    private void Start()
+    {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
+        _xmlReader = GameObject.FindGameObjectWithTag("Translate").GetComponent<xmlReader>();
     }
 
     private int GetListLengh(string name)
@@ -118,6 +124,7 @@ public class dialogue : MonoBehaviour
         return i;
     }
 
+    #region Tuto dialogue
     private void StetDialogueTuto(int index)
     {
         if (index == 0)
@@ -161,17 +168,23 @@ public class dialogue : MonoBehaviour
             OpenDialogue();
         }
     }
+    #endregion
 
     #region Start dialogues
     private void SetDialogueHit()
     {
         if (!_isPlayed)
         {
-            _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueWin());
+            _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueHit());
             _audio.Play();
             string text = RandomDialogue(FindListDialogueHit());
             Enable(text);
             OpenDialogue();
+        }
+        else
+        {
+            Disable();
+            SetDialogueHit();
         }
     }
 
@@ -179,11 +192,16 @@ public class dialogue : MonoBehaviour
     {
         if (!_isPlayed)
         {
-            _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueWin());
+            _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueAttack());
             _audio.Play();
             string text = RandomDialogue(FindListDialogueAttack());
             Enable(text);
             OpenDialogue();
+        }
+        else
+        {
+            Disable();
+            SetDialogueAttack();
         }
     }
 
@@ -197,41 +215,14 @@ public class dialogue : MonoBehaviour
             Enable(text);
             OpenDialogue();
         }
+        else
+        {
+            Disable();
+            SetDialogueWin();
+        }
     }
 
     #endregion
-
-    private void SetDialogueTextTest()
-    {
-        if (!_isPlayed)
-        {
-            /*if (GetShip == "CPT. COWBOY")
-            {
-                string text = RandomDialogue(_dialoguesCowHit);
-                Enable(text);
-                OpenDialogue();
-            }
-            else if (GetShip == "CPT. NERD")
-            {
-                string text = RandomDialogue(_dialoguesNerdHit);
-                Enable(text);
-                OpenDialogue();
-            }
-            else if (GetShip == "CPT. RAVIOLI")
-            {
-                string text = RandomDialogue(_dialoguesPizzaHit);
-                Enable(text);
-                OpenDialogue();
-            }*/
-
-            _audio.clip = _audioManager._playlistWinNerd[0];
-            _audio.Play();
-
-            string text = RandomDialogue(_dialoguesCowHit);
-            Enable(text);
-            OpenDialogue();
-        }
-    }
 
     /* private List<string> SelectList(int i)
     {
@@ -286,6 +277,7 @@ public class dialogue : MonoBehaviour
         return list;
     } */
 
+    #region open & start & close dialogues
     private void OpenDialogue()
     {
         _animator.SetBool("Close", false);
@@ -306,8 +298,14 @@ public class dialogue : MonoBehaviour
 
     private void Disable()
     {
+        _isPlayed = false;
+        _animator.SetBool("Close", true);
+
         _index = 0;
         _dialogue.text = string.Empty;
+
+        _audio.Stop();
+        StopAllCoroutines();
     }
 
     private IEnumerator TypeLine()
@@ -339,10 +337,9 @@ public class dialogue : MonoBehaviour
     private IEnumerator TimeDialogue()
     {
         yield return new WaitForSeconds(_timeDialogue);
-
         Disable();
-        _animator.SetBool("Close", true);
     }
+    #endregion
 
 
     //SEPERATE LINES 
@@ -366,38 +363,50 @@ public class dialogue : MonoBehaviour
         _lines = text.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
     } */
 
+
     #region Random text dialogue
     private string RandomDialogue(List<string> listDialogue)
     {
-
-        string dialogue;
-        int index;
-        int lastIndex = 0;
-
-        do
+        if (listDialogue.Count > 1)
         {
-            index = UnityEngine.Random.Range(0, listDialogue.Count);
-        } while (index == lastIndex);
+            string dialogue;
+            int index;
 
-        lastIndex = index;
-        dialogue = listDialogue[index];
-        return dialogue;
+            do
+            {
+                index = UnityEngine.Random.Range(0, listDialogue.Count);
+            } while (index == _lastIndex);
+
+            _lastIndex = index;
+            dialogue = listDialogue[index];
+            return dialogue;
+        }
+        else
+        {
+            return listDialogue[0];
+        }
     }
 
     private AudioClip RandomVoice(AudioClip[] listClip)
     {
-        AudioClip clip;
-        int index;
-        int lastIndex = 0;
-
-        do
+        if (listClip.Length > 1)
         {
-            index = UnityEngine.Random.Range(0, listClip.Length);
-        } while (index == lastIndex);
+            AudioClip clip;
+            int index;
 
-        lastIndex = index;
-        clip = listClip[index];
-        return clip;
+            do
+            {
+                index = UnityEngine.Random.Range(0, listClip.Length);
+            } while (index == _lastIndexVoice);
+
+            _lastIndexVoice = index;
+            clip = listClip[index];
+            return clip;
+        }
+        else
+        {
+            return listClip[0];
+        }
     }
     #endregion
 

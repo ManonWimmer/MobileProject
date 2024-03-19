@@ -71,57 +71,59 @@
 		
 				<!--Voice lines : N=Nerd,C=Cowboy, R=Chef -->
 			<!--Hit-->
-		<voiceHitN2>Debug.log("panik");</voiceHitN2>
-		<voiceHitN3>Error 404 =>  room not found !</voiceHitN3>
-		<voiceHitN4>Putting up a fight huh.. (ง・.・)ง</voiceHitN4>
-		
-		<voiceHitC1>I might be getting too rusty for this…</voiceHitC1>
-		<voiceHitC2>Darn younglings don’t know how to treat robots my age</voiceHitC2>
-		<voiceHitC3>This is just a bullet wound…</voiceHitC3>
-		<voiceHitC4>Wait ! The sun was in my eye-captors-</voiceHitC4>
-		
-		<voiceHitR1>Oh no ! You almost-a made my beautiful ravioli slip!</voiceHitR1>
+		<voiceHitN2>DEBUG.LOG("PANIK");</voiceHitN2>
+		<voiceHitN3>ERROR 404 => ROOM NOT FOUND !</voiceHitN3>
+		<voiceHitN4>PUTTING UP A FIGHT HUH.. (ง・.・)ง</voiceHitN4>
+
+		<voiceHitC1>I MIGHT BE GETTING TOO RUSTY FOR THIS…</voiceHitC1>
+		<voiceHitC2>DARN YOUNGLINGS DON’T KNOW HOW TO TREAT ROBOTS MY AGE</voiceHitC2>
+		<voiceHitC3>THIS IS JUST A BULLET WOUND…</voiceHitC3>
+		<voiceHitC4>WAIT ! THE SUN WAS IN MY EYE-CAPTORS-</voiceHitC4>
+
+		<voiceHitR1>OH NO ! YOU ALMOST-A MADE MY BEAUTIFUL RAVIOLI SLIP!</voiceHitR1>
 		
 			<!--Attack-->
-		<voiceAttackN1>Print(“FIRE, DEATH and CATZ &lt;3 !!!”);</voiceAttackN1>
-		<voiceAttackN2>Natural 20 !!!.! (*w*)</voiceAttackN2>
-		<voiceAttackN3>Let’s speedrun this fight (>wO)~~~**</voiceAttackN3>
-		
-		<voiceAttackC1>Tell me now, how does my iron-railgun taste ?</voiceAttackC1>
-		<voiceAttackC2>You attacked the wrong bot, kiddo</voiceAttackC2>
-		<voiceAttackC3>You wouldn’t last a day in the galactic far west</voiceAttackC3>
-		
-		<voiceAttackR1>Time for-a the bill !</voiceAttackR1>
-		<voiceAttackR2>Aw, you look-a hungry ! Have-a some ravioli !</voiceAttackR2>
-		<voiceAttackR3>Watch out for this-a one !</voiceAttackR3>
+		<voiceAttackN1>PRINT(“FIRE, DEATH AND CATZ :3 !!!”);</voiceAttackN1>
+		<voiceAttackN2>NATURAL 20 !!!.! (*W*)</voiceAttackN2>
+		<voiceAttackN3>LET’S SPEEDRUN THIS FIGHT (>WO)~~~**</voiceAttackN3>
+
+		<voiceAttackC1>TELL ME NOW, HOW DOES MY IRON-RAILGUN TASTE ?</voiceAttackC1>
+		<voiceAttackC2>YOU ATTACKED THE WRONG BOT, KIDDO</voiceAttackC2>
+		<voiceAttackC3>YOU WOULDN’T LAST A DAY IN THE GALACTIC FAR WEST</voiceAttackC3>
+
+		<voiceAttackR1>TIME FOR-A THE BILL !</voiceAttackR1>
+		<voiceAttackR2>AW, YOU LOOK-A HUNGRY ! HAVE-A SOME RAVIOLI !</voiceAttackR2>
+		<voiceAttackR3>WATCH OUT FOR THIS-A ONE !</voiceAttackR3>
 		
 			<!--Victory-->
-		<voiceVictoryN1>GGEZ better luck next time \(^U^)/ !</voiceVictoryN1>
-		<voiceVictoryN2>Sorry for the blue screen Iv&lt; </voiceVictoryN2>
-		<voiceVictoryN3>Get PWND noob !</voiceVictoryN3>
-		<voiceVictoryN4>Hope your next opponent isn't as good as me ;3</voiceVictoryN4>
-		<voiceVictoryN5>Enjoy the killcam 乁(^◞ ^)ㄏ</voiceVictoryN5>
-		
-		<voiceVictoryC1>I’m good, you might be bad… but you’re sure as space ugly..</voiceVictoryC1>
-		<voiceVictoryC2>Still a good shot despite my old age..</voiceVictoryC2>
-		<voiceVictoryC3>Tis’ High Noon somewhere in the galaxy…</voiceVictoryC3>
-		
-		<voiceVictoryR1>Aww go back and-a cry to your-a mamma !</voiceVictoryR1>
-		<voiceVictoryR2>You weren’t seasoned well enough to be served, bambino</voiceVictoryR2>
-		<voiceVictoryR3>Il capo always-a wins !</voiceVictoryR3>
+		<voiceVictoryN1>GGEZ BETTER LUCK NEXT TIME \(^U^)/ !</voiceVictoryN1>
+		<voiceVictoryN2>SORRY FOR THE BLUE SCREEN IV</voiceVictoryN2>
+		<voiceVictoryN3>GET PWND NOOB !</voiceVictoryN3>
+		<voiceVictoryN4>HOPE YOUR NEXT OPPONENT ISN'T AS GOOD AS ME ;3</voiceVictoryN4>
+		<voiceVictoryN5>ENJOY THE KILLCAM 乁(^◞ ^)ㄏ</voiceVictoryN5>
+
+		<voiceVictoryC1>I’M GOOD, YOU MIGHT BE BAD… BUT YOU’RE SURE AS SPACE UGLY..</voiceVictoryC1>
+		<voiceVictoryC2>STILL A GOOD SHOT DESPITE MY OLD AGE..</voiceVictoryC2>
+		<voiceVictoryC3>TIS’ HIGH NOON SOMEWHERE IN THE GALAXY…</voiceVictoryC3>
+
+		<voiceVictoryR1>AWW GO BACK AND-A CRY TO YOUR-A MAMMA !</voiceVictoryR1>
+		<voiceVictoryR2>YOU WEREN’T SEASONED WELL ENOUGH TO BE SERVED, BAMBINO</voiceVictoryR2>
+		<voiceVictoryR3>IL CAPO ALWAYS-A WINS !</voiceVictoryR3>
 
 		<textWin>Win</textWin>
 
 		<!--Tuto-->
-		<textTuto1>Here you will be able to choose a room to add in your spaceship. Each room is linked to an ability, so if a room is destroyed you will loose the capacity</textTuto1>
-		<textTuto2>This is your spaceship. Down there you have a reminder of the room you already chose</textTuto2>
-		<textTuto3>Your enemy will have the same options as you so don’t forget to think ahead and make smart decision</textTuto3>
-		<textTuto4>Here you can arrange the rooms you chose to prepare yourself for the fight.</textTuto4>
-		<textTuto5>To win you will need to annihilate the enemy spaceship by destroying all of his vital rooms. Here you can see how many vitals are left to destroy, in red, your ennemy’s and in blue, yours</textTuto5>
-		<textTuto6>Those are your abilities each of them will need a energy to be use and most of them will have a cooldown represented by a clock on top of it’s card.</textTuto6>
-		<textTuto7>Every room is attached to an ability, if the room is entirely destroyed, the capacity linked to it will be deactivated</textTuto7>
-		<textTuto8>This is a recap of the enemy actions were you can look at the effects of enemy abilty</textTuto8>
-	</language>
+		<textTuto1>HERE YOU WILL BE ABLE TO CHOOSE A ROOM TO ADD IN YOUR SPACESHIP. EACH ROOM IS LINKED TO AN ABILITY, SO IF A ROOM IS DESTROYED YOU WILL LOOSE THE CAPACITY</textTuto1>
+		<textTuto2>THIS IS YOUR SPACESHIP. DOWN THERE YOU HAVE A REMINDER OF THE ROOM YOU ALREADY CHOSE</textTuto2>
+		<textTuto3>YOUR ENEMY WILL HAVE THE SAME OPTIONS AS YOU SO DON’T FORGET TO THINK AHEAD AND MAKE SMART DECISION</textTuto3>
+		<textTuto4>HERE YOU CAN ARRANGE THE ROOMS YOU CHOSE TO PREPARE YOURSELF FOR THE FIGHT.</textTuto4>
+		<textTuto5>TO WIN YOU WILL NEED TO ANNIHILATE THE ENEMY SPACESHIP BY DESTROYING ALL OF HIS VITAL ROOMS. HERE YOU CAN SEE HOW MANY VITALS ARE LEFT TO DESTROY, IN RED, YOUR ENNEMY’S AND IN BLUE, YOURS</textTuto5>
+		<textTuto6>THOSE ARE YOUR ABILITIES EACH OF THEM WILL NEED A ENERGY TO BE USE AND MOST OF THEM WILL HAVE A COOLDOWN REPRESENTED BY A CLOCK ON TOP OF IT’S CARD.</textTuto6>
+		<textTuto7>EVERY ROOM IS ATTACHED TO AN ABILITY, IF THE ROOM IS ENTIRELY DESTROYED, THE CAPACITY LINKED TO IT WILL BE DEACTIVATED</textTuto7>
+		<textTuto8>THIS IS A RECAP OF THE ENEMY ACTIONS WERE YOU CAN LOOK AT THE EFFECTS OF ENEMY ABILTY</textTuto8>
+	
+
+</language>
 
 <!--FRENCH-->
 	<language>
@@ -193,54 +195,55 @@
 		
 		<!--Voice lines : N=Nerd,C=Cowboy, R=Chef -->
 			<!--Hit-->
-		<voiceHitN2>Debug.log("panique");</voiceHitN2>
-		<voiceHitN3>Erreur 404 => salle introuvable !</voiceHitN3>
-		<voiceHitN4>Tu sais te battre dis donc (ง・.・)ง</voiceHitN4>
-		
-		<voiceHitC1>Je suis trop rouillé pour faire ça</voiceHitC1>
-		<voiceHitC2>Dis donc les jeunes de nos jours ne savent pas comment se comporter avec les robots de mon âge</voiceHitC2>
-		<voiceHitC3>C'est juste une balle dans mon buste...</voiceHitC3>
-		<voiceHitC4>Attends !J'ai le soleil dans mes capteurs visuels</voiceHitC4>
-		
-		<voiceHitR1>Oh non! T'as presque fait tomber mes magnifiiiiques raviolis!</voiceHitR1>
+		<voiceHitN2>DEBUG.LOG("PANIQUE");</voiceHitN2>
+		<voiceHitN3>ERREUR 404 => SALLE INTROUVABLE !</voiceHitN3>
+		<voiceHitN4>TU SAIS TE BATTRE DIS DONC (ง・.・)ง</voiceHitN4>
+
+		<voiceHitC1>JE SUIS TROP ROUILLÉ POUR FAIRE ÇA</voiceHitC1>
+		<voiceHitC2>DIS DONC LES JEUNES DE NOS JOURS NE SAVENT PAS COMMENT SE COMPORTER AVEC LES ROBOTS DE MON ÂGE</voiceHitC2>
+		<voiceHitC3>C'EST JUSTE UNE BALLE DANS MON BUSTE...</voiceHitC3>
+		<voiceHitC4>ATTENDS !J'AI LE SOLEIL DANS MES CAPTEURS VISUELS</voiceHitC4>
+
+		<voiceHitR1>OH NON! T'AS PRESQUE FAIT TOMBER MES MAGNIFIIIIQUES RAVIOLIS!</voiceHitR1>
 		
 			<!--Attack-->
-		<voiceAttackN1>Print("FEU,MORT ET CHAT &lt;3!!!");</voiceAttackN1>
-		<voiceAttackN2>Un 20 naturel !!.! (*w*)</voiceAttackN2>
-		<voiceAttackN3>On va speedrun ce combat (>wO)~~~**</voiceAttackN3>
-		
-		<voiceAttackC1>Tu peux me dire quel goût à mon revolver-railgun?</voiceAttackC1>
-		<voiceAttackC2>Tu t'es attaqué au mauvais robot mon ptit</voiceAttackC2>
-		<voiceAttackC3>Tu ne survivrai pas un seul jour dans la galaxie du far west</voiceAttackC3>
-		
-		<voiceAttackR1>C'est l'heure de l'A.D.I.T.I.O.N</voiceAttackR1>
-		<voiceAttackR2>Aw, t'as l'air d'avoir faim! Pends quelqoune ravioliii !</voiceAttackR2>
-		<voiceAttackR3>Fais gaffe à celui-ci</voiceAttackR3>
+		<voiceAttackN1>PRINT("FEU,MORT ET CHAT :3 !!!");</voiceAttackN1>
+		<voiceAttackN2>UN 20 NATUREL !!.! (*W*)</voiceAttackN2>
+		<voiceAttackN3>ON VA SPEEDRUN CE COMBAT (>WO)~~~**</voiceAttackN3>
+
+		<voiceAttackC1>TU PEUX ME DIRE QUEL GOÛT À MON REVOLVER-RAILGUN?</voiceAttackC1>
+		<voiceAttackC2>TU T'ES ATTAQUÉ AU MAUVAIS ROBOT MON PTIT</voiceAttackC2>
+		<voiceAttackC3>TU NE SURVIVRAI PAS UN SEUL JOUR DANS LA GALAXIE DU FAR WEST</voiceAttackC3>
+
+		<voiceAttackR1>C'EST L'HEURE DE L'A.D.I.T.I.O.N</voiceAttackR1>
+		<voiceAttackR2>AW, T'AS L'AIR D'AVOIR FAIM! PENDS QUELQOUNE RAVIOLIII !</voiceAttackR2>
+		<voiceAttackR3>FAIS GAFFE À CELUI-CI</voiceAttackR3>
 		
 			<!--Victory-->
-		<voiceVictoryN1>GGEZ tu seras peut-être plus chanceux la prochaine fois \(^U^)/ !</voiceVictoryN1>
-		<voiceVictoryN2>Désolé pour le screen blue |v&lt;</voiceVictoryN2>
-		<voiceVictoryN3>Va falloir que tu pexes le noob!</voiceVictoryN3>
-		<voiceVictoryN4>J'espère que ton prochain adversaire n'est pas aussi bon que moi ;3</voiceVictoryN4>
-		<voiceVictoryN5>Bonne killcam乁(^◞ ^)ㄏ</voiceVictoryN5>
-		
-		<voiceVictoryC1>Non cette galaxie n'est pas pour un viel robot comme toi!</voiceVictoryC1>
-		<voiceVictoryC2>Je suis toujours aussi précis malgré mon viel âge</voiceVictoryC2>
-		<voiceVictoryC3>Une dernière volontée avant de quitter cette galaxie?</voiceVictoryC3>
-		
-		<voiceVictoryR1>Aww retourne pleurer dans les joupons de ta mamma!</voiceVictoryR1>
-		<voiceVictoryR2>Tu n'étais pas assez bien assaisoner pour être servis, bambino</voiceVictoryR2>
-		<voiceVictoryR3>Il capo gagne toujours!!</voiceVictoryR3>
+		<voiceVictoryN1>GGEZ TU SERAS PEUT-ÊTRE PLUS CHANCEUX LA PROCHAINE FOIS \(^U^)/ !</voiceVictoryN1>
+		<voiceVictoryN2>DÉSOLÉ POUR LE SCREEN BLUE |V</voiceVictoryN2>
+		<voiceVictoryN3>VA FALLOIR QUE TU PEXES LE NOOB!</voiceVictoryN3>
+		<voiceVictoryN4>J'ESPÈRE QUE TON PROCHAIN ADVERSAIRE N'EST PAS AUSSI BON QUE MOI ;3</voiceVictoryN4>
+		<voiceVictoryN5>BONNE KILLCAM乁(^◞ ^)ㄏ</voiceVictoryN5>
+
+		<voiceVictoryC1>NON CETTE GALAXIE N'EST PAS POUR UN VIEL ROBOT COMME TOI!</voiceVictoryC1>
+		<voiceVictoryC2>JE SUIS TOUJOURS AUSSI PRÉCIS MALGRÉ MON VIEL ÂGE</voiceVictoryC2>
+		<voiceVictoryC3>UNE DERNIÈRE VOLONTÉE AVANT DE QUITTER CETTE GALAXIE?</voiceVictoryC3>
+
+		<voiceVictoryR1>AWW RETOURNE PLEURER DANS LES JOUPONS DE TA MAMMA!</voiceVictoryR1>
+		<voiceVictoryR2>TU N'ÉTAIS PAS ASSEZ BIEN ASSAISONER POUR ÊTRE SERVIS, BAMBINO</voiceVictoryR2>
+		<voiceVictoryR3>IL CAPO GAGNE TOUJOURS!!</voiceVictoryR3>
 
 		<!--Tuto-->
-		<textTuto1>Dans ce menu, vous pouvez choisir des salles à ajouter à votre vaisseau. Chaque pièce est liée à une capacité que vous pourrez utiliser, mais si la salle est détruite, la capacité sera désactivée.</textTuto1>
-		<textTuto2>Ici, vous pouvez voir votre vaisseau, et en dessous, une liste des salles que vous avez déjà choisies.</textTuto2>
-		<textTuto3>Votre adversaire aura les mêmes propositions que vous, donc rappelez vous en pour faire le choix le plus réfléchi.</textTuto3>
-		<textTuto4>Dans ce menu, vous pouvez déplacer vos pièces pour vous préparer à recevoir les attaques adverses.</textTuto4>
-		<textTuto5>Pour gagner, vous devrez annihiler le vaisseau ennemi en détruisant toutes ses salles vitales. Vous pouvez voir le nombre de salles vitales restantes à votre adversaire en rouge, et les votres en bleu.</textTuto5>
-		<textTuto6>Ici, vous voyez vos capacités, chacune prendra une énergie à être lancée et aura un cooldown indiqué avec le chronomètre au dessus de sa carte.</textTuto6>
-		<textTuto7>Chaque salle est associée à une capacité, si la salle est entièrement détruite, la capacité liée sera inutilisable.</textTuto7>
-		<textTuto8>Chaque salle est associée à une capacité, si la salle est entièrement détruite, la capacité liée sera inutilisable.</textTuto8>
-		
-	</language>
+		<textTuto1>DANS CE MENU, VOUS POUVEZ CHOISIR DES SALLES À AJOUTER À VOTRE VAISSEAU. CHAQUE PIÈCE EST LIÉE À UNE CAPACITÉ QUE VOUS POURREZ UTILISER, MAIS SI LA SALLE EST DÉTRUITE, LA CAPACITÉ SERA DÉSACTIVÉE.</textTuto1>
+		<textTuto2>ICI, VOUS POUVEZ VOIR VOTRE VAISSEAU, ET EN DESSOUS, UNE LISTE DES SALLES QUE VOUS AVEZ DÉJÀ CHOISIES.</textTuto2>
+		<textTuto3>VOTRE ADVERSAIRE AURA LES MÊMES PROPOSITIONS QUE VOUS, DONC RAPPELEZ-VOUS EN POUR FAIRE LE CHOIX LE PLUS RÉFLÉCHI.</textTuto3>
+		<textTuto4>DANS CE MENU, VOUS POUVEZ DÉPLACER VOS PIÈCES POUR VOUS PRÉPARER À RECEVOIR LES ATTAQUES ADVERSES.</textTuto4>
+		<textTuto5>POUR GAGNER, VOUS DEVREZ ANNIHILER LE VAISSEAU ENNEMI EN DÉTRUISANT TOUTES SES SALLES VITALES. VOUS POUVEZ VOIR LE NOMBRE DE SALLES VITALES RESTANTES À VOTRE ADVERSAIRE EN ROUGE, ET LES VOTRES EN BLEU.</textTuto5>
+		<textTuto6>ICI, VOUS VOYEZ VOS CAPACITÉS, CHACUNE PRENDRA UNE ÉNERGIE À ÊTRE LANCÉE ET AURA UN COOLDOWN INDICAT AVEC LE CHRONOMÈTRE AU DESSUS DE SA CARTE.</textTuto6>
+		<textTuto7>CHAQUE SALLE EST ASSOCIÉE À UNE CAPACITÉ, SI LA SALLE EST ENTIÈREMENT DÉTRUITE, LA CAPACITÉ LIÉE SERA INUTILISABLE.</textTuto7>
+		<textTuto8>ICI VOUS POUVEZ VOIR UN RÉCAP DES ACTIONS ENNEMIS SUR LEQUEL VOUS POUVEZ APPUYER POUR SAVOIR COMMENT ELLES MARCHENT.</textTuto8>
+
+	
+</language>
 </languages>

@@ -14,13 +14,17 @@ public class listReferences : MonoBehaviour
 
     private xmlReader _xmlReader;
     private audioManager _audioManager;
+    private AudioSource _audioSourceSound;
 
     public xmlReader GetXmlReader() => _xmlReader;
+    public AudioSource GetaudioSource() => _audioSourceSound;
+    public audioManager GetaudioManager() => _audioManager;
 
     private void Start()
     {
         _xmlReader = GameObject.FindGameObjectWithTag("Translate").GetComponent <xmlReader>();
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
+        _audioSourceSound = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioSource>();
 
         _sliderMusic.value = _audioManager.GetVolumeMusic();
         _sliderSounds.value = _audioManager.GetVolumeSound();

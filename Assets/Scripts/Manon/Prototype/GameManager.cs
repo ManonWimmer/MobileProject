@@ -2073,6 +2073,7 @@ public class GameManager : MonoBehaviour
             CameraController.instance.ResetEndTurnAndAbilityButtonsPos();
             UIManager.instance.HideEndTurnButton();
             UIManager.instance.CheckAbilityButtonsColor();
+            dialogue.instance.CloseDialogue();
         }
 
         if (_currentMode == Mode.Construction)
