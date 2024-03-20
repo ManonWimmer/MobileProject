@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 864407452665987499, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_Name
-      value: AlternateShotFiche
+      value: DescriptionFiche
       objectReference: {fileID: 0}
     - target: {fileID: 1299223820951008893, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_Pivot.x

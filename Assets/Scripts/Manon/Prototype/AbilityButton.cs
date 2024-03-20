@@ -14,6 +14,7 @@ public class AbilityButton : MonoBehaviour
     [SerializeField] Image _cooldownIcon;
     [SerializeField] GameObject _selectedBackground;
     [SerializeField] Image _abilityIcon;
+    [SerializeField] Animator _animator;
     private Image _image;
     private Button _button;
     private Button.ButtonClickedEvent _onClickOnline;
@@ -55,6 +56,11 @@ public class AbilityButton : MonoBehaviour
 
     public void SelectedButtonUI()
     {
+        if (_animator.GetBool("Down"))
+        {
+            _animator.SetTrigger("Up");
+            _animator.SetBool("Down", false);
+        }
         _selectedBackground.SetActive(true);
         GetComponent<Image>().color = Color.white;
         _cooldownTxt.color = new Color(0.094f, 0.09f, 0.15f, 1f); // Black
@@ -64,6 +70,7 @@ public class AbilityButton : MonoBehaviour
 
     public void OnlineAndCanBeUsedButtonUI()
     {
+        _animator.SetBool("Down", true);
         _selectedBackground.SetActive(false);
         GetComponent<Image>().color = Color.white;
         _cooldownTxt.color = new Color(0.34f, 0.54f, 0.76f, 1f); // Blue
@@ -73,6 +80,7 @@ public class AbilityButton : MonoBehaviour
 
     public void OnlineAndCantBeUsedButtonUI()
     {
+        _animator.SetBool("Down", true);
         _selectedBackground.SetActive(false);
         GetComponent<Image>().color = Color.gray;
         _cooldownTxt.color = new Color(0.34f, 0.54f, 0.76f, 1f); // Blue
@@ -82,6 +90,8 @@ public class AbilityButton : MonoBehaviour
 
     public void OfflineButtonUI()
     {
+        _animator.SetBool("Down", true);
+        _animator.SetBool("Selected", false);
         _selectedBackground.SetActive(false);
         GetComponent<Image>().color = Color.red;
         _cooldownTxt.color = new Color(0.094f, 0.09f, 0.15f, 1f); // Black

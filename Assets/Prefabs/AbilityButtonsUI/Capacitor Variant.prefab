@@ -90,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1824277567157656457, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_Name
-      value: CapacitorFiche
+      value: DescriptionFiche
       objectReference: {fileID: 0}
     - target: {fileID: 2882642390712319650, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_text

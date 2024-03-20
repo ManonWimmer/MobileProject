@@ -98,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5848365635557588472, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_Name
-      value: ScannerFiche
+      value: DescriptionFiche
       objectReference: {fileID: 0}
     - target: {fileID: 6951729045482789075, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_text

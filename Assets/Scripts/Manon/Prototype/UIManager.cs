@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text _infosNameAbility;
     [SerializeField] TMP_Text _infosDescriptionAbility;
     [SerializeField] TMP_Text _infosCooldown;
+    [SerializeField] Animator _infosAbilityAnimator;
 
     [Header("Infos Room")]
     [SerializeField] GameObject _infosRoom;
@@ -50,6 +51,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text _infosNameRoomAbility;
     [SerializeField] TMP_Text _infosDescriptionRoomAbility;
     [SerializeField] TMP_Text _infosCooldownRoomAbility;
+    [SerializeField] Animator _infosRoomAnimator;
 
     [Header("Ability Buttons")]
     [SerializeField] GameObject _randomizeRoomsButton;
@@ -554,18 +556,20 @@ public class UIManager : MonoBehaviour
     public void ShowFicheAbility(scriptablePower abilityData)
     {
         _infosAbility.SetActive(true);
+        _infosAbilityAnimator.SetBool("Close", false);
+        _infosAbilityAnimator.SetTrigger("Open");
 
         UpdateFicheAbility(abilityData);
     }
 
     public void HideFicheAbility()
     {
-        _infosAbility.SetActive(false);
+        _infosAbilityAnimator.SetBool("Close", true);
     }
 
     public bool IsFicheAbilityOpened()
     {
-        return _infosAbility.activeSelf;
+        return _infosAbilityAnimator.GetBool("Close");
     }
 
     public void UpdateFicheAbility(scriptablePower abilityData)
@@ -584,6 +588,9 @@ public class UIManager : MonoBehaviour
     public void ShowFicheRoom(RoomSO roomData)
     {
         _infosRoom.SetActive(true);
+
+        _infosRoomAnimator.SetBool("Close", false);
+        _infosRoomAnimator.SetTrigger("Open");
 
         _infosRoomPattern.sprite = roomData.RoomPatternImg;
         _infosNameRoom.text = roomData.RoomName.ToUpper();
@@ -612,7 +619,7 @@ public class UIManager : MonoBehaviour
 
     public void HideFicheRoom()
     {
-        _infosRoom.SetActive(false);
+        _infosRoomAnimator.SetBool("Close", true);
     }
     #endregion
 }

@@ -455,8 +455,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8965152886477561495}
   - {fileID: 4741432596364281786}
+  - {fileID: 8965152886477561495}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -687,7 +687,7 @@ GameObject:
   - component: {fileID: 5183106400241460590}
   - component: {fileID: 4329332299838899337}
   m_Layer: 5
-  m_Name: SimpleRevealFiche
+  m_Name: DescriptionFiche
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

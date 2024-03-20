@@ -13,7 +13,7 @@ public class AbilityFiche : MonoBehaviour
         if (CameraController.instance.IsMoving)
             return;
 
-        if (UIManager.instance.IsFicheAbilityOpened())
+        if (!UIManager.instance.IsFicheAbilityOpened())
         {
             if (UIManager.instance.IsFicheAbilityWithSameAbility(_abilityButton.GetAbility()))
             {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class dialogue : MonoBehaviour
@@ -11,8 +12,9 @@ public class dialogue : MonoBehaviour
     public static dialogue instance;
     private Animator _animator;
     [SerializeField] private TextMeshProUGUI _dialogue;
-    [SerializeField] private float _timeDialogue;
-    [SerializeField] private bool _dontTimeDialogue;
+    [SerializeField] private float _timeDialogueHide;
+    [SerializeField] float _textSpeed;
+    [SerializeField] private bool _dontTimeDialogueHide;
 
     [Header("Dialogue Hit")]
     [SerializeField] private List<string> _dialoguesNerdHit = new List<string>();
@@ -32,20 +34,19 @@ public class dialogue : MonoBehaviour
     [Header("Tuto")]
     [SerializeField] private List<string> _dialoguesTuto = new List<string>();
 
-    [SerializeField] float _textSpeed;
     private string _lines;
-    private int _index;
-    private bool _isWriting = false;
+    private bool _isDialogueActive = false;
 
     private int _lastIndex = -1;
     private int _lastIndexVoice = -1;
     private bool _isPlayed;
 
-    private xmlReader _xmlReader;
     [SerializeField] private GameManager _gameManager;
-
     [SerializeField] private AudioSource _audio;
     private audioManager _audioManager;
+    private xmlReader _xmlReader;
+
+    private Coroutine _coroutine;
 
     public bool GetDilogueIsPlayed() => _isPlayed;
     public bool DisablePlayed() => _isPlayed = false;
@@ -72,6 +73,7 @@ public class dialogue : MonoBehaviour
     {
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
         _xmlReader = GameObject.FindGameObjectWithTag("Translate").GetComponent<xmlReader>();
+
     }
 
     private int GetListLengh(string name)
@@ -175,33 +177,26 @@ public class dialogue : MonoBehaviour
     {
         if (!_isPlayed)
         {
+            Disable();
             _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueHit());
             _audio.Play();
             string text = RandomDialogue(FindListDialogueHit());
             Enable(text);
             OpenDialogue();
         }
-        else
-        {
-            Disable();
-            SetDialogueHit();
-        }
+
     }
 
     private void SetDialogueAttack()
     {
         if (!_isPlayed)
         {
+            Disable();
             _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueAttack());
             _audio.Play();
             string text = RandomDialogue(FindListDialogueAttack());
             Enable(text);
             OpenDialogue();
-        }
-        else
-        {
-            Disable();
-            SetDialogueAttack();
         }
     }
 
@@ -209,73 +204,16 @@ public class dialogue : MonoBehaviour
     {
         if (!_isPlayed)
         {
+            Disable();
             _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueWin());
             _audio.Play();
             string text = RandomDialogue(FindListDialogueWin());
             Enable(text);
             OpenDialogue();
         }
-        else
-        {
-            Disable();
-            SetDialogueWin();
-        }
     }
 
     #endregion
-
-    /* private List<string> SelectList(int i)
-    {
-        List<string> list = new List<string>();
-
-        switch (i)
-        {
-            case 1:
-                if ()
-                {
-                    list = _dialoguesCowHit;
-                }
-                else if ()
-                {
-                    list = _dialoguesCowAttack;
-                }
-                else if ()
-                {
-                    list = _dialoguesCowVictory;
-                }
-                break;
-            case 2:
-                if ()
-                {
-                    list = _dialoguesNerdHit;
-                }
-                else if ()
-                {
-                    list = _dialoguesNerdAttack;
-                }
-                else if ()
-                {
-                    list = _dialoguesNerdVictory;
-                }
-                break;
-            case 3:
-                if ()
-                {
-                    list = _dialoguesPizzaHit;
-                }
-                else if ()
-                {
-                    list = _dialoguesPizzaAttack;
-                }
-                else if ()
-                {
-                    list = _dialoguesPizzaVictory;
-                }
-                break;
-        }
-
-        return list;
-    } */
 
     #region open & start & close dialogues
     private void OpenDialogue()
@@ -292,7 +230,6 @@ public class dialogue : MonoBehaviour
         _isPlayed = true;
 
         //SeparateString(text);
-        _index = 0;
         StartCoroutine(TypeLine());
     }
 
@@ -301,43 +238,40 @@ public class dialogue : MonoBehaviour
         _isPlayed = false;
         _animator.SetBool("Close", true);
 
-        _index = 0;
         _dialogue.text = string.Empty;
 
         _audio.Stop();
-        StopAllCoroutines();
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+            _coroutine = null;
+        }
+        _isDialogueActive = false;
     }
 
     private IEnumerator TypeLine()
     {
-        _isWriting = true;
-
+        _isDialogueActive = true;
         foreach (char c in _lines)
         {
             _dialogue.text += c;
-            //sounds
             yield return new WaitForSeconds(_textSpeed);
         }
 
         _isPlayed = false;
-        if (!_dontTimeDialogue) 
+        if (!_dontTimeDialogueHide && _isDialogueActive)
         {
-            StartCoroutine(TimeDialogue());
+            _coroutine = StartCoroutine(TimeDialogue());
         }
-
-        /*_isWriting = false;
-
-        while (_isWriting)
-        {
-            yield return null;
-        }
-        NextLine(); */
     }
 
     private IEnumerator TimeDialogue()
     {
-        yield return new WaitForSeconds(_timeDialogue);
-        Disable();
+        yield return new WaitForSeconds(_timeDialogueHide);
+        if (_isDialogueActive)
+        {
+            Disable();
+        }
     }
     #endregion
 

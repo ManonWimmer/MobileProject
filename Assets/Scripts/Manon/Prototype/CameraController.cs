@@ -96,6 +96,9 @@ public class CameraController : MonoBehaviour
             if (audioManager.instance != null)
                 audioManager.instance.PlaySoundChangeView();
 
+            UIManager.instance.HideFicheAbility();
+            UIManager.instance.HideFicheRoom();
+
             CombatOwnSpaceShip = !CombatOwnSpaceShip;
 
             if (_currentPos == _cameraPosShipPlayer1)

@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 6e06ddcfc825bdf44a299e17ec89d11b, type: 2}
     - target: {fileID: 3131737158302949559, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
       propertyPath: m_Name
-      value: UpgradeShotFiche
+      value: DescriptionFiche
       objectReference: {fileID: 0}
     - target: {fileID: 3643151014935140193, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
       propertyPath: m_Pivot.x
