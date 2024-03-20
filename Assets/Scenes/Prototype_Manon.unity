@@ -278,6 +278,7 @@ GameObject:
   - component: {fileID: 29302468}
   - component: {fileID: 29302467}
   - component: {fileID: 29302470}
+  - component: {fileID: 29302471}
   m_Layer: 5
   m_Name: DraftRoom1
   m_TagString: Untagged
@@ -422,7 +423,29 @@ MonoBehaviour:
   _infosNameRoomAbility: {fileID: 603583601}
   _infosDescriptionRoomAbility: {fileID: 519282793}
   _infosCooldownRoomAbility: {fileID: 640600908}
+  _animator: {fileID: 29302471}
   _roomIndex: 1
+--- !u!95 &29302471
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29302465}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c1aff89a530aee94c8885275ecdb7d1a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &30040420
 GameObject:
   m_ObjectHideFlags: 0
@@ -3399,6 +3422,7 @@ GameObject:
   - component: {fileID: 256687394}
   - component: {fileID: 256687393}
   - component: {fileID: 256687396}
+  - component: {fileID: 256687397}
   m_Layer: 5
   m_Name: DraftRoom2
   m_TagString: Untagged
@@ -3543,7 +3567,29 @@ MonoBehaviour:
   _infosNameRoomAbility: {fileID: 315770609}
   _infosDescriptionRoomAbility: {fileID: 641649965}
   _infosCooldownRoomAbility: {fileID: 1537551624}
+  _animator: {fileID: 256687397}
   _roomIndex: 2
+--- !u!95 &256687397
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256687391}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c1aff89a530aee94c8885275ecdb7d1a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &259277465
 GameObject:
   m_ObjectHideFlags: 0
@@ -10422,6 +10468,7 @@ GameObject:
   - component: {fileID: 764656662}
   - component: {fileID: 764656665}
   - component: {fileID: 764656664}
+  - component: {fileID: 764656666}
   m_Layer: 5
   m_Name: DraftRoom0
   m_TagString: Untagged
@@ -10510,6 +10557,7 @@ MonoBehaviour:
   _infosNameRoomAbility: {fileID: 1574858543}
   _infosDescriptionRoomAbility: {fileID: 1255613973}
   _infosCooldownRoomAbility: {fileID: 1610436775}
+  _animator: {fileID: 764656666}
   _roomIndex: 0
 --- !u!114 &764656665
 MonoBehaviour:
@@ -10567,6 +10615,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &764656666
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764656660}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c1aff89a530aee94c8885275ecdb7d1a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &770155051
 GameObject:
   m_ObjectHideFlags: 0
@@ -28553,7 +28622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2097637257
 RectTransform:
   m_ObjectHideFlags: 0

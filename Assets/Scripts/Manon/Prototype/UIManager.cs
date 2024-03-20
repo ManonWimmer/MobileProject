@@ -556,8 +556,11 @@ public class UIManager : MonoBehaviour
     public void ShowFicheAbility(scriptablePower abilityData)
     {
         _infosAbility.SetActive(true);
-        _infosAbilityAnimator.SetBool("Close", false);
-        _infosAbilityAnimator.SetTrigger("Open");
+        if (_infosAbilityAnimator.GetBool("Close"))
+        {
+            _infosAbilityAnimator.SetBool("Close", false);
+            _infosAbilityAnimator.SetTrigger("Open");
+        }
 
         UpdateFicheAbility(abilityData);
     }
@@ -589,8 +592,11 @@ public class UIManager : MonoBehaviour
     {
         _infosRoom.SetActive(true);
 
-        _infosRoomAnimator.SetBool("Close", false);
-        _infosRoomAnimator.SetTrigger("Open");
+        if (_infosRoomAnimator.GetBool("Close"))
+        {
+            _infosRoomAnimator.SetBool("Close", false);
+            _infosRoomAnimator.SetTrigger("Open");
+        }
 
         _infosRoomPattern.sprite = roomData.RoomPatternImg;
         _infosNameRoom.text = roomData.RoomName.ToUpper();

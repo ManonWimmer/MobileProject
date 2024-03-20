@@ -13,6 +13,7 @@ public class DraftRoom : MonoBehaviour
     [SerializeField] TMP_Text _infosNameRoomAbility;
     [SerializeField] TMP_Text _infosDescriptionRoomAbility;
     [SerializeField] TMP_Text _infosCooldownRoomAbility;
+    [SerializeField] Animator _animator;
 
     [SerializeField] int _roomIndex;
 
@@ -44,15 +45,12 @@ public class DraftRoom : MonoBehaviour
 
     public void SelectRoomUI()
     {
-        _infosRoomSelectedBackground.enabled = true;
-        _infosNameRoomAbility.color = new Color(0.094f, 0.09f, 0.15f, 1f);
-        _infosDescriptionRoomAbility.color = new Color(0.094f, 0.09f, 0.15f, 1f);
+        _animator.SetBool("Unselected", false);
+        _animator.SetTrigger("Selected");
     }
 
     public void DeselectRoomUI()
     {
-        _infosRoomSelectedBackground.enabled = false;
-        _infosNameRoomAbility.color = new Color(0.34f, 0.54f, 0.76f, 1f);
-        _infosDescriptionRoomAbility.color = new Color(0.34f, 0.54f, 0.76f, 1f);
+        _animator.SetBool("Unselected", true);
     }
 }
