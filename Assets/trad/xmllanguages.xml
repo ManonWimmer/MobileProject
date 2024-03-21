@@ -43,7 +43,8 @@
 		<RoomName>No name</RoomName>
 
 		<!--UI Fight-->
-		<changeView>CHANGE VIEW</changeView>
+		<changeViewEnemy>SEE ENEMY SPACESHIP</changeViewEnemy>
+		<changeViewPlayer>SEE YOUR SPACESHIP</changeViewPlayer>
 		<warning>WARNING</warning>
 		<enemyLife>ENEMY LIFE</enemyLife>
 		<yourLife>MY LIFE</yourLife>
@@ -72,8 +73,9 @@
 		<titleCockpit>COCKPIT</titleCockpit>
 
 		<!--UI Draft-->
-		<selectSpaceShip>Select a spaceship</selectSpaceShip>
-		<selectRooms>Select rooms</selectRooms>
+		<selectSpaceShip>SELECT A SPACESHIP</selectSpaceShip>
+		<selectRooms>SELECT ROOMS</selectRooms>
+		<Next>NEXT</Next>
 
 		<!--UI Construct-->
 		<randomizeRooms>Randomize your rooms</randomizeRooms>
@@ -176,7 +178,8 @@
 		
 		
 		<!--UI Fight-->
-		<changeView>Regarder votre vaisseau</changeView>
+		<changeViewEnemy>VOIR LE VAISSEAU ENNEMI</changeViewEnemy>
+		<changeViewPlayer>VOIR VOTRE VAISSEAU</changeViewPlayer>
 		<warning>Attention</warning>
 		<enemyLife>Vie ennemi</enemyLife>
 		<yourLife>Ta vie</yourLife>
@@ -206,14 +209,15 @@
 
 
 		<!--UI Draft-->
-		<selectSpaceShip>Sélectionné un vaisseau</selectSpaceShip>
-		<selectRooms>Sélectionné une salle</selectRooms>
+		<selectSpaceShip>SÉLECTIONNÉ UN VAISSEAU</selectSpaceShip>
+		<selectRooms>SÉLECTIONNÉ UNE SALLE</selectRooms>
+		<Next>SUIVANT</Next>
 		
 		<!--UI Construct-->
-		<randomizeRooms>Aléatoirisé les salles</randomizeRooms>
-		<timeRemaning>restant</timeRemaning>
+		<randomizeRooms>ALÉATOIRISÉ LES SALLES</randomizeRooms>
+		<timeRemaning>RESTANT</timeRemaning>
 		
-		<textWin>Gagner</textWin>
+		<textWin>VICTOIRE</textWin>
 		
 		<!--Voice lines : N=Nerd,C=Cowboy, R=Chef -->
 			<!--Hit-->

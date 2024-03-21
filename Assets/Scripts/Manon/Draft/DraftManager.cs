@@ -100,11 +100,13 @@ public class DraftManager : MonoBehaviour
         {
             Debug.Log("validate draft rooms");
             GameManager.instance.SelectDraftRoom(_draftRooms[_selectedRoomIndex].GetRoom());
+            audioManager.instance.PlaySoundButton();
         }
         else
         {
             Debug.Log("validate draft ships");
             GameManager.instance.SelectDraftShip(_draftShips[_selectedShipIndex].GetShip());
+            audioManager.instance.PlaySoundButton();
         }
     }
 }

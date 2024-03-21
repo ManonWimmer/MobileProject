@@ -89,7 +89,6 @@ public class xmlReader : MonoBehaviour
 
     private void UpdateTextTranslation(TextMeshProUGUI textField, string newValue)
     {
-        string fieldName = textField.name;
         textField.name = newValue;
         UpdateTexts();
     }

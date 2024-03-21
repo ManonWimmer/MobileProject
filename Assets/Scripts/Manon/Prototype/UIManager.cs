@@ -66,7 +66,7 @@ public class UIManager : MonoBehaviour
     [Header("Switch Ship")]
     [SerializeField] GameObject _switchShipButton;
     [SerializeField] Image _switchShipArrow;
-    [SerializeField] TMP_Text _goToShipText;
+    [SerializeField] TextMeshProUGUI _goToShipText;
 
     [Header("Ability Bonus")]
     [SerializeField] Image _alternateShotIcon;
@@ -156,12 +156,12 @@ public class UIManager : MonoBehaviour
 
     public void GoToPlayerShipText()
     {
-        _goToShipText.text = "SEE YOUR\nSPACESHIP";
+        xmlReader.instance.ChangeText(_goToShipText, "changeViewPlayer");
     }
 
     public void GoToEnemyShipText()
     {
-        _goToShipText.text = "SEE ENEMY\nSPACESHIP";
+        xmlReader.instance.ChangeText(_goToShipText, "changeViewEnemy");
     }
 
     public void UpdateSwitchShipArrow()
@@ -506,6 +506,7 @@ public class UIManager : MonoBehaviour
     {
         _changePlayerCanvas.SetActive(false);
         ChangingPlayer = false;
+        audioManager.instance.PlaySoundButton();
 
         if (GameManager.instance.GetCurrentMode() == Mode.Combat && !(GameManager.instance.PlayerTurn == Player.Player1 && GameManager.instance.GetCurrentRound() == 1))
         {

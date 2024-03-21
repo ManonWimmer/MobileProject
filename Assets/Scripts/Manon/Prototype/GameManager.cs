@@ -2046,6 +2046,7 @@ public class GameManager : MonoBehaviour
         }
 
         SwitchCamera();
+        audioManager.instance.PlaySoundButton();
 
         // update ui
         UIManager.instance.UpdateCurrentPlayerTxt(_playerTurn);

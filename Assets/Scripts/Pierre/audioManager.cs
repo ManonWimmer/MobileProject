@@ -47,6 +47,7 @@ public class audioManager : MonoBehaviour
     public void PlaySoundDropRoom() => PlaySound(_playlistFX[2]);
     public void PlaySoundMoveRoom() => PlaySound(_playlistFX[3]);
     public void PlaySoundSelectRoom() => PlaySound(_playlistFX[4]);
+    public void PlaySoundButton() => PlaySound(_playlistFX[5]);
 
     public void PlaySoundAlternate1() => PlaySound(_playlistRooms[0]);
     public void PlaySoundAlternate2() => PlaySound(_playlistRooms[1]);
