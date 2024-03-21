@@ -14,6 +14,7 @@ public class LanguageData
 
 public class xmlReader : MonoBehaviour
 {
+    public static xmlReader instance;
 
     [SerializeField] private TextAsset _dictionary;
     [SerializeField] private TMP_Dropdown _dropdown1;
@@ -31,6 +32,7 @@ public class xmlReader : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        instance = this;
     }
 
     private void LaunchTrad()

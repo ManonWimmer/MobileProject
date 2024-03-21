@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: TimeAccelerator
   m_EditorClassIdentifier: 
   AbilityName: Time Accelerator
-  Description: A jump in time that will reduce all your cooldowns by 1.
+  Description: timeAccelerator
   Icon: {fileID: 21300000, guid: 49aae80fe94c10e4285d3c31c7565506, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 0
   AbilityButton: {fileID: 0}
+  CanBeDefused: 0

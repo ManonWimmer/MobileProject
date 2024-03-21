@@ -12,6 +12,7 @@ public class DraftShip : MonoBehaviour
     [SerializeField] Image _shipImg;
     [SerializeField] TMP_Text _captainName;
     [SerializeField] Image _selectedBackground;
+    Animator _animator;
 
     [SerializeField] int _shipIndex;
 
@@ -20,6 +21,12 @@ public class DraftShip : MonoBehaviour
     private ShipSO _shipData;
     private Ship _ship;
     // ----- FIELDS ----- //
+
+    private void Awake()
+    {
+        _animator = gameObject.GetComponent<Animator>();
+
+    }
 
     private void Start()
     {
@@ -51,14 +58,15 @@ public class DraftShip : MonoBehaviour
     public void SelectShipUI()
     {
         Debug.Log("select ship ui");
-        _selectedBackground.enabled = true;
+        _animator.SetTrigger("Selected");
+        _animator.SetBool("Unselected", false);
         _shipImg.color = new Color(0.094f, 0.09f, 0.15f, 1f);
     }
 
     public void DeselectShipUI()
     {
         Debug.Log("deselect ship ui");
-        _selectedBackground.enabled = false;
+        _animator.SetBool("Unselected", true);
         _shipImg.color = new Color(0.34f, 0.54f, 0.76f, 1f);
     }
 }

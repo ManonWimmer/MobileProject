@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TimeDecoy
   m_EditorClassIdentifier: 
   AbilityName: Time Decoy
-  Description: when it's destroyed, reduce all your cooldowns by 1, then it respawns.
+  Description: timeDecoy
   Icon: {fileID: 21300000, guid: ac1603fe7d070f64e90286b2a76cb700, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 3

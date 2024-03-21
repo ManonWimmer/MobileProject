@@ -116,6 +116,10 @@ PrefabInstance:
       propertyPath: _ability
       value: 
       objectReference: {fileID: 11400000, guid: 2e95321dad82cd94d9f6728431da1f4b, type: 2}
+    - target: {fileID: 3235217273157199517, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 8139389826864753996}
     - target: {fileID: 4228577465353495680, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_text
       value: Alternate Shot
@@ -174,6 +178,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
+--- !u!95 &8139389826864753996 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3036419680075649311, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
+  m_PrefabInstance: {fileID: 6545819815277870163}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8517046354590538446 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3235217273157199517, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}

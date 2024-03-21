@@ -25,17 +25,22 @@
 		<textTitle>NAME :</textTitle>
 
 		<!-- Description carte-->
-		<simpleShot>Destroy a tile</simpleShot>
-		<probe>Lets you shoot three probes that won't damage the enemy spaceship but will reveal the selected tiles</probe>
-		<emp> Shoots a beam that will destroy the target and make the surrounding rooms inactive for 1 turn</emp>
-		<timeAccelerator>A jump in time that will reduce all your cooldowns by 1</timeAccelerator>
-		<capacitor>This ability will upgrade your next simple hit shot to a massive cube shot of 2 by 2 for the next turn only</capacitor>
-		<alternateShot>Shoots in a row of 3 tiles then changes for its next use this ability to shoot in a column of 3 tiles</alternateShot>
-		<upgradeShot>Reveal one tile then upgrades itself - Destroy one tile then upgrades itself - Destroy 3 tiles in a diagonal then upgrades itself - Destroy 5 tiles in a cross pattern</upgradeShot>
-		<scanner>Reveals an entire column of tiles</scanner>
-		<energyDecoy>Reveal a random room tile and when it’s destroyed it will give 1 energy for the next turn ; It will respawn at a random place after it‘s destroyed</energyDecoy>
-		<timeDecoy>Reveal a random room tile and when it’s destroyed it will increase the cooldown by 1 of the ability that destroyed it ; It will respawn at a random place after it‘s destroyed</timeDecoy>
-		<repairDecoy>Reveal a random room tile and when it’s destroyed it will repair a random room; It will respawn at a random place after it‘s destroyed</repairDecoy>
+		<simpleShot>DESTROY A TILE</simpleShot>
+		<probe>LETS YOU SHOOT THREE PROBES THAT WON'T DAMAGE THE ENEMY SPACESHIP BUT WILL REVEAL THE SELECTED TILES</probe>
+		<emp> SHOOTS A BEAM THAT WILL DESTROY THE TARGET AND MAKE THE SURROUNDING ROOMS INACTIVE FOR 1 TURN</emp>
+		<timeAccelerator>A JUMP IN TIME THAT WILL REDUCE ALL YOUR COOLDOWNS BY 1</timeAccelerator>
+		<capacitor>THIS ABILITY WILL UPGRADE YOUR NEXT SIMPLE HIT SHOT TO A MASSIVE CUBE SHOT OF 2 BY 2 FOR THE NEXT TURN ONLY</capacitor>
+		<alternateShot>SHOOTS IN A ROW OF 3 TILES THEN CHANGES FOR ITS NEXT USE THIS ABILITY TO SHOOT IN A COLUMN OF 3 TILES</alternateShot>
+		<upgradeShot>REVEAL ONE TILE THEN UPGRADES ITSELF - DESTROY ONE TILE THEN UPGRADES ITSELF - DESTROY 3 TILES IN A DIAGONAL THEN UPGRADES ITSELF - DESTROY 5 TILES IN A CROSS PATTERN</upgradeShot>
+		<scanner>REVEALS AN ENTIRE COLUMN OF TILES</scanner>
+		<energyDecoy>REVEAL A RANDOM ROOM TILE AND WHEN IT’S DESTROYED IT WILL GIVE 1 ENERGY FOR THE NEXT TURN ; IT WILL RESPAWN AT A RANDOM PLACE AFTER IT‘S DESTROYED</energyDecoy>
+		<timeDecoy>REVEAL A RANDOM ROOM TILE AND WHEN IT’S DESTROYED IT WILL INCREASE THE COOLDOWN BY 1 OF THE ABILITY THAT DESTROYED IT ; IT WILL RESPAWN AT A RANDOM PLACE AFTER IT‘S DESTROYED</timeDecoy>
+		<repairDecoy>REVEAL A RANDOM ROOM TILE AND WHEN IT’S DESTROYED IT WILL REPAIR A RANDOM ROOM; IT WILL RESPAWN AT A RANDOM PLACE AFTER IT‘S DESTROYED</repairDecoy>
+		<randomReveal>REVEALS 5 EMPTY TILES AT RANDOM PLACES IN THE ENEMY SHIP.</randomReveal>
+		
+		<AbilityDescription>No description</AbilityDescription>
+		<AbilityName>No name</AbilityName>
+		<RoomName>No name</RoomName>
 
 		<!--UI Fight-->
 		<changeView>CHANGE VIEW</changeView>
@@ -49,17 +54,22 @@
 		<Player2>Player 2</Player2>
 
 		<!--Card title -->
-		<titleSimpleShot>Simple shot</titleSimpleShot>
-		<titleProbe>Probe</titleProbe>
+		<titleSimpleShot>SIMPLE SHOT</titleSimpleShot>
+		<titleProbe>PROBE</titleProbe>
 		<titleEmp>EMP</titleEmp>
-		<titleTimeAccelerator>Time accelerator</titleTimeAccelerator>
-		<titleCapacitor>Capacitor</titleCapacitor>
-		<titleAlternateShot>Alternate shot</titleAlternateShot>
-		<titleUpgradeShot>Upgrade shot</titleUpgradeShot>
-		<titlescanner>Scanner</titlescanner>
-		<titleEnergyDecoy>Energy decoy</titleEnergyDecoy>
-		<titleTimeDecoy>Time decoy</titleTimeDecoy>
-		<titleRepairDecoy>Repair decoy</titleRepairDecoy>
+		<titleTimeAccelerator>TIME ACCELERATOR</titleTimeAccelerator>
+		<titleCapacitor>CAPACITOR</titleCapacitor>
+		<titleAlternateShot>ALTERNATE SHOT</titleAlternateShot>
+		<titleUpgradeShot>UPGRADE SHOT</titleUpgradeShot>
+		<titlescanner>SCANNER</titlescanner>
+		<titleEnergyDecoy>ENERGY DECOY</titleEnergyDecoy>
+		<titleTimeDecoy>TIME DECOY</titleTimeDecoy>
+		<titleRepairDecoy>REPAIR DECOY</titleRepairDecoy>
+		<titleRandomReveal>RANDOM REVEAL</titleRandomReveal>
+		
+		<!--Room title-->
+		<titleGenerator>GENERATOR</titleGenerator>
+		<titleCockpit>COCKPIT</titleCockpit>
 
 		<!--UI Draft-->
 		<selectSpaceShip>Select a spaceship</selectSpaceShip>
@@ -147,17 +157,23 @@
 		<textTitle>NOM :</textTitle>
 		
 		<!-- Description carte-->
-		<simpleShot>Détruit une case</simpleShot>
-		<probe>Lance une salve de 3 tirs dans une zone ciblée qui ne vont pas faire de dégâts mais vont révéler des cases</probe>
-		<emp>Tir qui va détruire la salle ciblée et rendre inactive les salles autours pour 1 tour</emp>
-		<timeAccelerator>Un saut dans le temps qui va réduire vos cooldowns de 1</timeAccelerator>
-		<capacitor>Cette capacitée va améliorer votre prochain Tir simple en un tir de 2 par 2 pour le prochain tour uniquement</capacitor>
-		<alternateShot>Tir sur 3 cases à la verticale puis au prochain change de sens</alternateShot>
-		<upgradeShot>Révèle une case puis s'améliore - Détruit une case puis s'améliore - Détruit 3 cases en diagonales puis s'améliore - Détruit 5 case en forme de croix</upgradeShot>
-		<scanner>Révèle les salles sur une colonne</scanner>
-		<energyDecoy>Révèle une case de salle. Si cette salle est touchée elle va vous donner un d'énergie en plus pour le prochain tour puis réapparait sur une case vide aléatoire</energyDecoy>
-		<timeDecoy>Révèle une case de salle. Si cette salle est touchée elle va augmenté le cooldown de la capacité utilisé de 1 (ne marche pas sur le tir de base) puis réapparait sur une case vide aléatoire</timeDecoy>
-		<repairDecoy>Révèle une case de salle. Si cette salle est touchée elle va réparer une salle détruite aléatoire puis réapparait sur une case vide aléatoire</repairDecoy>
+		<simpleShot>DÉTRUIT UNE CASE</simpleShot>
+		<probe>LANCE UNE SALVE DE 3 TIRS DANS UNE ZONE CIBLÉE QUI NE VONT PAS FAIRE DE DÉGÂTS MAIS VONT RÉVÉLER DES CASES</probe>
+		<emp>TIR QUI VA DÉTRUIRE LA SALLE CIBLÉE ET RENDRE INACTIVE LES SALLES AUTOURS POUR 1 TOUR</emp>
+		<timeAccelerator>UN SAUT DANS LE TEMPS QUI VA RÉDUIRE VOS COOLDOWNS DE 1</timeAccelerator>
+		<capacitor>CETTE CAPACITÉE VA AMÉLIORER VOTRE PROCHAIN TIR SIMPLE EN UN TIR DE 2 PAR 2 POUR LE PROCHAIN TOUR UNIQUEMENT</capacitor>
+		<alternateShot>TIR SUR 3 CASES À LA VERTICALE PUIS AU PROCHAIN CHANGE DE SENS</alternateShot>
+		<upgradeShot>RÉVÈLE UNE CASE PUIS S'AMÉLIORE - DÉTRUIT UNE CASE PUIS S'AMÉLIORE - DÉTRUIT 3 CASES EN DIAGONALES PUIS S'AMÉLIORE - DÉTRUIT 5 CASE EN FORME DE CROIX</upgradeShot>
+		<scanner>RÉVÈLE LES SALLES SUR UNE COLONNE</scanner>
+		<energyDecoy>RÉVÈLE UNE CASE DE SALLE. SI CETTE SALLE EST TOUCHÉE ELLE VA VOUS DONNER UN D'ÉNERGIE EN PLUS POUR LE PROCHAIN TOUR PUIS RÉAPPARAIT SUR UNE CASE VIDE ALÉATOIRE</energyDecoy>
+		<timeDecoy>RÉVÈLE UNE CASE DE SALLE. SI CETTE SALLE EST TOUCHÉE ELLE VA AUGMENTÉ LE COOLDOWN DE LA CAPACITÉ UTILISÉ DE 1 (NE MARCHE PAS SUR LE TIR DE BASE) PUIS RÉAPPARAIT SUR UNE CASE VIDE ALÉATOIRE</timeDecoy>
+		<repairDecoy>RÉVÈLE UNE CASE DE SALLE. SI CETTE SALLE EST TOUCHÉE ELLE VA RÉPARER UNE SALLE DÉTRUITE ALÉATOIRE PUIS RÉAPPARAIT SUR UNE CASE VIDE ALÉATOIRE</repairDecoy>
+		<randomReveal>RÉVÈLE 5 CASES VIDES À DES ENDROITS ALÉATOIRES DU VAISSEAU ENNEMI.</randomReveal>
+		
+		<AbilityDescription>Pas description</AbilityDescription>
+		<AbilityName>Pas de nom</AbilityName>
+		<RoomName>Pas de nom</RoomName>
+		
 		
 		<!--UI Fight-->
 		<changeView>Regarder votre vaisseau</changeView>
@@ -171,18 +187,24 @@
 		<Player2>Joueur 2</Player2>
 		
 		<!--Card title -->
-		<titleSimpleShot>Tir simple</titleSimpleShot>
-		<titleProbe>Sonde</titleProbe>
+		<titleSimpleShot>TIR SIMPLE</titleSimpleShot>
+		<titleProbe>SONDE</titleProbe>
 		<titleEmp>IEM</titleEmp>
-		<titleTimeAccelerator>Accélérateur temporel</titleTimeAccelerator>
-		<titleCapacitor>Condensateur</titleCapacitor>
-		<titleAlternateShot>Tir alterné</titleAlternateShot>
-		<titleUpgradeShot>Tir améliorer</titleUpgradeShot>
-		<titlescanner>Scanneur</titlescanner>
-		<titleEnergyDecoy>Leure énergétique</titleEnergyDecoy>
-		<titleTimeDecoy>Leure Temporel</titleTimeDecoy>
-		<titleRepairDecoy>Leure Réparateur</titleRepairDecoy>
-		
+		<titleTimeAccelerator>ACCÉLÉRATEUR TEMPOREL</titleTimeAccelerator>
+		<titleCapacitor>CONDENSATEUR</titleCapacitor>
+		<titleAlternateShot>TIR ALTERNÉ</titleAlternateShot>
+		<titleUpgradeShot>TIR AMÉLIORÉ</titleUpgradeShot>
+		<titlescanner>SCANNEUR</titlescanner>
+		<titleEnergyDecoy>LEURRE ÉNERGÉTIQUE</titleEnergyDecoy>
+		<titleTimeDecoy>LEURRE TEMPOREL</titleTimeDecoy>
+		<titleRepairDecoy>LEURRE RÉPARATEUR</titleRepairDecoy>
+		<titleRandomReveal>RÉVÉLATION ALÉATOIRE</titleRandomReveal>
+
+		<!--Room title-->
+		<titleGenerator>GENERATEUR</titleGenerator>
+		<titleCockpit>POSTE DE PILOTAGE</titleCockpit>
+
+
 		<!--UI Draft-->
 		<selectSpaceShip>Sélectionné un vaisseau</selectSpaceShip>
 		<selectRooms>Sélectionné une salle</selectRooms>

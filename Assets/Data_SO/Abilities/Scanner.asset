@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scanner
   m_EditorClassIdentifier: 
   AbilityName: Scanner
-  Description: 'Reveals an entire column of tiles. '
+  Description: scanner
   Icon: {fileID: 21300000, guid: 39d2b32a8426fb74fa3221c16c41426d, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 4

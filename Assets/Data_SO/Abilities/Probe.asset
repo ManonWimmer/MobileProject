@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Probe
   m_EditorClassIdentifier: 
   AbilityName: Probe
-  Description: 'Lets you shoot three probes that won''t damage the enemy spaceship
-    but will reveal the selected tiles.  '
+  Description: probe
   Icon: {fileID: 21300000, guid: de5c4609061a8b7438b7e1c557c3f600, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 1
   AbilityButton: {fileID: 0}
+  CanBeDefused: 0

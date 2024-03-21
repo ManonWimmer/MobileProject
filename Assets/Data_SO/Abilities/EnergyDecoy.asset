@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnergyDecoy
   m_EditorClassIdentifier: 
   AbilityName: Energy Decoy
-  Description: when it's destroyed, you gain 1 energy, then it respawns.
+  Description: energyDecoy
   Icon: {fileID: 21300000, guid: 15db0e4ffa62bc441b4427920c106225, type: 3}
   ActionPointsNeeded: 1
   Cooldown: 3

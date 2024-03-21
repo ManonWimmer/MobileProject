@@ -39,17 +39,17 @@ public class UIManager : MonoBehaviour
     [Header("Infos Ability")]
     [SerializeField] GameObject _infosAbility;
     [SerializeField] Image _infosAbilityIcon;
-    [SerializeField] TMP_Text _infosNameAbility;
-    [SerializeField] TMP_Text _infosDescriptionAbility;
+    [SerializeField] TextMeshProUGUI _infosNameAbility;
+    [SerializeField] TextMeshProUGUI _infosDescriptionAbility;
     [SerializeField] TMP_Text _infosCooldown;
     [SerializeField] Animator _infosAbilityAnimator;
 
     [Header("Infos Room")]
     [SerializeField] GameObject _infosRoom;
     [SerializeField] Image _infosRoomPattern;
-    [SerializeField] TMP_Text _infosNameRoom;
-    [SerializeField] TMP_Text _infosNameRoomAbility;
-    [SerializeField] TMP_Text _infosDescriptionRoomAbility;
+    [SerializeField] TextMeshProUGUI _infosNameRoom;
+    [SerializeField] TextMeshProUGUI _infosNameRoomAbility;
+    [SerializeField] TextMeshProUGUI _infosDescriptionRoomAbility;
     [SerializeField] TMP_Text _infosCooldownRoomAbility;
     [SerializeField] Animator _infosRoomAnimator;
 
@@ -577,20 +577,21 @@ public class UIManager : MonoBehaviour
 
     public void UpdateFicheAbility(scriptablePower abilityData)
     {
-        _infosNameAbility.text = abilityData.AbilityName.ToUpper();
-        _infosDescriptionAbility.text = abilityData.Description.ToUpper();
+        _infosNameAbility.text = abilityData.AbilityName;
+        xmlReader.instance.ChangeText(_infosDescriptionAbility, abilityData.Description);
         _infosCooldown.text = abilityData.Cooldown.ToString();
         _infosAbilityIcon.sprite = abilityData.Icon;
     }
 
     public bool IsFicheAbilityWithSameAbility(scriptablePower abilityData)
     {
-        return _infosNameAbility.text == abilityData.AbilityName.ToUpper();
+        return _infosNameAbility.text == abilityData.AbilityName;
     }
 
     public void ShowFicheRoom(RoomSO roomData)
     {
         _infosRoom.SetActive(true);
+
 
         if (_infosRoomAnimator.GetBool("Close"))
         {
@@ -599,7 +600,7 @@ public class UIManager : MonoBehaviour
         }
 
         _infosRoomPattern.sprite = roomData.RoomPatternImg;
-        _infosNameRoom.text = roomData.RoomName.ToUpper();
+        _infosNameRoom.text = roomData.RoomName;
 
         UpdateFicheRoom(roomData);
     }
@@ -608,12 +609,14 @@ public class UIManager : MonoBehaviour
     {
         if (roomData.RoomAbility != null)
         {
+            Debug.Log(xmlReader.instance.GetText(roomData.RoomAbility.Description));
+
             _infosNameRoomAbility.gameObject.SetActive(true);
             _infosDescriptionRoomAbility.gameObject.SetActive(true);
             _infosCooldownRoomAbility.gameObject.SetActive(true);
 
-            _infosNameRoomAbility.text = roomData.RoomAbility.AbilityName.ToUpper();
-            _infosDescriptionRoomAbility.text = roomData.RoomAbility.Description.ToUpper();
+            _infosNameRoomAbility.text = roomData.RoomAbility.AbilityName;
+            xmlReader.instance.ChangeText(_infosDescriptionRoomAbility, roomData.RoomAbility.Description);
             _infosCooldownRoomAbility.text = roomData.RoomAbility.Cooldown.ToString();
         }
         else
