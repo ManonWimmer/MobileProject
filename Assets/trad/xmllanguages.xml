@@ -50,6 +50,7 @@
 		<yourLife>MY LIFE</yourLife>
 		<endTurn>END TURN</endTurn>
 		<Fire>FIRE !</Fire>
+		<ready>READY</ready>
 
 		<Player1>Player 1</Player1>
 		<Player2>Player 2</Player2>
@@ -185,6 +186,7 @@
 		<yourLife>Ta vie</yourLife>
 		<endTurn>Fin de tour</endTurn>
 		<Fire>Feu !</Fire>
+		<ready>PRÊT</ready>
 		
 		<Player1>Joueur 1</Player1>
 		<Player2>Joueur 2</Player2>

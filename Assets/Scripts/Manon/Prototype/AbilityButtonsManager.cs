@@ -1305,6 +1305,8 @@ public class AbilityButtonsManager : MonoBehaviour
         DestroyRoom(_target);
 
         VFXManager.instance.PlaySimpleHitVFX(_target);
+        cameraShake.instance.StartShakeCamera(0.6f, 0.5f);
+        //cameraShake.instance.StartPhoneVibrate(1000);
     }
 
     private void SimpleHitX2_Action()
@@ -1337,6 +1339,7 @@ public class AbilityButtonsManager : MonoBehaviour
         }
 
         VFXManager.instance.PlaySimpleHitX2VFX(affectedTiles);
+        cameraShake.instance.StartShakeCamera(0.6f, 0.5f);
     }
 
     public void ActivateSimpleHitX2()
