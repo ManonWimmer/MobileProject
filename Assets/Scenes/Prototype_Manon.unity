@@ -26716,7 +26716,7 @@ MonoBehaviour:
   - {fileID: 314394979}
   - {fileID: 223956165}
   - {fileID: 1020345862}
-  _vfxTimeUpgradeShot: 1.5
+  _vfxTimeUpgradeShot: 3
   _vfxAddEnergy: {fileID: 1275213163}
   _vfxTimeAddEnergy: 1
   _vfxTimeAccelerator: {fileID: 2014638430}

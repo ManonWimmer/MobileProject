@@ -299,25 +299,32 @@ public class VFXManager : MonoBehaviour
                     _vfxUpgradeShot1.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
                     _vfxUpgradeShot1.SetActive(true);
                     StartCoroutine(DesactivateVFXAfterTime(_vfxUpgradeShot1, _vfxTimeUpgradeShot));
+
+                    if (audioManager.instance != null)
+                        audioManager.instance.PlaySoundProbe();
                     break;
                 case (UpgradeShotStep.DestroyOneTile):
                     _vfxUpgradeShot2.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
                     _vfxUpgradeShot2.SetActive(true);
                     StartCoroutine(DesactivateVFXAfterTime(_vfxUpgradeShot1, _vfxTimeUpgradeShot));
+                    if (audioManager.instance != null)
+                        audioManager.instance.PlaySoundGunNormal();
                     break;
                 case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
                 case (UpgradeShotStep.DestroyFiveTilesInCross):
                     _vfxsUpgradeShot3And4[i].transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
                     _vfxsUpgradeShot3And4[i].SetActive(true);
                     StartCoroutine(DesactivateVFXAfterTime(_vfxsUpgradeShot3And4[i], _vfxTimeUpgradeShot));
+
+                    if (audioManager.instance != null)
+                        audioManager.instance.PlaySoundUpgradeShot();
                     break;
             } 
 
             i++;
         }
 
-        if (audioManager.instance != null)
-            audioManager.instance.PlaySoundUpgradeShot();
+        
     }
 
     public void PlayAddEnergyVFX()
