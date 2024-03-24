@@ -187,6 +187,7 @@ public class dialogue : MonoBehaviour
         {
             Disable();
             string text = RandomDialogue(FindListDialogueHit());
+            Debug.LogWarning(text);
             Enable(text);
             _audio.clip = _audioManager.GetPlayListDialogueHit()[_indexText];
             _audio.Play();
@@ -201,6 +202,7 @@ public class dialogue : MonoBehaviour
         {
             Disable();
             string text = RandomDialogue(FindListDialogueAttack());
+            Debug.LogWarning(text);
             Enable(text);
             _audio.clip = _audioManager.GetPlayListDialogueAttack()[_indexText];
             _audio.Play();
@@ -242,11 +244,12 @@ public class dialogue : MonoBehaviour
     {
         gameObject.name = text;
         _lines = _xmlReader.GetText(text);
+        Debug.LogWarning(_lines);
         _dialogue.text = string.Empty;
         _isPlayed = true;
 
         //SeparateString(text);
-        StartCoroutine(TypeLine());
+        _coroutine = StartCoroutine(TypeLine());
     }
 
     private void Disable()
