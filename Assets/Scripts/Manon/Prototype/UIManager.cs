@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text _victoryCaptainName;
     [SerializeField] TMP_Text _victoryWinner;
     [SerializeField] Image _victoryCaptainImg;
+    [SerializeField] dialogue _dialogueWin;
 
     [Header("Switch Ship")]
     [SerializeField] GameObject _switchShipButton;
@@ -103,6 +104,7 @@ public class UIManager : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     public bool NeedAddEnergyVFX { get => _needAddEnergyVFX; set => _needAddEnergyVFX = value; }
+    public void ChangeImgCapt(Sprite i) => _currentCaptainImg.sprite = i;
 
     // ----- FIELDS ----- //
 
@@ -356,6 +358,7 @@ public class UIManager : MonoBehaviour
     public void ShowVictoryCanvas(Player winner)
     {
         _victoryCanvas.SetActive(true);
+        _dialogueWin.SartDialogueWin();
         _victoryWinner.text = winner.ToString();
         Ship winnerShip = GameManager.instance.GetPlayerShip(winner);
         _victoryCaptainName.text = winnerShip.ShipData.CaptainName.ToUpper();

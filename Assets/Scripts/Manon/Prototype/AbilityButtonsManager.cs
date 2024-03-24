@@ -92,8 +92,11 @@ public class AbilityButtonsManager : MonoBehaviour
         UpdateRoomsRewind();
         UIManager.instance.ShowRewindUI();
         _dialogue.SartDialogueHit();
+        _dialogue.ChangeImgCapt();
         StartCoroutine(RewindCoroutine());
     }
+
+
 
     public IEnumerator RewindCoroutine()
     {
@@ -330,7 +333,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 break;
         }
 
-        
+        dialogue.instance.ChangeImgCapt();
         
     }
 
@@ -1560,7 +1563,7 @@ public class AbilityButtonsManager : MonoBehaviour
                 affectedTiles.Add(_target.BottomTile);
             }
         }
-
+        cameraShake.instance.StartShakeCamera(0.6f, 0.5f);
         VFXManager.instance.PlayAlternateShotVFX(affectedTiles);
     }
 
@@ -1825,6 +1828,7 @@ public class AbilityButtonsManager : MonoBehaviour
             case (UpgradeShotStep.DestroyOneTile):
                 DestroyRoom(_target);
                 affectedTiles.Add(_target);
+                cameraShake.instance.StartShakeCamera(0.6f, 0.5f);
                 break;
             case (UpgradeShotStep.DestroyThreeTilesInDiagonal):
 
@@ -1842,6 +1846,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
                 DestroyRoom(_target);
                 affectedTiles.Add(_target);
+                cameraShake.instance.StartShakeCamera(0.6f, 0.5f);
                 break;
             case (UpgradeShotStep.DestroyFiveTilesInCross):
 
@@ -1871,6 +1876,7 @@ public class AbilityButtonsManager : MonoBehaviour
 
                 DestroyRoom(_target);
                 affectedTiles.Add(_target);
+                cameraShake.instance.StartShakeCamera(0.6f, 0.5f);
                 break;
         }
 

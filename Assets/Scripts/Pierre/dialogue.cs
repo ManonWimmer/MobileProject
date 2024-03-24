@@ -16,6 +16,9 @@ public class dialogue : MonoBehaviour
     [SerializeField] float _textSpeed;
     [SerializeField] private bool _dontTimeDialogueHide;
 
+    [Header("IMG Capt")]
+    [SerializeField] private List<Sprite> _imgCapt = new List<Sprite>();
+
     [Header("Dialogue Hit")]
     [SerializeField] private List<string> _dialoguesNerdHit = new List<string>();
     [SerializeField] private List<string> _dialoguesCowHit = new List<string>();
@@ -40,6 +43,9 @@ public class dialogue : MonoBehaviour
     private int _lastIndex = -1;
     private int _lastIndexVoice = -1;
     private bool _isPlayed;
+    private int _indexText;
+    private bool _capt = false;
+    [SerializeField] private bool _winDialogue;
 
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private AudioSource _audio;
@@ -58,6 +64,8 @@ public class dialogue : MonoBehaviour
     public void StartDialogueTuto(int i) => StetDialogueTuto(i);
 
     public void CloseDialogue() => Disable();
+
+    public void ChangeImgCapt() => UIManager.instance.ChangeImgCapt(FindListSprite());
 
 
     private void Awake()
@@ -178,10 +186,10 @@ public class dialogue : MonoBehaviour
         if (!_isPlayed)
         {
             Disable();
-            _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueHit());
-            _audio.Play();
             string text = RandomDialogue(FindListDialogueHit());
             Enable(text);
+            _audio.clip = _audioManager.GetPlayListDialogueHit()[_indexText];
+            _audio.Play();
             OpenDialogue();
         }
 
@@ -192,10 +200,10 @@ public class dialogue : MonoBehaviour
         if (!_isPlayed)
         {
             Disable();
-            _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueAttack());
-            _audio.Play();
             string text = RandomDialogue(FindListDialogueAttack());
             Enable(text);
+            _audio.clip = _audioManager.GetPlayListDialogueAttack()[_indexText];
+            _audio.Play();
             OpenDialogue();
         }
     }
@@ -205,10 +213,10 @@ public class dialogue : MonoBehaviour
         if (!_isPlayed)
         {
             Disable();
-            _audio.clip = RandomVoice(_audioManager.GetPlayListDialogueWin());
-            _audio.Play();
             string text = RandomDialogue(FindListDialogueWin());
             Enable(text);
+            _audio.clip = _audioManager.GetPlayListDialogueWin()[_indexText];
+            _audio.Play();
             OpenDialogue();
         }
     }
@@ -218,8 +226,16 @@ public class dialogue : MonoBehaviour
     #region open & start & close dialogues
     private void OpenDialogue()
     {
-        _animator.SetBool("Close", false);
-        _animator.SetTrigger("Open");
+        if (!_winDialogue)
+        {
+            _animator.SetBool("Close", false);
+            _animator.SetTrigger("Open");
+        }
+        else if (_winDialogue)
+        {
+            _animator.SetBool("Close", false);
+            _animator.SetTrigger("OpenWin");
+        }
     }
 
     private void Enable(string text)
@@ -304,15 +320,15 @@ public class dialogue : MonoBehaviour
         if (listDialogue.Count > 1)
         {
             string dialogue;
-            int index;
+            _indexText = 0;
 
             do
             {
-                index = UnityEngine.Random.Range(0, listDialogue.Count);
-            } while (index == _lastIndex);
+                _indexText = UnityEngine.Random.Range(0, listDialogue.Count);
+            } while (_indexText == _lastIndex);
 
-            _lastIndex = index;
-            dialogue = listDialogue[index];
+            _lastIndex = _indexText;
+            dialogue = listDialogue[_indexText];
             return dialogue;
         }
         else
@@ -421,6 +437,64 @@ public class dialogue : MonoBehaviour
             Debug.Log("Pas de list choisi");
             return list = null;
         }
+    }
+
+    private Sprite FindListSprite()
+    {
+        Sprite list;
+        if (!_capt)
+        {
+            if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+            {
+                _capt = true;
+                list = _imgCapt[0];
+                return list;
+            }
+            else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+            {
+                _capt = true;
+                list = _imgCapt[1];
+                return list;
+            }
+            else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+            {
+                _capt = true;
+                list = _imgCapt[2];
+                return list;
+            }
+            else
+            {
+                Debug.Log("Pas de list choisi");
+                return list = null;
+            }
+        }
+        else
+        {
+            if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+            {
+                _capt = false;
+                list = _imgCapt[3];
+                return list;
+            }
+            else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+            {
+                _capt = false;
+                list = _imgCapt[4];
+                return list;
+            }
+            else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+            {
+                _capt = false;
+                list = _imgCapt[5];
+                return list;
+            }
+            else
+            {
+                Debug.Log("Pas de list choisi");
+                return list = null;
+            }
+        }
+
     }
     #endregion
 

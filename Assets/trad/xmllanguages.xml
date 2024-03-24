@@ -94,6 +94,8 @@
 		<voiceHitC4>WAIT ! THE SUN WAS IN MY EYE-CAPTORS-</voiceHitC4>
 
 		<voiceHitR1>OH NO ! YOU ALMOST-A MADE MY BEAUTIFUL RAVIOLI SLIP!</voiceHitR1>
+		<voiceHitR2>Mamma Pizza !!</voiceHitR2>
+		<voiceHitR3>Cattivo !!</voiceHitR3>
 		
 			<!--Attack-->
 		<voiceAttackN1>PRINT(“FIRE, DEATH AND CATZ :3 !!!”);</voiceAttackN1>
@@ -233,6 +235,8 @@
 		<voiceHitC4>ATTENDS !J'AI LE SOLEIL DANS MES CAPTEURS VISUELS</voiceHitC4>
 
 		<voiceHitR1>OH NON! T'AS PRESQUE FAIT TOMBER MES MAGNIFIIIIQUES RAVIOLIS!</voiceHitR1>
+		<voiceHitR2>Mamma Pizza !!</voiceHitR2>
+		<voiceHitR3>Cattivo !!</voiceHitR3>
 		
 			<!--Attack-->
 		<voiceAttackN1>PRINT("FEU,MORT ET CHAT :3 !!!");</voiceAttackN1>
