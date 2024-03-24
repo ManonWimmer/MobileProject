@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Top & Bottom Game UI")]
     [SerializeField] GameObject _enemyTop;
+    [SerializeField] GameObject _enemyLifeObject;
     [SerializeField] GameObject _playerBottom;
 
     [Header("Debug Text")]
@@ -366,6 +367,7 @@ public class UIManager : MonoBehaviour
         _gameCanvas.SetActive(false);
         _playerBottom.SetActive(false);
         _enemyTop.SetActive(false);
+        _enemyLifeObject.SetActive(false);
     }
 
     public void ShowGameCanvas()
@@ -377,6 +379,7 @@ public class UIManager : MonoBehaviour
     {
         _playerBottom.SetActive(true);
         _enemyTop.SetActive(true);
+        _enemyLifeObject.SetActive(true);
     }
     #endregion
 
@@ -559,6 +562,7 @@ public class UIManager : MonoBehaviour
         _infosAbility.SetActive(true);
         if (_infosAbilityAnimator.GetBool("Close"))
         {
+            HideFicheRoom();
             _infosAbilityAnimator.SetBool("Close", false);
             _infosAbilityAnimator.SetTrigger("Open");
         }
@@ -596,6 +600,7 @@ public class UIManager : MonoBehaviour
 
         if (_infosRoomAnimator.GetBool("Close"))
         {
+            HideFicheAbility();
             _infosRoomAnimator.SetBool("Close", false);
             _infosRoomAnimator.SetTrigger("Open");
         }
