@@ -80,7 +80,7 @@ public class Room : MonoBehaviour
             }
             
         }
-        else if (GameManager.instance.GetCurrentMode() == Mode.Combat)
+        else if (GameManager.instance.GetCurrentMode() == Mode.Combat && GameManager.instance.TargetIsDestroyed() || GameManager.instance.TargetIsVisible())
         {
             UIManager.instance.ShowFicheRoom(RoomData);
         }

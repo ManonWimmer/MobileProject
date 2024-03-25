@@ -141,6 +141,8 @@ public class GameManager : MonoBehaviour
     public List<Room> PlacedRoomsPlayer2 { get => _placedRoomsPlayer2; set => _placedRoomsPlayer2 = value; }
     public bool Player1OnlyUsingSimpleHit { get => _player1OnlyUsingSimpleHit; set => _player1OnlyUsingSimpleHit = value; }
     public bool Player2OnlyUsingSimpleHit { get => _player2OnlyUsingSimpleHit; set => _player2OnlyUsingSimpleHit = value; }
+    public bool TargetIsVisible() => _targetOnTile.IsReavealed;
+    public bool TargetIsDestroyed() => _targetOnTile.IsDestroyed;
 
     // ----- FIELDS ----- //
 

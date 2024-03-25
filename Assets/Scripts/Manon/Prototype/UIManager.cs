@@ -599,8 +599,6 @@ public class UIManager : MonoBehaviour
     public void ShowFicheRoom(RoomSO roomData)
     {
         _infosRoom.SetActive(true);
-
-
         if (_infosRoomAnimator.GetBool("Close"))
         {
             HideFicheAbility();
