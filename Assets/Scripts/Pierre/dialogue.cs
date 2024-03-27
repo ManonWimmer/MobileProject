@@ -185,13 +185,22 @@ public class dialogue : MonoBehaviour
     {
         if (!_isPlayed)
         {
-            Disable();
-            string text = RandomDialogue(FindListDialogueHit());
-            Debug.LogWarning(text);
-            Enable(text);
-            _audio.clip = _audioManager.GetPlayListDialogueHit()[_indexText];
-            _audio.Play();
-            OpenDialogue();
+            if (_audioManager != null) 
+            { 
+                Disable();
+                string text = RandomDialogue(FindListDialogueHit());
+                Debug.LogWarning(text);
+                Enable(text);
+                _audio.clip = _audioManager.GetPlayListDialogueHit()[_indexText];
+                _audio.Play();
+                OpenDialogue();
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager not set.");
+                _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
+                SetDialogueHit();
+            }
         }
 
     }
@@ -200,13 +209,22 @@ public class dialogue : MonoBehaviour
     {
         if (!_isPlayed)
         {
-            Disable();
-            string text = RandomDialogue(FindListDialogueAttack());
-            Debug.LogWarning(text);
-            Enable(text);
-            _audio.clip = _audioManager.GetPlayListDialogueAttack()[_indexText];
-            _audio.Play();
-            OpenDialogue();
+            if (_audioManager != null)
+            {
+                Disable();
+                string text = RandomDialogue(FindListDialogueAttack());
+                Debug.LogWarning(text);
+                Enable(text);
+                _audio.clip = _audioManager.GetPlayListDialogueAttack()[_indexText];
+                _audio.Play();
+                OpenDialogue();
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager not set.");
+                _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
+                SetDialogueAttack();
+            }
         }
     }
 
@@ -214,12 +232,21 @@ public class dialogue : MonoBehaviour
     {
         if (!_isPlayed)
         {
-            Disable();
-            string text = RandomDialogue(FindListDialogueWin());
-            Enable(text);
-            _audio.clip = _audioManager.GetPlayListDialogueWin()[_indexText];
-            _audio.Play();
-            OpenDialogue();
+            if (_audioManager != null)
+            {
+                Disable();
+                string text = RandomDialogue(FindListDialogueWin());
+                Enable(text);
+                _audio.clip = _audioManager.GetPlayListDialogueWin()[_indexText];
+                _audio.Play();
+                OpenDialogue();
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager not set.");
+                _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
+                SetDialogueWin();
+            }
         }
     }
 
@@ -242,14 +269,22 @@ public class dialogue : MonoBehaviour
 
     private void Enable(string text)
     {
-        gameObject.name = text;
-        _lines = _xmlReader.GetText(text);
-        Debug.LogWarning(_lines);
-        _dialogue.text = string.Empty;
-        _isPlayed = true;
+        if (_xmlReader != null)
+        {
+            gameObject.name = text;
+            _lines = _xmlReader.GetText(text);
+            _dialogue.text = string.Empty;
+            _isPlayed = true;
 
-        //SeparateString(text);
-        _coroutine = StartCoroutine(TypeLine());
+            //SeparateString(text);
+            _coroutine = StartCoroutine(TypeLine());
+        }
+        else
+        {
+            Debug.LogError("XMLReader is not initialized!");
+            _xmlReader = GameObject.FindGameObjectWithTag("Translate").GetComponent<xmlReader>();
+            Enable(text);
+        }
     }
 
     private void Disable()

@@ -12,6 +12,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScannerButton
       objectReference: {fileID: 0}
+    - target: {fileID: 951169319915576100, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 951169319915576100, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 951169319915576100, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1006021912307453945, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056764150326379475, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4116414799142575126, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_Name
       value: Scanner Variant
@@ -96,6 +116,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5346230661110936594, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5848365635557588472, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_Name
       value: DescriptionFiche
@@ -104,9 +128,29 @@ PrefabInstance:
       propertyPath: m_text
       value: Scanner
       objectReference: {fileID: 0}
+    - target: {fileID: 7212046707825649286, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012713780694735548, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8093146997086479257, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_Name
       value: ScannerIcon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153986432788206340, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153986432788206340, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153986432788206340, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8153986432788206340, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -119,6 +163,10 @@ PrefabInstance:
     - target: {fileID: 8153986432788206340, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: AbilityButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8190603107510762531, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8517046354590538446, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: _ability

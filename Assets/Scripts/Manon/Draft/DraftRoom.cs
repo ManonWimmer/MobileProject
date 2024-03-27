@@ -19,8 +19,17 @@ public class DraftRoom : MonoBehaviour
 
     private RoomSO _roomData;
     private Room _room;
+    private int _currentLanguage = -1;
 
     // ----- FIELDS ----- //
+
+    private void Update()
+    {
+        if (_currentLanguage != xmlReader.instance.GetLanguage() && _currentLanguage != -1)
+        {
+            InitDraftRoom(_room);
+        }
+    }
 
     public void InitDraftRoom(Room room)
     {
@@ -32,6 +41,8 @@ public class DraftRoom : MonoBehaviour
         _infosNameRoomAbility.text = _roomData.RoomAbility.AbilityName;
         _infosDescriptionRoomAbility.text = xmlReader.instance.GetText(_roomData.RoomAbility.Description);
         _infosCooldownRoomAbility.text = _roomData.RoomAbility.Cooldown.ToString();
+
+        _currentLanguage = xmlReader.instance.GetLanguage();
     }
 
     public void SelectDraftRoom() // on click

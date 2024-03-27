@@ -24,7 +24,6 @@ public class AbilityButtonsManager : MonoBehaviour
 {
     // ----- FIELDS ----- //
     public static AbilityButtonsManager instance;
-    private dialogue _dialogue;
 
     [SerializeField] List<GameObject> _abilitiesButtonsGameObjects = new List<GameObject>();
     private List<AbilityButton> _abilitiesButtons = new List<AbilityButton>();
@@ -79,7 +78,6 @@ public class AbilityButtonsManager : MonoBehaviour
 
     private void Start()
     {
-        _dialogue = GameObject.FindGameObjectWithTag("Dialogue").GetComponent<dialogue>();
         foreach (GameObject button in _abilitiesButtonsGameObjects)
         {
             _abilitiesButtons.Add(button.GetComponentInChildren<AbilityButton>());
@@ -91,8 +89,8 @@ public class AbilityButtonsManager : MonoBehaviour
     {
         UpdateRoomsRewind();
         UIManager.instance.ShowRewindUI();
-        _dialogue.SartDialogueHit();
-        _dialogue.ChangeImgCapt();
+        dialogue.instance.SartDialogueHit();
+        dialogue.instance.ChangeImgCapt();
         StartCoroutine(RewindCoroutine());
     }
 
@@ -528,7 +526,7 @@ public class AbilityButtonsManager : MonoBehaviour
             return;
 
         _lastAbilityUsed = _selectedButton.GetAbility().AbilityName;
-        _dialogue.SartDialogueAttack();
+        dialogue.instance.SartDialogueAttack();
 
         switch (_selectedButton.GetAbility().AbilityName)
         {

@@ -7564,7 +7564,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 30
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9363,7 +9363,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 25
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10128,7 +10128,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 35
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10339,7 +10339,7 @@ PrefabInstance:
     - target: {fileID: 2412655611753767396, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: f6d1d771a7b53934ba3b7ad4b5d13d36, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 2440723133595381553, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
       value: RepairDecoyIcon
@@ -10374,7 +10374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6537256508948695505, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
-      value: RepairDecoyButton
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 7543498458830852286, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
@@ -11175,7 +11175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 418.98334, y: -430.1792}
+  m_AnchoredPosition: {x: 418.98334, y: -382}
   m_SizeDelta: {x: 420, y: 315}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &461776050
@@ -11647,7 +11647,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11922,7 +11922,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 21
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12800,7 +12800,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 25
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -14687,7 +14687,7 @@ PrefabInstance:
     - target: {fileID: 2412655611753767396, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 0664f4e2f48e0ba429204b89d532027f, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 2440723133595381553, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
       value: TimeDecoyIcon
@@ -14722,7 +14722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6537256508948695505, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
-      value: TimeDecoyButton
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 7543498458830852286, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
@@ -16407,7 +16407,7 @@ PrefabInstance:
     - target: {fileID: 2412655611753767396, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 5bbed323d6508c94c9d2fc43d751e3aa, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 2440723133595381553, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
       value: RandomRevealIcon
@@ -16442,7 +16442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6537256508948695505, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
-      value: RandomRevealButton
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 7543498458830852286, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
@@ -19308,7 +19308,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 25
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -27297,7 +27297,7 @@ PrefabInstance:
     - target: {fileID: 2412655611753767396, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: c488adbbf5c91c34c80b6b8f4b7b4a9e, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 2440723133595381553, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
       value: EnergyDecoyIcon
@@ -27332,7 +27332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6537256508948695505, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
-      value: EnergyDecoyButton
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 7543498458830852286, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
@@ -29476,7 +29476,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -32043,7 +32043,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
+  m_fontSize: 17.45
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -33073,7 +33073,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -34819,7 +34819,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 40
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -35953,6 +35953,62 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.7644046
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.84900004
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.06725571
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.15900001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 154
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 37
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_text
+      value: WINNNNNN !!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_margin.w
+      value: 41.448174
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_margin.x
+      value: 38.687668
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_margin.y
+      value: 29.312523
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_margin.z
+      value: 114.7191
+      objectReference: {fileID: 0}
     - target: {fileID: 5893332999390295879, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: _audio
       value: 
@@ -35961,6 +36017,14 @@ PrefabInstance:
       propertyPath: _gameManager
       value: 
       objectReference: {fileID: 1857460079}
+    - target: {fileID: 5893332999390295879, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: _winDialogue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5893332999390295879, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: _dontTimeDialogueHide
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6463539182770457453, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_Name
       value: dialogueBox
@@ -36483,7 +36547,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -38344,7 +38408,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -430.1792}
+  m_AnchoredPosition: {x: 960, y: -382}
   m_SizeDelta: {x: 420, y: 315}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2068010026
@@ -38709,7 +38773,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1501.0166, y: -430.1792}
+  m_AnchoredPosition: {x: 1501.0166, y: -382}
   m_SizeDelta: {x: 420, y: 315}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2077375678
@@ -39589,8 +39653,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -7.9999995, y: 0}
+  m_SizeDelta: {x: 9, y: 1}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &2128798982
 MonoBehaviour:
@@ -39869,7 +39933,7 @@ PrefabInstance:
     - target: {fileID: 3036419680075649311, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 1c08d05e66e21b34fa0294fefb74dcc9, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 3235217273157199517, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: _animator
       value: 
@@ -39893,6 +39957,10 @@ PrefabInstance:
     - target: {fileID: 5596496813103741229, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5900277133749188906, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
+      propertyPath: m_Name
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 5901297124498414918, guid: 8df7f7e7758174d46b5389a2605e5641, type: 3}
       propertyPath: m_IsActive
@@ -40254,6 +40322,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4383202467251038237, guid: d1ad65b8fcdcfc442a31774881207009, type: 3}
+      propertyPath: m_Name
+      value: Button
+      objectReference: {fileID: 0}
     - target: {fileID: 4742415036563716010, guid: d1ad65b8fcdcfc442a31774881207009, type: 3}
       propertyPath: _animator
       value: 
@@ -40269,7 +40341,7 @@ PrefabInstance:
     - target: {fileID: 5122345664101859368, guid: d1ad65b8fcdcfc442a31774881207009, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 7fe40b8cc0fd05f45b77b67e9654cc82, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 6970416443617171984, guid: d1ad65b8fcdcfc442a31774881207009, type: 3}
       propertyPath: m_fontSize
       value: 24
@@ -51842,7 +51914,7 @@ PrefabInstance:
     - target: {fileID: 4074729255342443325, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 73b15232c73eff84f8cc350b8cb17fb4, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 4488421761339112639, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: _animator
       value: 
@@ -51851,6 +51923,10 @@ PrefabInstance:
       propertyPath: _cooldownGameObject
       value: 
       objectReference: {fileID: 1263380037}
+    - target: {fileID: 4849851221215077128, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
+      propertyPath: m_Name
+      value: Button
+      objectReference: {fileID: 0}
     - target: {fileID: 5628472019934990301, guid: abad0125892d4eb4788c1c81f87d2310, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -52046,7 +52122,7 @@ PrefabInstance:
     - target: {fileID: 2412655611753767396, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: c5db46b42577320459f6bc7450b37a03, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 2863500027169052262, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: _cooldownGameObject
       value: 
@@ -52066,6 +52142,10 @@ PrefabInstance:
     - target: {fileID: 6335289993623823620, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537256508948695505, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
+      propertyPath: m_Name
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 7543498458830852286, guid: 2ea4d8d18c46eb342ac0745d5f9bffaf, type: 3}
       propertyPath: m_Name
@@ -52151,6 +52231,10 @@ PrefabInstance:
     - target: {fileID: 460750606833084844, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 807994511193228665, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
+      propertyPath: m_Name
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 3299138805142695223, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_Pivot.x
@@ -52303,7 +52387,7 @@ PrefabInstance:
     - target: {fileID: 8139389826864753996, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: fa1a6f86097010d448cf043e1295d932, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 8517046354590538446, guid: 9f7a1eb88cd89b24195ee9f1e53b288b, type: 3}
       propertyPath: _animator
       value: 
@@ -63802,6 +63886,10 @@ PrefabInstance:
       propertyPath: ShapeModule.m_Position.z
       value: -6.75
       objectReference: {fileID: 0}
+    - target: {fileID: 2566594709882762329, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 2586739520189757936, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -63970,6 +64058,10 @@ PrefabInstance:
       propertyPath: _cooldownGameObject
       value: 
       objectReference: {fileID: 404996570}
+    - target: {fileID: 5764031651455875376, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
+      propertyPath: m_Name
+      value: Button
+      objectReference: {fileID: 0}
     - target: {fileID: 5887207405635540588, guid: 58d78d2eb9b655447b1711e379af7a06, type: 3}
       propertyPath: m_fontSize
       value: 24
@@ -69168,7 +69260,7 @@ PrefabInstance:
     - target: {fileID: 768796368284725251, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: bb0b1bfebedc6734ca2c710e4316b475, type: 2}
+      objectReference: {fileID: 9100000, guid: 587ce57259633494180b5b5b9c194bcd, type: 2}
     - target: {fileID: 895401990759942017, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
       propertyPath: _animator
       value: 
@@ -69325,6 +69417,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 8172108555804497974, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
+      propertyPath: m_Name
+      value: Button
+      objectReference: {fileID: 0}
     - target: {fileID: 8951838746720859363, guid: b3f7f7a55819ab946b6b46829f9a452e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -69480,6 +69576,10 @@ PrefabInstance:
     - target: {fileID: 4817681443084138143, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5731304660530289226, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
+      propertyPath: m_Name
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 7599781217695511044, guid: ddc88594aa20b6545964ca125c1d9c73, type: 3}
       propertyPath: m_Pivot.x

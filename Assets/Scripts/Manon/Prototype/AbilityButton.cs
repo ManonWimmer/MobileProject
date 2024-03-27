@@ -208,6 +208,10 @@ public class AbilityButton : MonoBehaviour
             {
                 AbilityButtonsManager.instance.SelectAbilityButton(this);
             }
+            else
+            {
+                _animator.SetTrigger("cantSelect");
+            }
         }
         else
         {

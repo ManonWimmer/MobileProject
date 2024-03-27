@@ -4883,8 +4883,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogue: {fileID: 8086404905408102402}
-  _timeDialogue: 3
-  _dontTimeDialogue: 1
+  _timeDialogueHide: 0
+  _textSpeed: 0.03
+  _dontTimeDialogueHide: 1
+  _imgCapt: []
   _dialoguesNerdHit: []
   _dialoguesCowHit: []
   _dialoguesPizzaHit: []
@@ -4903,9 +4905,9 @@ MonoBehaviour:
   - textTuto6
   - textTuto7
   - textTuto8
-  _textSpeed: 0.03
+  _winDialogue: 0
+  _gameManager: {fileID: 0}
   _audio: {fileID: 0}
-  _audioManager: {fileID: 0}
 --- !u!1 &3742752506158932304
 GameObject:
   m_ObjectHideFlags: 0
