@@ -157,6 +157,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6d3f631cc9291b94dbbfd318c860d390, type: 3}
   - {fileID: 8300000, guid: 8ca3a9aebea61a34897c491f18982861, type: 3}
   - {fileID: 8300000, guid: 767042b99c43bb5479798348718f67ba, type: 3}
+  - {fileID: 8300000, guid: 7c8d32a284e410748bfb1f9f3b993eb5, type: 3}
   _playlistRooms:
   - {fileID: 8300000, guid: fb858ffdaa0b23544ae6884c0e054898, type: 3}
   - {fileID: 8300000, guid: ad025cba9fa6a1c428b2673c31ea09ed, type: 3}

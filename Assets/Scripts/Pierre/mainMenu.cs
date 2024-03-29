@@ -36,7 +36,7 @@ public class mainMenu : MonoBehaviour
 
         if (!_music.isPlaying )
         {
-            _conffeti.GetComponent<ParticleSystem>().Stop();
+            _conffeti.GetComponent<ParticleSystem>().Pause();
             _easterEggPlay = false;
         }
     }
@@ -96,7 +96,7 @@ public class mainMenu : MonoBehaviour
         _conffeti.GetComponent<ParticleSystem>().Play();
 
         _easterEggPlay = true;
-        _music.clip = _playlistFXUI[2];
+        _music.clip = _playlistFXUI[6];
         _music.Play();
     }
 }

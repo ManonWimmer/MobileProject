@@ -35,7 +35,7 @@ public class audioManager : MonoBehaviour
     [SerializeField] private AudioMixer _mixer;
 
     private int _index = 0;
-    private int _lastIndex = 0;
+    private int _lastIndex = -1;
     private AudioClip[] _actualClip;
     private float _musicV;
     private float _soundV;
