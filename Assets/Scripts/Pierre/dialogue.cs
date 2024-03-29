@@ -189,7 +189,6 @@ public class dialogue : MonoBehaviour
             { 
                 Disable();
                 string text = RandomDialogue(FindListDialogueHit());
-                Debug.LogWarning(text);
                 Enable(text);
                 _audio.clip = _audioManager.GetPlayListDialogueHit()[_indexText];
                 _audio.Play();
@@ -213,7 +212,6 @@ public class dialogue : MonoBehaviour
             {
                 Disable();
                 string text = RandomDialogue(FindListDialogueAttack());
-                Debug.LogWarning(text);
                 Enable(text);
                 _audio.clip = _audioManager.GetPlayListDialogueAttack()[_indexText];
                 _audio.Play();

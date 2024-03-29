@@ -152,10 +152,7 @@ public class UIManager : MonoBehaviour
     public void CheckIfShowEndTurnButton()
     {
         if (ActionPointsManager.instance.GetPlayerActionPoints(GameManager.instance.PlayerTurn) == 0)
-        {
             _buttonValidateCombat.SetActive(true);
-            Debug.LogWarning("END TURN");
-        }
         else
             _buttonValidateCombat.SetActive(false);
     }
