@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,27 +17,30 @@ public class listReferences : MonoBehaviour
     private audioManager _audioManager;
     private AudioSource _audioSourceSound;
 
-    public xmlReader GetXmlReader() => _xmlReader;
     public AudioSource GetaudioSource() => _audioSourceSound;
     public audioManager GetaudioManager() => _audioManager;
 
-    private void Start()
+    
+    private void Awake()
     {
-        _xmlReader = GameObject.FindGameObjectWithTag("Translate").GetComponent <xmlReader>();
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<audioManager>();
         _audioSourceSound = GameObject.FindGameObjectWithTag("Sound").GetComponent<AudioSource>();
+        _xmlReader = GameObject.FindGameObjectWithTag("Translate").GetComponent<xmlReader>();
+
+        _xmlReader.SetTextTranslate(_listTextTranslate);
+        _xmlReader.SetDropdown(_dropdownLanguage);
+        _dropdownLanguage.value = xmlReader.instance.GetLanguage();
 
         _sliderMusic.value = _audioManager.GetVolumeMusic();
         _sliderSounds.value = _audioManager.GetVolumeSound();
-
-        _dropdownLanguage.value = _xmlReader.GetLanguage();
-        _xmlReader.SetTextTranslate(_listTextTranslate);
-        _xmlReader.SetDropdown(_dropdownLanguage);
     }
 
     public void ChangeTranslate()
     {
-        _xmlReader.OnLanguageChange();
+        if (_xmlReader != null)
+        {
+            xmlReader.instance.OnLanguageChange();
+        }
     }
 
     public void ChangeScene()
