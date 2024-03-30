@@ -184,6 +184,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8d1effc92e48b26458c8283cfe3a1730, type: 3}
   - {fileID: 8300000, guid: 7528493c18a81694a84bf84b879dcaad, type: 3}
   - {fileID: 8300000, guid: 1e2f82a0f8db17f418f909f53965bf06, type: 3}
+  - {fileID: 8300000, guid: e6a67403c4f48de46943bf373773dba0, type: 3}
+  - {fileID: 8300000, guid: 8443a4645deccb04291138d315f59905, type: 3}
   _playlistWinCow:
   - {fileID: 8300000, guid: 12166c824b91cd847a048d150e3edc50, type: 3}
   - {fileID: 8300000, guid: ca885d3d65b11dd41ac4fa990da6bbc2, type: 3}

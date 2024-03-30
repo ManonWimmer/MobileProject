@@ -279,7 +279,7 @@ public class dialogue : MonoBehaviour
         }
         else
         {
-            Debug.LogError("XMLReader is not initialized!");
+            Debug.LogWarning("XMLReader is not initialized!");
             _xmlReader = GameObject.FindGameObjectWithTag("Translate").GetComponent<xmlReader>();
             Enable(text);
         }
@@ -401,17 +401,17 @@ public class dialogue : MonoBehaviour
     {
         List<string> list;
 
-        if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+        if (_gameManager.GetPlayerShip(GameManager.instance.PlayerWin).ShipData.CaptainName == "CPT. COWBOY")
         {
             list = _dialoguesCowVictory;
             return list;
         }
-        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+        else if (_gameManager.GetPlayerShip(GameManager.instance.PlayerWin).ShipData.CaptainName == "CPT. NERD")
         {
             list = _dialoguesNerdVictory;
             return list;
         }
-        else if (_gameManager.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+        else if (_gameManager.GetPlayerShip(GameManager.instance.PlayerWin).ShipData.CaptainName == "CPT. RAVIOLI")
         {
             list = _dialoguesPizzaVictory;
             return list;

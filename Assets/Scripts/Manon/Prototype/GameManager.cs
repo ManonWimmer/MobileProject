@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
     private Tile _targetOnTile;
 
     private Player _playerTurn;
+    private Player _playerWin;
     private Mode _currentMode = Mode.Draft;
 
     private bool _gameStarted;
@@ -127,6 +128,7 @@ public class GameManager : MonoBehaviour
 
     public Tile TargetOnTile { get => _targetOnTile; set => _targetOnTile = value; }
     public Player PlayerTurn { get => _playerTurn; set => _playerTurn = value; }
+    public Player PlayerWin { get => _playerWin; set => _playerWin = value; }
     public List<Tile> TilesRewindPlayer1 { get => _tilesRewindPlayer1; set => _tilesRewindPlayer1 = value; }
     public List<Tile> TilesRewindPlayer2 { get => _tilesRewindPlayer2; set => _tilesRewindPlayer2 = value; }
     public Dictionary<Tuple<int, int>, Tile> DictTilesRowColumnPlayer1 { get => _dictTilesRowColumnPlayer1; set => _dictTilesRowColumnPlayer1 = value; }
@@ -1543,11 +1545,13 @@ public class GameManager : MonoBehaviour
         if (GetPlayerLife(Player.Player2) == 0)
         {
             CheckVictoryAchievements(Player.Player2);
+            _playerWin = Player.Player1;
             UIManager.instance.ShowVictoryCanvas(Player.Player1);
         }
         else if (GetPlayerLife(Player.Player1) == 0)
         {
             CheckVictoryAchievements(Player.Player1);
+            _playerWin = Player.Player2;
             UIManager.instance.ShowVictoryCanvas(Player.Player2);
         }
     }
@@ -1558,11 +1562,13 @@ public class GameManager : MonoBehaviour
         if (_playerTurn == Player.Player2)
         {
             CheckVictoryAchievements(Player.Player2);
+            _playerWin = Player.Player1;
             UIManager.instance.ShowVictoryCanvas(Player.Player1);
         }
         else if (_playerTurn == Player.Player1)
         {
             CheckVictoryAchievements(Player.Player1);
+            _playerWin = Player.Player2;
             UIManager.instance.ShowVictoryCanvas(Player.Player2);
         }
     }

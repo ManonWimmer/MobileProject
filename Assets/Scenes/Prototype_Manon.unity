@@ -35955,7 +35955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.7644046
+      value: 0.8998512
       objectReference: {fileID: 0}
     - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_AnchorMax.y
@@ -35971,7 +35971,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 154
+      value: 91
       objectReference: {fileID: 0}
     - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_SizeDelta.y
@@ -35979,7 +35979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 37
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 4676454637968930803, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -35991,7 +35991,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_fontSize
-      value: 30
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_margin.w
@@ -36007,7 +36007,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: m_margin.z
-      value: 114.7191
+      value: 50.310905
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331436458652911061, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5893332999390295879, guid: f1f1f0aec2ed9ff40bdbf310992da5f7, type: 3}
       propertyPath: _audio

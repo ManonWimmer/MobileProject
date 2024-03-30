@@ -117,17 +117,17 @@ public class audioManager : MonoBehaviour
     {
         AudioClip[] clip;
 
-        if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. COWBOY")
+        if (GameManager.instance.GetPlayerShip(GameManager.instance.PlayerWin).ShipData.CaptainName == "CPT. COWBOY")
         {
             clip = _playlistWinCow;
             return clip;
         }
-        else if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. NERD")
+        else if (GameManager.instance.GetPlayerShip(GameManager.instance.PlayerWin).ShipData.CaptainName == "CPT. NERD")
         {
             clip = _playlistWinNerd;
             return clip;
         }
-        else if (GameManager.instance.GetPlayerShip().ShipData.CaptainName == "CPT. RAVIOLI")
+        else if (GameManager.instance.GetPlayerShip(GameManager.instance.PlayerWin).ShipData.CaptainName == "CPT. RAVIOLI")
         {
             clip = _playlistWinPizza;
             return clip;
